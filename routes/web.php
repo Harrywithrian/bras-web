@@ -9,6 +9,7 @@ use App\Http\Controllers\PagesController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\IndexController;
 use App\Http\Controllers\Master\RegionController;
 
 /*
@@ -22,29 +23,21 @@ use App\Http\Controllers\Master\RegionController;
 |
 */
 
-Route::get('/', function () {
-    return redirect('index');
-})->name('index');
-
-$menu = theme()->getMenu();
-array_walk($menu, function ($val) {
-    if (isset($val['path'])) {
-        $route = Route::get($val['path'], [PagesController::class, 'index']);
-
-        // Exclude documentation from auth middleware
-        if (!Str::contains($val['path'], 'documentation')) {
-            $route->middleware('auth');
-        }
-    }
-});
-
-// Documentations pages
-Route::prefix('documentation')->group(function () {
-    Route::get('getting-started/references', [ReferencesController::class, 'index']);
-    Route::get('getting-started/changelog', [PagesController::class, 'index']);
-});
+//$menu = theme()->getMenu();
+//array_walk($menu, function ($val) {
+//    if (isset($val['path'])) {
+//        $route = Route::get($val['path'], [PagesController::class, 'index']);
+//
+//        // Exclude documentation from auth middleware
+//        if (!Str::contains($val['path'], 'documentation')) {
+//            $route->middleware('auth');
+//        }
+//    }
+//});
 
 Route::middleware('auth')->group(function () {
+    Route::get('/', [IndexController::class, 'index'])->name('index');
+
     // Account pages
     Route::prefix('account')->group(function () {
         Route::get('settings', [SettingsController::class, 'index'])->name('settings.index');

@@ -12,7 +12,7 @@ return [
             'icon' => [
                 'font' => '<i class="bi bi-house fs-2"></i>',
             ],
-            'path'   => 'index',
+            'path'   => '',
         ],
         [
             'title' => 'Admin Panel',
