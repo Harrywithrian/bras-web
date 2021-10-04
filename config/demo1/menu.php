@@ -11,7 +11,8 @@ return [
             'title' => 'Home',
             'icon' => [
                 'font' => '<i class="bi bi-house fs-2"></i>',
-            ]
+            ],
+            'path'   => 'index',
         ],
         [
             'title' => 'Admin Panel',
@@ -60,6 +61,11 @@ return [
             'sub' => [
                 'class' => 'menu-sub-accordion menu-active-bg',
                 'items' => [
+                    [
+                        'title'  => 'Provinsi',
+                        'path'   => 'region.index',
+                        'bullet' => '<span class="bullet bullet-dot"></span>',
+                    ],
                     [
                         'title'  => 'Wasit',
                         'path'   => '#',

@@ -9,6 +9,8 @@ use App\Http\Controllers\PagesController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\Master\RegionController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -22,7 +24,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return redirect('index');
-});
+})->name('index');
 
 $menu = theme()->getMenu();
 array_walk($menu, function ($val) {
@@ -55,6 +57,12 @@ Route::middleware('auth')->group(function () {
     Route::prefix('log')->name('log.')->group(function () {
         Route::resource('system', SystemLogsController::class)->only(['index', 'destroy']);
         Route::resource('audit', AuditLogsController::class)->only(['index', 'destroy']);
+    });
+
+    Route::prefix('region')->group(function () {
+        Route::get('/', [RegionController::class, 'index'])->name('region.index');
+        Route::get('index', [RegionController::class, 'index'])->name('region.index');
+        Route::get('get', [RegionController::class, 'get'])->name('region.get');
     });
 });
 
