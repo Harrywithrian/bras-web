@@ -11,6 +11,10 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\Master\RegionController;
+use App\Http\Controllers\Master\LocationController;
+use App\Http\Controllers\Master\LicenseLocation;
+use App\Http\Controllers\Master\ViolationController;
+use App\Http\Controllers\Master\IotController;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,8 +58,72 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('region')->group(function () {
         Route::get('/', [RegionController::class, 'index'])->name('region.index');
-        Route::get('index', [RegionController::class, 'index'])->name('region.index');
-        Route::get('get', [RegionController::class, 'get'])->name('region.get');
+        Route::get('/index', [RegionController::class, 'index'])->name('region.index');
+        Route::get('/get', [RegionController::class, 'get'])->name('region.get');
+        Route::post('/search', [RegionController::class, 'search'])->name('region.search');
+        Route::get('/create', [RegionController::class, 'create'])->name('region.create');
+        Route::post('/store', [RegionController::class, 'store'])->name('region.store');
+        Route::get('/show/{id}', [RegionController::class, 'show'])->name('region.show');
+        Route::get('/edit/{id}', [RegionController::class, 'edit'])->name('region.edit');
+        Route::post('/update/{id}', [RegionController::class, 'update'])->name('region.update');
+        Route::post('/status', [RegionController::class, 'status'])->name('region.status');
+        Route::post('/delete', [RegionController::class, 'delete'])->name('region.delete');
+    });
+
+    Route::prefix('location')->group(function () {
+        Route::get('/', [LocationController::class, 'index'])->name('location.index');
+        Route::get('/index', [LocationController::class, 'index'])->name('location.index');
+        Route::get('/get', [LocationController::class, 'get'])->name('location.get');
+        Route::post('/search', [LocationController::class, 'search'])->name('location.search');
+        Route::get('/create', [LocationController::class, 'create'])->name('location.create');
+        Route::post('/store', [LocationController::class, 'store'])->name('location.store');
+        Route::get('/show/{id}', [LocationController::class, 'show'])->name('location.show');
+        Route::get('/edit/{id}', [LocationController::class, 'edit'])->name('location.edit');
+        Route::post('/update/{id}', [LocationController::class, 'update'])->name('location.update');
+        Route::post('/status', [LocationController::class, 'status'])->name('location.status');
+        Route::post('/delete', [LocationController::class, 'delete'])->name('location.delete');
+    });
+
+    Route::prefix('license')->group(function () {
+        Route::get('/', [LicenseLocation::class, 'index'])->name('license.index');
+        Route::get('/index', [LicenseLocation::class, 'index'])->name('license.index');
+        Route::get('/get', [LicenseLocation::class, 'get'])->name('license.get');
+        Route::post('/search', [LicenseLocation::class, 'search'])->name('license.search');
+        Route::get('/create', [LicenseLocation::class, 'create'])->name('license.create');
+        Route::post('/store', [LicenseLocation::class, 'store'])->name('license.store');
+        Route::get('/show/{id}', [LicenseLocation::class, 'show'])->name('license.show');
+        Route::get('/edit/{id}', [LicenseLocation::class, 'edit'])->name('license.edit');
+        Route::post('/update/{id}', [LicenseLocation::class, 'update'])->name('license.update');
+        Route::post('/status', [LicenseLocation::class, 'status'])->name('license.status');
+        Route::post('/delete', [LicenseLocation::class, 'delete'])->name('license.delete');
+    });
+
+    Route::prefix('violation')->group(function () {
+        Route::get('/', [ViolationController::class, 'index'])->name('violation.index');
+        Route::get('/index', [ViolationController::class, 'index'])->name('violation.index');
+        Route::get('/get', [ViolationController::class, 'get'])->name('violation.get');
+        Route::post('/search', [ViolationController::class, 'search'])->name('violation.search');
+        Route::get('/create', [ViolationController::class, 'create'])->name('violation.create');
+        Route::post('/store', [ViolationController::class, 'store'])->name('violation.store');
+        Route::get('/show/{id}', [ViolationController::class, 'show'])->name('violation.show');
+        Route::get('/edit/{id}', [ViolationController::class, 'edit'])->name('violation.edit');
+        Route::post('/update/{id}', [ViolationController::class, 'update'])->name('violation.update');
+        Route::post('/status', [ViolationController::class, 'status'])->name('violation.status');
+        Route::post('/delete', [ViolationController::class, 'delete'])->name('violation.delete');
+    });
+
+    Route::prefix('iot')->group(function () {
+        Route::get('/', [IotController::class, 'index'])->name('iot.index');
+        Route::get('/index', [IotController::class, 'index'])->name('iot.index');
+        Route::get('/get', [IotController::class, 'get'])->name('iot.get');
+        Route::post('/search', [IotController::class, 'search'])->name('iot.search');
+        Route::get('/create', [IotController::class, 'create'])->name('iot.create');
+        Route::post('/store', [IotController::class, 'store'])->name('iot.store');
+        Route::get('/show/{id}', [IotController::class, 'show'])->name('iot.show');
+        Route::get('/edit/{id}', [IotController::class, 'edit'])->name('iot.edit');
+        Route::post('/update/{id}', [IotController::class, 'update'])->name('iot.update');
+        Route::post('/status', [IotController::class, 'status'])->name('iot.status');
+        Route::post('/delete', [IotController::class, 'delete'])->name('iot.delete');
     });
 });
 

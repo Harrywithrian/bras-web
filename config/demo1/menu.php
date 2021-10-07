@@ -67,7 +67,52 @@ return [
                         'bullet' => '<span class="bullet bullet-dot"></span>',
                     ],
                     [
-                        'title'  => 'Wasit',
+                        'title'  => 'Lokasi Pertandingan',
+                        'path'   => 'location.index',
+                        'bullet' => '<span class="bullet bullet-dot"></span>',
+                    ],
+                    [
+                        'title'  => 'Lisensi',
+                        'path'   => 'license.index',
+                        'bullet' => '<span class="bullet bullet-dot"></span>',
+                    ],
+                    [
+                        'title'  => 'Pelanggaran',
+                        'path'   => 'violation.index',
+                        'bullet' => '<span class="bullet bullet-dot"></span>',
+                    ],
+                    [
+                        'title'  => 'IOT',
+                        'path'   => 'iot.index',
+                        'bullet' => '<span class="bullet bullet-dot"></span>',
+                    ],
+                ]
+            ]
+        ],
+        [
+            'title' => 'Template',
+            'icon' => [
+                'font' => '<i class="bi bi-clipboard-check fs-2"></i>',
+            ],
+            'classes' => ['item' => 'menu-accordion'],
+            'attributes' => [
+                "data-kt-menu-trigger" => "click",
+            ],
+            'sub' => [
+                'class' => 'menu-sub-accordion menu-active-bg',
+                'items' => [
+                    [
+                        'title'  => 'Game Management',
+                        'path'   => '#',
+                        'bullet' => '<span class="bullet bullet-dot"></span>',
+                    ],
+                    [
+                        'title'  => 'Mechanical Court',
+                        'path'   => '#',
+                        'bullet' => '<span class="bullet bullet-dot"></span>',
+                    ],
+                    [
+                        'title'  => 'Appearance',
                         'path'   => '#',
                         'bullet' => '<span class="bullet bullet-dot"></span>',
                     ],
