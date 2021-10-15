@@ -18,7 +18,7 @@
     <!--begin::Title-->
     <h1 class="d-flex align-items-center text-dark fw-bolder my-1 fs-3">
     {{--{{ theme()->getOption('page', 'title') }}--}}
-        {{ 'Basketball Referee Application System' }}
+        {{ 'Indonesia Basketball Referee' }}
 
     @if (theme()->hasOption('page', 'description') && theme()->getOption('layout', 'page-title/description') === true)
         <!--begin::Separator-->

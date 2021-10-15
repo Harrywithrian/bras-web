@@ -5,7 +5,7 @@ $(document).ready(function() {
 /* FUNGSI MENAMPILKAN SEMUA DATA */
 function showAllData() {
     $('#content-table').DataTable({
-        ajax: "/region/get",
+        ajax: "/m-mechanical-court/get",
         bFilter: false,
         processing: true,
         serverSide: true,
@@ -39,24 +39,36 @@ function showAllData() {
                 data: 'action',
                 name: 'action',
                 orderable: false,
-                searchable: false
+                searchable: false,
+                width: "20%"
             },
             {
-                data: 'status',
-                name: 'status',
+                data: 'nama',
+                name: 'nama',
                 orderable: false,
                 searchable: false
             },
             {
-                data: 'kode',
-                name: 'kode',
+                data: 'level',
+                name: 'level',
                 orderable: true,
                 searchable: true
             },
             {
-                data: 'region',
-                name: 'region',
-                title: 'Provinsi',
+                data: 'parent',
+                name: 'parent',
+                orderable: true,
+                searchable: true
+            },
+            {
+                data: 'persentase',
+                name: 'persentase',
+                orderable: true,
+                searchable: true
+            },
+            {
+                data: 'order_by',
+                name: 'order_by',
                 orderable: true,
                 searchable: true
             }
@@ -75,10 +87,11 @@ function search(event) {
             headers: {
                 "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
             },
-            url: '/region/search',
+            url: '/m-mechanical-court/search',
             data: function (d) {
-                d.kode     = $('#kode').val();
-                d.provinsi = $('#provinsi').val();
+                d.nama     = $('#nama').val();
+                d.parent   = $('#parent').val();
+                d.level    = $('#level').val();
             }
         },
         bFilter: false,
@@ -114,24 +127,36 @@ function search(event) {
                 data: 'action',
                 name: 'action',
                 orderable: false,
-                searchable: false
+                searchable: false,
+                width: "20%"
             },
             {
-                data: 'status',
-                name: 'status',
+                data: 'nama',
+                name: 'nama',
                 orderable: false,
                 searchable: false
             },
             {
-                data: 'kode',
-                name: 'kode',
+                data: 'level',
+                name: 'level',
                 orderable: true,
                 searchable: true
             },
             {
-                data: 'region',
-                name: 'region',
-                title: 'Provinsi',
+                data: 'parent',
+                name: 'parent',
+                orderable: true,
+                searchable: true
+            },
+            {
+                data: 'persentase',
+                name: 'persentase',
+                orderable: true,
+                searchable: true
+            },
+            {
+                data: 'order_by',
+                name: 'order_by',
                 orderable: true,
                 searchable: true
             }
@@ -146,67 +171,6 @@ function reset(event) {
     document.getElementById('search').reset();
     showAllData();
 }
-
-$("body").on("click", ".switchStatus", function () {
-    var id     = $(this).data("id");
-    var toogle = $(this).data("toogle");
-    var table  = $('#content-table').DataTable();
-    var token  = $("meta[name='csrf-token']").attr("content");
-
-    if (toogle == 'inactive') {
-        warningMessage = 'Apakah anda akan menonaktifkan data ini?';
-        buttonName = "Non-Aktifkan";
-    } else {
-        warningMessage = 'Apakah anda akan mengaktifkan data ini?';
-        buttonName = "Aktifkan";
-    }
-
-    Swal.fire({
-        title: "Change Data Status",
-        text: warningMessage,
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: buttonName
-    }).then(function (result) {
-        if (result.value) {
-            $.ajax({
-                url: '/region/status',
-                type: 'POST',
-                data: {
-                    _token: token,
-                    id: id
-                },
-                success: function (response) {
-                    if (response.status == 200) {
-                        Swal.fire({
-                            icon: "success",
-                            title: response.header,
-                            text: response.message,
-                            confirmButtonClass: 'btn btn-success'
-                        }).then(function (result) {
-                            if (result.value) {
-                                table.draw();
-                            }
-                        });
-                    } else {
-                        Swal.fire({
-                            icon: "warning",
-                            title: response.header,
-                            text: response.message,
-                            confirmButtonClass: 'btn btn-success'
-                        }).then(function (result) {
-                            if (result.value) {
-                                table.draw();
-                            }
-                        });
-                    }
-                }
-            });
-        }
-    });
-});
 
 $("body").on("click", ".deleted", function () {
     var id     = $(this).data("id");
@@ -224,7 +188,7 @@ $("body").on("click", ".deleted", function () {
     }).then(function (result) {
         if (result.value) {
             $.ajax({
-                url: '/region/delete',
+                url: '/m-mechanical-court/delete',
                 type: 'POST',
                 data: {
                     _token: token,
@@ -239,7 +203,7 @@ $("body").on("click", ".deleted", function () {
                             confirmButtonClass: 'btn btn-success'
                         }).then(function (result) {
                             if (result.value) {
-                                table.draw();
+                                window.location.replace("/m-mechanical-court/index");
                             }
                         });
                     } else {

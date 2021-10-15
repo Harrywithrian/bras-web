@@ -5,7 +5,7 @@ $(document).ready(function() {
 /* FUNGSI MENAMPILKAN SEMUA DATA */
 function showAllData() {
     $('#content-table').DataTable({
-        ajax: "/region/get",
+        ajax: "/iot/get",
         bFilter: false,
         processing: true,
         serverSide: true,
@@ -48,15 +48,14 @@ function showAllData() {
                 searchable: false
             },
             {
-                data: 'kode',
-                name: 'kode',
+                data: 'alias',
+                name: 'alias',
                 orderable: true,
                 searchable: true
             },
             {
-                data: 'region',
-                name: 'region',
-                title: 'Provinsi',
+                data: 'nama',
+                name: 'nama',
                 orderable: true,
                 searchable: true
             }
@@ -75,10 +74,11 @@ function search(event) {
             headers: {
                 "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
             },
-            url: '/region/search',
+            url: '/iot/search',
             data: function (d) {
-                d.kode     = $('#kode').val();
-                d.provinsi = $('#provinsi').val();
+                d.alias    = $('#alias').val();
+                d.nama     = $('#nama').val();
+                d.status   = $('#status').val();
             }
         },
         bFilter: false,
@@ -123,15 +123,14 @@ function search(event) {
                 searchable: false
             },
             {
-                data: 'kode',
-                name: 'kode',
+                data: 'alias',
+                name: 'alias',
                 orderable: true,
                 searchable: true
             },
             {
-                data: 'region',
-                name: 'region',
-                title: 'Provinsi',
+                data: 'nama',
+                name: 'nama',
                 orderable: true,
                 searchable: true
             }
@@ -172,7 +171,7 @@ $("body").on("click", ".switchStatus", function () {
     }).then(function (result) {
         if (result.value) {
             $.ajax({
-                url: '/region/status',
+                url: '/iot/status',
                 type: 'POST',
                 data: {
                     _token: token,
@@ -224,7 +223,7 @@ $("body").on("click", ".deleted", function () {
     }).then(function (result) {
         if (result.value) {
             $.ajax({
-                url: '/region/delete',
+                url: '/iot/delete',
                 type: 'POST',
                 data: {
                     _token: token,

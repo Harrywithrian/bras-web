@@ -123,10 +123,12 @@ class LocationController extends Controller
                 'nama' => 'required',
                 'provinsi' => 'required',
                 'telepon' => 'required',
+                'email' => 'required|email',
             ];
 
             $customMessages = [
                 'required' => 'Kolom :attribute tidak boleh kosong.',
+                'email' => 'Kolom :attribute harus berupa email.',
             ];
 
             $this->validate($request, $rules, $customMessages);
@@ -179,10 +181,12 @@ class LocationController extends Controller
                 'nama' => 'required',
                 'provinsi' => 'required',
                 'telepon' => 'required',
+                'email' => 'required|email',
             ];
 
             $customMessages = [
                 'required' => 'Kolom :attribute tidak boleh kosong.',
+                'email' => 'Kolom :attribute harus berupa email.',
             ];
 
             $this->validate($request, $rules, $customMessages);

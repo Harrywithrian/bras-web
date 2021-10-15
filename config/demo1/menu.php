@@ -103,20 +103,26 @@ return [
                 'items' => [
                     [
                         'title'  => 'Game Management',
-                        'path'   => '#',
+                        'path'   => 'm-game-management.index',
                         'bullet' => '<span class="bullet bullet-dot"></span>',
                     ],
                     [
                         'title'  => 'Mechanical Court',
-                        'path'   => '#',
+                        'path'   => 'm-mechanical-court.index',
                         'bullet' => '<span class="bullet bullet-dot"></span>',
                     ],
                     [
                         'title'  => 'Appearance',
-                        'path'   => '#',
+                        'path'   => 'm-appearance.index',
                         'bullet' => '<span class="bullet bullet-dot"></span>',
                     ],
                 ]
+            ]
+        ],
+        [
+            'title' => 'Approval User',
+            'icon' => [
+                'font' => '<i class="bi bi-person-square fs-2"></i>',
             ]
         ],
         [
@@ -142,7 +148,7 @@ return [
                         'bullet' => '<span class="bullet bullet-dot"></span>',
                     ],
                     [
-                        'title'  => 'List Tugas',
+                        'title'  => 'Surat Tugas',
                         'path'   => '#',
                         'bullet' => '<span class="bullet bullet-dot"></span>',
                     ],
@@ -150,7 +156,7 @@ return [
             ]
         ],
         [
-            'title' => 'Pertandingan',
+            'title' => 'Tugas Pertandingan',
             'icon' => [
                 'font' => '<i class="bi bi-layout-text-sidebar-reverse fs-2"></i>',
             ]

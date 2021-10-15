@@ -2,11 +2,11 @@
 return array(
     // Product
     'product' => array(
-        'name'        => 'Metronic',
-        'description' => 'Metronic - #1 Selling Bootstrap 5 HTML Multi-demo Admin Dashboard Theme',
-        'preview'     => 'https://preview.keenthemes.com/metronic8',
-        'purchase'    => 'https://1.envato.market/EA4JP',
-        'license'     => 'For each use you must have a valid license purchased only from above link in order to legally use the theme for your project.',
+        'name'        => 'IBR',
+        'description' => 'IBR - Indonesia Basketball Referee',
+        'preview'     => '',
+        'purchase'    => '',
+        'license'     => '',
         'tooltips'    => array(
             "docs-and-components" => '200+ in-house components and 3rd-party plugins',
             'layout-builder'      => 'Build your layout and export HTML for server side integration',
@@ -91,39 +91,39 @@ return array(
 
     // Meta
     'meta'    => array(
-        'title'       => 'Basketball Referee Application System',
-        'description' => 'Metronic admin dashboard live demo. Check out all the features of the admin panel. A large number of settings, additional services and widgets.',
-        'keywords'    => 'Metronic, bootstrap, bootstrap 5, Angular 11, VueJs, React, Laravel, admin themes, web design, figma, web development, ree admin themes, bootstrap admin, bootstrap dashboard',
-        'canonical'   => 'https://preview.keenthemes.com/metronic8',
+        'title'       => 'Indonesia Basketball Referee',
+        'description' => 'Aplikasi penilaian wasit yang digunakan oleh PERBASI.',
+        'keywords'    => 'PERBASI, IBR, Indonesia Basketball Referee, Basketball, Indonesia, Wasit',
+        'canonical'   => '',
     ),
 
     // General
     'general' => array(
-        'website'             => 'https://keenthemes.com',
-        'about'               => 'https://keenthemes.com',
-        'contact'             => 'mailto:support@keenthemes.com',
-        'support'             => 'https://keenthemes.com/support',
-        'bootstrap-docs-link' => 'https://getbootstrap.com/docs/5.0',
-        'licenses'            => 'https://keenthemes.com/licensing',
+        'website'             => '', // 'https://keenthemes.com',
+        'about'               => '', // 'https://keenthemes.com',
+        'contact'             => '', // 'mailto:support@keenthemes.com',
+        'support'             => '', // 'https://keenthemes.com/support',
+        'bootstrap-docs-link' => '', // 'https://getbootstrap.com/docs/5.0',
+        'licenses'            => '', // 'https://keenthemes.com/licensing',
         'social-accounts'     => array(
             array(
-                'name' => 'Youtube', 'url' => 'https://www.youtube.com/c/KeenThemesTuts/videos', 'logo' => 'svg/social-logos/youtube.svg', "class" => "h-20px",
+                'name' => 'Youtube', 'url' => '', 'logo' => 'svg/social-logos/youtube.svg', "class" => "h-20px",
             ),
             array(
-                'name' => 'Github', 'url' => 'https://github.com/KeenthemesHub', 'logo' => 'svg/social-logos/github.svg', "class" => "h-20px",
+                'name' => 'Github', 'url' => '', 'logo' => 'svg/social-logos/github.svg', "class" => "h-20px",
             ),
             array(
-                'name' => 'Twitter', 'url' => 'https://twitter.com/keenthemes', 'logo' => 'svg/social-logos/twitter.svg', "class" => "h-20px",
+                'name' => 'Twitter', 'url' => '', 'logo' => 'svg/social-logos/twitter.svg', "class" => "h-20px",
             ),
             array(
-                'name' => 'Instagram', 'url' => 'https://www.instagram.com/keenthemes', 'logo' => 'svg/social-logos/instagram.svg', "class" => "h-20px",
+                'name' => 'Instagram', 'url' => '', 'logo' => 'svg/social-logos/instagram.svg', "class" => "h-20px",
             ),
 
             array(
-                'name' => 'Facebook', 'url' => 'https://www.facebook.com/keenthemes', 'logo' => 'svg/social-logos/facebook.svg', "class" => "h-20px",
+                'name' => 'Facebook', 'url' => '', 'logo' => 'svg/social-logos/facebook.svg', "class" => "h-20px",
             ),
             array(
-                'name' => 'Dribbble', 'url' => 'https://dribbble.com/keenthemes', 'logo' => 'svg/social-logos/dribbble.svg', "class" => "h-20px",
+                'name' => 'Dribbble', 'url' => '', 'logo' => 'svg/social-logos/dribbble.svg', "class" => "h-20px",
             ),
         ),
     ),
