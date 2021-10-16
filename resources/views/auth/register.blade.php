@@ -1,135 +1,195 @@
 <x-auth-layout>
+    <?php
+        $lisensi = \App\Models\Master\License::where('status', '=', 1)->whereNull('deletedon')->get()->toArray();
+        $region  = \App\Models\Master\Region::where('status', '=', 1)->whereNull('deletedon')->get()->toArray();
+    ?>
 
-    <!--begin::Signup Form-->
-    <form method="POST" action="{{ theme()->getPageUrl('register') }}" class="form w-100" novalidate="novalidate" id="kt_sign_up_form">
+    <form method="POST" action="{{ theme()->getPageUrl('register') }}" class="form w-100" novalidate="novalidate" enctype="multipart/form-data">
     @csrf
 
-    <!--begin::Heading-->
         <div class="text-center mb-10">
-            <!--begin::Title-->
-            <h1 class="text-dark mb-3">
-                {{ __('Create an Account') }}
-            </h1>
-            <!--end::Title-->
-
-            <!--begin::Link-->
-            <div class="text-gray-400 fw-bold fs-4">
-                {{ __('Already have an account?') }}
-
-                <a href="{{ theme()->getPageUrl('login') }}" class="link-primary fw-bolder">
-                    {{ __('Sign in here') }}
-                </a>
-            </div>
-            <!--end::Link-->
+            <h1 class="text-dark">Indonesia Basketball Referee</h1>
+            <label>Form Pendaftaran User</label>
         </div>
-        <!--end::Heading-->
 
-        <!--begin::Action-->
-        <button type="button" class="btn btn-light-primary fw-bolder w-100 mb-10">
-            <img alt="Logo" src="{{ asset('media/svg/brand-logos/google-icon.svg') }}" class="h-20px me-3"/>
-            {{ __('Sign in with Google') }}
-        </button>
-        <!--end::Action-->
-
-        <!--begin::Separator-->
-        <div class="d-flex align-items-center mb-10">
-            <div class="border-bottom border-gray-300 mw-50 w-100"></div>
-            <span class="fw-bold text-gray-400 fs-7 mx-2">{{ __('OR') }}</span>
-            <div class="border-bottom border-gray-300 mw-50 w-100"></div>
-        </div>
-        <!--end::Separator-->
-
-        <!--begin::Input group-->
-        <div class="row fv-row mb-7">
-            <!--begin::Col-->
-            <div class="col-xl-6">
-                <label class="form-label fw-bolder text-dark fs-6">{{ __('First Name') }}</label>
-                <input class="form-control form-control-lg form-control-solid" type="text" name="first_name" autocomplete="off" value="{{ old('first_name') }}"/>
-            </div>
-            <!--end::Col-->
-
-            <!--begin::Col-->
-            <div class="col-xl-6">
-                <label class="form-label fw-bolder text-dark fs-6">{{ __('Last Name') }}</label>
-                <input class="form-control form-control-lg form-control-solid" type="text" name="last_name" autocomplete="off" value="{{ old('last_name') }}"/>
-            </div>
-            <!--end::Col-->
-        </div>
-        <!--end::Input group-->
-
-        <!--begin::Input group-->
         <div class="fv-row mb-7">
-            <label class="form-label fw-bolder text-dark fs-6">{{ __('Email') }}</label>
-            <input class="form-control form-control-lg form-control-solid" type="email" name="email" autocomplete="off" value="{{ old('email') }}"/>
+            <label class="form-label fw-bolder text-dark fs-6">Jenis Daftar</label>
+            <select class="form-select form-control form-control-lg form-control-solid" data-control="select2" data-placeholder="Pilih ..." data-allow-clear="true" id="jenis_daftar" name="jenis_daftar">
+                <option value=""></option>
+                <option value="1" {{(old('jenis_daftar') == 1) ? 'selected' : '';}}>Pengawas Pertandingan</option>
+                <option value="2" {{(old('jenis_daftar') == 2) ? 'selected' : '';}}>Koordinator Wasit</option>
+                <option value="3" {{(old('jenis_daftar') == 2) ? 'selected' : '';}}>Wasit</option>
+            </select>
+            @if($errors->has('provinsi'))
+                <span id="err_provinsi" class="text-danger">{{ $errors->first('provinsi') }}</span>
+            @endif
         </div>
-        <!--end::Input group-->
 
-        <!--begin::Input group-->
-        <div class="mb-10 fv-row" data-kt-password-meter="true">
-            <!--begin::Wrapper-->
+        <div class="fv-row mb-7">
+            <label class="form-label fw-bolder text-dark fs-6">Nama Lengkap</label>
+            <input class="form-control form-control-lg form-control-solid" type="text" name="nama" autocomplete="off" value="{{ old('nama') }}"/>
+            @if($errors->has('nama'))
+                <span id="err_nama" class="text-danger">{{ $errors->first('nama') }}</span>
+            @endif
+        </div>
+
+        <div class="fv-row mb-7">
+            <label class="form-label fw-bolder text-dark fs-6">Nomor Lisensi</label>
+            <input class="form-control form-control-lg form-control-solid" type="text" name="lisensi" autocomplete="off" value="{{ old('lisensi') }}">
+            @if($errors->has('lisensi'))
+                <span id="err_lisensi" class="text-danger">{{ $errors->first('lisensi') }}</span>
+            @endif
+        </div>
+
+        <div class="fv-row mb-7">
+            <label class="form-label fw-bolder text-dark fs-6">Jenis Lisensi</label>
+            <select class="form-select form-control form-control-lg form-control-solid" data-control="select2" data-placeholder="Pilih Lisensi ..." data-allow-clear="true" id="jenis_lisensi" name="jenis_lisensi">
+                <option value=""></option>
+                @foreach($lisensi as $item)
+                    <option value="{{ $item['id'] }}" {{(old('jenis_lisensi') == $item['id']) ? 'selected' : '';}}>{{ $item['license'] }}</option>
+                @endforeach
+            </select>
+            @if($errors->has('jenis_lisensi'))
+                <span id="err_jenis_lisensi" class="text-danger">{{ $errors->first('jenis_lisensi') }}</span>
+            @endif
+        </div>
+
+        <div class="fv-row mb-7">
+            <label class="form-label fw-bolder text-dark fs-6">Tempat Lahir</label>
+            <input class="form-control form-control-lg form-control-solid" type="text" name="tempat_lahir" autocomplete="off" value="{{ old('tempat_lahir') }}">
+            @if($errors->has('tempat_lahir'))
+                <span id="err_tempat_lahir" class="text-danger">{{ $errors->first('tempat_lahir') }}</span>
+            @endif
+        </div>
+
+        <div class="fv-row mb-7">
+            <label class="form-label fw-bolder text-dark fs-6">Tanggal Lahir</label>
+            <input class="form-control form-control-solid" placeholder="Pilih Tanggal ..." name="tanggal_lahir" id="tanggal_lahir" value="{{old('tanggal_lahir')}}">
+            @if($errors->has('tanggal_lahir'))
+                <span id="err_tanggal_lahir" class="text-danger">{{ $errors->first('tanggal_lahir') }}</span>
+            @endif
+        </div>
+
+        <div class="fv-row mb-7">
+            <label class="form-label fw-bolder text-dark fs-6">Alamat</label>
+            <textarea id="alamat" class="form-control form-control-solid" name="alamat">{{ old('alamat') }}</textarea>
+            @if($errors->has('alamat'))
+                <span id="err_alamat" class="text-danger">{{ $errors->first('alamat') }}</span>
+            @endif
+        </div>
+
+        <div class="fv-row mb-7">
+            <label class="form-label fw-bolder text-dark fs-6">Provinsi</label>
+            <select class="form-select form-control form-control-lg form-control-solid" data-control="select2" data-placeholder="Pilih Provinsi ..." data-allow-clear="true" id="provinsi" name="provinsi">
+                <option value=""></option>
+                @foreach($region as $item)
+                    <option value="{{ $item['id'] }}" {{(old('provinsi') == $item['id']) ? 'selected' : '';}}>{{ $item['region'] }}</option>
+                @endforeach
+            </select>
+            @if($errors->has('provinsi'))
+                <span id="err_provinsi" class="text-danger">{{ $errors->first('provinsi') }}</span>
+            @endif
+        </div>
+
+        <div class="fv-row mb-7">
+            <label class="form-label fw-bolder text-dark fs-6">Email</label>
+            <input class="form-control form-control-lg form-control-solid" type="email" name="email" autocomplete="off" value="{{ old('email') }}">
+            @if($errors->has('email'))
+                <span id="err_email" class="text-danger">{{ $errors->first('email') }}</span>
+            @endif
+        </div>
+
+        <div class="fv-row mb-7">
+            <label class="form-label fw-bolder text-dark fs-6">Username</label>
+            <input class="form-control form-control-lg form-control-solid" type="text" name="username" autocomplete="off" value="{{ old('username') }}">
+            @if($errors->has('username'))
+                <span id="err_username" class="text-danger">{{ $errors->first('username') }}</span>
+            @endif
+        </div>
+
+        <div class="mb-5 fv-row" data-kt-password-meter="true">
             <div class="mb-1">
-                <!--begin::Label-->
-                <label class="form-label fw-bolder text-dark fs-6">
-                    {{ __('Password') }}
-                </label>
-                <!--end::Label-->
-
-                <!--begin::Input wrapper-->
+                <label class="form-label fw-bolder text-dark fs-6">Password</label>
                 <div class="position-relative mb-3">
-                    <input class="form-control form-control-lg form-control-solid" type="password" name="password" autocomplete="new-password"/>
+                    <input class="form-control form-control-lg form-control-solid" type="password" name="password" autocomplete="off">
 
                     <span class="btn btn-sm btn-icon position-absolute translate-middle top-50 end-0 me-n2" data-kt-password-meter-control="visibility">
                         <i class="bi bi-eye-slash fs-2"></i>
                         <i class="bi bi-eye fs-2 d-none"></i>
                     </span>
                 </div>
-                <!--end::Input wrapper-->
 
-                <!--begin::Meter-->
                 <div class="d-flex align-items-center mb-3" data-kt-password-meter-control="highlight">
                     <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2"></div>
                     <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2"></div>
                     <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2"></div>
                     <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px"></div>
                 </div>
-                <!--end::Meter-->
             </div>
-            <!--end::Wrapper-->
-
-            <!--begin::Hint-->
+            @if($errors->has('password'))
+                <span id="err_password" class="text-danger">{{ $errors->first('password') }}</span>
+            @endif
             <div class="text-muted">
-                {{ __('Use 8 or more characters with a mix of letters, numbers & symbols.') }}
+                Gunakan 8 karakter atau lebih. serta gunakan kombinasi huruf, angka, dan simbol.
             </div>
-            <!--end::Hint-->
         </div>
-        <!--end::Input group--->
 
-        <!--begin::Input group-->
         <div class="fv-row mb-5">
-            <label class="form-label fw-bolder text-dark fs-6">{{ __('Confirm Password') }}</label>
-            <input class="form-control form-control-lg form-control-solid" type="password" name="password_confirmation" autocomplete="off"/>
+            <label class="form-label fw-bolder text-dark fs-6">Re-type Password</label>
+            <input class="form-control form-control-lg form-control-solid" type="password" name="password_confirmation" autocomplete="off">
         </div>
-        <!--end::Input group-->
 
-        <!--begin::Input group-->
-        <div class="fv-row mb-10">
-            <label class="form-check form-check-custom form-check-solid form-check-inline">
-                <input class="form-check-input" type="checkbox" name="toc" value="1"/>
-                <span class="form-check-label fw-bold text-gray-700 fs-6">
-                {{ __('I Agree &') }} <a href="#" class="ms-1 link-primary">{{ __('Terms and conditions') }}</a>.
-            </span>
-            </label>
+        <div class="fv-row mb-5">
+            <label class="form-label fw-bolder text-dark fs-6">Upload Lisensi</label>
+            <div style="border: solid #EFF2F5 1px; padding:5px; background-color: #EFF2F5; border-radius:5px;">
+                <input type="file" name="upload_lisensi" class="custom-file-input" id="upload_lisensi" value="{{ old('upload_lisensi') }}">
+            </div>
+            @if($errors->has('upload_lisensi'))
+                <span id="err_upload_lisensi" class="text-danger">{{ $errors->first('upload_lisensi') }}</span>
+            @endif
+            <div class="text-muted">
+                Maksimal 10MB dan gunakan format PDF.
+            </div>
         </div>
-        <!--end::Input group-->
 
-        <!--begin::Actions-->
-        <div class="text-center">
-            <button type="submit" id="kt_sign_up_submit" class="btn btn-lg btn-primary">
-                @include('partials.general._button-indicator')
-            </button>
+        <div class="fv-row mb-5">
+            <label class="form-label fw-bolder text-dark fs-6">Upload Foto</label>
+            <div style="border: solid #EFF2F5 1px; padding:5px; background-color: #EFF2F5; border-radius:5px;">
+                <input type="file" name="upload_foto" class="custom-file-input" id="upload_foto" value="{{ old('upload_foto') }}">
+            </div>
+            @if($errors->has('upload_foto'))
+                <span id="err_upload_foto" class="text-danger">{{ $errors->first('upload_foto') }}</span>
+            @endif
+            <div class="text-muted">
+                Foto harus ber jas rapi, background berwarna biru, maksimal 10MB dan menggunakan format JPG, PNG, atau JPEG.
+            </div>
         </div>
-        <!--end::Actions-->
+
+        <div class="form-group mt-5">
+            <button type="submit" class="btn btn-lg btn-primary w-100 mb-5"> Daftar </button>
+        </div>
+
+        <center>
+            <div class="text-muted">
+                Sudah punya akun? <a href="{{ route('login') }}">Login disini.</a>
+            </div>
+        </center>
     </form>
-    <!--end::Signup Form-->
 
+        @section('scripts')
+            <script>
+                $("#tanggal_lahir").daterangepicker({
+                    singleDatePicker: true,
+                    showDropdowns: true,
+                    autoUpdateInput: false,
+                    locale: {
+                        cancelLabel: 'Clear'
+                    }
+                });
+
+                $("#tanggal_lahir").on('apply.daterangepicker', function(ev, picker) {
+                    $(this).val(picker.startDate.format('YYYY-MM-DD'));
+                });
+            </script>
+        @endsection
 </x-auth-layout>

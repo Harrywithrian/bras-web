@@ -25,8 +25,7 @@ class TMatchController extends Controller
                 't_event.tanggal_mulai',
                 't_event.tanggal_selesai',
                 't_event.no_lisensi',
-                'a.first_name',
-                'a.last_name',
+                'a.name',
                 't_event.no_lisensi',
             ])
                 ->leftJoin('t_event', 't_event.id', '=', 't_event_participant.id_t_event')
@@ -50,7 +49,7 @@ class TMatchController extends Controller
 
         # KOLOM
         $dataTables = $dataTables->addColumn('penyelenggara', function ($row) {
-            return $row->first_name . " " . $row->last_name;
+            return $row->name;
         });
 
 

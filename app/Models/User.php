@@ -21,8 +21,8 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'first_name',
-        'last_name',
+        'username',
+        'name',
         'email',
         'password',
     ];
@@ -45,16 +45,6 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
-    /**
-     * Get a fullname combination of first_name and last_name
-     *
-     * @return string
-     */
-    public function getNameAttribute()
-    {
-        return "{$this->first_name} {$this->last_name}";
-    }
 
     /**
      * Prepare proper error handling for url attribute

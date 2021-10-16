@@ -79,7 +79,7 @@
             <table class="table table-striped border mb-0 gy-7 gs-7" style="margin-top:-5px;">
                 <tr>
                     <td width="25%">Dibuat Oleh</td>
-                    <td>{{ \App\Models\User::find($model->createdby)->first_name }}</td>
+                    <td>{{ \App\Models\User::find($model->createdby)->name }}</td>
                 </tr>
                 <tr>
                     <td width="25%">Waktu Dibuat</td>
@@ -87,7 +87,7 @@
                 </tr>
                 <tr>
                     <td width="25%">Diubah Oleh</td>
-                    <td>{{ \App\Models\User::find($model->modifiedby)->first_name }}</td>
+                    <td>{{ \App\Models\User::find($model->modifiedby)->name }}</td>
                 </tr>
                 <tr>
                     <td width="25%">Waktu Diubah</td>
