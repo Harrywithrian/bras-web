@@ -1,8 +1,8 @@
 @php
-    $logoFileName = 'bras-white.svg';
+    $logoFileName = 'logo-white.svg';
 
     if (theme()->getOption('layout', 'aside/theme') === 'light') {
-        $logoFileName = 'bras.svg';
+        $logoFileName = 'logo.svg';
     }
 @endphp
 
@@ -23,7 +23,7 @@
     <div class="aside-logo flex-column-auto" id="kt_aside_logo">
         {{--begin::Logo--}}
         <a href="{{ theme()->getPageUrl('index') }}">
-            <img alt="Logo" src="{{ asset(theme()->getMediaUrlPath() . 'logos/' . $logoFileName) }}" class="h-20px logo"/>
+            <img alt="Logo" src="{{ asset(theme()->getMediaUrlPath() . 'logos/' . $logoFileName) }}" class="h-40px logo"/>
         </a>
         {{--end::Logo--}}
 
