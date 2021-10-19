@@ -10,7 +10,7 @@ RUN docker-php-ext-install pdo pdo_mysql
 # install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 # install nodejs
-RUN curl -sL https://deb.nodesource.com/setup_14.x | bash
+# RUN curl -sL https://deb.nodesource.com/setup_14.x | bash
 
 # install php libs
 # CMD ["composer install --ignore-platform-reqs", "npm install", "npm run prod", "copy .env.example .env", "php artisan key:generate"]
