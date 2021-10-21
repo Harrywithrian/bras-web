@@ -16,9 +16,9 @@
             <label class="form-label fw-bolder text-dark fs-6">Jenis Daftar</label>
             <select class="form-select form-control form-control-lg form-control-solid" data-control="select2" data-placeholder="Pilih ..." data-allow-clear="true" id="jenis_daftar" name="jenis_daftar">
                 <option value=""></option>
-                <option value="1" {{(old('jenis_daftar') == 1) ? 'selected' : '';}}>Pengawas Pertandingan</option>
-                <option value="2" {{(old('jenis_daftar') == 2) ? 'selected' : '';}}>Koordinator Wasit</option>
-                <option value="3" {{(old('jenis_daftar') == 2) ? 'selected' : '';}}>Wasit</option>
+                <option value="6" {{(old('jenis_daftar') == 6) ? 'selected' : '';}}>Pengawas Pertandingan</option>
+                <option value="7" {{(old('jenis_daftar') == 7) ? 'selected' : '';}}>Koordinator Wasit</option>
+                <option value="8" {{(old('jenis_daftar') == 8) ? 'selected' : '';}}>Wasit</option>
             </select>
             @if($errors->has('provinsi'))
                 <span id="err_provinsi" class="text-danger">{{ $errors->first('provinsi') }}</span>
@@ -178,6 +178,17 @@
 
         @section('scripts')
             <script>
+                $(document).ready( function() {
+                    @if(\Illuminate\Support\Facades\Session::has('error'))
+                        var msg = JSON.parse('<?php echo json_encode(\Illuminate\Support\Facades\Session::get('error')); ?>');
+                        toastr['error'](msg, 'Error', {
+                            closeButton: true,
+                            tapToDismiss: false,
+                            rtl: false
+                        });
+                    @endif
+                });
+
                 $("#tanggal_lahir").daterangepicker({
                     singleDatePicker: true,
                     showDropdowns: true,

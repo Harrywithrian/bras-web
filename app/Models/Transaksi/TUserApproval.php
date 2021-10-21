@@ -31,5 +31,6 @@ class TUserApproval extends Model
         'tindakan',
         'tanggal_tindakan',
         'jenis_daftar',
+        'status',
     ];
 }

@@ -121,6 +121,7 @@ return [
         ],
         [
             'title' => 'Approval User',
+            'path'   => 't-approval.index',
             'icon' => [
                 'font' => '<i class="bi bi-person-square fs-2"></i>',
             ]

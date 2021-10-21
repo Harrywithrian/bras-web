@@ -33,8 +33,7 @@
                  data-kt-toggle="true"
                  data-kt-toggle-state="active"
                  data-kt-toggle-target="body"
-                 data-kt-toggle-name="aside-minimize"
-            >
+                 data-kt-toggle-name="aside-minimize">
 
                 {!! theme()->getSvgIcon("icons/duotune/arrows/arr080.svg", "svg-icon-1 rotate-180") !!}
             </div>

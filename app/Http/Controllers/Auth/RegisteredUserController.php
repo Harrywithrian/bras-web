@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Transaksi\TFile;
 use App\Models\Transaksi\TUserApproval;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
@@ -62,25 +63,80 @@ class RegisteredUserController extends Controller
 
         $this->validate($request, $rules, $customMessages);
 
-         $model = new TUserApproval();
-         $model->username      = $request->username;
-         $model->name          = $request->nama;
-         $model->no_lisensi    = $request->lisensi;
-         $model->id_m_license  = $request->jenis_lisensi;
-         $model->tempat_lahir  = $request->tempat_lahir;
-         $model->tanggal_lahir = $request->tanggal_lahir;
-         $model->alamat        = $request->tempat_lahir;
-         $model->id_m_region   = $request->provinsi;
-         $model->email         = $request->email;
-         $model->password      = Hash::make($request->password);
-         $model->id_t_file_lisensi = 1;
-         $model->id_t_file_foto    = 1;
-         $model->jenis_daftar      = $request->jenis_daftar;
-         if ($model->save()) {
-             Session::flash('success', 'Pendaftaran berhasil, User anda sedang dalam proses approval.');
-             return redirect()->route('login');
-         }
+        $exist = $this->exist($request);
+        if ($exist != '200') {
+            Session::flash('error', $exist);
+            return redirect('register')->withInput();
+        }
+
+        $fileLisensi = $request->file('upload_lisensi');
+        $fileFoto    = $request->file('upload_foto');
+
+        $path        = 'profile/' . $request->username . date('HisdmY');
+
+        $namaLisensi = 'lisensi_' . $request->username .'.' . $fileLisensi->getClientOriginalExtension();
+        $fullPathLisensi = $path . '/' . $namaLisensi;
+
+        $namaFoto    = 'foto.' . $request->username .'.' . $fileFoto->getClientOriginalExtension();
+        $fullPathFoto = $path . '/' . $namaFoto;
+
+        $fileLisensi->storeAs('public/' . $path, $namaLisensi);
+        $fileFoto->storeAs('public/' . $path, $namaFoto);
+
+        $modelLisensi = new TFile();
+        $modelLisensi->name = $namaLisensi;
+        $modelLisensi->path = $fullPathLisensi;
+        $modelLisensi->extension = $fileLisensi->getClientOriginalExtension();
+        $modelLisensi->save();
+
+        $modelFoto = new TFile();
+        $modelFoto->name = $namaFoto;
+        $modelFoto->path = $fullPathFoto;
+        $modelFoto->extension = $fileFoto->getClientOriginalExtension();
+        $modelFoto->save();
+
+        $model = new TUserApproval();
+        $model->username      = $request->username;
+        $model->name          = $request->nama;
+        $model->no_lisensi    = $request->lisensi;
+        $model->id_m_license  = $request->jenis_lisensi;
+        $model->tempat_lahir  = $request->tempat_lahir;
+        $model->tanggal_lahir = $request->tanggal_lahir;
+        $model->alamat        = $request->tempat_lahir;
+        $model->id_m_region   = $request->provinsi;
+        $model->email         = $request->email;
+        $model->password      = Hash::make($request->password);
+        $model->id_t_file_lisensi = $modelLisensi->id;
+        $model->id_t_file_foto    = $modelFoto->id;
+        $model->jenis_daftar      = $request->jenis_daftar;
+        if ($model->save()) {
+            Session::flash('success', 'Pendaftaran berhasil, User anda sedang dalam proses approval.');
+            return redirect()->route('login');
+        }
         Session::flash('error', 'Pendaftaran gagal. Silahkan ulangi lagi.');
-        return redirect()->route('register');
+        return redirect()->route('register')->withInput();
+    }
+
+    private function exist($request) {
+        $exist = TUserApproval::where('email', '=', $request->email)->where('status', '=', '0')->first();
+        if ($exist) {
+            return 'Email sudah terpakai dan sedang dalam proses pendaftaran / pengajuan.';
+        }
+
+        $exist = TUserApproval::where('email', '=', $request->email)->where('status', '=', '1')->first();
+        if ($exist) {
+            return 'Email sudah terdaftar.';
+        }
+
+        $exist = TUserApproval::where('username', '=', $request->username)->where('status', '=', '0')->first();
+        if ($exist) {
+            return 'Username sudah terpakai dan sedang dalam proses pendaftaran / pengajuan.';
+        }
+
+        $exist = TUserApproval::where('username', '=', $request->username)->where('status', '=', '1')->first();
+        if ($exist) {
+            return 'Username sudah terdaftar.';
+        }
+        return '200';
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Core\Traits\SpatieLogsActivity;
+use App\Models\Transaksi\TFile;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 
@@ -18,15 +19,18 @@ class UserInfo extends Model
     public function getAvatarUrlAttribute()
     {
         // if file avatar exist in storage folder
-        $avatar = public_path(Storage::url($this->avatar));
-        if (is_file($avatar) && file_exists($avatar)) {
-            // get avatar url from storage
-            return Storage::url($this->avatar);
-        }
+        $model = TFile::find($this->id_t_file_foto);
+        if ($model) {
+            $avatar = public_path(Storage::url($model->path));
+            if (is_file($avatar) && file_exists($avatar)) {
+                // get avatar url from storage
+                return Storage::url($model->path);
+            }
 
-        // check if the avatar is an external url, eg. image from google
-        if (filter_var($this->avatar, FILTER_VALIDATE_URL)) {
-            return $this->avatar;
+            // check if the avatar is an external url, eg. image from google
+            if (filter_var($this->avatar, FILTER_VALIDATE_URL)) {
+                return $this->avatar;
+            }
         }
 
         // no avatar, return blank avatar

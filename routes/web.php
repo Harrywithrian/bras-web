@@ -20,6 +20,7 @@ use App\Http\Controllers\Master\MGameManagementController;
 use App\Http\Controllers\Master\MMechanicalCourtController;
 use App\Http\Controllers\Master\MAppearanceController;
 
+use App\Http\Controllers\Transaksi\TApprovalController;
 use App\Http\Controllers\Transaksi\TMatchController;
 
 /*
@@ -193,6 +194,16 @@ Route::middleware('auth')->group(function () {
         Route::get('/get-event', [TMatchController::class, 'getEvent'])->name('t-match.get-event');
         Route::get('/search-event', [TMatchController::class, 'searchEvent'])->name('t-match.search-event');
         Route::get('/show-event', [TMatchController::class, 'showEvent'])->name('t-match.show-event');
+    });
+
+    Route::prefix('t-approval')->group(function () {
+        Route::get('/index', [TApprovalController::class, 'index'])->name('t-approval.index');
+        Route::get('/get', [TApprovalController::class, 'get'])->name('t-approval.get');
+        Route::post('/search', [TApprovalController::class, 'search'])->name('t-approval.search');
+        Route::get('/show/{id}', [TApprovalController::class, 'show'])->name('t-approval.show');
+        Route::post('/approve', [TApprovalController::class, 'approve'])->name('t-approval.approve');
+        Route::post('/reject', [TApprovalController::class, 'reject'])->name('t-approval.reject');
+        Route::get('/download-lisensi/{id}', [TApprovalController::class, 'downloadLisensi'])->name('t-approval.download-lisensi');
     });
 });
 
