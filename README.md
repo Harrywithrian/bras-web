@@ -1,3 +1,55 @@
+### Running Guide With Docker
+
+1. Git Clone or Git Pull
+
+
+2. Build docker image and container using `docker-compose`:
+ 
+        docker-compose build && docker-compose up -d
+
+
+3. Execute shell container using `docker exec`:
+
+        docker exec -it <container> sh
+
+
+4. Install `Composer` dependecies:
+   
+        compose install --ignore-platform-reqs
+
+
+5. Install `NPM` dependencies:
+   
+        npm install
+
+
+6. Build production mode:
+   
+        npm run prod
+
+
+7. Create .env file using copy from .env.example:
+   
+        cp .env.example .env
+
+    If you are using `Windows`, use `copy` instead of `cp`.
+   
+        copy .env.example .env
+
+8. Generate app key:
+   
+        php artisan key:generate
+
+
+9. Generate jwt secret.
+
+        php artisan jwt:secret
+   
+
+10. Set permission to storage directory.
+
+
+
 # Metronic - Bootstrap 5 HTML, React, Angular, VueJS & Laravel Admin Dashboard Theme
 
 - For a quick start please check [Online documentation page](//preview.keenthemes.com/metronic8/laravel/documentation/getting-started/build)

@@ -24,12 +24,12 @@ class ProfileController extends Controller
             'info.region'
         ])->where('id', $userId)->first();
 
-        if(!$profile || empty($profile)) {
+        if (!$profile || empty($profile)) {
             return response()->json([
                 'statusCode' => 404,
                 'error' => 'Not found'
             ], 404);
-        } 
+        }
 
         return response()->json([
             'statusCode' => 200,
@@ -40,23 +40,33 @@ class ProfileController extends Controller
     // profile file by id
     public function file($fileId)
     {
-        $file = TFile::select('path')->where('id', $fileId)->first();
+        $file = TFile::select(['path', 'extension'])->where('id', $fileId)->first();
 
         try {
-            $filePath = storage_path('app/public'.'/'.$file->path);
+            $filePath = storage_path('app/public' . '/' . $file->path);
             $file = File::get($filePath);
             $fileType = File::mimeType($filePath);
 
             $response = Response::make($file, 200, [
-                'Content-Type'=> $fileType
+                'Content-Type' => $fileType
             ]);
 
             return $response;
         } catch (\Throwable $th) {
-            return $th;
+            if ($file->extension === 'jpg') {
+                $filePath = storage_path('app/public' . '/' . 'default-avatar.jpg');
+                $file = File::get($filePath);
+                $fileType = File::mimeType($filePath);
+
+                $response = Response::make($file, 200, [
+                    'Content-Type' => $fileType
+                ]);
+
+                return $response;
+            }
             return response()->json([
                 'statusCode' => 404,
-                'message' => 'Not found'
+                'message' => 'File not found'
             ], 404);
         }
     }
