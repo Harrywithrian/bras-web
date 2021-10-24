@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use App\Core\Traits\SpatieLogsActivity;
+use App\Models\Master\License;
+use App\Models\Master\Region;
 use App\Models\Transaksi\TFile;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use Spatie\Permission\Models\Role;
 
 class UserInfo extends Model
 {
@@ -63,5 +66,50 @@ class UserInfo extends Model
         } else {
             return null;
         }
+    }
+
+    /**
+     * User info relation to role model
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function role() {
+        return $this->belongsTo(Role::class, 'role', 'id');
+    }
+
+    /**
+     * User info relation to tfile model as license file
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function fileLicense() {
+        return $this->belongsTo(TFile::class, 'id_t_file_lisensi', 'id');
+    }
+
+    /**
+     * User info relation to tfile model as file image
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function filePhoto() {
+        return $this->belongsTo(TFile::class, 'id_t_file_foto', 'id');
+    }
+
+    /**
+     * User info relation to region model
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function region() {
+        return $this->belongsTo(Region::class, 'id_m_region', 'id');
+    }
+
+    /**
+     * User info relation to license model
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function license() {
+        return $this->belongsTo(License::class, 'id_m_lisensi', 'id');
     }
 }

@@ -13,4 +13,4 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN apk add --update nodejs npm
 
 # install php libs
-CMD ["composer install --ignore-platform-reqs", "npm install", "npm run prod"]
+# CMD ["composer install --ignore-platform-reqs", "npm install", "npm run prod"]
