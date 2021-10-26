@@ -2,18 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="04b1adcb-c7e2-45af-91c2-1ed75952fc90" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/transaksi/t-event/create.blade.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/transaksi/t-event/search.blade.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/transaksi/t-event/show.blade.php" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/Http/Controllers/Transaksi/TMatchController.php" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/views/transaksi/t-match/search-event.blade.php" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/resources/views/transaksi/t-match/event.blade.php" afterPath="$PROJECT_DIR$/resources/views/transaksi/t-event/index.blade.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/assets/demo1/js/transaksi/t-approval/index.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/assets/demo1/js/transaksi/t-event/index.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Models/Transaksi/TEvent.php" afterPath="$PROJECT_DIR$/app/Models/Transaksi/TEvent.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Models/User.php" afterPath="$PROJECT_DIR$/app/Models/User.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/composer.lock" afterPath="$PROJECT_DIR$/composer.lock" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/demo1/menu.php" afterPath="$PROJECT_DIR$/config/demo1/menu.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/web.php" afterPath="$PROJECT_DIR$/routes/web.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/transaksi/t-event/create.blade.php" afterPath="$PROJECT_DIR$/resources/views/transaksi/t-event/create.blade.php" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -29,7 +22,7 @@
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Transaksi/TEventController.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="463">
-              <caret line="126" column="63" lean-forward="true" selection-start-line="126" selection-start-column="63" selection-end-line="126" selection-end-column="63" />
+              <caret line="126" column="63" lean-forward="false" selection-start-line="126" selection-start-column="63" selection-end-line="126" selection-end-column="63" />
               <folding>
                 <marker date="1635256529387" expanded="true" signature="2429:2454" ph="..." />
                 <marker date="1635256529387" expanded="true" signature="2584:2609" ph="..." />
@@ -42,15 +35,29 @@
       <file leaf-file-name="create.blade.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/resources/views/transaksi/t-event/create.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="374">
-              <caret line="76" column="66" lean-forward="true" selection-start-line="76" selection-start-column="66" selection-end-line="76" selection-end-column="66" />
+            <state relative-caret-position="425">
+              <caret line="169" column="56" lean-forward="false" selection-start-line="169" selection-start-column="56" selection-end-line="169" selection-end-column="56" />
               <folding>
-                <marker date="1635256369243" expanded="true" signature="7154:10053" ph="..." />
-                <marker date="1635256369243" expanded="true" signature="7167:10052" ph="..." />
-                <marker date="1635256369243" expanded="true" signature="8086:8451" ph="..." />
-                <marker date="1635256369243" expanded="true" signature="8109:8405" ph="..." />
-                <marker date="1635256369243" expanded="true" signature="8184:8382" ph="..." />
-                <marker date="1635256369243" expanded="true" signature="8198:8350" ph="..." />
+                <element signature="n#style#0;n#section#0;n#form#0;n#div#1;n#div#0;n#x-base-layout#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#h4#0;n#div#0;n#section#0;n#form#0;n#div#1;n#div#0;n#x-base-layout#0;n#!!top" expanded="true" />
+                <marker date="1635260069307" expanded="true" signature="7546:10111" ph="..." />
+                <marker date="1635260069307" expanded="true" signature="7559:10110" ph="..." />
+                <marker date="1635260069307" expanded="true" signature="8631:8957" ph="..." />
+                <marker date="1635260069307" expanded="true" signature="8654:8911" ph="..." />
+                <marker date="1635260069307" expanded="true" signature="8690:8888" ph="..." />
+                <marker date="1635260069307" expanded="true" signature="8704:8856" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="show.blade.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/views/master/iot/show.blade.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="245">
+              <caret line="15" column="4" lean-forward="false" selection-start-line="33" selection-start-column="12" selection-end-line="37" selection-end-column="22" />
+              <folding>
+                <element signature="n#style#0;n#h4#0;n#div#0;n#section#0;n#div#1;n#div#0;n#x-base-layout#0;n#!!top" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -59,8 +66,8 @@
       <file leaf-file-name="User.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Models/User.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1024">
-              <caret line="95" column="101" lean-forward="false" selection-start-line="95" selection-start-column="101" selection-end-line="95" selection-end-column="101" />
+            <state relative-caret-position="565">
+              <caret line="95" column="103" lean-forward="false" selection-start-line="95" selection-start-column="103" selection-end-line="95" selection-end-column="103" />
               <folding />
             </state>
           </provider>
@@ -154,9 +161,9 @@
         <option value="$PROJECT_DIR$/app/Models/Transaksi/TEvent.php" />
         <option value="$PROJECT_DIR$/resources/views/transaksi/t-event/search.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/auth/register.blade.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/Transaksi/TEventController.php" />
         <option value="$PROJECT_DIR$/app/Models/User.php" />
         <option value="$PROJECT_DIR$/resources/views/transaksi/t-event/create.blade.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/Transaksi/TEventController.php" />
       </list>
     </option>
   </component>
@@ -288,6 +295,208 @@
               <option name="myItemId" value="resources" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="master" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bras-web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bras-web" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bras-web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bras-web" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="assets" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bras-web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bras-web" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="assets" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="demo1" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bras-web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bras-web" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="assets" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="demo1" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bras-web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bras-web" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="assets" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="demo1" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="transaksi" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bras-web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bras-web" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="assets" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="demo1" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="master" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bras-web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bras-web" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="public" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bras-web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bras-web" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="public" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="demo1" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bras-web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bras-web" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="public" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="demo1" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -379,19 +588,19 @@
     <property name="nodejs_interpreter_path" value="C:/Program Files/nodejs/node" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\xampp8\htdocs\bras-web\resources\views\transaksi\t-event" />
-      <recent name="C:\xampp8\htdocs\bras-web\public\demo1\js\transaksi\t-event" />
-      <recent name="C:\xampp8\htdocs\bras-web\public\storage" />
-      <recent name="C:\xampp8\htdocs\bras-web\resources\views\transaksi\t-match" />
-      <recent name="C:\xampp8\htdocs\bras-web\public\demo1\js\transaksi\t-approval" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\xampp8\htdocs\bras-web\storage\app\public" />
       <recent name="C:\xampp8\htdocs\bras-web\resources\views\transaksi\t-approval" />
       <recent name="C:\xampp8\htdocs\bras-web\app\Models\Transaksi" />
       <recent name="C:\xampp8\htdocs\bras-web\app\Models\Master" />
       <recent name="C:\xampp8\htdocs\bras-web\resources\views\partials\explore" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\xampp8\htdocs\bras-web\resources\assets\demo1\js" />
+      <recent name="C:\xampp8\htdocs\bras-web\resources\views\transaksi\t-event" />
+      <recent name="C:\xampp8\htdocs\bras-web\public\demo1\js\transaksi\t-event" />
+      <recent name="C:\xampp8\htdocs\bras-web\public\storage" />
+      <recent name="C:\xampp8\htdocs\bras-web\resources\views\transaksi\t-match" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -510,18 +719,17 @@
       <workItem from="1635080768856" duration="20455000" />
       <workItem from="1635183478200" duration="2424000" />
       <workItem from="1635186395983" duration="2682000" />
-      <workItem from="1635253957114" duration="2745000" />
+      <workItem from="1635253957114" duration="5979000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="137236000" />
+    <option name="totallyTimeSpent" value="140470000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1453125" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1453125" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -552,13 +760,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/storage/logs/laravel.log">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-609897">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Models/Transaksi/TFile.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="323">
@@ -591,13 +792,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/master/iot/show.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="258">
-          <caret line="98" column="42" lean-forward="false" selection-start-line="98" selection-start-column="42" selection-end-line="98" selection-end-column="42" />
         </state>
       </provider>
     </entry>
@@ -883,18 +1077,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Models/User.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1024">
-          <caret line="95" column="101" lean-forward="false" selection-start-line="95" selection-start-column="101" selection-end-line="95" selection-end-column="101" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Transaksi/TEventController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="463">
-          <caret line="126" column="63" lean-forward="true" selection-start-line="126" selection-start-column="63" selection-end-line="126" selection-end-column="63" />
+          <caret line="126" column="63" lean-forward="false" selection-start-line="126" selection-start-column="63" selection-end-line="126" selection-end-column="63" />
           <folding>
             <marker date="1635256529387" expanded="true" signature="2429:2454" ph="..." />
             <marker date="1635256529387" expanded="true" signature="2584:2609" ph="..." />
@@ -903,17 +1089,45 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/master/iot/show.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="245">
+          <caret line="15" column="4" lean-forward="false" selection-start-line="33" selection-start-column="12" selection-end-line="37" selection-end-column="22" />
+          <folding>
+            <element signature="n#style#0;n#h4#0;n#div#0;n#section#0;n#div#1;n#div#0;n#x-base-layout#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Models/User.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="565">
+          <caret line="95" column="103" lean-forward="false" selection-start-line="95" selection-start-column="103" selection-end-line="95" selection-end-column="103" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/assets/demo1/js/transaksi/t-event/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="476">
+          <caret line="28" column="61" lean-forward="true" selection-start-line="28" selection-start-column="61" selection-end-line="28" selection-end-column="61" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/transaksi/t-event/create.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="76" column="66" lean-forward="true" selection-start-line="76" selection-start-column="66" selection-end-line="76" selection-end-column="66" />
+        <state relative-caret-position="425">
+          <caret line="169" column="56" lean-forward="false" selection-start-line="169" selection-start-column="56" selection-end-line="169" selection-end-column="56" />
           <folding>
-            <marker date="1635256369243" expanded="true" signature="7154:10053" ph="..." />
-            <marker date="1635256369243" expanded="true" signature="7167:10052" ph="..." />
-            <marker date="1635256369243" expanded="true" signature="8086:8451" ph="..." />
-            <marker date="1635256369243" expanded="true" signature="8109:8405" ph="..." />
-            <marker date="1635256369243" expanded="true" signature="8184:8382" ph="..." />
-            <marker date="1635256369243" expanded="true" signature="8198:8350" ph="..." />
+            <element signature="n#style#0;n#section#0;n#form#0;n#div#1;n#div#0;n#x-base-layout#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#h4#0;n#div#0;n#section#0;n#form#0;n#div#1;n#div#0;n#x-base-layout#0;n#!!top" expanded="true" />
+            <marker date="1635260069307" expanded="true" signature="7546:10111" ph="..." />
+            <marker date="1635260069307" expanded="true" signature="7559:10110" ph="..." />
+            <marker date="1635260069307" expanded="true" signature="8631:8957" ph="..." />
+            <marker date="1635260069307" expanded="true" signature="8654:8911" ph="..." />
+            <marker date="1635260069307" expanded="true" signature="8690:8888" ph="..." />
+            <marker date="1635260069307" expanded="true" signature="8704:8856" ph="..." />
           </folding>
         </state>
       </provider>

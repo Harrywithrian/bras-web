@@ -1,7 +1,8 @@
 <x-base-layout>
     <?php
     $title = 'Tambah Event';
-    $wasit = \App\Models\User::getWasit();
+    $pengawas = \App\Models\User::getPengawas();
+    $wasit    = \App\Models\User::getWasit();
     ?>
 
     <link href="{{asset('demo1/plugins/custom/datatables/datatables.bundle.css')}}" rel="stylesheet" type="text/css"/>
@@ -75,7 +76,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <label for="tipe_event">Tipe Event</label>
-                        <select class="form-select" id="tipe_event" name="tipe_event">
+                        <select class="form-select form-select-lg" data-control="select2" data-placeholder="Pilih Tipe Event ..." id="tipe_event" name="tipe_event">
                             <option value=""></option>
                             <option value="0" {{ (old('tipe_event') == "0") ? 'selected' : '' }}>Normal</option>
                             <option value="1"  {{ (old('tipe_event') == "1") ? 'selected' : '' }}>Urgent</option>
@@ -86,14 +87,17 @@
                     </div>
                 </div>
 
-                <br><br>
+                <br>
 
-                <h1>Wasit</h1>
-
-                <table id="table_wasit" class="table table-rounded table-row-bordered border gy-5 gs-5" style="width:100%">
+                <section class="card bg-primary" style="border-radius: 0; margin-bottom:-7px;">
+                    <div class="card-header">
+                        <h4 class="card-title" style="color: white;">Pilih Wasit</h4>
+                    </div>
+                </section>
+                <table id="table_wasit" class="table table-row-bordered border gy-5 gs-5 pt-0" style="width:100%">
                     <thead>
                         <tr>
-                            <th style="width:80%">Wasit</th>
+                            <th style="width:80%">Nama Wasit</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -103,7 +107,7 @@
                             <tr>
                                 <td>
                                     <div>
-                                        <select class="form-select form-select-lg form-select-solid select-wasit" data-control="select2" value="{{ $item_wasit }}" data-placeholder="Pilih Wasit ..." name="nama_wasit[]">
+                                        <select class="form-select form-select-lg select-wasit" data-control="select2" data-placeholder="Pilih Wasit ..." name="nama_wasit[]">
                                             <option></option>
                                             @if($wasit)
                                                 @foreach($wasit as $list_wasit)
@@ -114,8 +118,8 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <a id="add-w" class="btn btn-success"> Tambah </a>
-                                    <a id="remove-w" class="btn btn-danger"> Kurang </a>
+                                    <a id="add-w" class="btn btn-icon btn-success"> <i class="bi bi-plus-lg"></i> </a>
+                                    <a id="remove-w" class="btn btn-icon btn-danger"> <i class="bi bi-dash-lg"></i> </a>
                                 </td>
                             </tr>
                             @endforeach
@@ -144,6 +148,13 @@
                     });
                 @endif
 
+                // PENGAWAS
+                // END PENGAWAS
+
+                // KOORDINATOR
+                // END KOORDINATOR
+
+                // WASIT
                 var nama_wasit = @json($wasit);
                 nama_wasit.unshift({ id : '', text : ''});
 
@@ -157,7 +168,6 @@
                     ordering: false,
                     @if(!old('nama_wasit'))
                     drawCallback: function (dataTable) {
-                        console.log();
                         setTimeout( function () {
                             $("select.form-select.select-wasit").select2({
                                 data:nama_wasit
@@ -181,22 +191,16 @@
                 });
 
                 function initRowWasit(dataid) {
-                    if (dataid) {
-                        twasit.row.add([
-                            '<select class="form-select form-select-lg form-select-solid select-wasit" data-value="'+dataid+'" data-control="select2" data-placeholder="Pilih Wasit ..." name="nama_wasit[]">',
-                            '<a id="add-w" class="btn btn-success"> Tambah </a> <a id="remove-w" class="btn btn-danger"> Kurang </a>'
-                        ]).draw(true);
-                    } else {
-                        twasit.row.add([
-                            '<select class="form-select form-select-lg form-select-solid select-wasit" data-control="select2" data-placeholder="Pilih Wasit ..." name="nama_wasit[]">',
-                            '<a id="add-w" class="btn btn-success"> Tambah </a> <a id="remove-w" class="btn btn-danger"> Kurang </a>'
-                        ]).draw(true);
-                    }
+                    twasit.row.add([
+                        '<select class="form-select form-select-lg select-wasit" data-control="select2" data-placeholder="Pilih Wasit ..." name="nama_wasit[]">',
+                        '<a id="add-w" class="btn btn-icon btn-success"> <i class="bi bi-plus-lg"></i> </a> <a id="remove-w" class="btn btn-icon btn-danger"> <i class="bi bi-dash-lg"></i> </a>'
+                    ]).draw(true);
                 }
 
                 @if(!old('nama_wasit'))
                     initRowWasit();
                 @endif
+                // END WASIT
             });
 
             $("#tanggal_mulai").daterangepicker({
