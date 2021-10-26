@@ -91,10 +91,9 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject
         return [];
     }
 
-    // /**
-    //  *  User relation
-    //  */
-    // public function info() {
-    //     return $this->hasOne(UserInfo::class, 'user_id', 'id');
-    // }
+    public static function getWasit() {
+        return User::with(['info','info.region'])->select('id', 'name')->role('Wasit')->get()->map(function($value) {
+            return ['id' => $value->id, 'text' => $value->name . ' - ' . $value->info->region->region];
+        })->toArray();
+    }
 }

@@ -27,7 +27,6 @@ class TEvent extends Model
         'no_lisensi',
         'status',
         'keterangan_tolak',
-        'keterangan_event',
         'createdby',
         'createdon',
         'modifiedby',

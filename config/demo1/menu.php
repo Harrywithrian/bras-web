@@ -127,7 +127,7 @@ return [
             ]
         ],
         [
-            'title' => 'Penugasan',
+            'title' => 'Rekomendasi Dan Surat Tugas',
             'icon' => [
                 'font' => '<i class="bi bi-calendar2-check fs-2"></i>',
             ],
@@ -139,12 +139,12 @@ return [
                 'class' => 'menu-sub-accordion menu-active-bg',
                 'items' => [
                     [
-                        'title'  => 'Pengajuan',
-                        'path'   => '#',
+                        'title'  => 'Pengajuan Event',
+                        'path'   => 't-event.index',
                         'bullet' => '<span class="bullet bullet-dot"></span>',
                     ],
                     [
-                        'title'  => 'Approval',
+                        'title'  => 'Approval Event',
                         'path'   => '#',
                         'bullet' => '<span class="bullet bullet-dot"></span>',
                     ],

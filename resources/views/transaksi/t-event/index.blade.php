@@ -1,5 +1,5 @@
 <x-base-layout>
-    <?php $title = 'List Event' ?>
+    <?php $title = 'Event' ?>
 
     <link href="{{asset('demo1/plugins/custom/datatables/datatables.bundle.css')}}" rel="stylesheet" type="text/css"/>
 
@@ -15,7 +15,15 @@
 
         <div class="card-body">
 
-            @include('transaksi.t-match.search-event')
+            @include('transaksi.t-event.search')
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="float-end mb-5">
+                        <a class="btn btn-xs btn-primary" href="{{ route('t-event.create') }}"> Tambah data </a>
+                    </div>
+                </div>
+            </div>
 
             <div class="row">
                 <div class="col-12">
@@ -25,10 +33,11 @@
                             <tr>
                                 <th>No</th>
                                 <th>Action</th>
-                                <th>Nama Event</th>
+                                <th>Status</th>
+                                <th>Nama</th>
+                                <th>Nomor Lisensi</th>
                                 <th>Tanggal Mulai</th>
                                 <th>Tanggal Selesai</th>
-                                <th>Nomor Lisensi</th>
                                 <th>Penyelenggara</th>
                             </tr>
                             </thead>
@@ -43,7 +52,7 @@
     </div>
 
     @section('scripts')
-        <script src="{{asset('demo1/js/transaksi/t-match/event.js')}}"></script>
+        <script src="{{asset('demo1/js/transaksi/t-event/index.js')}}"></script>
         <script src="{{asset('demo1/plugins/custom/datatables/datatables.bundle.js')}}"></script>
     @endsection
 

@@ -21,7 +21,7 @@ use App\Http\Controllers\Master\MMechanicalCourtController;
 use App\Http\Controllers\Master\MAppearanceController;
 
 use App\Http\Controllers\Transaksi\TApprovalController;
-use App\Http\Controllers\Transaksi\TMatchController;
+use App\Http\Controllers\Transaksi\TEventController;
 
 /*
 |--------------------------------------------------------------------------
@@ -189,13 +189,6 @@ Route::middleware('auth')->group(function () {
         Route::post('/delete', [MAppearanceController::class, 'delete'])->name('m-appearance.delete');
     });
 
-    Route::prefix('t-match')->group(function () {
-        Route::get('/event', [TMatchController::class, 'event'])->name('t-match.event');
-        Route::get('/get-event', [TMatchController::class, 'getEvent'])->name('t-match.get-event');
-        Route::get('/search-event', [TMatchController::class, 'searchEvent'])->name('t-match.search-event');
-        Route::get('/show-event', [TMatchController::class, 'showEvent'])->name('t-match.show-event');
-    });
-
     Route::prefix('t-approval')->group(function () {
         Route::get('/index', [TApprovalController::class, 'index'])->name('t-approval.index');
         Route::get('/get', [TApprovalController::class, 'get'])->name('t-approval.get');
@@ -204,6 +197,16 @@ Route::middleware('auth')->group(function () {
         Route::post('/approve', [TApprovalController::class, 'approve'])->name('t-approval.approve');
         Route::post('/reject', [TApprovalController::class, 'reject'])->name('t-approval.reject');
         Route::get('/download-lisensi/{id}', [TApprovalController::class, 'downloadLisensi'])->name('t-approval.download-lisensi');
+    });
+
+    Route::prefix('t-event')->group(function () {
+        Route::get('/', [TEventController::class, 'index'])->name('t-event.index');
+        Route::get('/index', [TEventController::class, 'index'])->name('t-event.index');
+        Route::get('/get', [TEventController::class, 'get'])->name('t-event.get');
+        Route::post('/search', [TEventController::class, 'search'])->name('t-event.search');
+        Route::get('/show/{id}', [TEventController::class, 'show'])->name('t-event.show');
+        Route::get('/create', [TEventController::class, 'create'])->name('t-event.create');
+        Route::post('/store', [TEventController::class, 'store'])->name('t-event.store');
     });
 });
 
