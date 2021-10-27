@@ -145,7 +145,7 @@ return [
                     ],
                     [
                         'title'  => 'Approval Event',
-                        'path'   => '#',
+                        'path'   => 't-event-approval.index',
                         'bullet' => '<span class="bullet bullet-dot"></span>',
                     ],
                     [

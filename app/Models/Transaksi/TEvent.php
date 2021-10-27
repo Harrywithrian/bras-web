@@ -2,6 +2,7 @@
 
 namespace App\Models\Transaksi;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -34,4 +35,13 @@ class TEvent extends Model
         'deletedby',
         'deletedon',
     ];
+
+    public function getPenyelenggara()
+    {
+        return $this->hasOne(User::class, 'id', 'penyelenggara');
+    }
+    public function getApproval()
+    {
+        return $this->hasOne(User::class, 'id', 'penindak');
+    }
 }

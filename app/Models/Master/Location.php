@@ -29,4 +29,14 @@ class Location extends Model
         'deletedby',
         'deletedon',
     ];
+
+    public function region() {
+        return $this->belongsTo(Region::class, 'id_m_region', 'id');
+    }
+
+    public static function getLocationList() {
+        return Location::with(['region'])->select('id', 'nama', 'id_m_region')->whereNull('deletedon')->get()->map(function($value) {
+            return ['id' => $value->id, 'text' => $value->nama . ' - ' . $value->region->region];
+        })->toArray();
+    }
 }

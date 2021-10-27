@@ -22,6 +22,7 @@ use App\Http\Controllers\Master\MAppearanceController;
 
 use App\Http\Controllers\Transaksi\TApprovalController;
 use App\Http\Controllers\Transaksi\TEventController;
+use App\Http\Controllers\Transaksi\TEventApprovalController;
 
 /*
 |--------------------------------------------------------------------------
@@ -207,6 +208,14 @@ Route::middleware('auth')->group(function () {
         Route::get('/show/{id}', [TEventController::class, 'show'])->name('t-event.show');
         Route::get('/create', [TEventController::class, 'create'])->name('t-event.create');
         Route::post('/store', [TEventController::class, 'store'])->name('t-event.store');
+    });
+
+    Route::prefix('t-event-approval')->group(function () {
+        Route::get('/', [TEventApprovalController::class, 'index'])->name('t-event-approval.index');
+        Route::get('/index', [TEventApprovalController::class, 'index'])->name('t-event-approval.index');
+        Route::get('/get', [TEventApprovalController::class, 'get'])->name('t-event-approval.get');
+        Route::post('/search', [TEventApprovalController::class, 'search'])->name('t-event-approval.search');
+        Route::get('/show/{id}', [TEventApprovalController::class, 'show'])->name('t-event-approval.show');
     });
 });
 

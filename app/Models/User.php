@@ -97,6 +97,12 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject
         })->toArray();
     }
 
+    public static function getKoordinator() {
+        return User::with(['info','info.region'])->select('id', 'name')->role('Koordinator Wasit')->get()->map(function($value) {
+            return ['id' => $value->id, 'text' => $value->name . ' - ' . $value->info->region->region];
+        })->toArray();
+    }
+
     public static function getWasit() {
         return User::with(['info','info.region'])->select('id', 'name')->role('Wasit')->get()->map(function($value) {
             return ['id' => $value->id, 'text' => $value->name . ' - ' . $value->info->region->region];
