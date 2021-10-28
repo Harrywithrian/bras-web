@@ -23,3 +23,4 @@ window.KTLayoutAside = require('./layout/aside.js');
 window.KTLayoutExplore = require('./layout/explore.js');
 window.KTLayoutSearch = require('./layout/search.js');
 window.KTLayoutToolbar = require('./layout/toolbar.js');
+// window.FlipDown = 

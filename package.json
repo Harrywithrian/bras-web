@@ -63,6 +63,7 @@
         "esri-leaflet": "^3.0.2",
         "esri-leaflet-geocoder": "^3.0.0",
         "flatpickr": "^4.6.9",
+        "flipdown": "^0.3.2",
         "flot": "^4.2.2",
         "fslightbox": "^3.3.0-2",
         "fullcalendar": "^5.8.0",

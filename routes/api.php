@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\AssignmentController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\GameController;
 use App\Http\Controllers\Api\MatchController;
+use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\RefereeController;
 use App\Http\Controllers\Api\RuleController;
@@ -31,6 +32,7 @@ Route::get('/profits', [\App\Http\Controllers\SampleDataController::class, 'prof
 // auth
 Route::prefix('auth')->group(function () {
     Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
+    Route::post('/register', [AuthController::class, 'register'])->name('auth.register');
 });
 
 // assignment
@@ -48,6 +50,12 @@ Route::prefix('match')->group(function () {
     Route::get('/', [MatchController::class, 'matches'])->name('match');
 });
 
+// notification
+Route::prefix('notification')->group(function () {
+    Route::get('/', [NotificationController::class, 'notifications'])->name('notification');
+});
+
+
 // rule book
 Route::prefix('rule')->group(function () {
     Route::get('/', [RuleController::class, 'rules'])->name('rule');
@@ -61,8 +69,9 @@ Route::prefix('referee')->group(function () {
 // profile
 Route::prefix('profile')->group(function () {
     Route::get('/{userId}', [ProfileController::class, 'profile'])->name('profile');
-    Route::get('/file/{fileId}', [ProfileController::class, 'file'])->name('profile.file');
-    // Route::get('/file/path/{userId}', [ProfileController::class, 'profile'])->name('profile');
+    Route::get('/avatar', [ProfileController::class, 'defaultAvatar'])->name('profile.avatar.default');
+    Route::get('/avatar/{fileId}', [ProfileController::class, 'file'])->name('profile.avatar');
+    Route::get('/license/{fileId}', [ProfileController::class, 'file'])->name('profile.license');
 });
 
 

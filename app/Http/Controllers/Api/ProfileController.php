@@ -37,10 +37,10 @@ class ProfileController extends Controller
         ], 200);
     }
 
-    // profile file by id
-    public function file($fileId)
+    // profile avatar
+    public function avatar($fileId)
     {
-        $file = TFile::select(['path', 'extension'])->where('id', $fileId)->first();
+        $file = TFile::select(['path'])->where('id', $fileId)->where('path', 'LIKE', '%foto%')->first();
 
         try {
             $filePath = storage_path('app/public' . '/' . $file->path);
@@ -53,27 +53,44 @@ class ProfileController extends Controller
 
             return $response;
         } catch (\Throwable $th) {
-            if ($file->extension === 'jpg') {
-                $filePath = storage_path('app/public' . '/' . 'default-avatar.jpg');
-                $file = File::get($filePath);
-                $fileType = File::mimeType($filePath);
+            return $this->defaultAvatar();
+        }
+    }
 
-                $response = Response::make($file, 200, [
-                    'Content-Type' => $fileType
-                ]);
+    // profile license
+    public function license($fileId)
+    {
+        $file = TFile::select(['path'])->where('id', $fileId)->where('path', 'LIKE', '%lisensi%')->first();
 
-                return $response;
-            }
+        try {
+            $filePath = storage_path('app/public' . '/' . $file->path);
+            $file = File::get($filePath);
+            $fileType = File::mimeType($filePath);
+
+            $response = Response::make($file, 200, [
+                'Content-Type' => $fileType
+            ]);
+
+            return $response;
+        } catch (\Throwable $th) {
             return response()->json([
                 'statusCode' => 404,
-                'message' => 'File not found'
+                'message' => 'Not found'
             ], 404);
         }
     }
 
-    // profile file by path
-    public function fileByPath($path)
+    // default avatar
+    public function defaultAvatar()
     {
-        return response()->file($path);
+        $filePath = storage_path('app/public' . '/' . 'default-avatar.jpg');
+        $file = File::get($filePath);
+        $fileType = File::mimeType($filePath);
+
+        $response = Response::make($file, 200, [
+            'Content-Type' => $fileType
+        ]);
+
+        return $response;
     }
 }

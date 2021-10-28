@@ -23,6 +23,7 @@ use App\Http\Controllers\Master\MAppearanceController;
 use App\Http\Controllers\Transaksi\TApprovalController;
 use App\Http\Controllers\Transaksi\TEventController;
 use App\Http\Controllers\Transaksi\TEventApprovalController;
+use App\Http\Controllers\Transaksi\TMatchController;
 
 /*
 |--------------------------------------------------------------------------
@@ -221,6 +222,16 @@ Route::middleware('auth')->group(function () {
         Route::get('/show/{id}', [TEventApprovalController::class, 'show'])->name('t-event-approval.show');
         Route::post('/approve', [TEventApprovalController::class, 'approve'])->name('t-event-approval.approve');
         Route::post('/reject', [TEventApprovalController::class, 'reject'])->name('t-event-approval.reject');
+    });
+
+    Route::prefix('t-match')->group(function () {
+        Route::get('/', [TMatchController::class, 'index'])->name('t-match.index');
+        Route::get('/evaluation', [TMatchController::class, 'evaluation'])->name('t-match.evaluation');
+        // Route::get('/', [TEventApprovalController::class, 'index'])->name('t-event-approval.index');
+        // Route::get('/index', [TEventApprovalController::class, 'index'])->name('t-event-approval.index');
+        // Route::get('/get', [TEventApprovalController::class, 'get'])->name('t-event-approval.get');
+        // Route::post('/search', [TEventApprovalController::class, 'search'])->name('t-event-approval.search');
+        // Route::get('/show/{id}', [TEventApprovalController::class, 'show'])->name('t-event-approval.show');
     });
 });
 
