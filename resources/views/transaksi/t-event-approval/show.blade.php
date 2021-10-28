@@ -20,6 +20,11 @@
 
         <div class="card-body">
 
+            @if($model->status == 0)
+                <button class="btn btn-success" id="approve" data-id="{{ $model->id }}" onClick="approve(event)"> Approve </button>
+                <button class="btn btn-danger" id="reject" data-bs-toggle="modal" data-bs-target="#rejectModal" data-id="{{ $model->id }}"> Reject </button>
+            @endif
+
             <a href="{{ route('t-event-approval.index') }}" class="btn btn-secondary"> Kembali </a>
 
             <section class="card bg-primary mb-0 mt-5" style="border-radius: 0">
@@ -61,9 +66,9 @@
                 <tr>
                     <td width="25%">Prioritas Event</td>
                     <td>
-                        @if($model->status == 0)
+                        @if($model->tipe == 0)
                             <span class='rounded-pill bg-success' style="padding:5px; color: white"> Normal </span>
-                        @elseif($model->status == 1)
+                        @elseif($model->tipe == 1)
                             <span class='rounded-pill bg-danger' style="padding:5px; color: white"> Urgent </span>
                         @else
                             -
@@ -95,6 +100,10 @@
                     <tr>
                         <td width="25%">Tanggal Ditolak</td>
                         <td>{{ date('d/m/Y', strtotime($model->tanggal_tindakan)) }}</td>
+                    </tr>
+                    <tr>
+                        <td width="25%">Keterangan Ditolak</td>
+                        <td>{{ $model->keterangan_tolak }}</td>
                     </tr>
                 @endif
             </table>
@@ -177,8 +186,134 @@
         </div>
     </div>
 
-    @section('scripts')
+    <!-- Modal -->
+    <div class="modal fade" id="rejectModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Tolak Event</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-5">
+                        <div class="col-md-12">
+                            <div class="col-md-12">
+                                <label>Alasan Tolak</label>
+                                <textarea id="tolak" class="form-control" name="tolak"></textarea>
+                                @if($errors->has('tolak'))
+                                    <span id="err_tolak" class="text-danger">{{ $errors->first('tolak') }}</span>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button id="btnTolak" type="button" class="btn btn-danger" data-id="{{ $model->id }}" onClick="reject(event)">Tolak Event</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    @section('scripts')
+    <script>
+        function approve(event) {
+            event.preventDefault();
+            var id = $('#approve').data("id");
+            var token  = $("meta[name='csrf-token']").attr("content");
+
+            warningMessage = 'Apakah anda akan setujui event ini?';
+            buttonName = "Approve";
+
+            Swal.fire({
+                title: "Approval",
+                text: warningMessage,
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: buttonName
+            }).then(function (result) {
+                if (result.value) {
+                    $.ajax({
+                        url: '/t-event-approval/approve',
+                        type: 'POST',
+                        data: {
+                            _token: token,
+                            id: id
+                        },
+                        success: function (response) {
+                            if (response.status == 200) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: response.header,
+                                    text: response.message,
+                                    confirmButtonClass: 'btn btn-success'
+                                }).then(function (result) {
+                                    if (result.value) {
+                                        window.location.replace("/t-event-approval/show/" + id);
+                                    }
+                                });
+                            } else {
+                                Swal.fire({
+                                    icon: "warning",
+                                    title: response.header,
+                                    text: response.message,
+                                    confirmButtonClass: 'btn btn-success'
+                                }).then(function (result) {
+                                    if (result.value) {
+                                        window.location.replace("/t-event-approval/show/" + id);
+                                    }
+                                });
+                            }
+                        }
+                    });
+                }
+            });
+        }
+
+        function reject(event) {
+            event.preventDefault();
+            var id = $('#btnTolak').data("id");
+            var keterangan = $('#tolak').val();
+            var token  = $("meta[name='csrf-token']").attr("content");
+
+            $.ajax({
+                url: '/t-event-approval/reject',
+                type: 'POST',
+                data: {
+                    _token: token,
+                    id: id,
+                    ket: keterangan
+                },
+                success: function (response) {
+                    if (response.status == 200) {
+                        Swal.fire({
+                            icon: "success",
+                            title: response.header,
+                            text: response.message,
+                            confirmButtonClass: 'btn btn-success'
+                        }).then(function (result) {
+                            if (result.value) {
+                                window.location.replace("/t-event-approval/show/" + id);
+                            }
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: "warning",
+                            title: response.header,
+                            text: response.message,
+                            confirmButtonClass: 'btn btn-success'
+                        }).then(function (result) {
+                            if (result.value) {
+                                window.location.replace("/t-event-approval/show/" + id);
+                            }
+                        });
+                    }
+                }
+            });
+        }
+    </script>
     @endsection
 
 </x-base-layout>

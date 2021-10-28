@@ -31,6 +31,7 @@ class TEventController extends Controller
                 't_event.tanggal_selesai',
                 'users.name as penyelenggara',
             ])->leftJoin('users', 'users.id', '=', 't_event.penyelenggara')
+                ->whereNull('t_event.deletedon')
                 ->orderBy('t_event.createdon', 'DESC')
                 ->get();
 
@@ -49,6 +50,7 @@ class TEventController extends Controller
             't_event.tanggal_selesai',
             'users.name as penyelenggara',
         ])->leftJoin('users', 'users.id', '=', 't_event.penyelenggara')
+            ->whereNull('t_event.deletedon')
             ->orderBy('t_event.createdon', 'DESC')
             ->get();
 
@@ -247,7 +249,7 @@ class TEventController extends Controller
                     };
                 }
                 DB::commit();
-                return redirect(route('t-event.index'));
+                return redirect(route('t-event.show', $model->id));
             };
             DB::rollBack();
             Session::flash('error', 'Event gagal dibuat, mohon ulangi kembali.');
@@ -255,7 +257,7 @@ class TEventController extends Controller
         }  catch(Exception $e) {
             DB::rollBack();
             Session::flash('error', $e->getMessage());
-            return redirect()->route('iot.create');
+            return redirect()->route('t-event.create');
         }
     }
 
@@ -301,5 +303,154 @@ class TEventController extends Controller
             return ['status' => 500, 'message' => 'Wasit tidak boleh kurang dari 3 orang.'];
         }
         return ['status' => 200];
+    }
+
+    public function edit($id) {
+        $model = TEvent::find($id);
+        return view('transaksi.t-event.edit', [
+            'model' => $model
+        ]);
+    }
+
+    public function update(Request $request, $id) {
+        try {
+            $rules = [
+                'nama' => 'required',
+                'no_lisensi' => 'required',
+                'tanggal_mulai' => 'required|date|before_or_equal:tanggal_selesai',
+                'tanggal_selesai' => 'required|date|after_or_equal:tanggal_mulai',
+                'provinsi' => 'required',
+                'location' => 'required',
+                'tipe_event' => 'required',
+            ];
+
+            $customMessages = [
+                'required' => 'Kolom :attribute tidak boleh kosong.',
+                'before_or_equal' => 'Kolom :attribute tidak boleh melebihi Tanggal Selesai.',
+                'after_or_equal' => 'Kolom :attribute tidak boleh kurang dari Tanggal Mulai.',
+            ];
+
+            $this->validate($request, $rules, $customMessages);
+
+            $val = $this->customValidation($request);
+            if ($val['status'] == 500) {
+                Session::flash('error', $val['message']);
+                return redirect(route('t-event.edit', $id))->withInput();
+            }
+
+            DB::beginTransaction();
+            $model = TEvent::find($id);
+            $model->nama = $request->nama;
+            $model->deskripsi = $request->deskripsi;
+            $model->tanggal_mulai = $request->tanggal_mulai;
+            $model->tanggal_selesai = $request->tanggal_selesai;
+            $model->tipe            = $request->tipe_event;
+            $model->penyelenggara   = Auth::id();
+            $model->no_lisensi      = $request->no_lisensi;
+            $model->status          = 0;
+            $model->penindak        = null;
+            $model->tanggal_tindakan = null;
+            $model->keterangan_tolak = null;
+            $model->modifiedby      = Auth::id();
+            $model->modifiedon      = Carbon::now();
+            if ($model->save()) {
+                TEventLocation::where('id_t_event', '=', $id)->delete();
+                foreach ($request->location as $itemLocation) {
+                    $location = new TEventLocation();
+                    $location->id_t_event = $model->id;
+                    $location->id_m_location = $itemLocation;
+                    $location->createdby     = Auth::id();
+                    $location->createdon     = Carbon::now();
+                    if (!$location->save()) {
+                        DB::rollBack();
+                        Session::flash('error', 'Lokasi Event gagal dibuat, mohon ulangi kembali.');
+                        return redirect(route('t-event.edit', $id))->withInput();
+                    };
+                }
+
+                TEventRegion::where('id_t_event', '=', $id)->delete();
+                foreach ($request->provinsi as $itemProvinsi) {
+                    $provinsi = new TEventRegion();
+                    $provinsi->id_t_event = $model->id;
+                    $provinsi->id_m_region = $itemProvinsi;
+                    $provinsi->createdby     = Auth::id();
+                    $provinsi->createdon     = Carbon::now();
+                    if (!$provinsi->save()) {
+                        DB::rollBack();
+                        Session::flash('error', 'Provinsi Event gagal dibuat, mohon ulangi kembali.');
+                        return redirect(route('t-event.edit', $id))->withInput();
+                    };
+                }
+
+                TEventParticipant::where('id_t_event', '=', $id)->delete();
+                foreach ($request->nama_pengawas as $itemPengawas) {
+                    $participant = new TEventParticipant();
+                    $participant->id_t_event = $model->id;
+                    $participant->user = $itemPengawas;
+                    $participant->role = 6;
+                    $participant->createdby = Auth::id();
+                    $participant->createdon = Carbon::now();
+                    if (!$participant->save()) {
+                        DB::rollBack();
+                        Session::flash('error', 'Pengawas Pertandingan gagal dibuat, mohon ulangi kembali.');
+                        return redirect(route('t-event.edit', $id))->withInput();
+                    };
+                }
+
+                foreach ($request->nama_koordinator as $itemKoordinator) {
+                    $participant = new TEventParticipant();
+                    $participant->id_t_event = $model->id;
+                    $participant->user = $itemKoordinator;
+                    $participant->role = 7;
+                    $participant->createdby = Auth::id();
+                    $participant->createdon = Carbon::now();
+                    if (!$participant->save()) {
+                        DB::rollBack();
+                        Session::flash('error', 'Koordinator Wasit gagal dibuat, mohon ulangi kembali.');
+                        return redirect(route('t-event.edit', $id))->withInput();
+                    };
+                }
+
+                foreach ($request->nama_wasit as $itemWasit) {
+                    $participant = new TEventParticipant();
+                    $participant->id_t_event = $model->id;
+                    $participant->user = $itemWasit;
+                    $participant->role = 8;
+                    $participant->createdby = Auth::id();
+                    $participant->createdon = Carbon::now();
+                    if (!$participant->save()) {
+                        DB::rollBack();
+                        Session::flash('error', 'Wasit gagal dibuat, mohon ulangi kembali.');
+                        return redirect(route('t-event.edit', $id))->withInput();
+                    };
+                }
+                DB::commit();
+                return redirect(route('t-event.show', $id));
+            };
+            DB::rollBack();
+            Session::flash('error', 'Event gagal dibuat, mohon ulangi kembali.');
+            return redirect(route('t-event.edit', $id))->withInput();
+        }  catch(Exception $e) {
+            DB::rollBack();
+            Session::flash('error', $e->getMessage());
+            return redirect(route('t-event.edit', $id))->withInput();
+        }
+    }
+
+    public function delete(Request $request) {
+        $model = TEvent::find($request->id);
+        $model->deletedby = Auth::id();
+        $model->deletedon = Carbon::now();
+        $model->save();
+
+        $status  = 200;
+        $header  = 'Success';
+        $message = 'Event berhasil di hapus.';
+
+        return response()->json([
+            'status' => $status,
+            'header' => $header,
+            'message' => $message
+        ]);
     }
 }

@@ -20,6 +20,10 @@
 
         <div class="card-body">
 
+            @if($model->status == -1)
+                <a href="{{ route('t-event.edit', $model->id) }}" class="btn btn-warning"> Edit </a>
+                <button class="btn btn-danger" id="delete" data-id="{{ $model->id }}" onClick="hapus(event)"> Delete </button>
+            @endif
             <a href="{{ route('t-event.index') }}" class="btn btn-secondary"> Kembali </a>
 
             <section class="card bg-primary mb-0 mt-5" style="border-radius: 0">
@@ -61,9 +65,9 @@
                 <tr>
                     <td width="25%">Prioritas Event</td>
                     <td>
-                        @if($model->status == 0)
+                        @if($model->tipe == 0)
                             <span class='rounded-pill bg-success' style="padding:5px; color: white"> Normal </span>
-                        @elseif($model->status == 1)
+                        @elseif($model->tipe == 1)
                             <span class='rounded-pill bg-danger' style="padding:5px; color: white"> Urgent </span>
                         @else
                             -
@@ -95,6 +99,10 @@
                     <tr>
                         <td width="25%">Tanggal Ditolak</td>
                         <td>{{ date('d/m/Y', strtotime($model->tanggal_tindakan)) }}</td>
+                    </tr>
+                    <tr>
+                        <td width="25%">Keterangan Ditolak</td>
+                        <td>{{ $model->keterangan_tolak }}</td>
                     </tr>
                 @endif
             </table>
@@ -178,7 +186,58 @@
     </div>
 
     @section('scripts')
+        <script>
+            function hapus(event) {
+                event.preventDefault();
+                var id = $('#delete').data("id");
+                var token  = $("meta[name='csrf-token']").attr("content");
 
+                Swal.fire({
+                    title: "Delete Data",
+                    text: 'Apakah anda akan menghapus data ini?',
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Hapus"
+                }).then(function (result) {
+                    if (result.value) {
+                        $.ajax({
+                            url: '/t-event/delete',
+                            type: 'POST',
+                            data: {
+                                _token: token,
+                                id: id
+                            },
+                            success: function (response) {
+                                if (response.status == 200) {
+                                    Swal.fire({
+                                        icon: "success",
+                                        title: response.header,
+                                        text: response.message,
+                                        confirmButtonClass: 'btn btn-success'
+                                    }).then(function (result) {
+                                        if (result.value) {
+                                            window.location.replace("/t-event/index");
+                                        }
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        icon: "warning",
+                                        title: response.header,
+                                        text: response.message,
+                                        confirmButtonClass: 'btn btn-success'
+                                    }).then(function (result) {
+                                        if (result.value) {
+                                        }
+                                    });
+                                }
+                            }
+                        });
+                    }
+                });
+            }
+        </script>
     @endsection
 
 </x-base-layout>

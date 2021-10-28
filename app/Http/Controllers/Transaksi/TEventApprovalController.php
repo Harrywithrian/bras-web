@@ -8,6 +8,7 @@ use App\Models\Transaksi\TEventLocation;
 use App\Models\Transaksi\TEventParticipant;
 use App\Models\Transaksi\TEventRegion;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
 
 class TEventApprovalController extends Controller
@@ -27,6 +28,7 @@ class TEventApprovalController extends Controller
                 't_event.tanggal_selesai',
                 'users.name as penyelenggara',
             ])->leftJoin('users', 'users.id', '=', 't_event.penyelenggara')
+                ->whereNull('t_event.deletedon')
                 ->orderBy('t_event.createdon', 'DESC')
                 ->get();
 
@@ -45,6 +47,7 @@ class TEventApprovalController extends Controller
             't_event.tanggal_selesai',
             'users.name as penyelenggara',
         ])->leftJoin('users', 'users.id', '=', 't_event.penyelenggara')
+            ->whereNull('t_event.deletedon')
             ->orderBy('t_event.createdon', 'DESC')
             ->get();
 
@@ -127,6 +130,53 @@ class TEventApprovalController extends Controller
             'location' => $location,
             'region' => $region,
             'participant' => $participant,
+        ]);
+    }
+
+    public function approve(Request $request) {
+        $model = TEvent::find($request->id);
+        $model->status = 1;
+        $model->penindak = Auth::id();
+        $model->tanggal_tindakan = date('Y-m-d');
+        $model->save();
+
+        $status  = 200;
+        $header  = 'Success';
+        $message = 'Event berhasil di setujui.';
+
+
+        return response()->json([
+            'status' => $status,
+            'header' => $header,
+            'message' => $message
+        ]);
+    }
+
+    public function reject(Request $request) {
+        if (empty($request->ket)) {
+            return response()->json([
+                'status' => 500,
+                'header' => 'Failed',
+                'message' => 'Keterangan tidak boleh kosong.'
+            ]);
+        }
+
+        $model = TEvent::find($request->id);
+        $model->status = -1;
+        $model->penindak = Auth::id();
+        $model->tanggal_tindakan = date('Y-m-d');
+        $model->keterangan_tolak = $request->ket;
+        $model->save();
+
+        $status  = 200;
+        $header  = 'Success';
+        $message = 'Event berhasil di tolak.';
+
+
+        return response()->json([
+            'status' => $status,
+            'header' => $header,
+            'message' => $message
         ]);
     }
 }

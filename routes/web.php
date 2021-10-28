@@ -208,6 +208,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/show/{id}', [TEventController::class, 'show'])->name('t-event.show');
         Route::get('/create', [TEventController::class, 'create'])->name('t-event.create');
         Route::post('/store', [TEventController::class, 'store'])->name('t-event.store');
+        Route::get('/edit/{id}', [TEventController::class, 'edit'])->name('t-event.edit');
+        Route::post('/update/{id}', [TEventController::class, 'update'])->name('t-event.update');
+        Route::post('/delete', [TEventController::class, 'delete'])->name('t-event.delete');
     });
 
     Route::prefix('t-event-approval')->group(function () {
@@ -216,6 +219,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/get', [TEventApprovalController::class, 'get'])->name('t-event-approval.get');
         Route::post('/search', [TEventApprovalController::class, 'search'])->name('t-event-approval.search');
         Route::get('/show/{id}', [TEventApprovalController::class, 'show'])->name('t-event-approval.show');
+        Route::post('/approve', [TEventApprovalController::class, 'approve'])->name('t-event-approval.approve');
+        Route::post('/reject', [TEventApprovalController::class, 'reject'])->name('t-event-approval.reject');
     });
 });
 
