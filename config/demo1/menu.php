@@ -158,7 +158,7 @@ return [
         ],
         [
             'title' => 'Tugas Pertandingan',
-            'path'  => 't-match.event',
+            'path'  => 't-match.index-event',
             'icon'  => [
                 'font' => '<i class="bi bi-layout-text-sidebar-reverse fs-2"></i>',
             ]

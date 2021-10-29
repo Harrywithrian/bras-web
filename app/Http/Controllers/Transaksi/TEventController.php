@@ -51,8 +51,7 @@ class TEventController extends Controller
             'users.name as penyelenggara',
         ])->leftJoin('users', 'users.id', '=', 't_event.penyelenggara')
             ->whereNull('t_event.deletedon')
-            ->orderBy('t_event.createdon', 'DESC')
-            ->get();
+            ->orderBy('t_event.createdon', 'DESC');
 
         if ($request->nama != '') {
             $data->where('t_event.nama', 'LIKE', '%'.$request->nama.'%');
@@ -74,6 +73,8 @@ class TEventController extends Controller
         if ($request->status != '') {
             $data->where('t_event.status', '=', $request->status);
         }
+
+        $data->get();
         return $this->dataTable($data);
     }
 

@@ -222,10 +222,20 @@ Route::middleware('auth')->group(function () {
         Route::get('/show/{id}', [TEventApprovalController::class, 'show'])->name('t-event-approval.show');
         Route::post('/approve', [TEventApprovalController::class, 'approve'])->name('t-event-approval.approve');
         Route::post('/reject', [TEventApprovalController::class, 'reject'])->name('t-event-approval.reject');
+        Route::post('/mail', [TEventApprovalController::class, 'mail'])->name('t-event-approval.mail');
     });
 
     Route::prefix('t-match')->group(function () {
-        Route::get('/', [TMatchController::class, 'index'])->name('t-match.index');
+        Route::get('/', [TMatchController::class, 'EventIndex'])->name('t-match.event-index');
+        Route::get('/index-event', [TMatchController::class, 'IndexEvent'])->name('t-match.index-event');
+        Route::get('/get-event', [TMatchController::class, 'getEvent'])->name('t-match.get-event');
+        Route::post('/search-event', [TMatchController::class, 'searchEvent'])->name('t-match.search-event');
+        Route::get('/index/{id}', [TMatchController::class, 'index'])->name('t-match.index');
+        Route::get('/get', [TMatchController::class, 'get'])->name('t-match.get');
+        Route::post('/search', [TMatchController::class, 'search'])->name('t-match.search');
+        Route::get('/create/{id}', [TMatchController::class, 'create'])->name('t-match.create');
+        Route::post('/store/{id}', [TMatchController::class, 'store'])->name('t-match.store');
+        Route::get('/show/{id}', [TMatchController::class, 'show'])->name('t-match.show');
         Route::get('/evaluation', [TMatchController::class, 'evaluation'])->name('t-match.evaluation');
         // Route::get('/', [TEventApprovalController::class, 'index'])->name('t-event-approval.index');
         // Route::get('/index', [TEventApprovalController::class, 'index'])->name('t-event-approval.index');
