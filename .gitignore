@@ -1,19 +1,19 @@
 /node_modules
 
-/public/hot
-/public/storage
-/public/css
-/public/js
-/public/media
-/public/plugins
+# /public/hot
+# /public/storage
+# /public/css
+# /public/js
+# /public/media
+# /public/plugins
 
-/public/demo1
-/public/demo2
-/public/demo3
-/public/demo4
-/public/demo5
-/public/demo6
-/public/demo7
+# /public/demo1
+# /public/demo2
+# /public/demo3
+# /public/demo4
+# /public/demo5
+# /public/demo6
+# /public/demo7
 
 /storage/*.key
 /vendor
