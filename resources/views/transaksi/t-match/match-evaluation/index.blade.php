@@ -14,80 +14,56 @@
     </div>
 
     <div class="card-body">
-      <div>
-        <div x-data="{ open: false }">
-          <span @click="open = true">xx</span>
+      <!-- quarter -->
+      <select class="form-select form-select-solid" data-placeholder="Select quarter" name="quarter" id="quarter-picker">
+        <option></option>
+        <option value="1"> Quarter 1</option>
+        <option value="2"> Quarter 2</option>
+        <option value="3"> Quarter 3</option>
+        <option value="4"> Quarter 4</option>
+      </select>
 
-          <div x-show="open" @click.away="open = false">
-            aa
-          </div>
+      <!-- timer -->
+      <div>
+        <div class="d-flex flex-direction-column justify-content-center align-item-center">
+          <span class="fs-5tx" id="timer-display"> --:-- </span>
+        </div>
+        <div class="d-flex justify-content-center hide-content" style="gap: 20px;" id="timer-control">
+          <div class="btn btn-white btn-icon" id="timer-start"> <i class="fas fa-play-circle fs-2tx"></i> </div>
+          <div class="btn btn-white btn-icon" id="timer-pause"> <i class="fas fa-pause-circle fs-2tx"></i> </div>
+          <div class="btn btn-white btn-icon" id="timer-stop"> <i class="fas fa-stop-circle fs-2tx"></i> </div>
         </div>
       </div>
 
 
+
       <!-- referee -->
-      <div class="d-flex flex-column flex-lg-row my-10" style="gap: 15px;">
+      <div class="d-flex flex-column flex-lg-row my-10" style="gap: 20px;">
 
-        <div class="flex-fill">
+        @foreach($match->referee as $referee)
+        <div style="flex-basis: 0; flex-grow: 1;">
           <!--begin::Option-->
-          <input type="radio" class="btn-check" name="radio_buttons_2" value="apps" checked="checked" id="kt_radio_buttons_2_option_1" />
-          <label class="btn btn-outline btn-outline-dashed btn-outline-default p-7 d-flex align-items-center mb-5" for="kt_radio_buttons_2_option_1">
-            <div class="image-input image-input-circle me-5" data-kt-image-input="true" style="background-image: url( {{ asset('/demo1/media/avatars/150-1.jpg')}} )">
-              <div class="image-input-wrapper w-50px h-50px" style="background-image: url({{ asset('/demo1/media/avatars/150-1.jpg')}})"></div>
+          <input type="radio" class="btn-check" name="referee" value="{{ $referee->user->id }}" data-value='@json($referee->user)' id="kt_radio_referee_{{$referee->user->id}}" />
+          <label class="btn btn-outline btn-outline-dashed btn-outline-default py-3 px-3 d-flex align-items-center mb-5" for="kt_radio_referee_{{$referee->user->id}}">
+            <div class="image-input image-input-circle me-5" data-kt-image-input="true" style="background-image: url( {{ asset($referee->user->info->getAvatarUrlAttribute())}} )">
+              <div class="image-input-wrapper w-100px h-100px" style="background-image: url({{ asset($referee->user->info->getAvatarUrlAttribute())}})"></div>
             </div>
 
             <span class="d-block fw-bold text-start">
-              <span class="text-dark fw-bolder d-block fs-3 test">Referee 1</span>
+              <span class="text-dark fw-bolder d-block fs-3 test">{{ $referee->user->name }}</span>
               <span class="text-muted fw-bold fs-6">
-                Referee 1 info
+                {{ $referee->posisi }}
               </span>
             </span>
           </label>
           <!--end::Option-->
         </div>
-
-
-        <div class="flex-fill">
-          <!--begin::Option-->
-          <input type="radio" class="btn-check" name="radio_buttons_2" value="sms" id="kt_radio_buttons_2_option_2" />
-          <label class="btn btn-outline btn-outline-dashed btn-outline-default p-7 d-flex align-items-center" for="kt_radio_buttons_2_option_2">
-
-            <div class="image-input image-input-circle me-5" data-kt-image-input="true" style="background-image: url( {{ asset('/demo1/media/avatars/150-1.jpg')}} )">
-              <div class="image-input-wrapper w-50px h-50px" style="background-image: url({{ asset('/demo1/media/avatars/150-1.jpg')}})"></div>
-            </div>
-
-            <span class="d-block fw-bold text-start">
-              <span class="text-dark fw-bolder d-block fs-3 test">Referee 2</span>
-              <span class="text-muted fw-bold fs-6">
-                Referee 2 info
-              </span>
-            </span>
-          </label>
-          <!--end::Option-->
-        </div>
-
-        <div class="flex-fill">
-          <!--begin::Option-->
-          <input type="radio" class="btn-check" name="radio_buttons_2" value="sms" id="kt_radio_buttons_2_option_3" />
-          <label class="btn btn-outline btn-outline-dashed btn-outline-default p-7 d-flex align-items-center" for="kt_radio_buttons_2_option_3">
-            <div class="image-input image-input-circle me-5" data-kt-image-input="true" style="background-image: url( {{ asset('/demo1/media/avatars/150-1.jpg')}} )">
-              <div class="image-input-wrapper w-50px h-50px" style="background-image: url({{ asset('/demo1/media/avatars/150-1.jpg')}})"></div>
-            </div>
-
-            <span class="d-block fw-bold text-start">
-              <span class="text-dark fw-bolder d-block fs-3 test">Referee 3</span>
-              <span class="text-muted fw-bold fs-6">
-                Referee 3 info
-              </span>
-            </span>
-          </label>
-          <!--end::Option-->
-        </div>
+        @endforeach
 
       </div>
 
       <!-- referee evalution -->
-      <div class="d-flex flex-column flex-lg-row" style="gap: 15px;">
+      <div class="d-flex flex-column flex-lg-row" style="gap: 20px;">
 
         @foreach($evaluation_data as $evaluation_type)
         <div class="flex-fill flex-column">
@@ -98,7 +74,7 @@
             <label class="btn btn-outline btn-outline-dashed d-flex flex-stack text-start p-3 mb-3 active">
               <div class="d-flex align-items-center">
                 <div class="form-check form-check-custom form-check-solid form-check-primary me-2 form-check-sm">
-                  <input class="form-check-input" type="radio" name="{{ $evaluation_type->identifier}}" value="`@json($evaluation_type_item)`" data- />
+                  <input class="form-check-input" type="radio" name="{{ $evaluation_type->identifier}}" value="{{ $evaluation_type_item->value }}" data-value='@json($evaluation_type_item)' />
                 </div>
 
                 <div class="flex-grow-1">
@@ -117,53 +93,65 @@
       </div>
 
 
+      <div class="d-grid my-5">
+        <div class="btn btn-light-primary hide-content" id="add-evaluation"> Tambah </div>
+      </div>
+
       <!-- table -->
+      <div class="row">
+        <div class="col-12">
+          <div id="main-table">
+            <table id="content-table" class="table table-hover table-rounded table-row-bordered border gy-5 gs-5" style="width:100%;">
+              <thead>
+                <tr>
+                  <th>adde on</th>
+                  <th>No</th>
+                  <th>Act</th>
+                  <th>Quarter</th>
+                  <th>Nama Wasit</th>
+                  <th>Time</th>
+                  <th>Call Analysis</th>
+                  <th>Posisi</th>
+                  <th>Zone Box</th>
+                  <th>Call Type</th>
+                  <th>IOT</th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="d-grid my-5">
+        <div class="btn btn-light-primary"> Simpan </div>
+      </div>
+
+
     </div>
   </div>
 
   @section('styles')
   <style>
-    .test {
+    .hide-content {
       /* color: red !important; */
+      visibility: hidden;
+    }
+
+    .show-content {
+      visibility: visible;
     }
   </style>
   @endsection
 
   @section('scripts')
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.10.7/dayjs.min.js" integrity="sha512-bwD3VD/j6ypSSnyjuaURidZksoVx3L1RPvTkleC48SbHCZsemT3VKMD39KknPnH728LLXVMTisESIBOAb5/W0Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.10.7/plugin/duration.min.js" integrity="sha512-4/QKmrYrL+3JbEBiIxAUwlsjv1duqB5biE640aqvCJEqgTfyhmCA9WeqJmVfQdeh2hqK9+Fc9WFVpel4N2O/1g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="{{asset('demo1/js/transaksi/t-match/timer.js')}}"></script>
+  <script src="{{asset('demo1/js/transaksi/t-match/index-evaluation.js')}}"></script>
   <script src="{{asset('demo1/plugins/custom/datatables/datatables.bundle.js')}}"></script>
-
-  <script>
-    $(document).ready(() => {
-      
-      // evaluate value whenever violation click
-      const evaluate = () => {
-        const callAnalyis = +$( "input[type=radio][name=call_analysis]:checked" ).val() || 0
-        const position = +$( "input[type=radio][name=position]:checked" ).val() || 0
-        const zoneBox = +$( "input[type=radio][name=zone_box]:checked" ).val() || 0
-        const callType = +$( "input[type=radio][name=call_type]:checked" ).val() || 0
-        const iot = +$( "input[type=radio][name=iot]:checked" ).val() || 0
-
-        console.log(callAnalyis, position, zoneBox, callType, iot)
-
-        const evaluationPoint = callAnalyis - (position + zoneBox + callType + iot)
-        console.log(evaluationPoint)
-
-        // const evaluation = {
-        //   callAnalysis: {
-        //     id:
-        //   }
-        // }
-      }
-
-      // violation handler
-      $( "input[type=radio][name=call_analysis]" ).on( "click", evaluate )
-      $( "input[type=radio][name=position]" ).on( "click", evaluate )
-      $( "input[type=radio][name=call_analysis]" ).on( "click", evaluate )
-      $( "input[type=radio][name=zone_box]" ).on( "click", evaluate )
-      $( "input[type=radio][name=call_type]" ).on( "click", evaluate )
-      $( "input[type=radio][name=iot]" ).on( "click", evaluate )
-    })
-  </script>
   @endsection
 
 </x-base-layout>

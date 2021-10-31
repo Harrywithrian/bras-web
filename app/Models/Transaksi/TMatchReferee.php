@@ -2,6 +2,7 @@
 
 namespace App\Models\Transaksi;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -22,4 +23,9 @@ class TMatchReferee extends Model
         'createdby',
         'createdon',
     ];
+
+    // relation
+    public function user() {
+        return $this->belongsTo(User::class, 'wasit', 'id');
+    }
 }

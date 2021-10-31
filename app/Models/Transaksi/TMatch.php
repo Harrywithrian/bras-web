@@ -27,4 +27,9 @@ class TMatch extends Model
         'deletedby',
         'deletedon',
     ];
+
+    // relation
+    public function referee() {
+        return $this->hasMany(TMatchReferee::class, 'id_t_match', 'id');
+    }
 }

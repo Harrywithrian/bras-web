@@ -99,6 +99,7 @@ License: {{ theme()->getOption('product', 'license') }}
 @endif
 
 @yield('scripts')
+@stack('scripts')
 </body>
 {{-- end::Body --}}
 </html>

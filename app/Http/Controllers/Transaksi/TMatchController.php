@@ -45,7 +45,8 @@ class TMatchController extends Controller
         return view('transaksi.t-match.event-list.index');
     }
 
-    public function getEvent(Request $request) {
+    public function getEvent(Request $request)
+    {
         if ($request->ajax()) {
             $data = TEvent::select([
                 't_event.id',
@@ -65,7 +66,8 @@ class TMatchController extends Controller
         return null;
     }
 
-    public function searchEvent(Request $request) {
+    public function searchEvent(Request $request)
+    {
         $data = TEvent::select([
             't_event.id',
             't_event.status',
@@ -79,15 +81,15 @@ class TMatchController extends Controller
             ->orderBy('t_event.createdon', 'DESC');
 
         if ($request->nama != '') {
-            $data->where('t_event.nama', 'LIKE', '%'.$request->nama.'%');
+            $data->where('t_event.nama', 'LIKE', '%' . $request->nama . '%');
         }
 
         if ($request->no_lisensi != '') {
-            $data->where('t_event.no_lisensi', 'LIKE', '%'.$request->no_lisensi.'%');
+            $data->where('t_event.no_lisensi', 'LIKE', '%' . $request->no_lisensi . '%');
         }
 
         if ($request->penyelenggara != '') {
-            $data->where('users.name', 'LIKE', '%'.$request->penyelenggara.'%');
+            $data->where('users.name', 'LIKE', '%' . $request->penyelenggara . '%');
         }
 
         if ($request->tanggal != '') {
@@ -102,7 +104,8 @@ class TMatchController extends Controller
         return $this->dataTableEvent($data);
     }
 
-    public function dataTableEvent($data) {
+    public function dataTableEvent($data)
+    {
         $dataTables = DataTables::of($data);
 
         # KOLOM INDEX ANGKA
@@ -128,7 +131,8 @@ class TMatchController extends Controller
         ]);
     }
 
-    public function get(Request $request) {
+    public function get(Request $request)
+    {
         if ($request->ajax()) {
             $data = TMatch::select([
                 't_match.id',
@@ -146,7 +150,8 @@ class TMatchController extends Controller
         return null;
     }
 
-    public function search(Request $request) {
+    public function search(Request $request)
+    {
         $data = TMatch::select([
             't_match.id',
             't_match.status',
@@ -158,7 +163,7 @@ class TMatchController extends Controller
             ->leftJoin('t_event', 't_event.id', '=', 't_match.id_t_event');
 
         if ($request->nama != '') {
-            $data->where('t_match.nama', 'LIKE', '%'.$request->nama.'%');
+            $data->where('t_match.nama', 'LIKE', '%' . $request->nama . '%');
         }
 
         if ($request->status != '') {
@@ -169,7 +174,8 @@ class TMatchController extends Controller
         return $this->dataTable($data);
     }
 
-    public function dataTable($data) {
+    public function dataTable($data)
+    {
         $dataTables = DataTables::of($data);
 
         # KOLOM INDEX ANGKA
@@ -186,9 +192,11 @@ class TMatchController extends Controller
         $dataTables = $dataTables->addColumn('status', function ($row) {
             if ($row->status == 0) {
                 return "<span class='rounded-pill bg-info' style='padding:5px; color: white'> Belum Mulai </span>";
-            } if ($row->status == 1) {
+            }
+            if ($row->status == 1) {
                 return "<span class='rounded-pill bg-primary' style='padding:5px; color: white'> Sedang Berlangsung </span>";
-            } if ($row->status == 2) {
+            }
+            if ($row->status == 2) {
                 return "<span class='rounded-pill bg-success' style='padding:5px; color: white'> Selesai </span>";
             } else {
                 return "-";
@@ -207,7 +215,8 @@ class TMatchController extends Controller
         return $dataTables;
     }
 
-    public function show($id) {
+    public function show($id)
+    {
         $model = TMatch::find($id);
         $lokasi = Location::find($model->id_m_location);
         $event = TEvent::find($model->id_t_event);
@@ -241,7 +250,8 @@ class TMatchController extends Controller
         ]);
     }
 
-    public function store(Request $request, $id) {
+    public function store(Request $request, $id)
+    {
         try {
             $rules = [
                 'event' => 'required',
@@ -311,7 +321,7 @@ class TMatchController extends Controller
             DB::rollBack();
             Session::flash('error', 'Pertandingan gagal dibuat, mohon ulangi.');
             return redirect()->route('t-match.create', $id)->withInput();
-        }  catch(Exception $e) {
+        } catch (Exception $e) {
             DB::rollBack();
             Session::flash('error', $e->getMessage());
             return redirect()->route('t-match.create', $id)->withInput();
@@ -320,7 +330,20 @@ class TMatchController extends Controller
 
     public function evaluation()
     {
+        // match
+        $match = TMatch::with([
+            'referee' => function ($query) {
+                return $query->select(['id_t_match', 'wasit', 'posisi']);
+            },
+            'referee.user' => function($query) {
+                return $query->select(['id', 'name']);
+            },
+            'referee.user.info' => function($query) {
+                return $query->select('id', 'user_id', 'id_t_file_foto');
+            }
+        ])->where('id', 2)->first(['id', 'nama', 'waktu_pertandingan']);
 
+        // play call data
         $call_analysis_data = CallAnalysis::data();
         $position_data = Position::data();
         $zone_box_data = ZoneBox::data();
@@ -335,8 +358,9 @@ class TMatchController extends Controller
             new Evaluation('IOT', 'iot', 'checkbox', $iot_data),
         ];
 
-        // Debugbar::info($evaluation_data[0]->data);
+        Debugbar::info($match->referee[0]->user);
         return view('transaksi.t-match.match-evaluation.index', [
+            'match' => $match,
             'evaluation_data' => $evaluation_data
         ]);
     }
