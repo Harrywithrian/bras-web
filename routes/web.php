@@ -231,7 +231,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/get-event', [TMatchController::class, 'getEvent'])->name('t-match.get-event');
         Route::post('/search-event', [TMatchController::class, 'searchEvent'])->name('t-match.search-event');
         Route::get('/index/{id}', [TMatchController::class, 'index'])->name('t-match.index');
-        Route::get('/get', [TMatchController::class, 'get'])->name('t-match.get');
+        Route::get('/get/{id}', [TMatchController::class, 'get'])->name('t-match.get');
         Route::post('/search', [TMatchController::class, 'search'])->name('t-match.search');
         Route::get('/create/{id}', [TMatchController::class, 'create'])->name('t-match.create');
         Route::post('/store/{id}', [TMatchController::class, 'store'])->name('t-match.store');

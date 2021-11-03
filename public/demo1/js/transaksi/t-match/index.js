@@ -4,8 +4,9 @@ $(document).ready(function() {
 
 /* FUNGSI MENAMPILKAN SEMUA DATA */
 function showAllData() {
+    var id_event = $('#id_event').val();
     $('#content-table').DataTable({
-        ajax: "/t-match/get",
+        ajax: "/t-match/get/" + id_event,
         bFilter: false,
         processing: true,
         serverSide: true,
@@ -98,6 +99,7 @@ function search(event) {
             data: function (d) {
                 d.nama = $('#nama').val();
                 d.status = $('#status').val();
+                d.id_event = $('#id_event').val();
             }
         },
         bFilter: false,

@@ -131,9 +131,9 @@ class TMatchController extends Controller
         ]);
     }
 
-    public function get(Request $request)
+    public function get(Request $request, $id)
     {
-        if ($request->ajax()) {
+        if ($request->ajax() && $id) {
             $data = TMatch::select([
                 't_match.id',
                 't_match.status',
@@ -143,6 +143,7 @@ class TMatchController extends Controller
                 't_event.nama AS event',
             ])->leftJoin('m_location', 'm_location.id', '=', 't_match.id_m_location')
                 ->leftJoin('t_event', 't_event.id', '=', 't_match.id_t_event')
+                ->where('t_match.id_t_event', '=', $id)
                 ->get();
 
             return $this->dataTable($data);
@@ -160,7 +161,8 @@ class TMatchController extends Controller
             't_match.waktu_pertandingan',
             't_event.nama AS event',
         ])->leftJoin('m_location', 'm_location.id', '=', 't_match.id_m_location')
-            ->leftJoin('t_event', 't_event.id', '=', 't_match.id_t_event');
+            ->leftJoin('t_event', 't_event.id', '=', 't_match.id_t_event')
+            ->where('t_match.id_t_event', '=', $request->id_event);
 
         if ($request->nama != '') {
             $data->where('t_match.nama', 'LIKE', '%' . $request->nama . '%');

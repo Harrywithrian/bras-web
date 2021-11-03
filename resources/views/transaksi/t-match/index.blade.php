@@ -26,6 +26,8 @@
                 </div>
             </div>
 
+            <input id="id_event" type="hidden" value="{{$event->id}}">
+
             <div class="row">
                 <div class="col-12">
                     <div id="main-table">

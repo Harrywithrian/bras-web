@@ -22,6 +22,10 @@
 
         <div class="card-body">
 
+            <a href="{{ route('t-match.index', $event->id) }}" class="btn btn-primary"> Match Start </a>
+            <a href="{{ route('t-match.index', $event->id) }}" class="btn btn-primary disabled"> game management </a>
+            <a href="{{ route('t-match.index', $event->id) }}" class="btn btn-primary disabled"> Mechanical Court </a>
+            <a href="{{ route('t-match.index', $event->id) }}" class="btn btn-primary disabled"> Appearance </a>
             <a href="{{ route('t-match.index', $event->id) }}" class="btn btn-secondary"> Kembali </a>
 
             <br><br>
@@ -67,6 +71,45 @@
                     </td>
                 </tr>
             </table>
+            <section class="card bg-primary mb-0" style="border-radius: 0">
+                <div class="card-header">
+                    <h4 class="card-title" style="color: white;">Evaluation</h4>
+                </div>
+            </section>
+            <table class="table table-striped border mb-0 gy-7 gs-7" style="margin-top:-5px;">
+                <tr>
+                    <td></td>
+                    <td><center><b>Play Calling</b></center></td>
+                    <td><center><b>Game Management</b></center></td>
+                    <td><center><b>Mechanical Court</b></center></td>
+                    <td><center><b>Appearance</b></center></td>
+                    <td><center><b>Summary Nilai</b></center></td>
+                </tr>
+                <tr>
+                    <td><b>{{ $wst1->name }}</b></td>
+                    <td><center><span class="badge badge-danger">Belum di nilai</span></center></td>
+                    <td><center><span class="badge badge-danger">Belum di nilai</span></center></td>
+                    <td><center><span class="badge badge-danger">Belum di nilai</span></center></td>
+                    <td><center><span class="badge badge-danger">Belum di nilai</span></center></td>
+                    <td><center><span class="badge badge-danger">Belum di nilai</span></center></td>
+                </tr>
+                <tr>
+                    <td><b>{{ $wst2->name }}</b></td>
+                    <td><center><span class="badge badge-danger">Belum di nilai</span></center></td>
+                    <td><center><span class="badge badge-danger">Belum di nilai</span></center></td>
+                    <td><center><span class="badge badge-danger">Belum di nilai</span></center></td>
+                    <td><center><span class="badge badge-danger">Belum di nilai</span></center></td>
+                    <td><center><span class="badge badge-danger">Belum di nilai</span></center></td>
+                </tr>
+                <tr>
+                    <td><b>{{ $wst3->name }}</b></td>
+                    <td><center><span class="badge badge-danger">Belum di nilai</span></center></td>
+                    <td><center><span class="badge badge-danger">Belum di nilai</span></center></td>
+                    <td><center><a href="#"  class="badge badge-success" data-bs-toggle="tooltip" data-bs-placement="top" title="Klik pada text untuk melihat"> Sudah di nilai </a></center></td>
+                    <td><center><span class="badge badge-danger">Belum di nilai</span></center></td>
+                    <td><center><span class="badge badge-danger">Belum di nilai</span></center></td>
+                </tr>
+            </table>
 
             <section class="card bg-primary mb-0" style="border-radius: 0">
                 <div class="card-header">
@@ -83,21 +126,6 @@
                     <td width="34%"><center><img width="34%" class="responsive" src="{{ url('storage/'.$foto1->path) }}"></center></td>
                     <td width="33%"><center><img width="33%" class="responsive" src="{{ url('storage/'.$foto2->path) }}"></center></td>
                     <td width="33%"><center><img width="33%" class="responsive" src="{{ url('storage/'.$foto3->path) }}"></center></td>
-                </tr>
-                <tr>
-                    <td width="34%"><center><a href="#" class="btn btn-primary" style="width:60%"> Game Management </a></center></td>
-                    <td width="33%"><center><a href="#" class="btn btn-primary" style="width:60%"> Game Management </a></center></td>
-                    <td width="33%"><center><a href="#" class="btn btn-primary" style="width:60%"> Game Management </a></center></td>
-                </tr>
-                <tr>
-                    <td width="34%"><center><a href="#" class="btn btn-success" style="width:60%"> Mechanical Court </a></center></td>
-                    <td width="33%"><center><a href="#" class="btn btn-success" style="width:60%"> Mechanical Court </a></center></td>
-                    <td width="33%"><center><a href="#" class="btn btn-success" style="width:60%"> Mechanical Court </a></center></td>
-                </tr>
-                <tr>
-                    <td width="34%"><center><a href="#" class="btn btn-info" style="width:60%"> Appearance </a></center></td>
-                    <td width="33%"><center><a href="#" class="btn btn-info" style="width:60%"> Appearance </a></center></td>
-                    <td width="33%"><center><a href="#" class="btn btn-info" style="width:60%"> Appearance </a></center></td>
                 </tr>
             </table>
         </div>
