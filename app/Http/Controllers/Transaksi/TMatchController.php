@@ -6,12 +6,19 @@ use App\Http\Controllers\Controller;
 use App\Models\Master\CallAnalysis;
 use App\Models\Master\Iot;
 use App\Models\Master\Location;
+use App\Models\Master\MAppearance;
+use App\Models\Master\MGameManagement;
+use App\Models\Master\MMechanicalCourt;
 use App\Models\Master\Position;
 use App\Models\Master\Violation;
 use App\Models\Master\ZoneBox;
+use App\Models\Transaksi\TAppearance;
 use App\Models\Transaksi\TEvent;
+use App\Models\Transaksi\TGameManagement;
 use App\Models\Transaksi\TMatch;
+use App\Models\Transaksi\TMatchEvaluation;
 use App\Models\Transaksi\TMatchReferee;
+use App\Models\Transaksi\TMechanicalCourt;
 use App\Models\UserInfo;
 use Carbon\Carbon;
 use Debugbar;
@@ -244,6 +251,29 @@ class TMatchController extends Controller
         ]);
     }
 
+    public function showEvaluation($id, $wasit) {
+        $model = TMatch::find($id);
+        $event = TEvent::find($model->id_t_event);
+        $modelWasit = TMatchReferee::leftJoin('users', 'users.id', '=', 't_match_referee.wasit')->where('id_t_match', '=', $id)->where('t_match_referee.wasit', '=', $wasit)->first();
+        $evaluation = TMatchEvaluation::where('id_t_match', '=', $id)->where('referee', '=', $wasit)->first();
+
+
+        $gameManagement = TGameManagement::where('id_t_match', '=', $id)->where('referee', '=', $wasit)->where('level', '=', 3)->first();
+        $mechanicalCourt = TMechanicalCourt::where('id_t_match', '=', $id)->where('referee', '=', $wasit)->where('level', '=', 3)->first();
+        $appearance = TAppearance::where('id_t_match', '=', $id)->where('referee', '=', $wasit)->where('level', '=', 3)->first();
+
+
+        return view('transaksi.t-match.show-evaluation', [
+            'model' => $model,
+            'event' => $event,
+            'modelWasit' => $modelWasit,
+            'evaluation' => $evaluation,
+            'gameManagement' => $gameManagement,
+            'mechanicalCourt' => $mechanicalCourt,
+            'appearance' => $appearance,
+        ]);
+    }
+
     public function create($id)
     {
         $event = TEvent::find($id);
@@ -330,9 +360,13 @@ class TMatchController extends Controller
         }
     }
 
-    public function evaluation()
+    public function evaluation($id)
     {
         // match
+        $start = TMatch::find($id);
+        $start->status = 1;
+        $start->save();
+
         $match = TMatch::with([
             'referee' => function ($query) {
                 return $query->select(['id_t_match', 'wasit', 'posisi']);
@@ -343,7 +377,7 @@ class TMatchController extends Controller
             'referee.user.info' => function($query) {
                 return $query->select('id', 'user_id', 'id_t_file_foto');
             }
-        ])->where('id', 2)->first(['id', 'nama', 'waktu_pertandingan']);
+        ])->where('id', $id)->first(['id', 'nama', 'waktu_pertandingan']);
 
         // play call data
         $call_analysis_data = CallAnalysis::data();
@@ -366,4 +400,880 @@ class TMatchController extends Controller
             'evaluation_data' => $evaluation_data
         ]);
     }
+
+    # GAME MANAGEMENT
+    public function gameManagementShow($id, $wasit) {
+        $model = TMatch::find($id);
+        $event = TEvent::find($model->id_t_event);
+        $modelWasit = TMatchReferee::leftJoin('users', 'users.id', '=', 't_match_referee.wasit')->where('id_t_match', '=', $id)->where('t_match_referee.wasit', '=', $wasit)->first();
+        $gameManagement = TGameManagement::where('id_t_match', '=', $id)->where('referee', '=', $wasit)->where('level', '=', 1)->get()->toArray();
+        $total = TGameManagement::where('id_t_match', '=', $id)->where('referee', '=', $wasit)->where('level', '=', 3)->first();
+
+        return view('transaksi.t-match.game-management.show', [
+            'model' => $model,
+            'event' => $event,
+            'modelWasit' => $modelWasit,
+            'gameManagement' => $gameManagement,
+            'total' => $total,
+        ]);
+    }
+
+    public function gameManagementCreate($id) {
+        $model = TMatch::find($id);
+        $event = TEvent::find($model->id_t_event);
+
+        $data = MGameManagement::where('level', '=', 1)
+            ->whereNull('deletedon')
+            ->orderBy('order_by')
+            ->get()
+            ->toArray();
+
+        $wst1 = TMatchReferee::leftJoin('users', 'users.id', '=', 't_match_referee.wasit')->select(['t_match_referee.id', 't_match_referee.wasit', 'users.name'])->where('id_t_match', '=', $id)->where('posisi', '=', 'Crew Chief')->first();
+        $wst2 = TMatchReferee::leftJoin('users', 'users.id', '=', 't_match_referee.wasit')->select(['t_match_referee.id', 't_match_referee.wasit', 'users.name'])->where('id_t_match', '=', $id)->where('posisi', '=', 'Official 1')->first();
+        $wst3 = TMatchReferee::leftJoin('users', 'users.id', '=', 't_match_referee.wasit')->select(['t_match_referee.id', 't_match_referee.wasit', 'users.name'])->where('id_t_match', '=', $id)->where('posisi', '=', 'Official 2')->first();
+
+        return view('transaksi.t-match.game-management.create', [
+            'model' => $model,
+            'event' => $event,
+            'data' => $data,
+            'wst1' => $wst1,
+            'wst2' => $wst2,
+            'wst3' => $wst3,
+        ]);
+    }
+
+    public function gameManagementStore(Request $request, $id) {
+        $data = MGameManagement::where('level', '=', 1)
+            ->whereNull('deletedon')
+            ->orderBy('order_by')
+            ->get()
+            ->toArray();
+
+        DB::beginTransaction();
+        if ($data) {
+            # DATA AKHIR
+            $sumtotal1 = 0;
+            $sumtotal2 = 0;
+            $sumtotal3 = 0;
+            $avgTotal1 = 0;
+            $avgTotal2 = 0;
+            $avgTotal3 = 0;
+            $count1    = 0;
+            $count2    = 0;
+            $count3    = 0;
+            $akhir1    = 0;
+            $akhir2    = 0;
+            $akhir3    = 0;
+            $countData = 0;
+
+            foreach ($data as $item) {
+                $child = MGameManagement::where('id_m_game_management', '=', $item['id'])->whereNull('deletedon')->orderBy('order_by')->get()->toArray();
+                if ($child) {
+                    # DATA DETAIL
+                    $sum1 = 0;
+                    $sum2 = 0;
+                    $sum3 = 0;
+                    $tot1 = 0;
+                    $tot2 = 0;
+                    $tot3 = 0;
+                    foreach ($child as $subitem) {
+                        if (empty($request->index[$subitem['id']][$request->wst1]) || empty($request->index[$subitem['id']][$request->wst2]) || empty($request->index[$subitem['id']][$request->wst3])) {
+                            DB::rollBack();
+                            Session::flash('error', 'Nilai belum lengkap, mohon lengkapi penilaian.');
+                            return redirect(route('game-management.create', $id))->withInput();
+                        }
+
+                        $insertchild = new TGameManagement();
+                        $insertchild->referee = $request->wst1;
+                        $insertchild->nama    = $subitem['nama'];
+                        $insertchild->level   = 2;
+                        $insertchild->id_t_match = $id;
+                        $insertchild->id_m_game_management = $subitem['id'];
+                        $insertchild->id_parent  = $item['id'];
+                        $insertchild->persentase = null;
+                        $insertchild->order_by   = $subitem['order_by'];
+                        $insertchild->nilai      = $request->index[$subitem['id']][$request->wst1];
+                        $insertchild->createdby  = Auth::id();
+                        $insertchild->createdon  = Carbon::now();
+                        $insertchild->save();
+
+                        $insertchild = new TGameManagement();
+                        $insertchild->referee = $request->wst2;
+                        $insertchild->nama    = $subitem['nama'];
+                        $insertchild->level   = 2;
+                        $insertchild->id_t_match = $id;
+                        $insertchild->id_m_game_management = $subitem['id'];
+                        $insertchild->id_parent  = $item['id'];
+                        $insertchild->persentase = null;
+                        $insertchild->order_by   = $subitem['order_by'];
+                        $insertchild->nilai      = $request->index[$subitem['id']][$request->wst2];
+                        $insertchild->createdby  = Auth::id();
+                        $insertchild->createdon  = Carbon::now();
+                        $insertchild->save();
+
+                        $insertchild = new TGameManagement();
+                        $insertchild->referee = $request->wst3;
+                        $insertchild->nama    = $subitem['nama'];
+                        $insertchild->level   = 2;
+                        $insertchild->id_t_match = $id;
+                        $insertchild->id_m_game_management = $subitem['id'];
+                        $insertchild->id_parent  = $item['id'];
+                        $insertchild->persentase = null;
+                        $insertchild->order_by   = $subitem['order_by'];
+                        $insertchild->nilai      = $request->index[$subitem['id']][$request->wst3];
+                        $insertchild->createdby  = Auth::id();
+                        $insertchild->createdon  = Carbon::now();
+                        $insertchild->save();
+
+                        $sum1 = $sum1 + $request->index[$subitem['id']][$request->wst1];
+                        $sum2 = $sum2 + $request->index[$subitem['id']][$request->wst2];
+                        $sum3 = $sum3 + $request->index[$subitem['id']][$request->wst3];
+                        $tot1++;
+                        $tot2++;
+                        $tot3++;
+
+                        $count1++;
+                        $count2++;
+                        $count3++;
+                    }
+                    $avg1 = $sum1 / $tot1;
+                    $avg2 = $sum2 / $tot2;
+                    $avg3 = $sum3 / $tot3;
+                    $hasil1 = $avg1 * ( $item['persentase'] / 100 );
+                    $hasil2 = $avg2 * ( $item['persentase'] / 100 );
+                    $hasil3 = $avg3 * ( $item['persentase'] / 100 );
+
+                    $sumtotal1 = $sumtotal1 + $sum1;
+                    $sumtotal2 = $sumtotal2 + $sum2;
+                    $sumtotal3 = $sumtotal3 + $sum3;
+                    $akhir1    = $akhir1 + $hasil1;
+                    $akhir2    = $akhir2 + $hasil2;
+                    $akhir3    = $akhir3 + $hasil3;
+                    $avgTotal1 = $avgTotal1 + $avg1;
+                    $avgTotal2 = $avgTotal2 + $avg2;
+                    $avgTotal3 = $avgTotal3 + $avg3;
+
+                    $insertchild = new TGameManagement();
+                    $insertchild->referee = $request->wst1;
+                    $insertchild->nama    = $item['nama'];
+                    $insertchild->level   = 1;
+                    $insertchild->id_t_match = $id;
+                    $insertchild->id_m_game_management = $item['id'];
+                    $insertchild->persentase = $item['persentase'];
+                    $insertchild->order_by   = $item['order_by'];
+                    $insertchild->sum        = $sum1;
+                    $insertchild->avg        = $avg1;
+                    $insertchild->nilai      = $hasil1;
+                    $insertchild->createdby  = Auth::id();
+                    $insertchild->createdon  = Carbon::now();
+                    $insertchild->save();
+
+                    $insertchild = new TGameManagement();
+                    $insertchild->referee = $request->wst2;
+                    $insertchild->nama    = $item['nama'];
+                    $insertchild->level   = 1;
+                    $insertchild->id_t_match = $id;
+                    $insertchild->id_m_game_management = $item['id'];
+                    $insertchild->persentase = $item['persentase'];
+                    $insertchild->order_by   = $item['order_by'];
+                    $insertchild->sum        = $sum2;
+                    $insertchild->avg        = $avg2;
+                    $insertchild->nilai      = $hasil2;
+                    $insertchild->createdby  = Auth::id();
+                    $insertchild->createdon  = Carbon::now();
+                    $insertchild->save();
+
+                    $insertchild = new TGameManagement();
+                    $insertchild->referee = $request->wst3;
+                    $insertchild->nama    = $item['nama'];
+                    $insertchild->level   = 1;
+                    $insertchild->id_t_match = $id;
+                    $insertchild->id_m_game_management = $item['id'];
+                    $insertchild->persentase = $item['persentase'];
+                    $insertchild->order_by   = $item['order_by'];
+                    $insertchild->sum        = $sum3;
+                    $insertchild->avg        = $avg3;
+                    $insertchild->nilai      = $hasil3;
+                    $insertchild->createdby  = Auth::id();
+                    $insertchild->createdon  = Carbon::now();
+                    $insertchild->save();
+                }
+                $countData++;
+            }
+
+            $insertTotal = new TGameManagement();
+            $insertTotal->referee = $request->wst1;
+            $insertTotal->nama    = 'Total';
+            $insertTotal->level   = 3;
+            $insertTotal->id_t_match = $id;
+            $insertTotal->persentase = $sumtotal1 / $count1;
+            $insertTotal->order_by = 1;
+            $insertTotal->sum      = $sumtotal1;
+            $insertTotal->avg      = $avgTotal1 / $countData;
+            $insertTotal->nilai    = $akhir1;
+            $insertTotal->createdby  = Auth::id();
+            $insertTotal->createdon  = Carbon::now();
+            $insertTotal->save();
+
+            $insertTotal = new TGameManagement();
+            $insertTotal->referee = $request->wst2;
+            $insertTotal->nama    = 'Total';
+            $insertTotal->level   = 3;
+            $insertTotal->id_t_match = $id;
+            $insertTotal->persentase = $sumtotal2 / $count2;
+            $insertTotal->order_by = 1;
+            $insertTotal->sum      = $sumtotal2;
+            $insertTotal->avg      = $avgTotal2 / $countData;
+            $insertTotal->nilai    = $akhir2;
+            $insertTotal->createdby  = Auth::id();
+            $insertTotal->createdon  = Carbon::now();
+            $insertTotal->save();
+
+            $insertTotal = new TGameManagement();
+            $insertTotal->referee = $request->wst3;
+            $insertTotal->nama    = 'Total';
+            $insertTotal->level   = 3;
+            $insertTotal->id_t_match = $id;
+            $insertTotal->persentase = $sumtotal3 / $count3;
+            $insertTotal->order_by = 1;
+            $insertTotal->sum      = $sumtotal3;
+            $insertTotal->avg      = $avgTotal3 / $countData;
+            $insertTotal->nilai    = $akhir3;
+            $insertTotal->createdby  = Auth::id();
+            $insertTotal->createdon  = Carbon::now();
+            $insertTotal->save();
+
+            $evaluation1 = TMatchEvaluation::where('id_t_match', '=', $id)->where('referee', '=', $request->wst1)->first();
+            if (empty($evaluation1)) {
+                $evaluation1 = new TMatchEvaluation();
+                $evaluation1->id_t_match = $id;
+                $evaluation1->referee = $request->wst1;
+                $evaluation1->createdby  = Auth::id();
+                $evaluation1->createdon  = Carbon::now();
+            }
+            $evaluation1->game_management = $akhir1 * ( 15 / 100 );
+            $evaluation1->total_score     = $evaluation1->play_calling + $evaluation1->game_management + $evaluation1->mechanical_court + $evaluation1->appearance;
+            $evaluation1->modifiedby      = Auth::id();
+            $evaluation1->modifiedon      = Carbon::now();
+            $evaluation1->save();
+
+            $evaluation2 = TMatchEvaluation::where('id_t_match', '=', $id)->where('referee', '=', $request->wst2)->first();
+            if (empty($evaluation2)) {
+                $evaluation2 = new TMatchEvaluation();
+                $evaluation2->id_t_match = $id;
+                $evaluation2->referee = $request->wst2;
+                $evaluation2->createdby  = Auth::id();
+                $evaluation2->createdon  = Carbon::now();
+            }
+            $evaluation2->game_management = $akhir2 * ( 15 / 100 );
+            $evaluation2->total_score     = $evaluation2->play_calling + $evaluation2->game_management + $evaluation2->mechanical_court + $evaluation2->appearance;
+            $evaluation2->modifiedby      = Auth::id();
+            $evaluation2->modifiedon      = Carbon::now();
+            $evaluation2->save();
+
+            $evaluation3 = TMatchEvaluation::where('id_t_match', '=', $id)->where('referee', '=', $request->wst3)->first();
+            if (empty($evaluation3)) {
+                $evaluation3 = new TMatchEvaluation();
+                $evaluation3->id_t_match = $id;
+                $evaluation3->referee = $request->wst3;
+                $evaluation3->createdby  = Auth::id();
+                $evaluation3->createdon  = Carbon::now();
+            }
+            $evaluation3->game_management = $akhir3 * ( 15 / 100 );
+            $evaluation3->total_score     = $evaluation3->play_calling + $evaluation3->game_management + $evaluation3->mechanical_court + $evaluation3->appearance;
+            $evaluation3->modifiedby      = Auth::id();
+            $evaluation3->modifiedon      = Carbon::now();
+            $evaluation3->save();
+
+            DB::commit();
+            Session::flash('success', 'Game Management berhasil dibuat.');
+            return redirect()->route('t-match.show', $id);
+        }
+        return redirect()->route('t-match.show', $id);
+    }
+    # END GAME MANAGEMENT
+
+    # MECHANICAL COURT
+    public function mechanicalCourtShow($id, $wasit) {
+        $model = TMatch::find($id);
+        $event = TEvent::find($model->id_t_event);
+        $modelWasit = TMatchReferee::leftJoin('users', 'users.id', '=', 't_match_referee.wasit')->where('id_t_match', '=', $id)->where('t_match_referee.wasit', '=', $wasit)->first();
+        $mechanicalCourt = TMechanicalCourt::where('id_t_match', '=', $id)->where('referee', '=', $wasit)->where('level', '=', 1)->get()->toArray();
+        $total = TMechanicalCourt::where('id_t_match', '=', $id)->where('referee', '=', $wasit)->where('level', '=', 3)->first();
+
+        return view('transaksi.t-match.mechanical-court.show', [
+            'model' => $model,
+            'event' => $event,
+            'modelWasit' => $modelWasit,
+            'mechanicalCourt' => $mechanicalCourt,
+            'total' => $total,
+        ]);
+    }
+
+    public function mechanicalCourtCreate($id) {
+        $model = TMatch::find($id);
+        $event = TEvent::find($model->id_t_event);
+
+        $data = MMechanicalCourt::where('level', '=', 1)
+            ->whereNull('deletedon')
+            ->orderBy('order_by')
+            ->get()
+            ->toArray();
+
+        $wst1 = TMatchReferee::leftJoin('users', 'users.id', '=', 't_match_referee.wasit')->select(['t_match_referee.id', 't_match_referee.wasit', 'users.name'])->where('id_t_match', '=', $id)->where('posisi', '=', 'Crew Chief')->first();
+        $wst2 = TMatchReferee::leftJoin('users', 'users.id', '=', 't_match_referee.wasit')->select(['t_match_referee.id', 't_match_referee.wasit', 'users.name'])->where('id_t_match', '=', $id)->where('posisi', '=', 'Official 1')->first();
+        $wst3 = TMatchReferee::leftJoin('users', 'users.id', '=', 't_match_referee.wasit')->select(['t_match_referee.id', 't_match_referee.wasit', 'users.name'])->where('id_t_match', '=', $id)->where('posisi', '=', 'Official 2')->first();
+
+        return view('transaksi.t-match.mechanical-court.create', [
+            'model' => $model,
+            'event' => $event,
+            'data' => $data,
+            'wst1' => $wst1,
+            'wst2' => $wst2,
+            'wst3' => $wst3,
+        ]);
+    }
+
+    public function mechanicalCourtStore(Request $request, $id) {
+        $data = MMechanicalCourt::where('level', '=', 1)
+            ->whereNull('deletedon')
+            ->orderBy('order_by')
+            ->get()
+            ->toArray();
+
+        DB::beginTransaction();
+        if ($data) {
+            # DATA AKHIR
+            $sumtotal1 = 0;
+            $sumtotal2 = 0;
+            $sumtotal3 = 0;
+            $avgTotal1 = 0;
+            $avgTotal2 = 0;
+            $avgTotal3 = 0;
+            $count1    = 0;
+            $count2    = 0;
+            $count3    = 0;
+            $akhir1    = 0;
+            $akhir2    = 0;
+            $akhir3    = 0;
+            $countData = 0;
+
+            foreach ($data as $item) {
+                $child = MMechanicalCourt::where('id_m_mechanical_court', '=', $item['id'])->whereNull('deletedon')->orderBy('order_by')->get()->toArray();
+                if ($child) {
+                    # DATA DETAIL
+                    $sum1 = 0;
+                    $sum2 = 0;
+                    $sum3 = 0;
+                    $tot1 = 0;
+                    $tot2 = 0;
+                    $tot3 = 0;
+                    foreach ($child as $subitem) {
+                        if (empty($request->index[$subitem['id']][$request->wst1]) || empty($request->index[$subitem['id']][$request->wst2]) || empty($request->index[$subitem['id']][$request->wst3])) {
+                            DB::rollBack();
+                            Session::flash('error', 'Nilai belum lengkap, mohon lengkapi penilaian.');
+                            return redirect(route('mechanical-court.create', $id))->withInput();
+                        }
+
+                        $insertchild = new TMechanicalCourt();
+                        $insertchild->referee = $request->wst1;
+                        $insertchild->nama    = $subitem['nama'];
+                        $insertchild->level   = 2;
+                        $insertchild->id_t_match = $id;
+                        $insertchild->id_m_mechanical_court = $subitem['id'];
+                        $insertchild->id_parent  = $item['id'];
+                        $insertchild->persentase = null;
+                        $insertchild->order_by   = $subitem['order_by'];
+                        $insertchild->nilai      = $request->index[$subitem['id']][$request->wst1];
+                        $insertchild->createdby  = Auth::id();
+                        $insertchild->createdon  = Carbon::now();
+                        $insertchild->save();
+
+                        $insertchild = new TMechanicalCourt();
+                        $insertchild->referee = $request->wst2;
+                        $insertchild->nama    = $subitem['nama'];
+                        $insertchild->level   = 2;
+                        $insertchild->id_t_match = $id;
+                        $insertchild->id_m_mechanical_court = $subitem['id'];
+                        $insertchild->id_parent  = $item['id'];
+                        $insertchild->persentase = null;
+                        $insertchild->order_by   = $subitem['order_by'];
+                        $insertchild->nilai      = $request->index[$subitem['id']][$request->wst2];
+                        $insertchild->createdby  = Auth::id();
+                        $insertchild->createdon  = Carbon::now();
+                        $insertchild->save();
+
+                        $insertchild = new TMechanicalCourt();
+                        $insertchild->referee = $request->wst3;
+                        $insertchild->nama    = $subitem['nama'];
+                        $insertchild->level   = 2;
+                        $insertchild->id_t_match = $id;
+                        $insertchild->id_m_mechanical_court = $subitem['id'];
+                        $insertchild->id_parent  = $item['id'];
+                        $insertchild->persentase = null;
+                        $insertchild->order_by   = $subitem['order_by'];
+                        $insertchild->nilai      = $request->index[$subitem['id']][$request->wst3];
+                        $insertchild->createdby  = Auth::id();
+                        $insertchild->createdon  = Carbon::now();
+                        $insertchild->save();
+
+                        $sum1 = $sum1 + $request->index[$subitem['id']][$request->wst1];
+                        $sum2 = $sum2 + $request->index[$subitem['id']][$request->wst2];
+                        $sum3 = $sum3 + $request->index[$subitem['id']][$request->wst3];
+                        $tot1++;
+                        $tot2++;
+                        $tot3++;
+
+                        $count1++;
+                        $count2++;
+                        $count3++;
+                    }
+                    $avg1 = $sum1 / $tot1;
+                    $avg2 = $sum2 / $tot2;
+                    $avg3 = $sum3 / $tot3;
+                    $hasil1 = $avg1 * ( $item['persentase'] / 100 );
+                    $hasil2 = $avg2 * ( $item['persentase'] / 100 );
+                    $hasil3 = $avg3 * ( $item['persentase'] / 100 );
+
+                    $sumtotal1 = $sumtotal1 + $sum1;
+                    $sumtotal2 = $sumtotal2 + $sum2;
+                    $sumtotal3 = $sumtotal3 + $sum3;
+                    $avgTotal1 = $avgTotal1 + $avg1;
+                    $avgTotal2 = $avgTotal2 + $avg2;
+                    $avgTotal3 = $avgTotal3 + $avg3;
+                    $akhir1    = $akhir1 + $hasil1;
+                    $akhir2    = $akhir2 + $hasil2;
+                    $akhir3    = $akhir3 + $hasil3;
+
+                    $insertchild = new TMechanicalCourt();
+                    $insertchild->referee = $request->wst1;
+                    $insertchild->nama    = $item['nama'];
+                    $insertchild->level   = 1;
+                    $insertchild->id_t_match = $id;
+                    $insertchild->id_m_mechanical_court = $item['id'];
+                    $insertchild->persentase = $item['persentase'];
+                    $insertchild->order_by   = $item['order_by'];
+                    $insertchild->sum        = $sum1;
+                    $insertchild->avg        = $avg1;
+                    $insertchild->nilai      = $hasil1;
+                    $insertchild->createdby  = Auth::id();
+                    $insertchild->createdon  = Carbon::now();
+                    $insertchild->save();
+
+                    $insertchild = new TMechanicalCourt();
+                    $insertchild->referee = $request->wst2;
+                    $insertchild->nama    = $item['nama'];
+                    $insertchild->level   = 1;
+                    $insertchild->id_t_match = $id;
+                    $insertchild->id_m_mechanical_court = $item['id'];
+                    $insertchild->persentase = $item['persentase'];
+                    $insertchild->order_by   = $item['order_by'];
+                    $insertchild->sum        = $sum2;
+                    $insertchild->avg        = $avg2;
+                    $insertchild->nilai      = $hasil2;
+                    $insertchild->createdby  = Auth::id();
+                    $insertchild->createdon  = Carbon::now();
+                    $insertchild->save();
+
+                    $insertchild = new TMechanicalCourt();
+                    $insertchild->referee = $request->wst3;
+                    $insertchild->nama    = $item['nama'];
+                    $insertchild->level   = 1;
+                    $insertchild->id_t_match = $id;
+                    $insertchild->id_m_mechanical_court = $item['id'];
+                    $insertchild->persentase = $item['persentase'];
+                    $insertchild->order_by   = $item['order_by'];
+                    $insertchild->sum        = $sum3;
+                    $insertchild->avg        = $avg3;
+                    $insertchild->nilai      = $hasil3;
+                    $insertchild->createdby  = Auth::id();
+                    $insertchild->createdon  = Carbon::now();
+                    $insertchild->save();
+                }
+                $countData++;
+            }
+
+            $insertTotal = new TMechanicalCourt();
+            $insertTotal->referee = $request->wst1;
+            $insertTotal->nama    = 'Total';
+            $insertTotal->level   = 3;
+            $insertTotal->id_t_match = $id;
+            $insertTotal->persentase = $sumtotal1 / $count1;
+            $insertTotal->order_by = 1;
+            $insertTotal->sum      = $sumtotal1;
+            $insertTotal->avg      = $avgTotal1 / $countData;
+            $insertTotal->nilai    = $akhir1;
+            $insertTotal->createdby  = Auth::id();
+            $insertTotal->createdon  = Carbon::now();
+            $insertTotal->save();
+
+            $insertTotal = new TMechanicalCourt();
+            $insertTotal->referee = $request->wst2;
+            $insertTotal->nama    = 'Total';
+            $insertTotal->level   = 3;
+            $insertTotal->id_t_match = $id;
+            $insertTotal->persentase = $sumtotal2 / $count2;
+            $insertTotal->order_by = 1;
+            $insertTotal->sum      = $sumtotal2;
+            $insertTotal->avg      = $avgTotal2 / $countData;
+            $insertTotal->nilai    = $akhir2;
+            $insertTotal->createdby  = Auth::id();
+            $insertTotal->createdon  = Carbon::now();
+            $insertTotal->save();
+
+            $insertTotal = new TMechanicalCourt();
+            $insertTotal->referee = $request->wst3;
+            $insertTotal->nama    = 'Total';
+            $insertTotal->level   = 3;
+            $insertTotal->id_t_match = $id;
+            $insertTotal->persentase = $sumtotal3 / $count3;
+            $insertTotal->order_by = 1;
+            $insertTotal->sum      = $sumtotal3;
+            $insertTotal->avg      = $avgTotal3 / $countData;
+            $insertTotal->nilai    = $akhir3;
+            $insertTotal->createdby  = Auth::id();
+            $insertTotal->createdon  = Carbon::now();
+            $insertTotal->save();
+
+            $evaluation1 = TMatchEvaluation::where('id_t_match', '=', $id)->where('referee', '=', $request->wst1)->first();
+            if (empty($evaluation1)) {
+                $evaluation1 = new TMatchEvaluation();
+                $evaluation1->id_t_match = $id;
+                $evaluation1->referee = $request->wst1;
+                $evaluation1->createdby  = Auth::id();
+                $evaluation1->createdon  = Carbon::now();
+            }
+            $evaluation1->mechanical_court = $akhir1 * ( 25 / 100 );
+            $evaluation1->total_score     = $evaluation1->play_calling + $evaluation1->game_management + $evaluation1->mechanical_court + $evaluation1->appearance;
+            $evaluation1->modifiedby      = Auth::id();
+            $evaluation1->modifiedon      = Carbon::now();
+            $evaluation1->save();
+
+            $evaluation2 = TMatchEvaluation::where('id_t_match', '=', $id)->where('referee', '=', $request->wst2)->first();
+            if (empty($evaluation2)) {
+                $evaluation2 = new TMatchEvaluation();
+                $evaluation2->id_t_match = $id;
+                $evaluation2->referee = $request->wst2;
+                $evaluation2->createdby  = Auth::id();
+                $evaluation2->createdon  = Carbon::now();
+            }
+            $evaluation2->mechanical_court = $akhir2 * ( 25 / 100 );
+            $evaluation2->total_score     = $evaluation2->play_calling + $evaluation2->game_management + $evaluation2->mechanical_court + $evaluation2->appearance;
+            $evaluation2->modifiedby      = Auth::id();
+            $evaluation2->modifiedon      = Carbon::now();
+            $evaluation2->save();
+
+            $evaluation3 = TMatchEvaluation::where('id_t_match', '=', $id)->where('referee', '=', $request->wst3)->first();
+            if (empty($evaluation3)) {
+                $evaluation3 = new TMatchEvaluation();
+                $evaluation3->id_t_match = $id;
+                $evaluation3->referee = $request->wst3;
+                $evaluation3->createdby  = Auth::id();
+                $evaluation3->createdon  = Carbon::now();
+            }
+            $evaluation3->mechanical_court = $akhir3 * ( 25 / 100 );
+            $evaluation3->total_score     = $evaluation3->play_calling + $evaluation3->game_management + $evaluation3->mechanical_court + $evaluation3->appearance;
+            $evaluation3->modifiedby      = Auth::id();
+            $evaluation3->modifiedon      = Carbon::now();
+            $evaluation3->save();
+
+            DB::commit();
+            Session::flash('success', 'Mechanical Court berhasil dibuat.');
+            return redirect()->route('t-match.show', $id);
+        }
+        return redirect()->route('t-match.show', $id);
+    }
+    # END MECHANICAL COURT
+
+    # APPEARANCE
+    public function appearanceShow($id, $wasit) {
+        $model = TMatch::find($id);
+        $event = TEvent::find($model->id_t_event);
+        $modelWasit = TMatchReferee::leftJoin('users', 'users.id', '=', 't_match_referee.wasit')->where('id_t_match', '=', $id)->where('t_match_referee.wasit', '=', $wasit)->first();
+        $appearance = TAppearance::where('id_t_match', '=', $id)->where('referee', '=', $wasit)->where('level', '=', 1)->get()->toArray();
+        $total = TAppearance::where('id_t_match', '=', $id)->where('referee', '=', $wasit)->where('level', '=', 3)->first();
+
+        return view('transaksi.t-match.appearance.show', [
+            'model' => $model,
+            'event' => $event,
+            'modelWasit' => $modelWasit,
+            'appearance' => $appearance,
+            'total' => $total,
+        ]);
+    }
+
+    public function appearanceCreate($id) {
+        $model = TMatch::find($id);
+        $event = TEvent::find($model->id_t_event);
+
+        $data = MAppearance::where('level', '=', 1)
+            ->whereNull('deletedon')
+            ->orderBy('order_by')
+            ->get()
+            ->toArray();
+
+        $wst1 = TMatchReferee::leftJoin('users', 'users.id', '=', 't_match_referee.wasit')->select(['t_match_referee.id', 't_match_referee.wasit', 'users.name'])->where('id_t_match', '=', $id)->where('posisi', '=', 'Crew Chief')->first();
+        $wst2 = TMatchReferee::leftJoin('users', 'users.id', '=', 't_match_referee.wasit')->select(['t_match_referee.id', 't_match_referee.wasit', 'users.name'])->where('id_t_match', '=', $id)->where('posisi', '=', 'Official 1')->first();
+        $wst3 = TMatchReferee::leftJoin('users', 'users.id', '=', 't_match_referee.wasit')->select(['t_match_referee.id', 't_match_referee.wasit', 'users.name'])->where('id_t_match', '=', $id)->where('posisi', '=', 'Official 2')->first();
+
+        return view('transaksi.t-match.appearance.create', [
+            'model' => $model,
+            'event' => $event,
+            'data' => $data,
+            'wst1' => $wst1,
+            'wst2' => $wst2,
+            'wst3' => $wst3,
+        ]);
+    }
+
+    public function appearanceStore(Request $request, $id) {
+        $data = MAppearance::where('level', '=', 1)
+            ->whereNull('deletedon')
+            ->orderBy('order_by')
+            ->get()
+            ->toArray();
+
+        DB::beginTransaction();
+        if ($data) {
+            # DATA AKHIR
+            $sumtotal1 = 0;
+            $sumtotal2 = 0;
+            $sumtotal3 = 0;
+            $avgTotal1 = 0;
+            $avgTotal2 = 0;
+            $avgTotal3 = 0;
+            $count1    = 0;
+            $count2    = 0;
+            $count3    = 0;
+            $akhir1    = 0;
+            $akhir2    = 0;
+            $akhir3    = 0;
+            $countData = 0;
+
+            foreach ($data as $item) {
+                $child = MAppearance::where('id_m_appearance', '=', $item['id'])->whereNull('deletedon')->orderBy('order_by')->get()->toArray();
+                if ($child) {
+                    # DATA DETAIL
+                    $sum1 = 0;
+                    $sum2 = 0;
+                    $sum3 = 0;
+                    $tot1 = 0;
+                    $tot2 = 0;
+                    $tot3 = 0;
+                    foreach ($child as $subitem) {
+                        if (empty($request->index[$subitem['id']][$request->wst1]) || empty($request->index[$subitem['id']][$request->wst2]) || empty($request->index[$subitem['id']][$request->wst3])) {
+                            DB::rollBack();
+                            Session::flash('error', 'Nilai belum lengkap, mohon lengkapi penilaian.');
+                            return redirect(route('appearance.create', $id))->withInput();
+                        }
+
+                        $insertchild = new TAppearance();
+                        $insertchild->referee = $request->wst1;
+                        $insertchild->nama    = $subitem['nama'];
+                        $insertchild->level   = 2;
+                        $insertchild->id_t_match = $id;
+                        $insertchild->id_m_appearance = $subitem['id'];
+                        $insertchild->id_parent  = $item['id'];
+                        $insertchild->persentase = null;
+                        $insertchild->order_by   = $subitem['order_by'];
+                        $insertchild->nilai      = $request->index[$subitem['id']][$request->wst1];
+                        $insertchild->createdby  = Auth::id();
+                        $insertchild->createdon  = Carbon::now();
+                        $insertchild->save();
+
+                        $insertchild = new TAppearance();
+                        $insertchild->referee = $request->wst2;
+                        $insertchild->nama    = $subitem['nama'];
+                        $insertchild->level   = 2;
+                        $insertchild->id_t_match = $id;
+                        $insertchild->id_m_appearance = $subitem['id'];
+                        $insertchild->id_parent  = $item['id'];
+                        $insertchild->persentase = null;
+                        $insertchild->order_by   = $subitem['order_by'];
+                        $insertchild->nilai      = $request->index[$subitem['id']][$request->wst2];
+                        $insertchild->createdby  = Auth::id();
+                        $insertchild->createdon  = Carbon::now();
+                        $insertchild->save();
+
+                        $insertchild = new TAppearance();
+                        $insertchild->referee = $request->wst3;
+                        $insertchild->nama    = $subitem['nama'];
+                        $insertchild->level   = 2;
+                        $insertchild->id_t_match = $id;
+                        $insertchild->id_m_appearance = $subitem['id'];
+                        $insertchild->id_parent  = $item['id'];
+                        $insertchild->persentase = null;
+                        $insertchild->order_by   = $subitem['order_by'];
+                        $insertchild->nilai      = $request->index[$subitem['id']][$request->wst3];
+                        $insertchild->createdby  = Auth::id();
+                        $insertchild->createdon  = Carbon::now();
+                        $insertchild->save();
+
+                        $sum1 = $sum1 + $request->index[$subitem['id']][$request->wst1];
+                        $sum2 = $sum2 + $request->index[$subitem['id']][$request->wst2];
+                        $sum3 = $sum3 + $request->index[$subitem['id']][$request->wst3];
+                        $tot1++;
+                        $tot2++;
+                        $tot3++;
+
+                        $count1++;
+                        $count2++;
+                        $count3++;
+                    }
+                    $avg1 = $sum1 / $tot1;
+                    $avg2 = $sum2 / $tot2;
+                    $avg3 = $sum3 / $tot3;
+                    $hasil1 = $avg1 * ( $item['persentase'] / 100 );
+                    $hasil2 = $avg2 * ( $item['persentase'] / 100 );
+                    $hasil3 = $avg3 * ( $item['persentase'] / 100 );
+
+                    $sumtotal1 = $sumtotal1 + $sum1;
+                    $sumtotal2 = $sumtotal2 + $sum2;
+                    $sumtotal3 = $sumtotal3 + $sum3;
+                    $avgTotal1 = $avgTotal1 + $avg1;
+                    $avgTotal2 = $avgTotal2 + $avg2;
+                    $avgTotal3 = $avgTotal3 + $avg3;
+                    $akhir1    = $akhir1 + $hasil1;
+                    $akhir2    = $akhir2 + $hasil2;
+                    $akhir3    = $akhir3 + $hasil3;
+
+                    $insertchild = new TAppearance();
+                    $insertchild->referee = $request->wst1;
+                    $insertchild->nama    = $item['nama'];
+                    $insertchild->level   = 1;
+                    $insertchild->id_t_match = $id;
+                    $insertchild->id_m_appearance = $item['id'];
+                    $insertchild->persentase = $item['persentase'];
+                    $insertchild->order_by   = $item['order_by'];
+                    $insertchild->sum        = $sum1;
+                    $insertchild->avg        = $avg1;
+                    $insertchild->nilai      = $hasil1;
+                    $insertchild->createdby  = Auth::id();
+                    $insertchild->createdon  = Carbon::now();
+                    $insertchild->save();
+
+                    $insertchild = new TAppearance();
+                    $insertchild->referee = $request->wst2;
+                    $insertchild->nama    = $item['nama'];
+                    $insertchild->level   = 1;
+                    $insertchild->id_t_match = $id;
+                    $insertchild->id_m_appearance = $item['id'];
+                    $insertchild->persentase = $item['persentase'];
+                    $insertchild->order_by   = $item['order_by'];
+                    $insertchild->sum        = $sum2;
+                    $insertchild->avg        = $avg2;
+                    $insertchild->nilai      = $hasil2;
+                    $insertchild->createdby  = Auth::id();
+                    $insertchild->createdon  = Carbon::now();
+                    $insertchild->save();
+
+                    $insertchild = new TAppearance();
+                    $insertchild->referee = $request->wst3;
+                    $insertchild->nama    = $item['nama'];
+                    $insertchild->level   = 1;
+                    $insertchild->id_t_match = $id;
+                    $insertchild->id_m_appearance = $item['id'];
+                    $insertchild->persentase = $item['persentase'];
+                    $insertchild->order_by   = $item['order_by'];
+                    $insertchild->sum        = $sum3;
+                    $insertchild->avg        = $avg3;
+                    $insertchild->nilai      = $hasil3;
+                    $insertchild->createdby  = Auth::id();
+                    $insertchild->createdon  = Carbon::now();
+                    $insertchild->save();
+                }
+                $countData++;
+            }
+
+            $insertTotal = new TAppearance();
+            $insertTotal->referee = $request->wst1;
+            $insertTotal->nama    = 'Total';
+            $insertTotal->level   = 3;
+            $insertTotal->id_t_match = $id;
+            $insertTotal->persentase = $sumtotal1 / $count1;
+            $insertTotal->order_by = 1;
+            $insertTotal->sum      = $sumtotal1;
+            $insertTotal->avg      = $avgTotal1 / $countData;
+            $insertTotal->nilai    = $akhir1;
+            $insertTotal->createdby  = Auth::id();
+            $insertTotal->createdon  = Carbon::now();
+            $insertTotal->save();
+
+            $insertTotal = new TAppearance();
+            $insertTotal->referee = $request->wst2;
+            $insertTotal->nama    = 'Total';
+            $insertTotal->level   = 3;
+            $insertTotal->id_t_match = $id;
+            $insertTotal->persentase = $sumtotal2 / $count2;
+            $insertTotal->order_by = 1;
+            $insertTotal->sum      = $sumtotal2;
+            $insertTotal->avg      = $avgTotal2 / $countData;
+            $insertTotal->nilai    = $akhir2;
+            $insertTotal->createdby  = Auth::id();
+            $insertTotal->createdon  = Carbon::now();
+            $insertTotal->save();
+
+            $insertTotal = new TAppearance();
+            $insertTotal->referee = $request->wst3;
+            $insertTotal->nama    = 'Total';
+            $insertTotal->level   = 3;
+            $insertTotal->id_t_match = $id;
+            $insertTotal->persentase = $sumtotal3 / $count3;
+            $insertTotal->order_by = 1;
+            $insertTotal->sum      = $sumtotal3;
+            $insertTotal->avg      = $avgTotal3 / $countData;
+            $insertTotal->nilai    = $akhir3;
+            $insertTotal->createdby  = Auth::id();
+            $insertTotal->createdon  = Carbon::now();
+            $insertTotal->save();
+
+            $evaluation1 = TMatchEvaluation::where('id_t_match', '=', $id)->where('referee', '=', $request->wst1)->first();
+            if (empty($evaluation1)) {
+                $evaluation1 = new TMatchEvaluation();
+                $evaluation1->id_t_match = $id;
+                $evaluation1->referee = $request->wst1;
+                $evaluation1->createdby  = Auth::id();
+                $evaluation1->createdon  = Carbon::now();
+            }
+            $evaluation1->appearance      = $akhir1 * ( 5 / 100 );
+            $evaluation1->total_score     = $evaluation1->play_calling + $evaluation1->game_management + $evaluation1->mechanical_court + $evaluation1->appearance;
+            $evaluation1->modifiedby      = Auth::id();
+            $evaluation1->modifiedon      = Carbon::now();
+            $evaluation1->save();
+
+            $evaluation2 = TMatchEvaluation::where('id_t_match', '=', $id)->where('referee', '=', $request->wst2)->first();
+            if (empty($evaluation2)) {
+                $evaluation2 = new TMatchEvaluation();
+                $evaluation2->id_t_match = $id;
+                $evaluation2->referee = $request->wst2;
+                $evaluation2->createdby  = Auth::id();
+                $evaluation2->createdon  = Carbon::now();
+            }
+            $evaluation2->appearance      = $akhir2 * ( 5 / 100 );
+            $evaluation2->total_score     = $evaluation2->play_calling + $evaluation2->game_management + $evaluation2->mechanical_court + $evaluation2->appearance;
+            $evaluation2->modifiedby      = Auth::id();
+            $evaluation2->modifiedon      = Carbon::now();
+            $evaluation2->save();
+
+            $evaluation3 = TMatchEvaluation::where('id_t_match', '=', $id)->where('referee', '=', $request->wst3)->first();
+            if (empty($evaluation3)) {
+                $evaluation3 = new TMatchEvaluation();
+                $evaluation3->id_t_match = $id;
+                $evaluation3->referee = $request->wst3;
+                $evaluation3->createdby  = Auth::id();
+                $evaluation3->createdon  = Carbon::now();
+            }
+            $evaluation3->appearance      = $akhir3 * ( 5 / 100 );
+            $evaluation3->total_score     = $evaluation3->play_calling + $evaluation3->game_management + $evaluation3->mechanical_court + $evaluation3->appearance;
+            $evaluation3->modifiedby      = Auth::id();
+            $evaluation3->modifiedon      = Carbon::now();
+            $evaluation3->save();
+
+            DB::commit();
+            Session::flash('success', 'Appearance berhasil dibuat.');
+            return redirect()->route('t-match.show', $id);
+        }
+        return redirect()->route('t-match.show', $id);
+    }
+    # END APPEARANCE
 }

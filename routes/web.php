@@ -236,12 +236,27 @@ Route::middleware('auth')->group(function () {
         Route::get('/create/{id}', [TMatchController::class, 'create'])->name('t-match.create');
         Route::post('/store/{id}', [TMatchController::class, 'store'])->name('t-match.store');
         Route::get('/show/{id}', [TMatchController::class, 'show'])->name('t-match.show');
-        Route::get('/evaluation', [TMatchController::class, 'evaluation'])->name('t-match.evaluation');
-        // Route::get('/', [TEventApprovalController::class, 'index'])->name('t-event-approval.index');
-        // Route::get('/index', [TEventApprovalController::class, 'index'])->name('t-event-approval.index');
-        // Route::get('/get', [TEventApprovalController::class, 'get'])->name('t-event-approval.get');
-        // Route::post('/search', [TEventApprovalController::class, 'search'])->name('t-event-approval.search');
-        // Route::get('/show/{id}', [TEventApprovalController::class, 'show'])->name('t-event-approval.show');
+        Route::get('/show-evaluation/{id}/{wasit}', [TMatchController::class, 'showEvaluation'])->name('t-match.show-evaluation');
+        Route::get('/evaluation/{id}', [TMatchController::class, 'evaluation'])->name('t-match.evaluation');
+
+    });
+
+    Route::prefix('game-management')->group(function () {
+        Route::get('/show/{id}/{wasit}', [TMatchController::class, 'gameManagementShow'])->name('game-management.show');
+        Route::get('/create/{id}', [TMatchController::class, 'gameManagementCreate'])->name('game-management.create');
+        Route::post('/store/{id}', [TMatchController::class, 'gameManagementStore'])->name('game-management.store');
+    });
+
+    Route::prefix('mechanical-court')->group(function () {
+        Route::get('/show/{id}/{wasit}', [TMatchController::class, 'mechanicalCourtShow'])->name('mechanical-court.show');
+        Route::get('/create/{id}', [TMatchController::class, 'mechanicalCourtCreate'])->name('mechanical-court.create');
+        Route::post('/store/{id}', [TMatchController::class, 'mechanicalCourtStore'])->name('mechanical-court.store');
+    });
+
+    Route::prefix('appearance')->group(function () {
+        Route::get('/show/{id}/{wasit}', [TMatchController::class, 'appearanceShow'])->name('appearance.show');
+        Route::get('/create/{id}', [TMatchController::class, 'appearanceCreate'])->name('appearance.create');
+        Route::post('/store/{id}', [TMatchController::class, 'appearanceStore'])->name('appearance.store');
     });
 });
 
