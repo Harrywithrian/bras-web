@@ -41,7 +41,7 @@
 
         <div class="card-body">
 
-            <a href="{{ route('t-match.evaluation', $model->id) }}" class="btn btn-primary"> Match Start </a>
+            <a href="{{ route('t-match.play-calling.create', $model->id) }}" class="btn btn-primary"> Match Start </a>
             @if($model->status != 0)
                 @if(!$gameManagement1) <a href="{{ route('game-management.create', $model->id) }}" class="btn btn-primary"> game management </a> @endif
                 @if(!$mechanicalCourt1) <a href="{{ route('mechanical-court.create', $model->id) }}" class="btn btn-primary"> Mechanical Court </a> @endif
@@ -175,6 +175,13 @@
                         tapToDismiss: false,
                         rtl: false
                     });
+                @endif
+
+                @if(\Illuminate\Support\Facades\Session::has('clear_storage') && \Illuminate\Support\Facades\Session::get('clear_storage'))
+                    // clear storage
+                    localStorage.removeItem('quarter')
+                    localStorage.removeItem('playCalling')
+                    localStorage.removeItem('time')
                 @endif
             });
         </script>

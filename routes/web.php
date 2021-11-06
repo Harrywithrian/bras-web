@@ -24,6 +24,7 @@ use App\Http\Controllers\Transaksi\TApprovalController;
 use App\Http\Controllers\Transaksi\TEventController;
 use App\Http\Controllers\Transaksi\TEventApprovalController;
 use App\Http\Controllers\Transaksi\TMatchController;
+use App\Http\Controllers\Transaksi\TPlayCallingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -238,7 +239,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/show/{id}', [TMatchController::class, 'show'])->name('t-match.show');
         Route::get('/show-evaluation/{id}/{wasit}', [TMatchController::class, 'showEvaluation'])->name('t-match.show-evaluation');
         Route::get('/evaluation/{id}', [TMatchController::class, 'evaluation'])->name('t-match.evaluation');
-
+        Route::get('/{id}/play-calling/evaluation', [TPlayCallingController::class, 'create'])->name('t-match.play-calling.create');
+        Route::post('/{id}/play-calling/evaluation', [TPlayCallingController::class, 'store'])->name('t-match.play-calling.store');
     });
 
     Route::prefix('game-management')->group(function () {
