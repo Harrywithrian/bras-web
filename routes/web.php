@@ -24,6 +24,8 @@ use App\Http\Controllers\Transaksi\TApprovalController;
 use App\Http\Controllers\Transaksi\TEventController;
 use App\Http\Controllers\Transaksi\TEventApprovalController;
 use App\Http\Controllers\Transaksi\TMatchController;
+use App\Http\Controllers\Transaksi\TPlayCallingController;
+use App\Models\transakasi\TPlayCalling;
 
 /*
 |--------------------------------------------------------------------------
@@ -236,7 +238,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/create/{id}', [TMatchController::class, 'create'])->name('t-match.create');
         Route::post('/store/{id}', [TMatchController::class, 'store'])->name('t-match.store');
         Route::get('/show/{id}', [TMatchController::class, 'show'])->name('t-match.show');
-        Route::get('/evaluation', [TMatchController::class, 'evaluation'])->name('t-match.evaluation');
+        Route::get('/{id}/play-calling', [TPlayCallingController::class, 'index'])->name('t-match.play-calling.index');
+        Route::get('/{id}/play-calling/evaluation', [TPlayCallingController::class, 'evaluation'])->name('t-match.play-calling.evaluation');
+        Route::post('/{id}/play-calling/evaluation', [TPlayCallingController::class, 'store'])->name('t-match.play-calling.store');
         // Route::get('/', [TEventApprovalController::class, 'index'])->name('t-event-approval.index');
         // Route::get('/index', [TEventApprovalController::class, 'index'])->name('t-event-approval.index');
         // Route::get('/get', [TEventApprovalController::class, 'get'])->name('t-event-approval.get');
