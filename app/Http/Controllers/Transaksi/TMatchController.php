@@ -469,134 +469,109 @@ class TMatchController extends Controller
             foreach ($data as $item) {
                 $child = MGameManagement::where('id_m_game_management', '=', $item['id'])->whereNull('deletedon')->orderBy('order_by')->get()->toArray();
                 if ($child) {
-                    # DATA DETAIL
+
+                    # INISIALISASI DATA DETAIL
                     $sum1 = 0;
                     $sum2 = 0;
                     $sum3 = 0;
                     $tot1 = 0;
                     $tot2 = 0;
                     $tot3 = 0;
+
+                    # PERULANGAN SUB ITEM
                     foreach ($child as $subitem) {
+                        # VALIDASI PENILAIAN KOSONG
                         if (empty($request->index[$subitem['id']][$request->wst1]) || empty($request->index[$subitem['id']][$request->wst2]) || empty($request->index[$subitem['id']][$request->wst3])) {
                             DB::rollBack();
                             Session::flash('error', 'Nilai belum lengkap, mohon lengkapi penilaian.');
                             return redirect(route('game-management.create', $id))->withInput();
                         }
 
-                        $insertchild = new TGameManagement();
-                        $insertchild->referee = $request->wst1;
-                        $insertchild->nama    = $subitem['nama'];
-                        $insertchild->level   = 2;
-                        $insertchild->id_t_match = $id;
-                        $insertchild->id_m_game_management = $subitem['id'];
-                        $insertchild->id_parent  = $item['id'];
-                        $insertchild->persentase = null;
-                        $insertchild->order_by   = $subitem['order_by'];
-                        $insertchild->nilai      = $request->index[$subitem['id']][$request->wst1];
-                        $insertchild->createdby  = Auth::id();
-                        $insertchild->createdon  = Carbon::now();
-                        $insertchild->save();
+                        # INSERT MODEL CHILD
+                        $val = $this->insertChildGM($id, $request->wst1, $subitem, $item, $request->index[$subitem['id']][$request->wst1]);
+                        if ($val == 500) {
+                            DB::rollBack();
+                            Session::flash('error', 'Gagal simpan. Mohon ulangi submit penilaian.');
+                            return redirect(route('game-management.create', $id))->withInput();
+                        }
 
-                        $insertchild = new TGameManagement();
-                        $insertchild->referee = $request->wst2;
-                        $insertchild->nama    = $subitem['nama'];
-                        $insertchild->level   = 2;
-                        $insertchild->id_t_match = $id;
-                        $insertchild->id_m_game_management = $subitem['id'];
-                        $insertchild->id_parent  = $item['id'];
-                        $insertchild->persentase = null;
-                        $insertchild->order_by   = $subitem['order_by'];
-                        $insertchild->nilai      = $request->index[$subitem['id']][$request->wst2];
-                        $insertchild->createdby  = Auth::id();
-                        $insertchild->createdon  = Carbon::now();
-                        $insertchild->save();
+                        $val = $this->insertChildGM($id, $request->wst2, $subitem, $item, $request->index[$subitem['id']][$request->wst2]);
+                        if ($val == 500) {
+                            DB::rollBack();
+                            Session::flash('error', 'Gagal simpan. Mohon ulangi submit penilaian.');
+                            return redirect(route('game-management.create', $id))->withInput();
+                        }
 
-                        $insertchild = new TGameManagement();
-                        $insertchild->referee = $request->wst3;
-                        $insertchild->nama    = $subitem['nama'];
-                        $insertchild->level   = 2;
-                        $insertchild->id_t_match = $id;
-                        $insertchild->id_m_game_management = $subitem['id'];
-                        $insertchild->id_parent  = $item['id'];
-                        $insertchild->persentase = null;
-                        $insertchild->order_by   = $subitem['order_by'];
-                        $insertchild->nilai      = $request->index[$subitem['id']][$request->wst3];
-                        $insertchild->createdby  = Auth::id();
-                        $insertchild->createdon  = Carbon::now();
-                        $insertchild->save();
+                        $val = $this->insertChildGM($id, $request->wst3, $subitem, $item, $request->index[$subitem['id']][$request->wst3]);
+                        if ($val == 500) {
+                            DB::rollBack();
+                            Session::flash('error', 'Gagal simpan. Mohon ulangi submit penilaian.');
+                            return redirect(route('game-management.create', $id))->withInput();
+                        }
+                        # END INSERT MODEL CHILD
 
+                        # PERHITUNGAN TOTAL SUB ITEM
                         $sum1 = $sum1 + $request->index[$subitem['id']][$request->wst1];
                         $sum2 = $sum2 + $request->index[$subitem['id']][$request->wst2];
                         $sum3 = $sum3 + $request->index[$subitem['id']][$request->wst3];
+
+                        # COUNTING ITEM PER SUB
                         $tot1++;
                         $tot2++;
                         $tot3++;
 
+                        # COUNTING ITEM KESELURUHAN
                         $count1++;
                         $count2++;
                         $count3++;
                     }
+                    # PERHITUNGAN RATA RATA PARENT ITEM
                     $avg1 = $sum1 / $tot1;
                     $avg2 = $sum2 / $tot2;
                     $avg3 = $sum3 / $tot3;
+
+                    # PERHITUNGAN HASIL AKHIR PARENT ITEM
                     $hasil1 = $avg1 * ( $item['persentase'] / 100 );
                     $hasil2 = $avg2 * ( $item['persentase'] / 100 );
                     $hasil3 = $avg3 * ( $item['persentase'] / 100 );
 
+                    # PENGUMPULAN TOTAL NILAI AWAL
                     $sumtotal1 = $sumtotal1 + $sum1;
                     $sumtotal2 = $sumtotal2 + $sum2;
                     $sumtotal3 = $sumtotal3 + $sum3;
+
+                    # PERHITUNGAN TOTAL NILAI AKHIR
                     $akhir1    = $akhir1 + $hasil1;
                     $akhir2    = $akhir2 + $hasil2;
                     $akhir3    = $akhir3 + $hasil3;
+
+                    # PERHITUNGAN TOTAL NILAI AVERAGE
                     $avgTotal1 = $avgTotal1 + $avg1;
                     $avgTotal2 = $avgTotal2 + $avg2;
                     $avgTotal3 = $avgTotal3 + $avg3;
 
-                    $insertchild = new TGameManagement();
-                    $insertchild->referee = $request->wst1;
-                    $insertchild->nama    = $item['nama'];
-                    $insertchild->level   = 1;
-                    $insertchild->id_t_match = $id;
-                    $insertchild->id_m_game_management = $item['id'];
-                    $insertchild->persentase = $item['persentase'];
-                    $insertchild->order_by   = $item['order_by'];
-                    $insertchild->sum        = $sum1;
-                    $insertchild->avg        = $avg1;
-                    $insertchild->nilai      = $hasil1;
-                    $insertchild->createdby  = Auth::id();
-                    $insertchild->createdon  = Carbon::now();
-                    $insertchild->save();
+                    # INSERT MODEL PARENT
+                    $val = $this->insertParentGM($id, $request->wst1, $item, $sum1, $avg1, $hasil1);
+                    if ($val == 500) {
+                        DB::rollBack();
+                        Session::flash('error', 'Gagal simpan. Mohon ulangi submit penilaian.');
+                        return redirect(route('game-management.create', $id))->withInput();
+                    }
 
-                    $insertchild = new TGameManagement();
-                    $insertchild->referee = $request->wst2;
-                    $insertchild->nama    = $item['nama'];
-                    $insertchild->level   = 1;
-                    $insertchild->id_t_match = $id;
-                    $insertchild->id_m_game_management = $item['id'];
-                    $insertchild->persentase = $item['persentase'];
-                    $insertchild->order_by   = $item['order_by'];
-                    $insertchild->sum        = $sum2;
-                    $insertchild->avg        = $avg2;
-                    $insertchild->nilai      = $hasil2;
-                    $insertchild->createdby  = Auth::id();
-                    $insertchild->createdon  = Carbon::now();
-                    $insertchild->save();
+                    $val = $this->insertParentGM($id, $request->wst2, $item, $sum2, $avg2, $hasil2);
+                    if ($val == 500) {
+                        DB::rollBack();
+                        Session::flash('error', 'Gagal simpan. Mohon ulangi submit penilaian.');
+                        return redirect(route('game-management.create', $id))->withInput();
+                    }
 
-                    $insertchild = new TGameManagement();
-                    $insertchild->referee = $request->wst3;
-                    $insertchild->nama    = $item['nama'];
-                    $insertchild->level   = 1;
-                    $insertchild->id_t_match = $id;
-                    $insertchild->id_m_game_management = $item['id'];
-                    $insertchild->persentase = $item['persentase'];
-                    $insertchild->order_by   = $item['order_by'];
-                    $insertchild->sum        = $sum3;
-                    $insertchild->avg        = $avg3;
-                    $insertchild->nilai      = $hasil3;
-                    $insertchild->createdby  = Auth::id();
-                    $insertchild->createdon  = Carbon::now();
-                    $insertchild->save();
+                    $val = $this->insertParentGM($id, $request->wst3, $item, $sum3, $avg3, $hasil3);
+                    if ($val == 500) {
+                        DB::rollBack();
+                        Session::flash('error', 'Gagal simpan. Mohon ulangi submit penilaian.');
+                        return redirect(route('game-management.create', $id))->withInput();
+                    }
+                    # END INSERT MODEL PARENT
                 }
                 $countData++;
             }
@@ -691,6 +666,45 @@ class TMatchController extends Controller
         }
         return redirect()->route('t-match.show', $id);
     }
+
+    public function insertChildGM($id, $wasit, $subitem, $item, $nilai) {
+        $model = new TGameManagement();
+        $model->referee = $wasit;
+        $model->nama    = $subitem['nama'];
+        $model->level   = 2;
+        $model->id_t_match = $id;
+        $model->id_m_game_management = $subitem['id'];
+        $model->id_parent  = $item['id'];
+        $model->persentase = null;
+        $model->order_by   = $subitem['order_by'];
+        $model->nilai      = $nilai;
+        $model->createdby  = Auth::id();
+        $model->createdon  = Carbon::now();
+        if ($model->save()) {
+            return 200;
+        };
+        return 500;
+    }
+
+    public function insertParentGM($id, $wasit, $item, $sum, $avg, $hasil) {
+        $model = new TGameManagement();
+        $model->referee = $wasit;
+        $model->nama    = $item['nama'];
+        $model->level   = 1;
+        $model->id_t_match = $id;
+        $model->id_m_game_management = $item['id'];
+        $model->persentase = $item['persentase'];
+        $model->order_by   = $item['order_by'];
+        $model->sum        = $sum;
+        $model->avg        = $avg;
+        $model->nilai      = $hasil;
+        $model->createdby  = Auth::id();
+        $model->createdon  = Carbon::now();
+        if ($model->save()) {
+            return 200;
+        }
+        return 500;
+    }
     # END GAME MANAGEMENT
 
     # MECHANICAL COURT
@@ -761,6 +775,7 @@ class TMatchController extends Controller
             foreach ($data as $item) {
                 $child = MMechanicalCourt::where('id_m_mechanical_court', '=', $item['id'])->whereNull('deletedon')->orderBy('order_by')->get()->toArray();
                 if ($child) {
+
                     # DATA DETAIL
                     $sum1 = 0;
                     $sum2 = 0;
@@ -768,127 +783,102 @@ class TMatchController extends Controller
                     $tot1 = 0;
                     $tot2 = 0;
                     $tot3 = 0;
+
+                    # PERULANGAN SUB ITEM
                     foreach ($child as $subitem) {
+
+                        # VALIDASI PENILAIAN KOSONG
                         if (empty($request->index[$subitem['id']][$request->wst1]) || empty($request->index[$subitem['id']][$request->wst2]) || empty($request->index[$subitem['id']][$request->wst3])) {
                             DB::rollBack();
                             Session::flash('error', 'Nilai belum lengkap, mohon lengkapi penilaian.');
                             return redirect(route('mechanical-court.create', $id))->withInput();
                         }
 
-                        $insertchild = new TMechanicalCourt();
-                        $insertchild->referee = $request->wst1;
-                        $insertchild->nama    = $subitem['nama'];
-                        $insertchild->level   = 2;
-                        $insertchild->id_t_match = $id;
-                        $insertchild->id_m_mechanical_court = $subitem['id'];
-                        $insertchild->id_parent  = $item['id'];
-                        $insertchild->persentase = null;
-                        $insertchild->order_by   = $subitem['order_by'];
-                        $insertchild->nilai      = $request->index[$subitem['id']][$request->wst1];
-                        $insertchild->createdby  = Auth::id();
-                        $insertchild->createdon  = Carbon::now();
-                        $insertchild->save();
+                        # INSERT MODEL CHILD
+                        $val = $this->insertChildMC($id, $request->wst1, $subitem, $item, $request->index[$subitem['id']][$request->wst1]);
+                        if ($val == 500) {
+                            DB::rollBack();
+                            Session::flash('error', 'Gagal simpan. Mohon ulangi submit penilaian.');
+                            return redirect(route('mechanical-court.create', $id))->withInput();
+                        }
 
-                        $insertchild = new TMechanicalCourt();
-                        $insertchild->referee = $request->wst2;
-                        $insertchild->nama    = $subitem['nama'];
-                        $insertchild->level   = 2;
-                        $insertchild->id_t_match = $id;
-                        $insertchild->id_m_mechanical_court = $subitem['id'];
-                        $insertchild->id_parent  = $item['id'];
-                        $insertchild->persentase = null;
-                        $insertchild->order_by   = $subitem['order_by'];
-                        $insertchild->nilai      = $request->index[$subitem['id']][$request->wst2];
-                        $insertchild->createdby  = Auth::id();
-                        $insertchild->createdon  = Carbon::now();
-                        $insertchild->save();
+                        $val = $this->insertChildMC($id, $request->wst2, $subitem, $item, $request->index[$subitem['id']][$request->wst2]);
+                        if ($val == 500) {
+                            DB::rollBack();
+                            Session::flash('error', 'Gagal simpan. Mohon ulangi submit penilaian.');
+                            return redirect(route('mechanical-court.create', $id))->withInput();
+                        }
 
-                        $insertchild = new TMechanicalCourt();
-                        $insertchild->referee = $request->wst3;
-                        $insertchild->nama    = $subitem['nama'];
-                        $insertchild->level   = 2;
-                        $insertchild->id_t_match = $id;
-                        $insertchild->id_m_mechanical_court = $subitem['id'];
-                        $insertchild->id_parent  = $item['id'];
-                        $insertchild->persentase = null;
-                        $insertchild->order_by   = $subitem['order_by'];
-                        $insertchild->nilai      = $request->index[$subitem['id']][$request->wst3];
-                        $insertchild->createdby  = Auth::id();
-                        $insertchild->createdon  = Carbon::now();
-                        $insertchild->save();
+                        $val = $this->insertChildMC($id, $request->wst3, $subitem, $item, $request->index[$subitem['id']][$request->wst3]);
+                        if ($val == 500) {
+                            DB::rollBack();
+                            Session::flash('error', 'Gagal simpan. Mohon ulangi submit penilaian.');
+                            return redirect(route('mechanical-court.create', $id))->withInput();
+                        }
+                        # END INSERT MODEL CHILD
 
+                        # PERHITUNGAN TOTAL SUB ITEM
                         $sum1 = $sum1 + $request->index[$subitem['id']][$request->wst1];
                         $sum2 = $sum2 + $request->index[$subitem['id']][$request->wst2];
                         $sum3 = $sum3 + $request->index[$subitem['id']][$request->wst3];
+
+                        # COUNTING ITEM PER SUB
                         $tot1++;
                         $tot2++;
                         $tot3++;
 
+                        # COUNTING ITEM KESELURUHAN
                         $count1++;
                         $count2++;
                         $count3++;
                     }
+                    # PERHITUNGAN RATA RATA PARENT ITEM
                     $avg1 = $sum1 / $tot1;
                     $avg2 = $sum2 / $tot2;
                     $avg3 = $sum3 / $tot3;
+
+                    # PERHITUNGAN HASIL AKHIR PARENT ITEM
                     $hasil1 = $avg1 * ( $item['persentase'] / 100 );
                     $hasil2 = $avg2 * ( $item['persentase'] / 100 );
                     $hasil3 = $avg3 * ( $item['persentase'] / 100 );
 
+                    # PENGUMPULAN TOTAL NILAI AWAL
                     $sumtotal1 = $sumtotal1 + $sum1;
                     $sumtotal2 = $sumtotal2 + $sum2;
                     $sumtotal3 = $sumtotal3 + $sum3;
+
+                    # PENGUMPULAN TOTAL NILAI AVERANGE
                     $avgTotal1 = $avgTotal1 + $avg1;
                     $avgTotal2 = $avgTotal2 + $avg2;
                     $avgTotal3 = $avgTotal3 + $avg3;
+
+                    # PENGUMPULAN TOTAL NILAI AKHIR
                     $akhir1    = $akhir1 + $hasil1;
                     $akhir2    = $akhir2 + $hasil2;
                     $akhir3    = $akhir3 + $hasil3;
 
-                    $insertchild = new TMechanicalCourt();
-                    $insertchild->referee = $request->wst1;
-                    $insertchild->nama    = $item['nama'];
-                    $insertchild->level   = 1;
-                    $insertchild->id_t_match = $id;
-                    $insertchild->id_m_mechanical_court = $item['id'];
-                    $insertchild->persentase = $item['persentase'];
-                    $insertchild->order_by   = $item['order_by'];
-                    $insertchild->sum        = $sum1;
-                    $insertchild->avg        = $avg1;
-                    $insertchild->nilai      = $hasil1;
-                    $insertchild->createdby  = Auth::id();
-                    $insertchild->createdon  = Carbon::now();
-                    $insertchild->save();
+                    # INSERT MODEL PARENT
+                    $val = $this->insertParentMC($id, $request->wst1, $item, $sum1, $avg1, $hasil1);
+                    if ($val == 500) {
+                        DB::rollBack();
+                        Session::flash('error', 'Gagal simpan. Mohon ulangi submit penilaian.');
+                        return redirect(route('game-management.create', $id))->withInput();
+                    }
 
-                    $insertchild = new TMechanicalCourt();
-                    $insertchild->referee = $request->wst2;
-                    $insertchild->nama    = $item['nama'];
-                    $insertchild->level   = 1;
-                    $insertchild->id_t_match = $id;
-                    $insertchild->id_m_mechanical_court = $item['id'];
-                    $insertchild->persentase = $item['persentase'];
-                    $insertchild->order_by   = $item['order_by'];
-                    $insertchild->sum        = $sum2;
-                    $insertchild->avg        = $avg2;
-                    $insertchild->nilai      = $hasil2;
-                    $insertchild->createdby  = Auth::id();
-                    $insertchild->createdon  = Carbon::now();
-                    $insertchild->save();
+                    $val = $this->insertParentMC($id, $request->wst2, $item, $sum2, $avg2, $hasil2);
+                    if ($val == 500) {
+                        DB::rollBack();
+                        Session::flash('error', 'Gagal simpan. Mohon ulangi submit penilaian.');
+                        return redirect(route('game-management.create', $id))->withInput();
+                    }
 
-                    $insertchild = new TMechanicalCourt();
-                    $insertchild->referee = $request->wst3;
-                    $insertchild->nama    = $item['nama'];
-                    $insertchild->level   = 1;
-                    $insertchild->id_t_match = $id;
-                    $insertchild->id_m_mechanical_court = $item['id'];
-                    $insertchild->persentase = $item['persentase'];
-                    $insertchild->order_by   = $item['order_by'];
-                    $insertchild->sum        = $sum3;
-                    $insertchild->avg        = $avg3;
-                    $insertchild->nilai      = $hasil3;
-                    $insertchild->createdby  = Auth::id();
-                    $insertchild->createdon  = Carbon::now();
-                    $insertchild->save();
+                    $val = $this->insertParentMC($id, $request->wst3, $item, $sum3, $avg3, $hasil3);
+                    if ($val == 500) {
+                        DB::rollBack();
+                        Session::flash('error', 'Gagal simpan. Mohon ulangi submit penilaian.');
+                        return redirect(route('game-management.create', $id))->withInput();
+                    }
+                    # END INSERT MODEL PARENT
                 }
                 $countData++;
             }
@@ -983,6 +973,45 @@ class TMatchController extends Controller
         }
         return redirect()->route('t-match.show', $id);
     }
+
+    public function insertChildMC($id, $wasit, $subitem, $item, $nilai) {
+        $model = new TMechanicalCourt();
+        $model->referee = $wasit;
+        $model->nama    = $subitem['nama'];
+        $model->level   = 2;
+        $model->id_t_match = $id;
+        $model->id_m_mechanical_court = $subitem['id'];
+        $model->id_parent  = $item['id'];
+        $model->persentase = null;
+        $model->order_by   = $subitem['order_by'];
+        $model->nilai      = $nilai;
+        $model->createdby  = Auth::id();
+        $model->createdon  = Carbon::now();
+        if ($model->save()) {
+            return 200;
+        }
+        return 500;
+    }
+
+    public function insertParentMC($id, $wasit, $item, $sum, $avg, $hasil) {
+        $model = new TMechanicalCourt();
+        $model->referee = $wasit;
+        $model->nama    = $item['nama'];
+        $model->level   = 1;
+        $model->id_t_match = $id;
+        $model->id_m_mechanical_court = $item['id'];
+        $model->persentase = $item['persentase'];
+        $model->order_by   = $item['order_by'];
+        $model->sum        = $sum;
+        $model->avg        = $avg;
+        $model->nilai      = $hasil;
+        $model->createdby  = Auth::id();
+        $model->createdon  = Carbon::now();
+        if ($model->save()) {
+            return 200;
+        }
+        return 500;
+    }
     # END MECHANICAL COURT
 
     # APPEARANCE
@@ -1035,6 +1064,7 @@ class TMatchController extends Controller
 
         DB::beginTransaction();
         if ($data) {
+
             # DATA AKHIR
             $sumtotal1 = 0;
             $sumtotal2 = 0;
@@ -1060,127 +1090,101 @@ class TMatchController extends Controller
                     $tot1 = 0;
                     $tot2 = 0;
                     $tot3 = 0;
+
+                    # PERULANGAN SUB ITEM
                     foreach ($child as $subitem) {
+                        # VALIDASI PENILAIAN KOSONG
                         if (empty($request->index[$subitem['id']][$request->wst1]) || empty($request->index[$subitem['id']][$request->wst2]) || empty($request->index[$subitem['id']][$request->wst3])) {
                             DB::rollBack();
                             Session::flash('error', 'Nilai belum lengkap, mohon lengkapi penilaian.');
                             return redirect(route('appearance.create', $id))->withInput();
                         }
 
-                        $insertchild = new TAppearance();
-                        $insertchild->referee = $request->wst1;
-                        $insertchild->nama    = $subitem['nama'];
-                        $insertchild->level   = 2;
-                        $insertchild->id_t_match = $id;
-                        $insertchild->id_m_appearance = $subitem['id'];
-                        $insertchild->id_parent  = $item['id'];
-                        $insertchild->persentase = null;
-                        $insertchild->order_by   = $subitem['order_by'];
-                        $insertchild->nilai      = $request->index[$subitem['id']][$request->wst1];
-                        $insertchild->createdby  = Auth::id();
-                        $insertchild->createdon  = Carbon::now();
-                        $insertchild->save();
+                        # INSERT MODEL CHILD
+                        $val = $this->insertChildA($id, $request->wst1, $subitem, $item, $request->index[$subitem['id']][$request->wst1]);
+                        if ($val == 500) {
+                            DB::rollBack();
+                            Session::flash('error', 'Gagal simpan. Mohon ulangi submit penilaian.');
+                            return redirect(route('mechanical-court.create', $id))->withInput();
+                        }
 
-                        $insertchild = new TAppearance();
-                        $insertchild->referee = $request->wst2;
-                        $insertchild->nama    = $subitem['nama'];
-                        $insertchild->level   = 2;
-                        $insertchild->id_t_match = $id;
-                        $insertchild->id_m_appearance = $subitem['id'];
-                        $insertchild->id_parent  = $item['id'];
-                        $insertchild->persentase = null;
-                        $insertchild->order_by   = $subitem['order_by'];
-                        $insertchild->nilai      = $request->index[$subitem['id']][$request->wst2];
-                        $insertchild->createdby  = Auth::id();
-                        $insertchild->createdon  = Carbon::now();
-                        $insertchild->save();
+                        $val = $this->insertChildA($id, $request->wst2, $subitem, $item, $request->index[$subitem['id']][$request->wst2]);
+                        if ($val == 500) {
+                            DB::rollBack();
+                            Session::flash('error', 'Gagal simpan. Mohon ulangi submit penilaian.');
+                            return redirect(route('mechanical-court.create', $id))->withInput();
+                        }
 
-                        $insertchild = new TAppearance();
-                        $insertchild->referee = $request->wst3;
-                        $insertchild->nama    = $subitem['nama'];
-                        $insertchild->level   = 2;
-                        $insertchild->id_t_match = $id;
-                        $insertchild->id_m_appearance = $subitem['id'];
-                        $insertchild->id_parent  = $item['id'];
-                        $insertchild->persentase = null;
-                        $insertchild->order_by   = $subitem['order_by'];
-                        $insertchild->nilai      = $request->index[$subitem['id']][$request->wst3];
-                        $insertchild->createdby  = Auth::id();
-                        $insertchild->createdon  = Carbon::now();
-                        $insertchild->save();
+                        $val = $this->insertChildA($id, $request->wst3, $subitem, $item, $request->index[$subitem['id']][$request->wst3]);
+                        if ($val == 500) {
+                            DB::rollBack();
+                            Session::flash('error', 'Gagal simpan. Mohon ulangi submit penilaian.');
+                            return redirect(route('mechanical-court.create', $id))->withInput();
+                        }
+                        # END INSERT MODEL CHILD
 
+                        # PERHITUNGAN TOTAL SUB ITEM
                         $sum1 = $sum1 + $request->index[$subitem['id']][$request->wst1];
                         $sum2 = $sum2 + $request->index[$subitem['id']][$request->wst2];
                         $sum3 = $sum3 + $request->index[$subitem['id']][$request->wst3];
+
+                        # COUNTING ITEM PER SUB
                         $tot1++;
                         $tot2++;
                         $tot3++;
 
+                        # COUNTING ITEM KESELURUHAN
                         $count1++;
                         $count2++;
                         $count3++;
                     }
+                    # PERHITUNGAN RATA RATA PARENT ITEM
                     $avg1 = $sum1 / $tot1;
                     $avg2 = $sum2 / $tot2;
                     $avg3 = $sum3 / $tot3;
+
+                    # PERHITUNGAN HASIL AKHIR PARENT ITEM
                     $hasil1 = $avg1 * ( $item['persentase'] / 100 );
                     $hasil2 = $avg2 * ( $item['persentase'] / 100 );
                     $hasil3 = $avg3 * ( $item['persentase'] / 100 );
 
+                    # PENGUMPULAN TOTAL NILAI AWAL
                     $sumtotal1 = $sumtotal1 + $sum1;
                     $sumtotal2 = $sumtotal2 + $sum2;
                     $sumtotal3 = $sumtotal3 + $sum3;
+
+                    # PENGUMPULAN TOTAL NILAI AKHIR
                     $avgTotal1 = $avgTotal1 + $avg1;
                     $avgTotal2 = $avgTotal2 + $avg2;
                     $avgTotal3 = $avgTotal3 + $avg3;
+
+                    # PENGUMPULAN TOTAL NILAI AKHIR
                     $akhir1    = $akhir1 + $hasil1;
                     $akhir2    = $akhir2 + $hasil2;
                     $akhir3    = $akhir3 + $hasil3;
 
-                    $insertchild = new TAppearance();
-                    $insertchild->referee = $request->wst1;
-                    $insertchild->nama    = $item['nama'];
-                    $insertchild->level   = 1;
-                    $insertchild->id_t_match = $id;
-                    $insertchild->id_m_appearance = $item['id'];
-                    $insertchild->persentase = $item['persentase'];
-                    $insertchild->order_by   = $item['order_by'];
-                    $insertchild->sum        = $sum1;
-                    $insertchild->avg        = $avg1;
-                    $insertchild->nilai      = $hasil1;
-                    $insertchild->createdby  = Auth::id();
-                    $insertchild->createdon  = Carbon::now();
-                    $insertchild->save();
+                    # END INSERT MODEL PAREMT
+                    $val = $this->insertParentA($id, $request->wst1, $item, $sum1, $avg1, $hasil1);
+                    if ($val == 500) {
+                        DB::rollBack();
+                        Session::flash('error', 'Gagal simpan. Mohon ulangi submit penilaian.');
+                        return redirect(route('game-management.create', $id))->withInput();
+                    }
 
-                    $insertchild = new TAppearance();
-                    $insertchild->referee = $request->wst2;
-                    $insertchild->nama    = $item['nama'];
-                    $insertchild->level   = 1;
-                    $insertchild->id_t_match = $id;
-                    $insertchild->id_m_appearance = $item['id'];
-                    $insertchild->persentase = $item['persentase'];
-                    $insertchild->order_by   = $item['order_by'];
-                    $insertchild->sum        = $sum2;
-                    $insertchild->avg        = $avg2;
-                    $insertchild->nilai      = $hasil2;
-                    $insertchild->createdby  = Auth::id();
-                    $insertchild->createdon  = Carbon::now();
-                    $insertchild->save();
+                    $val = $this->insertParentA($id, $request->wst2, $item, $sum2, $avg2, $hasil2);
+                    if ($val == 500) {
+                        DB::rollBack();
+                        Session::flash('error', 'Gagal simpan. Mohon ulangi submit penilaian.');
+                        return redirect(route('game-management.create', $id))->withInput();
+                    }
 
-                    $insertchild = new TAppearance();
-                    $insertchild->referee = $request->wst3;
-                    $insertchild->nama    = $item['nama'];
-                    $insertchild->level   = 1;
-                    $insertchild->id_t_match = $id;
-                    $insertchild->id_m_appearance = $item['id'];
-                    $insertchild->persentase = $item['persentase'];
-                    $insertchild->order_by   = $item['order_by'];
-                    $insertchild->sum        = $sum3;
-                    $insertchild->avg        = $avg3;
-                    $insertchild->nilai      = $hasil3;
-                    $insertchild->createdby  = Auth::id();
-                    $insertchild->createdon  = Carbon::now();
-                    $insertchild->save();
+                    $val = $this->insertParentA($id, $request->wst3, $item, $sum3, $avg3, $hasil3);
+                    if ($val == 500) {
+                        DB::rollBack();
+                        Session::flash('error', 'Gagal simpan. Mohon ulangi submit penilaian.');
+                        return redirect(route('game-management.create', $id))->withInput();
+                    }
+                    # END INSERT MODEL PARENT
                 }
                 $countData++;
             }
@@ -1274,6 +1278,45 @@ class TMatchController extends Controller
             return redirect()->route('t-match.show', $id);
         }
         return redirect()->route('t-match.show', $id);
+    }
+
+    public function insertChildA($id, $wasit, $subitem, $item, $nilai) {
+        $model = new TAppearance();
+        $model->referee = $wasit;
+        $model->nama    = $subitem['nama'];
+        $model->level   = 2;
+        $model->id_t_match = $id;
+        $model->id_m_appearance = $subitem['id'];
+        $model->id_parent  = $item['id'];
+        $model->persentase = null;
+        $model->order_by   = $subitem['order_by'];
+        $model->nilai      = $nilai;
+        $model->createdby  = Auth::id();
+        $model->createdon  = Carbon::now();
+        if ($model->save()) {
+            return 200;
+        }
+        return 500;
+    }
+
+    public function insertParentA($id, $wasit, $item, $sum, $avg, $hasil) {
+        $model = new TAppearance();
+        $model->referee = $wasit;
+        $model->nama    = $item['nama'];
+        $model->level   = 1;
+        $model->id_t_match = $id;
+        $model->id_m_appearance = $item['id'];
+        $model->persentase = $item['persentase'];
+        $model->order_by   = $item['order_by'];
+        $model->sum        = $sum;
+        $model->avg        = $avg;
+        $model->nilai      = $hasil;
+        $model->createdby  = Auth::id();
+        $model->createdon  = Carbon::now();
+        if ($model->save()) {
+            return 200;
+        }
+        return 500;
     }
     # END APPEARANCE
 }
