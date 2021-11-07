@@ -182,7 +182,7 @@ return [
                     ],
                     [
                         'title'  => 'Evaluasi Pertandingan',
-                        'path'   => '#',
+                        'path'   => 'report-pertandingan.index-event',
                         'bullet' => '<span class="bullet bullet-dot"></span>',
                     ],
                 ]

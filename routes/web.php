@@ -25,6 +25,11 @@ use App\Http\Controllers\Transaksi\TEventController;
 use App\Http\Controllers\Transaksi\TEventApprovalController;
 use App\Http\Controllers\Transaksi\TMatchController;
 use App\Http\Controllers\Transaksi\TPlayCallingController;
+use App\Http\Controllers\Transaksi\TGameManagementController;
+use App\Http\Controllers\Transaksi\TMechanicalCourtController;
+use App\Http\Controllers\Transaksi\TAppearanceController;
+
+use App\Http\Controllers\Transaksi\ReportPertandingan;
 
 /*
 |--------------------------------------------------------------------------
@@ -227,7 +232,7 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::prefix('t-match')->group(function () {
-        Route::get('/', [TMatchController::class, 'EventIndex'])->name('t-match.event-index');
+        Route::get('/', [TMatchController::class, 'IndexEvent'])->name('t-match.index-event');
         Route::get('/index-event', [TMatchController::class, 'IndexEvent'])->name('t-match.index-event');
         Route::get('/get-event', [TMatchController::class, 'getEvent'])->name('t-match.get-event');
         Route::post('/search-event', [TMatchController::class, 'searchEvent'])->name('t-match.search-event');
@@ -237,6 +242,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/create/{id}', [TMatchController::class, 'create'])->name('t-match.create');
         Route::post('/store/{id}', [TMatchController::class, 'store'])->name('t-match.store');
         Route::get('/show/{id}', [TMatchController::class, 'show'])->name('t-match.show');
+        Route::get('/done/{id}', [TMatchController::class, 'done'])->name('t-match.done');
         Route::get('/show-evaluation/{id}/{wasit}', [TMatchController::class, 'showEvaluation'])->name('t-match.show-evaluation');
         Route::get('/evaluation/{id}', [TMatchController::class, 'evaluation'])->name('t-match.evaluation');
         Route::get('/{id}/play-calling/evaluation', [TPlayCallingController::class, 'create'])->name('t-match.play-calling.create');
@@ -244,21 +250,32 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::prefix('game-management')->group(function () {
-        Route::get('/show/{id}/{wasit}', [TMatchController::class, 'gameManagementShow'])->name('game-management.show');
-        Route::get('/create/{id}', [TMatchController::class, 'gameManagementCreate'])->name('game-management.create');
-        Route::post('/store/{id}', [TMatchController::class, 'gameManagementStore'])->name('game-management.store');
+        Route::get('/show/{id}/{wasit}', [TGameManagementController::class, 'show'])->name('game-management.show');
+        Route::get('/create/{id}', [TGameManagementController::class, 'create'])->name('game-management.create');
+        Route::post('/store/{id}', [TGameManagementController::class, 'store'])->name('game-management.store');
     });
 
     Route::prefix('mechanical-court')->group(function () {
-        Route::get('/show/{id}/{wasit}', [TMatchController::class, 'mechanicalCourtShow'])->name('mechanical-court.show');
-        Route::get('/create/{id}', [TMatchController::class, 'mechanicalCourtCreate'])->name('mechanical-court.create');
-        Route::post('/store/{id}', [TMatchController::class, 'mechanicalCourtStore'])->name('mechanical-court.store');
+        Route::get('/show/{id}/{wasit}', [TMechanicalCourtController::class, 'show'])->name('mechanical-court.show');
+        Route::get('/create/{id}', [TMechanicalCourtController::class, 'create'])->name('mechanical-court.create');
+        Route::post('/store/{id}', [TMechanicalCourtController::class, 'store'])->name('mechanical-court.store');
     });
 
     Route::prefix('appearance')->group(function () {
-        Route::get('/show/{id}/{wasit}', [TMatchController::class, 'appearanceShow'])->name('appearance.show');
-        Route::get('/create/{id}', [TMatchController::class, 'appearanceCreate'])->name('appearance.create');
-        Route::post('/store/{id}', [TMatchController::class, 'appearanceStore'])->name('appearance.store');
+        Route::get('/show/{id}/{wasit}', [TAppearanceController::class, 'show'])->name('appearance.show');
+        Route::get('/create/{id}', [TAppearanceController::class, 'create'])->name('appearance.create');
+        Route::post('/store/{id}', [TAppearanceController::class, 'store'])->name('appearance.store');
+    });
+
+    Route::prefix('report-pertandingan')->group(function () {
+        Route::get('/', [ReportPertandingan::class, 'IndexEvent'])->name('report-pertandingan.index-event');
+        Route::get('/index-event', [ReportPertandingan::class, 'IndexEvent'])->name('report-pertandingan.index-event');
+        Route::get('/get-event', [ReportPertandingan::class, 'getEvent'])->name('report-pertandingan.get-event');
+        Route::post('/search-event', [ReportPertandingan::class, 'searchEvent'])->name('report-pertandingan.search-event');
+        Route::get('/index/{id}', [ReportPertandingan::class, 'index'])->name('report-pertandingan.index');
+        Route::get('/get/{id}', [ReportPertandingan::class, 'get'])->name('report-pertandingan.get');
+        Route::post('/search', [ReportPertandingan::class, 'search'])->name('report-pertandingan.search');
+        Route::get('/show/{id}', [ReportPertandingan::class, 'show'])->name('report-pertandingan.show');
     });
 });
 

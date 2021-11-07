@@ -47,6 +47,9 @@
                 @if(!$mechanicalCourt1) <a href="{{ route('mechanical-court.create', $model->id) }}" class="btn btn-primary"> Mechanical Court </a> @endif
                 @if(!$appearance1) <a href="{{ route('appearance.create', $model->id) }}" class="btn btn-primary"> Appearance </a> @endif
             @endif
+            @if ($model->status == 1)
+                <a href="{{ route('t-match.done', $model->id) }}" class="btn btn-warning"> Pertandingan Selesai </a>
+            @endif
             <a href="{{ route('t-match.index', $event->id) }}" class="btn btn-secondary"> Kembali </a>
 
             <br><br>
