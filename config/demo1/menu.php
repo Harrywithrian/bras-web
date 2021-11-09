@@ -2,6 +2,9 @@
 
 use App\Core\Adapters\Theme;
 
+
+// Debugbar::info('test');
+
 return [
     // Refer to config/global/menu.php
 

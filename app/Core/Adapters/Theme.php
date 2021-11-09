@@ -2,6 +2,7 @@
 
 namespace App\Core\Adapters;
 
+use Debugbar;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
@@ -451,7 +452,7 @@ class Theme extends \App\Core\Theme
     public function getMenu()
     {
         $menus = self::getOption('menu');
-
+    
         $output = [];
 
         foreach ($menus as $menu) {
