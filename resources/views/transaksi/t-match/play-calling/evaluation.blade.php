@@ -72,25 +72,25 @@
         @foreach($play_calling_data as $play_calling_type)
         <div class="flex-fill flex-column">
           <h6>{{ $play_calling_type->title }}</h6>
-          <div data-kt-buttons="true">
+          <!-- <div data-kt-buttons="true"> -->
 
-            @foreach($play_calling_type->data as $play_calling_type_item)
-            <label class="btn btn-outline btn-outline-dashed d-flex flex-stack text-start p-3 mb-3 active">
-              <div class="d-flex align-items-center">
-                <div class="form-check form-check-custom form-check-solid form-check-primary me-2 form-check-sm">
-                  <input class="form-check-input" type="{{ $play_calling_type->identifier_type }}" name="{{ $play_calling_type->identifier}}" value="{{ $play_calling_type_item->value }}" data-value='@json($play_calling_type_item)' />
-                </div>
-
-                <div class="flex-grow-1">
-                  <h6 class="d-flex align-items-center flex-wrap me-0 m-0">
-                    {{ $play_calling_type_item->text}}
-                  </h6>
-                </div>
+          @foreach($play_calling_type->data as $play_calling_type_item)
+          <label class="btn btn-outline btn-outline-dashed d-flex flex-stack text-start p-3 mb-3">
+            <div class="d-flex align-items-center">
+              <div class="form-check form-check-custom form-check-solid form-check-primary me-2 form-check-sm">
+                <input class="form-check-input" type="{{ $play_calling_type->identifier_type }}" name="{{ $play_calling_type->identifier}}" value="{{ $play_calling_type_item->value }}" data-value='@json($play_calling_type_item)' />
               </div>
-            </label>
-            @endforeach
 
-          </div>
+              <div class="flex-grow-1">
+                <h6 class="d-flex align-items-center flex-wrap me-0 m-0">
+                  {{ $play_calling_type_item->text}}
+                </h6>
+              </div>
+            </div>
+          </label>
+          @endforeach
+
+          <!-- </div> -->
         </div>
         @endforeach
 
@@ -151,6 +151,49 @@
 
     .show-content {
       visibility: visible;
+    }
+
+    /* active referee */
+    .active-referee {
+      background-color: #009EF7 !important;
+    }
+
+    .active-referee span .text-dark,
+    .active-referee span .text-muted {
+      color: white !important;
+    }
+    
+    .form-check.form-check-solid .form-check-input:checked {
+      background-color: red !important;
+    }
+
+    .btn.btn-outline.btn-outline-dashed:hover {
+      background-color: red !important;
+      border-color: red;
+    }
+
+    .btn.btn-outline.btn-outline-dashed .form-check.form-check-solid .form-check-input:checked {
+      background-color: red !important;
+    }
+
+    .btn-check:checked+.btn.btn-outline.btn-outline-dashed.btn-outline-default,
+    .btn-check:active+.btn.btn-outline.btn-outline-dashed.btn-outline-default,
+    .btn.btn-outline.btn-outline-dashed.btn-outline-default:focus:not(.btn-active),
+    .btn.btn-outline.btn-outline-dashed.btn-outline-default:hover:not(.btn-active),
+    .btn.btn-outline.btn-outline-dashed.btn-outline-default:active:not(.btn-active),
+    .btn.btn-outline.btn-outline-dashed.btn-outline-default.active,
+    .btn.btn-outline.btn-outline-dashed.btn-outline-default.show,
+    .show>.btn.btn-outline.btn-outline-dashed.btn-outline-default {
+      color: white !important;
+      border-color: #009EF7;
+      background-color: #009EF7 !important;
+    }
+
+    .btn-check:checked+.btn.btn-outline.btn-outline-dashed.btn-outline-default span .text-dark,
+    .btn-check:checked+.btn.btn-outline.btn-outline-dashed.btn-outline-default span .text-muted,
+    .btn.btn-outline.btn-outline-dashed.btn-outline-default:hover:not(.btn-active) span .text-dark,
+    .btn.btn-outline.btn-outline-dashed.btn-outline-default:hover:not(.btn-active) span .text-muted {
+      color: white !important;
     }
   </style>
   @endsection

@@ -11,6 +11,7 @@ use App\Models\Master\ZoneBox;
 use App\Models\Transaksi\TMatch;
 use App\Models\Transaksi\TPlayCalling;
 use App\Models\Transaksi\TPlayCallingIot;
+use App\Models\User;
 use Carbon\Carbon;
 use Debugbar;
 use Illuminate\Http\Request;
@@ -36,7 +37,7 @@ class Evaluation
 
 class TPlayCallingController extends Controller
 {
-    //
+    // create
     public function create($id)
     {
         $match = TMatch::with([
@@ -77,6 +78,7 @@ class TPlayCallingController extends Controller
         ]);
     }
 
+    // store
     public function store(Request $request, $id)
     {
         // decode
@@ -84,7 +86,7 @@ class TPlayCallingController extends Controller
 
         // dd($play_calling_data);
 
-        // DB::beginTransaction();
+        DB::beginTransaction();
         try {
             foreach ($play_calling_data as $play_calling_item) {
                 # code...
@@ -128,13 +130,51 @@ class TPlayCallingController extends Controller
                 TPlayCalling::updateEvaluation($id, $play_calling->referee);
             }
         } catch (\Throwable $th) {
-            throw $th;
-            // DB::rollBack();
+            // throw $th;
+            DB::rollBack();
             Session::flash('error', 'Error, Penilaian Play Calling gagal dibuat');
             return redirect()->route('t-match.play-calling.create', $id)->withInput();
         }
-        // DB::commit();
+        DB::commit();
         Session::flash('success', 'Penilaian Play Calling berhasil dibuat');
         return redirect()->route('t-match.show', $id)->with('clear_storage', true);
+    }
+
+    // summary
+    public function summary($id, $referee)
+    {
+        // get match and event
+        $match = TMatch::with([
+            'event' => function ($query) {
+                return $query->select(['id', 'nama']);
+            },
+        ])->where('id', $id)->first();
+        // get referee play calling
+        $referee_play_calling = User::with([
+            'playCalling' => function ($query) use ($id) {
+                return $query->select(['id', 'quarter', 'time', 'referee', 'id_t_match', 'call_analysis', 'position', 'zone_box', 'call_type', 'score'])->where('id_t_match', $id);
+            },
+            'playCalling.playCallingIot' => function ($query) {
+                return $query->select(['id_t_play_calling', 'iot']);
+            },
+            'matchEvaluation' => function ($query) use ($id) {
+                return $query->select(['id', 'id_t_match', 'referee', 'total_score'])->where('id_t_match', $id);
+            },
+        ])->where('id', $referee)->first(['id', 'name']);
+
+        // $score = $referee_play_calling->playCalling->sum('score');
+
+        // dd($referee_play_calling);
+        Debugbar::info($referee_play_calling);
+        return view('transaksi.t-match.play-calling.summary', [
+            'match' => $match,
+            'summary' => $referee_play_calling,
+            // 'totalScore' => $score
+        ]);
+    }
+
+    // evaluation
+    public function evaluation($id, $referee)
+    {
     }
 }

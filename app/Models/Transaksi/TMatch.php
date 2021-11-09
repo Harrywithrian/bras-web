@@ -32,4 +32,8 @@ class TMatch extends Model
     public function referee() {
         return $this->hasMany(TMatchReferee::class, 'id_t_match', 'id');
     }
+
+    public function event() {
+        return $this->belongsTo(TEvent::class, 'id_t_event', 'id');
+    }
 }

@@ -247,6 +247,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/evaluation/{id}', [TMatchController::class, 'evaluation'])->name('t-match.evaluation');
         Route::get('/{id}/play-calling/evaluation', [TPlayCallingController::class, 'create'])->name('t-match.play-calling.create');
         Route::post('/{id}/play-calling/evaluation', [TPlayCallingController::class, 'store'])->name('t-match.play-calling.store');
+        Route::get('/{id}/play-calling/{referee}/summary', [TPlayCallingController::class, 'summary'])->name('t-match.play-calling.summary');
+        Route::get('/{id}/play-calling/{referee}/evaluation', [TPlayCallingController::class, 'edit'])->name('t-match.play-calling.edit');
     });
 
     Route::prefix('game-management')->group(function () {

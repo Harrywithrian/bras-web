@@ -8,6 +8,10 @@
     <?php
     $title = 'Pertandingan ' . $model->nama;
 
+    $playCalling1 = \App\Models\Transaksi\TPlayCalling::where('id_t_match', '=', $model->id)->where('referee', '=', $wst1->id)->first();
+    $playCalling2 = \App\Models\Transaksi\TPlayCalling::where('id_t_match', '=', $model->id)->where('referee', '=', $wst2->id)->first();
+    $playCalling3 = \App\Models\Transaksi\TPlayCalling::where('id_t_match', '=', $model->id)->where('referee', '=', $wst3->id)->first();
+
     $gameManagement1 = \App\Models\Transaksi\TGameManagement::where('id_t_match', '=', $model->id)->where('referee', '=', $wst1->id)->where('level', '=', 3)->first();
     $gameManagement2 = \App\Models\Transaksi\TGameManagement::where('id_t_match', '=', $model->id)->where('referee', '=', $wst2->id)->where('level', '=', 3)->first();
     $gameManagement3 = \App\Models\Transaksi\TGameManagement::where('id_t_match', '=', $model->id)->where('referee', '=', $wst3->id)->where('level', '=', 3)->first();
@@ -112,7 +116,7 @@
                 </tr>
                 <tr>
                     <td><b>{{ $wst1->name }}</b></td>
-                    <td><center><span class="badge badge-danger">Belum di nilai</span></center></td>
+                    <td><center>@if($playCalling1) <a href="{{ route('t-match.play-calling.summary', ['id' => $model->id, 'referee' => $wst1->wasit]) }}" class="badge badge-success" data-bs-toggle="tooltip" data-bs-placement="top" title="Klik pada text untuk melihat"> Sudah di nilai </a> @else <span class="badge badge-danger">Belum di nilai</span> @endif</center></td>
                     <td><center>@if($gameManagement1) <a href="{{ route('game-management.show', ['id' => $model->id, 'wasit' => $wst1->wasit]) }}" class="badge badge-success" data-bs-toggle="tooltip" data-bs-placement="top" title="Klik pada text untuk melihat"> Sudah di nilai </a> @else <span class="badge badge-danger">Belum di nilai</span> @endif</center></td>
                     <td><center>@if($mechanicalCourt1) <a href="{{ route('mechanical-court.show', ['id' => $model->id, 'wasit' => $wst1->wasit]) }}" class="badge badge-success" data-bs-toggle="tooltip" data-bs-placement="top" title="Klik pada text untuk melihat"> Sudah di nilai </a> @else <span class="badge badge-danger">Belum di nilai</span> @endif</center></td>
                     <td><center>@if($appearance1) <a href="{{ route('appearance.show', ['id' => $model->id, 'wasit' => $wst1->wasit]) }}" class="badge badge-success" data-bs-toggle="tooltip" data-bs-placement="top" title="Klik pada text untuk melihat"> Sudah di nilai </a> @else <span class="badge badge-danger">Belum di nilai</span> @endif</center></td>
@@ -121,7 +125,7 @@
                 </tr>
                 <tr>
                     <td><b>{{ $wst2->name }}</b></td>
-                    <td><center><span class="badge badge-danger">Belum di nilai</span></center></td>
+                    <td><center>@if($playCalling2) <a href="{{ route('t-match.play-calling.summary', ['id' => $model->id, 'referee' => $wst1->wasit]) }}" class="badge badge-success" data-bs-toggle="tooltip" data-bs-placement="top" title="Klik pada text untuk melihat"> Sudah di nilai </a> @else <span class="badge badge-danger">Belum di nilai</span> @endif</center></td>
                     <td><center>@if($gameManagement2) <a href="{{ route('game-management.show', ['id' => $model->id, 'wasit' => $wst2->wasit]) }}" class="badge badge-success" data-bs-toggle="tooltip" data-bs-placement="top" title="Klik pada text untuk melihat"> Sudah di nilai </a> @else <span class="badge badge-danger">Belum di nilai</span> @endif</center></td>
                     <td><center>@if($mechanicalCourt2) <a href="{{ route('mechanical-court.show', ['id' => $model->id, 'wasit' => $wst2->wasit]) }}" class="badge badge-success" data-bs-toggle="tooltip" data-bs-placement="top" title="Klik pada text untuk melihat"> Sudah di nilai </a> @else <span class="badge badge-danger">Belum di nilai</span> @endif</center></td>
                     <td><center>@if($appearance2) <a href="{{ route('appearance.show', ['id' => $model->id, 'wasit' => $wst2->wasit]) }}" class="badge badge-success" data-bs-toggle="tooltip" data-bs-placement="top" title="Klik pada text untuk melihat"> Sudah di nilai </a> @else <span class="badge badge-danger">Belum di nilai</span> @endif</center></td>
@@ -130,7 +134,7 @@
                 </tr>
                 <tr>
                     <td><b>{{ $wst3->name }}</b></td>
-                    <td><center><span class="badge badge-danger">Belum di nilai</span></center></td>
+                    <td><center>@if($playCalling3) <a href="{{ route('t-match.play-calling.summary', ['id' => $model->id, 'referee' => $wst1->wasit]) }}" class="badge badge-success" data-bs-toggle="tooltip" data-bs-placement="top" title="Klik pada text untuk melihat"> Sudah di nilai </a> @else <span class="badge badge-danger">Belum di nilai</span> @endif</center></td>
                     <td><center>@if($gameManagement3) <a href="{{ route('game-management.show', ['id' => $model->id, 'wasit' => $wst3->wasit]) }}" class="badge badge-success" data-bs-toggle="tooltip" data-bs-placement="top" title="Klik pada text untuk melihat"> Sudah di nilai </a> @else <span class="badge badge-danger">Belum di nilai</span> @endif</center></td>
                     <td><center>@if($mechanicalCourt3) <a href="{{ route('mechanical-court.show', ['id' => $model->id, 'wasit' => $wst3->wasit]) }}" class="badge badge-success" data-bs-toggle="tooltip" data-bs-placement="top" title="Klik pada text untuk melihat"> Sudah di nilai </a> @else <span class="badge badge-danger">Belum di nilai</span> @endif</center></td>
                     <td><center>@if($appearance3) <a href="{{ route('appearance.show', ['id' => $model->id, 'wasit' => $wst3->wasit]) }}" class="badge badge-success" data-bs-toggle="tooltip" data-bs-placement="top" title="Klik pada text untuk melihat"> Sudah di nilai </a> @else <span class="badge badge-danger">Belum di nilai</span> @endif</center></td>

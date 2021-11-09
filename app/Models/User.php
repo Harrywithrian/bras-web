@@ -3,6 +3,10 @@
 namespace App\Models;
 
 use App\Core\Traits\SpatieLogsActivity;
+use App\Models\Transaksi\TMatch;
+use App\Models\Transaksi\TMatchEvaluation;
+use App\Models\Transaksi\TMatchReferee;
+use App\Models\Transaksi\TPlayCalling;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -58,7 +62,7 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject
             return asset($this->info->avatar_url);
         }
 
-        return asset(theme()->getMediaUrlPath().'avatars/blank.png');
+        return asset(theme()->getMediaUrlPath() . 'avatars/blank.png');
     }
 
     /**
@@ -69,6 +73,36 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject
     public function info()
     {
         return $this->hasOne(UserInfo::class);
+    }
+
+    /**
+     * User relation to match referee model
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function matchReferee()
+    {
+        return $this->hasMany(TMatchReferee::class, 'wasit', 'id');
+    }
+
+    /**
+     * User relation to match evaluation model
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function matchEvaluation()
+    {
+        return $this->hasMany(TMatchEvaluation::class, 'referee', 'id');
+    }
+
+    /**
+     * User relation to play calling model
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function playCalling()
+    {
+        return $this->hasMany(TPlayCalling::class, 'referee', 'id');
     }
 
     /**
@@ -91,20 +125,23 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject
         return [];
     }
 
-    public static function getPengawas() {
-        return User::with(['info','info.region'])->select('id', 'name')->role('Pengawas Pertandingan')->get()->map(function($value) {
+    public static function getPengawas()
+    {
+        return User::with(['info', 'info.region'])->select('id', 'name')->role('Pengawas Pertandingan')->get()->map(function ($value) {
             return ['id' => $value->id, 'text' => $value->name . ' - ' . $value->info->region->region];
         })->toArray();
     }
 
-    public static function getKoordinator() {
-        return User::with(['info','info.region'])->select('id', 'name')->role('Koordinator Wasit')->get()->map(function($value) {
+    public static function getKoordinator()
+    {
+        return User::with(['info', 'info.region'])->select('id', 'name')->role('Koordinator Wasit')->get()->map(function ($value) {
             return ['id' => $value->id, 'text' => $value->name . ' - ' . $value->info->region->region];
         })->toArray();
     }
 
-    public static function getWasit() {
-        return User::with(['info','info.region'])->select('id', 'name')->role('Wasit')->get()->map(function($value) {
+    public static function getWasit()
+    {
+        return User::with(['info', 'info.region'])->select('id', 'name')->role('Wasit')->get()->map(function ($value) {
             return ['id' => $value->id, 'text' => $value->name . ' - ' . $value->info->region->region];
         })->toArray();
     }

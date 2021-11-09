@@ -78,8 +78,8 @@ class TPlayCalling extends Model
         // get evaluation
         $evaluation = TMatchEvaluation::where('id_t_match', $id_t_match)->where('referee', $referee)->first();
 
-        // sumup play calling score
-        $score = TPlayCalling::select(['score'])->where('id_t_match', $id_t_match)->where('referee', $referee)->get()->sum('score');
+        // sumup play calling score, get average
+        $score = TPlayCalling::select(['score'])->where('id_t_match', $id_t_match)->where('referee', $referee)->get()->avg('score');
 
         // dd($evaluation);
         if (!$evaluation) {
