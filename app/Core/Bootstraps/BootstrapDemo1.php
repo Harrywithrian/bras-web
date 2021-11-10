@@ -201,9 +201,7 @@ class BootstrapDemo1 extends BootstrapBase
         // user
         $user = Auth::user();
         // user role
-        $userRoles = Role::with(['menus' => function ($query) {
-            return $query->select(['id', 'path', 'title', 'icon', 'bullet']);
-        }])->whereIn('id', $user->roles->pluck('id'))->get();
+        $userRoles = Role::with('menus')->whereIn('id', $user->roles->pluck('id'))->get();
         // user menu collection
         $userMenuCollection = collect([]);
         foreach ($userRoles as $userRole) {
@@ -214,39 +212,39 @@ class BootstrapDemo1 extends BootstrapBase
         // parse menu flat to tree
         $userMenus = MasterMenu::hydrate($userMenus->sortBy('order')->toArray())->toTree();
 
-        // // get menu bypass user roles
-        // $defaultMenus = MasterMenu::all();
-
         // reformatted menus
         self::formattedMenu($userMenus);
-
-
-        // Debugbar::info($userMenus->toArray());
-        // self::$asideMenu->items = [];
+        self::$asideMenu->items = $userMenus->toArray();
         return self::$asideMenu;
     }
 
     public static function formattedMenu($menus)
     {
         foreach ($menus as $menu) {
-            Debugbar::info($menu);
-            if ($menu->hasChildren()) {
-                $menu['sub'] = [
-                    'title' => $menu->title,
-                    'icon' => [
-                        'font' => $menu->icon,
-                    ],
-                    'classes' => ['item' => 'menu-accordion'],
-                    'attributes' => [
-                        "data-kt-menu-trigger" => "click",
-                    ],
-                    'class' => 'menu-sub-accordion menu-active-bg',
-                    // 'items' => $this->formattedMenu($menu)
-                ];
-            } else {
+            // Debugbar::info($menu);
+            if (!empty($menu->children) && count($menu->children) > 0) {
+                $menu['title'] = $menu->title;
                 $menu['icon'] = [
                     'font' => $menu->icon,
                 ];
+                $menu['classes'] = ['item' => 'menu-accordion'];
+                $menu['attributes'] = [
+                    "data-kt-menu-trigger" => "click",
+                ];
+                $menu['sub'] = [
+                    'class' => 'menu-sub-accordion menu-active-bg',
+                    'items' => $menu->children->toArray()
+                ];
+                self::formattedMenu($menu->children->toArray());
+            } else {
+                // if icon not empty set icon, otherwise set bullet
+                if (!empty($menu->icon)) {
+                    $menu['icon'] = [
+                        'font' => $menu->icon,
+                    ];
+                } else {
+                    $menu['bullet'] = '<span class="bullet bullet-dot"></span>';
+                }
             }
         }
     }
