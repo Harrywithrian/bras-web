@@ -29,7 +29,8 @@ use App\Http\Controllers\Transaksi\TGameManagementController;
 use App\Http\Controllers\Transaksi\TMechanicalCourtController;
 use App\Http\Controllers\Transaksi\TAppearanceController;
 
-use App\Http\Controllers\Transaksi\ReportPertandingan;
+use App\Http\Controllers\Transaksi\ReportPertandinganController;
+use App\Http\Controllers\Transaksi\ReportWasitController;
 
 /*
 |--------------------------------------------------------------------------
@@ -270,14 +271,25 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::prefix('report-pertandingan')->group(function () {
-        Route::get('/', [ReportPertandingan::class, 'IndexEvent'])->name('report-pertandingan.index-event');
-        Route::get('/index-event', [ReportPertandingan::class, 'IndexEvent'])->name('report-pertandingan.index-event');
-        Route::get('/get-event', [ReportPertandingan::class, 'getEvent'])->name('report-pertandingan.get-event');
-        Route::post('/search-event', [ReportPertandingan::class, 'searchEvent'])->name('report-pertandingan.search-event');
-        Route::get('/index/{id}', [ReportPertandingan::class, 'index'])->name('report-pertandingan.index');
-        Route::get('/get/{id}', [ReportPertandingan::class, 'get'])->name('report-pertandingan.get');
-        Route::post('/search', [ReportPertandingan::class, 'search'])->name('report-pertandingan.search');
-        Route::get('/show/{id}', [ReportPertandingan::class, 'show'])->name('report-pertandingan.show');
+        Route::get('/', [ReportPertandinganController::class, 'IndexEvent'])->name('report-pertandingan.index-event');
+        Route::get('/index-event', [ReportPertandinganController::class, 'IndexEvent'])->name('report-pertandingan.index-event');
+        Route::get('/get-event', [ReportPertandinganController::class, 'getEvent'])->name('report-pertandingan.get-event');
+        Route::post('/search-event', [ReportPertandinganController::class, 'searchEvent'])->name('report-pertandingan.search-event');
+        Route::get('/index/{id}', [ReportPertandinganController::class, 'index'])->name('report-pertandingan.index');
+        Route::get('/get/{id}', [ReportPertandinganController::class, 'get'])->name('report-pertandingan.get');
+        Route::post('/search', [ReportPertandinganController::class, 'search'])->name('report-pertandingan.search');
+        Route::get('/show/{id}', [ReportPertandinganController::class, 'show'])->name('report-pertandingan.show');
+    });
+
+    Route::prefix('report-wasit')->group(function () {
+        Route::get('/', [ReportWasitController::class, 'index'])->name('report-wasit.index');
+        Route::get('/index', [ReportWasitController::class, 'index'])->name('report-wasit.index');
+        Route::get('/get', [ReportWasitController::class, 'get'])->name('report-wasit.get');
+        Route::post('/search', [ReportWasitController::class, 'search'])->name('report-wasit.search');
+        Route::get('/show/{id}', [ReportWasitController::class, 'show'])->name('report-wasit.show');
+        Route::get('/get-match/{id}', [ReportWasitController::class, 'getMatch'])->name('report-wasit.get-match');
+        Route::post('/search-match', [ReportWasitController::class, 'searchMatch'])->name('report-wasit.search-match');
+        Route::get('/show-match/{id}/{wasit}', [ReportWasitController::class, 'showMatch'])->name('report-wasit.show-match');
     });
 });
 

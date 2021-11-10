@@ -9,11 +9,11 @@ use App\Models\Transaksi\TMatch;
 use App\Models\Transaksi\TMatchEvaluation;
 use App\Models\Transaksi\TMatchReferee;
 use App\Models\Transaksi\TMechanicalCourt;
-use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 class TMechanicalCourtController extends Controller
 {

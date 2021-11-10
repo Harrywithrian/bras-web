@@ -3,15 +3,15 @@
 namespace App\Http\Controllers\Transaksi;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use App\Models\Master\Location;
 use App\Models\Transaksi\TEvent;
 use App\Models\Transaksi\TMatch;
 use App\Models\Transaksi\TMatchReferee;
 use App\Models\UserInfo;
-use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
-class ReportPertandingan extends Controller
+class ReportPertandinganController extends Controller
 {
     public function indexEvent()
     {

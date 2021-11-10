@@ -61,7 +61,7 @@ $arr           = array_merge(range('a', 'z'));
                                     <td><b>{{ number_format($pa1['nilai'],2,".","") }}</b></td>
                                 </tr>
                                 <?php
-                                $aChildWasit1 = \App\Models\Transaksi\TMechanicalCourt::where('id_parent', '=', $pa1['id_m_appearance'])
+                                $aChildWasit1 = \App\Models\Transaksi\TAppearance::where('id_parent', '=', $pa1['id_m_appearance'])
                                     ->where('id_t_match', '=', $model->id)->where('referee', '=', $wst1->wasit)->where('level', '=', 2)->orderBy('order_by')->get()->toArray();
                                 $j = 0;
                                 ?>
