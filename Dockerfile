@@ -3,7 +3,7 @@
 # RUN apt-get -y update && apt-get install -y fortunes
 # CMD ["sh", "-c", "/usr/games/fortune -a | cowsay"]
 
-FROM php:8.0-fpm-alpine
+FROM php:8.0.12-fpm-alpine
 
 RUN docker-php-ext-install pdo pdo_mysql
 
