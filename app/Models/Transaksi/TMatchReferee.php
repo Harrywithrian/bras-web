@@ -28,4 +28,8 @@ class TMatchReferee extends Model
     public function user() {
         return $this->belongsTo(User::class, 'wasit', 'id');
     }
+
+    public function match() {
+        return $this->belongsTo(TMatch::class, 'id_t_match', 'id');
+    }
 }

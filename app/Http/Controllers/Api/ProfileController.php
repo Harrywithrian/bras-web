@@ -9,88 +9,77 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Storage;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class ProfileController extends Controller
 {
     // profile
-    public function profile($userId)
+    public function profile()
     {
-        $profile = User::role('Wasit')->with([
-            'info',
-            'info.license',
-            'info.fileLicense',
-            'info.filePhoto',
-            'info.role',
-            'info.region'
-        ])->where('id', $userId)->first();
+        $user = JWTAuth::parseToken()->authenticate();
 
-        if (!$profile || empty($profile)) {
-            return response()->json([
-                'statusCode' => 404,
-                'error' => 'Not found'
-            ], 404);
-        }
+        $userProfile = User::getProfile($user->id);
 
         return response()->json([
             'statusCode' => 200,
-            'message' => $profile
+            'message' => $userProfile
         ], 200);
     }
 
-    // profile avatar
-    public function avatar($fileId)
-    {
-        $file = TFile::select(['path'])->where('id', $fileId)->where('path', 'LIKE', '%foto%')->first();
+    // // profile avatar
+    // public function avatar($fileId)
+    // {
+    //     $file = TFile::select(['path'])->where('id', $fileId)->where('path', 'LIKE', '%foto%')->first();
 
-        try {
-            $filePath = storage_path('app/public' . '/' . $file->path);
-            $file = File::get($filePath);
-            $fileType = File::mimeType($filePath);
+    //     try {
+    //         $filePath = storage_path('app/public' . '/' . $file->path);
+    //         $file = File::get($filePath);
+    //         $fileType = File::mimeType($filePath);
 
-            $response = Response::make($file, 200, [
-                'Content-Type' => $fileType
-            ]);
+    //         $response = Response::make($file, 200, [
+    //             'Content-Type' => $fileType
+    //         ]);
 
-            return $response;
-        } catch (\Throwable $th) {
-            return $this->defaultAvatar();
-        }
-    }
+    //         return $response;
+    //     } catch (\Throwable $th) {
+    //         return $this->defaultAvatar();
+    //     }
+    // }
 
-    // profile license
-    public function license($fileId)
-    {
-        $file = TFile::select(['path'])->where('id', $fileId)->where('path', 'LIKE', '%lisensi%')->first();
+    // // profile license
+    // public function license($fileId)
+    // {
+    //     $file = TFile::select(['path'])->where('id', $fileId)->where('path', 'LIKE', '%lisensi%')->first();
 
-        try {
-            $filePath = storage_path('app/public' . '/' . $file->path);
-            $file = File::get($filePath);
-            $fileType = File::mimeType($filePath);
+    //     try {
+    //         $filePath = storage_path('app/public' . '/' . $file->path);
+    //         $file = File::get($filePath);
+    //         $fileType = File::mimeType($filePath);
 
-            $response = Response::make($file, 200, [
-                'Content-Type' => $fileType
-            ]);
+    //         $response = Response::make($file, 200, [
+    //             'Content-Type' => $fileType
+    //         ]);
 
-            return $response;
-        } catch (\Throwable $th) {
-            return response()->json([
-                'statusCode' => 404,
-                'message' => 'Not found'
-            ], 404);
-        }
-    }
+    //         return $response;
+    //     } catch (\Throwable $th) {
+    //         return response()->json([
+    //             'statusCode' => 404,
+    //             'message' => 'Not found'
+    //         ], 404);
+    //     }
+    // }
 
-    // default avatar
-    public function defaultAvatar()
-    {
-        $filePath = storage_path('app/public' . '/' . 'default-avatar.jpg');
-        $file = File::get($filePath);
-        $fileType = File::mimeType($filePath);
+    // // default avatar
+    // public function defaultAvatar()
+    // {
+    //     $filePath = storage_path('app/public' . '/' . 'default-avatar.jpg');
+    //     $file = File::get($filePath);
+    //     $fileType = File::mimeType($filePath);
 
-        $response = Response::make($file, 200, [
-            'Content-Type' => $fileType
-        ]);
+    //     $response = Response::make($file, 200, [
+    //         'Content-Type' => $fileType
+    //     ]);
 
-        return $response;
-    }
+    //     return $response;
+    // }
 }

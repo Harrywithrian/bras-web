@@ -37,8 +37,35 @@ class UserInfo extends Model
         }
 
         // no avatar, return blank avatar
-        return asset(theme()->getMediaUrlPath().'avatars/blank.png');
+        return asset(theme()->getMediaUrlPath() . 'avatars/blank.png');
     }
+
+    /**
+     * Prepare proper error handling for url attribute
+     *
+     * @return string
+     */
+    public function getLicenseUrlAttribute()
+    {
+        // if file avatar exist in storage folder
+        $model = TFile::find($this->id_t_file_lisensi);
+        if ($model) {
+            $avatar = public_path(Storage::url($model->path));
+            if (is_file($avatar) && file_exists($avatar)) {
+                // get avatar url from storage
+                return Storage::url($model->path);
+            }
+
+            // check if the avatar is an external url, eg. image from google
+            if (filter_var($this->avatar, FILTER_VALIDATE_URL)) {
+                return $this->avatar;
+            }
+        }
+
+        // no avatar, return blank avatar
+        return asset(theme()->getMediaUrlPath() . 'avatars/blank.png');
+    }
+
 
     /**
      * User info relation to user model
@@ -73,7 +100,8 @@ class UserInfo extends Model
      * 
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function role() {
+    public function role()
+    {
         return $this->belongsTo(Role::class, 'role', 'id');
     }
 
@@ -82,7 +110,8 @@ class UserInfo extends Model
      * 
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function fileLicense() {
+    public function fileLicense()
+    {
         return $this->belongsTo(TFile::class, 'id_t_file_lisensi', 'id');
     }
 
@@ -91,7 +120,8 @@ class UserInfo extends Model
      * 
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function filePhoto() {
+    public function filePhoto()
+    {
         return $this->belongsTo(TFile::class, 'id_t_file_foto', 'id');
     }
 
@@ -100,7 +130,8 @@ class UserInfo extends Model
      * 
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function region() {
+    public function region()
+    {
         return $this->belongsTo(Region::class, 'id_m_region', 'id');
     }
 
@@ -109,7 +140,8 @@ class UserInfo extends Model
      * 
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function license() {
+    public function license()
+    {
         return $this->belongsTo(License::class, 'id_m_lisensi', 'id');
     }
 }

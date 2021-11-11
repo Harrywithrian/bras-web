@@ -35,45 +35,43 @@ Route::prefix('auth')->group(function () {
     Route::post('/register', [AuthController::class, 'register'])->name('auth.register');
 });
 
-// assignment
-Route::prefix('assigment')->group(function () {
-    Route::get('/', [AssignmentController::class, 'assignments'])->name('assignment');
+Route::middleware(['jwt.verify'])->group(function () {
+    // assignment
+    Route::prefix('assignment')->group(function () {
+        Route::get('/', [AssignmentController::class, 'assignments'])->name('assignment');
+    });
+
+    // game
+    Route::prefix('game')->group(function () {
+        Route::get('/', [GameController::class, 'games'])->name('game');
+    });
+
+    // match
+    Route::prefix('match')->group(function () {
+        Route::get('/', [MatchController::class, 'matches'])->name('match');
+    });
+
+    // notification
+    Route::prefix('notification')->group(function () {
+        Route::get('/', [NotificationController::class, 'notifications'])->name('notification');
+    });
+
+
+    // rule book
+    Route::prefix('rule')->group(function () {
+        Route::get('/', [RuleController::class, 'rules'])->name('rule');
+    });
+
+    // referee
+    Route::prefix('referee')->group(function () {
+        Route::get('/', [RefereeController::class, 'referees'])->name('referee');
+    });
+
+    // profile
+    Route::prefix('profile')->group(function () {
+        Route::get('/', [ProfileController::class, 'profile'])->name('profile');
+        // Route::get('/avatar', [ProfileController::class, 'defaultAvatar'])->name('profile.avatar.default');
+        // Route::get('/avatar/{fileId}', [ProfileController::class, 'file'])->name('profile.avatar');
+        // Route::get('/license/{fileId}', [ProfileController::class, 'file'])->name('profile.license');
+    });
 });
-
-// game
-Route::prefix('game')->group(function () {
-    Route::get('/', [GameController::class, 'games'])->name('game');
-});
-
-// match
-Route::prefix('match')->group(function () {
-    Route::get('/', [MatchController::class, 'matches'])->name('match');
-});
-
-// notification
-Route::prefix('notification')->group(function () {
-    Route::get('/', [NotificationController::class, 'notifications'])->name('notification');
-});
-
-
-// rule book
-Route::prefix('rule')->group(function () {
-    Route::get('/', [RuleController::class, 'rules'])->name('rule');
-});
-
-// referee
-Route::prefix('referee')->group(function () {
-    Route::get('/', [RefereeController::class, 'referees'])->name('referee');
-});
-
-// profile
-Route::prefix('profile')->group(function () {
-    Route::get('/{userId}', [ProfileController::class, 'profile'])->name('profile');
-    Route::get('/avatar', [ProfileController::class, 'defaultAvatar'])->name('profile.avatar.default');
-    Route::get('/avatar/{fileId}', [ProfileController::class, 'file'])->name('profile.avatar');
-    Route::get('/license/{fileId}', [ProfileController::class, 'file'])->name('profile.license');
-});
-
-
-
-

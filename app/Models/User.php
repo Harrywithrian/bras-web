@@ -145,4 +145,36 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject
             return ['id' => $value->id, 'text' => $value->name . ' - ' . $value->info->region->region];
         })->toArray();
     }
+
+
+    // get user data when logged in for API
+    public static function getProfile($userId)
+    {
+        $user = User::with([
+            'info' => function ($query) {
+                return $query->select(['id', 'user_id', 'no_lisensi', 'id_m_lisensi', 'tempat_lahir', 'tanggal_lahir', 'alamat', 'id_m_region', 'id_t_file_lisensi', 'id_t_file_foto', 'role']);
+            },
+            'info.license' => function ($query) {
+                return $query->select(['id', 'license']);
+            },
+            'info.fileLicense' => function ($query) {
+                return $query->select(['id']);
+            },
+            'info.filePhoto' => function ($query) {
+                return $query->select(['id']);
+            },
+            'info.role' => function ($query) {
+                return $query->select(['id', 'name']);
+            },
+            'info.region' => function ($query) {
+                return $query->select(['id', 'kode', 'region']);
+            }
+        ])->where('id', $userId)->first(['id', 'username', 'name', 'email']);
+
+        // serialize user rile license and photo
+        $user->info->fileLicense['path'] = env('APP_URL') . $user->info->getLicenseUrlAttribute();
+        $user->info->filePhoto['path'] = env('APP_URL') . $user->info->getAvatarUrlAttribute();
+
+        return $user;
+    }
 }
