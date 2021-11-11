@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Transaksi;
 
 use App\Http\Controllers\Controller;
+use App\Models\Master\License;
+use App\Models\Master\Region;
 use Illuminate\Http\Request;
 use App\Models\Master\Location;
 use App\Models\Transaksi\TEvent;
@@ -10,6 +12,7 @@ use App\Models\Transaksi\TMatch;
 use App\Models\Transaksi\TMatchReferee;
 use App\Models\UserInfo;
 use Yajra\DataTables\Facades\DataTables;
+use PDF;
 
 class ReportPertandinganController extends Controller
 {
@@ -217,5 +220,56 @@ class ReportPertandinganController extends Controller
             'foto2' => $foto2,
             'foto3' => $foto3,
         ]);
+    }
+
+    public function cetak($id) {
+        $match   = TMatch::find($id);
+        $lokasi  = Location::find($match->id_m_location);
+        $event   = TEvent::find($match->id_t_event);
+
+        $wst1 = TMatchReferee::leftJoin('users', 'users.id', '=', 't_match_referee.wasit')->where('id_t_match', '=', $id)->where('posisi', '=', 'Crew Chief')->first();
+        $wst2 = TMatchReferee::leftJoin('users', 'users.id', '=', 't_match_referee.wasit')->where('id_t_match', '=', $id)->where('posisi', '=', 'Official 1')->first();
+        $wst3 = TMatchReferee::leftJoin('users', 'users.id', '=', 't_match_referee.wasit')->where('id_t_match', '=', $id)->where('posisi', '=', 'Official 2')->first();
+
+        $detail1 = UserInfo::where('user_id', '=', $wst1->id)->first();
+        $detail2 = UserInfo::where('user_id', '=', $wst2->id)->first();
+        $detail3 = UserInfo::where('user_id', '=', $wst3->id)->first();
+
+        $license1 = License::find($detail1->id_m_lisensi);
+        $license2 = License::find($detail2->id_m_lisensi);
+        $license3 = License::find($detail3->id_m_lisensi);
+
+        $region1  = Region::find($detail1->id_m_region);
+        $region2  = Region::find($detail2->id_m_region);
+        $region3  = Region::find($detail3->id_m_region);
+
+        $foto1 = UserInfo::select(['t_file.path'])->leftJoin('t_file', 't_file.id', '=', 'user_infos.id_t_file_foto')->where('user_id', '=', $wst1->id)->first();
+        $foto2 = UserInfo::select(['t_file.path'])->leftJoin('t_file', 't_file.id', '=', 'user_infos.id_t_file_foto')->where('user_id', '=', $wst2->id)->first();
+        $foto3 = UserInfo::select(['t_file.path'])->leftJoin('t_file', 't_file.id', '=', 'user_infos.id_t_file_foto')->where('user_id', '=', $wst3->id)->first();
+
+        $data = [
+            'id' => $id,
+            'match' => $match,
+            'lokasi' => $lokasi,
+            'event' => $event,
+            'wst1' => $wst1,
+            'wst2' => $wst2,
+            'wst3' => $wst3,
+            'detail1' => $detail1,
+            'detail2' => $detail2,
+            'detail3' => $detail3,
+            'license1' => $license1,
+            'license2' => $license2,
+            'license3' => $license3,
+            'region1' => $region1,
+            'region2' => $region2,
+            'region3' => $region3,
+            'foto1' => $foto1,
+            'foto2' => $foto2,
+            'foto3' => $foto3,
+        ];
+
+        $pdf = PDF::loadView('transaksi.report-pertandingan.cetak', $data)->setPaper('a4', 'potrait');
+        return $pdf->download('Report Wasit_' . $match->nama);
     }
 }

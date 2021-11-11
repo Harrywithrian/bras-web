@@ -1,4 +1,4 @@
-<a href="#" class="btn btn-primary"> Cetak </a>
+<a href="{{ route('report-pertandingan.cetak', $model->id) }}" class="btn btn-primary"> Cetak </a>
 <a href="{{ route('report-pertandingan.index', $event->id) }}" class="btn btn-secondary"> Kembali </a>
 
 <br><br>

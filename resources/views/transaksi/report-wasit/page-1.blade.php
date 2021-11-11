@@ -1,4 +1,4 @@
-<a href="#" class="btn btn-primary"> Cetak </a>
+<a href="{{ route('report-wasit.cetak', [$model->id, $user->id]) }}" class="btn btn-primary"> Cetak </a>
 <a href="{{ route('report-wasit.show', $user->id) }}" class="btn btn-secondary"> Kembali </a>
 
 <br><br>

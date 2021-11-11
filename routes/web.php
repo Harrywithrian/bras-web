@@ -279,6 +279,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/get/{id}', [ReportPertandinganController::class, 'get'])->name('report-pertandingan.get');
         Route::post('/search', [ReportPertandinganController::class, 'search'])->name('report-pertandingan.search');
         Route::get('/show/{id}', [ReportPertandinganController::class, 'show'])->name('report-pertandingan.show');
+        Route::get('/cetak/{id}', [ReportPertandinganController::class, 'cetak'])->name('report-pertandingan.cetak');
     });
 
     Route::prefix('report-wasit')->group(function () {
@@ -290,6 +291,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/get-match/{id}', [ReportWasitController::class, 'getMatch'])->name('report-wasit.get-match');
         Route::post('/search-match', [ReportWasitController::class, 'searchMatch'])->name('report-wasit.search-match');
         Route::get('/show-match/{id}/{wasit}', [ReportWasitController::class, 'showMatch'])->name('report-wasit.show-match');
+        Route::get('/cetak/{id}/{wasit}', [ReportWasitController::class, 'cetak'])->name('report-wasit.cetak');
     });
 });
 

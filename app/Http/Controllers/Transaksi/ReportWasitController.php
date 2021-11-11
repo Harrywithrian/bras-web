@@ -10,8 +10,10 @@ use App\Models\Transaksi\TEvent;
 use App\Models\Transaksi\TFile;
 use App\Models\Transaksi\TMatch;
 use App\Models\Transaksi\TMatchReferee;
+use App\Models\Transaksi\TPlayCalling;
 use App\Models\User;
 use App\Models\UserInfo;
+use PDF;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
@@ -195,7 +197,7 @@ class ReportWasitController extends Controller
 
     public function showMatch($id, $wasit) {
         $user   = User::find($wasit);
-        $detail = UserInfo::where('user_infos.user_id', '=', $id)->first();
+        $detail = UserInfo::where('user_infos.user_id', '=', $wasit)->first();
 
         $model  = TMatch::find($id);
         $lokasi = Location::find($model->id_m_location);
@@ -223,5 +225,63 @@ class ReportWasitController extends Controller
             'foto2'  => $foto2,
             'foto3'  => $foto3,
         ]);
+    }
+
+    public function cetak($id, $wasit) {
+        $user    = User::find($wasit);
+        $detail  = UserInfo::where('user_id', '=', $wasit)->first();
+        $foto    = UserInfo::select(['t_file.path'])->leftJoin('t_file', 't_file.id', '=', 'user_infos.id_t_file_foto')->where('user_id', '=', $wasit)->first();
+        $license = License::find($detail->id_m_lisensi);
+        $region  = Region::find($detail->id_m_region);
+
+        $match   = TMatch::find($id);
+        $refereeMatch = TMatchReferee::where('id_t_match', '=', $id)->where('wasit', '=', $wasit)->first();
+        $lokasi  = Location::find($match->id_m_location);
+        $event   = TEvent::find($match->id_t_event);
+
+        # PLAY CALLING
+        $playCalling = TPlayCalling::where('id_t_match', '=', $id)->where('referee', '=', $wasit)->orderBy('quarter', 'ASC')->orderBy('time', 'DESC')->get()->toArray();
+        $playCallingTotal = TPlayCalling::where('id_t_match', '=', $id)->where('referee', '=', $wasit)->orderBy('quarter', 'ASC')->orderBy('time', 'DESC')->get()->sum('score');
+
+        # GAME MANAGEMENT
+        $gmWasit      = \App\Models\Transaksi\TGameManagement::where('id_t_match', '=', $id)->where('referee', '=', $wasit)->where('level', '=', 1)->get()->toArray();
+        $gmTotalWasit = \App\Models\Transaksi\TGameManagement::where('id_t_match', '=',$id)->where('referee', '=', $wasit)->where('level', '=', 3)->first();
+
+        # MECHANICAL COURT
+        $mcWasit      = \App\Models\Transaksi\TMechanicalCourt::where('id_t_match', '=', $id)->where('referee', '=', $wasit)->where('level', '=', 1)->get()->toArray();
+        $mcTotalWasit = \App\Models\Transaksi\TMechanicalCourt::where('id_t_match', '=', $id)->where('referee', '=', $wasit)->where('level', '=', 3)->first();
+
+        # APPEARANCE
+        $aWasit       = \App\Models\Transaksi\TAppearance::where('id_t_match', '=', $id)->where('referee', '=', $wasit)->where('level', '=', 1)->get()->toArray();
+        $aTotalWasit  = \App\Models\Transaksi\TAppearance::where('id_t_match', '=', $id)->where('referee', '=', $wasit)->where('level', '=', 3)->first();
+
+        # TOTAL EVALUASI
+        $evaluation   = \App\Models\Transaksi\TMatchEvaluation::where('id_t_match', '=', $id)->where('referee', '=', $wasit)->first();
+
+        $data = [
+            'id' => $id,
+            'wasit' => $wasit,
+            'user' => $user,
+            'detail' => $detail,
+            'license' => $license,
+            'region' => $region,
+            'foto' => $foto,
+            'match' => $match,
+            'refereeMatch' => $refereeMatch,
+            'lokasi' => $lokasi,
+            'event' => $event,
+            'playCalling' => $playCalling,
+            'playCallingTotal' => $playCallingTotal,
+            'gmWasit' => $gmWasit,
+            'gmTotalWasit' => $gmTotalWasit,
+            'mcWasit' => $mcWasit,
+            'mcTotalWasit' => $mcTotalWasit,
+            'aWasit' => $aWasit,
+            'aTotalWasit' => $aTotalWasit,
+            'evaluation' => $evaluation,
+        ];
+
+        $pdf = PDF::loadView('transaksi.report-wasit.cetak', $data)->setPaper('a4', 'potrait');
+        return $pdf->download('Report Wasit_' . $match->name . '_' . $user->name);
     }
 }
