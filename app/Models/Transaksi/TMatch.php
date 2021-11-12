@@ -2,6 +2,7 @@
 
 namespace App\Models\Transaksi;
 
+use App\Models\Master\Location;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -29,11 +30,19 @@ class TMatch extends Model
     ];
 
     // relation
-    public function referee() {
+    public function referees() {
         return $this->hasMany(TMatchReferee::class, 'id_t_match', 'id');
+    }
+
+    public function referee() {
+        return $this->hasOne(TMatchReferee::class, 'id_t_match', 'id');
     }
 
     public function event() {
         return $this->belongsTo(TEvent::class, 'id_t_event', 'id');
+    }
+
+    public function location() {
+        return $this->belongsTo(Location::class, 'id_m_location', 'id');
     }
 }
