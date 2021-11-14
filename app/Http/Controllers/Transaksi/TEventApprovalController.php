@@ -4,9 +4,13 @@ namespace App\Http\Controllers\Transaksi;
 
 use App\Http\Controllers\Controller;
 use App\Models\Transaksi\TEvent;
+use App\Models\Transaksi\TEventContact;
+use App\Models\Transaksi\TEventLetter;
 use App\Models\Transaksi\TEventLocation;
 use App\Models\Transaksi\TEventParticipant;
 use App\Models\Transaksi\TEventRegion;
+use App\Models\Transaksi\TEventTembusan;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
@@ -125,11 +129,16 @@ class TEventApprovalController extends Controller
             ->orderBy('user_infos.role', 'ASC')
             ->get()->toArray();
 
+        $tembusan = TEventTembusan::where('id_t_event', '=', $id)->get()->toArray();
+        $cp       = TEventContact::where('id_t_event', '=', $id)->get()->toArray();
+
         return view('transaksi.t-event-approval.show', [
             'model' => $model,
             'location' => $location,
             'region' => $region,
             'participant' => $participant,
+            'tembusan' => $tembusan,
+            'cp' => $cp,
         ]);
     }
 
@@ -139,6 +148,15 @@ class TEventApprovalController extends Controller
         $model->penindak = Auth::id();
         $model->tanggal_tindakan = date('Y-m-d');
         $model->save();
+
+        $letter = new TEventLetter();
+        $letter->id_t_event = $request->id;
+        $letter->no_surat   = $model->no_lisensi;
+        $letter->perihal    = $model->nama;
+        $letter->sent       = 0;
+        $letter->createdby   = Auth::id();
+        $letter->createdon   = Carbon::now();
+        $letter->save();
 
         $status  = 200;
         $header  = 'Success';

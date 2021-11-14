@@ -19,9 +19,8 @@ class TEventLetter extends Model
         'id_t_event',
         'no_surat',
         'perihal',
-        'pengirim',
-        'kepada',
-        'tembusan',
+        'sent_date',
+        'sent',
         'createdby',
         'createdon',
     ];

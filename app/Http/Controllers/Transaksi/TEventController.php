@@ -4,9 +4,12 @@ namespace App\Http\Controllers\Transaksi;
 
 use App\Http\Controllers\Controller;
 use App\Models\Transaksi\TEvent;
+use App\Models\Transaksi\TEventContact;
 use App\Models\Transaksi\TEventLocation;
 use App\Models\Transaksi\TEventParticipant;
 use App\Models\Transaksi\TEventRegion;
+use App\Models\Transaksi\TEventTembusan;
+use App\Models\Transaksi\TNomorSurat;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -129,11 +132,16 @@ class TEventController extends Controller
             ->orderBy('user_infos.role', 'ASC')
             ->get()->toArray();
 
+        $tembusan = TEventTembusan::where('id_t_event', '=', $id)->get()->toArray();
+        $cp       = TEventContact::where('id_t_event', '=', $id)->get()->toArray();
+
         return view('transaksi.t-event.show', [
             'model' => $model,
             'location' => $location,
             'region' => $region,
             'participant' => $participant,
+            'tembusan' => $tembusan,
+            'cp' => $cp,
         ]);
     }
 
@@ -145,7 +153,6 @@ class TEventController extends Controller
         try {
             $rules = [
                 'nama' => 'required',
-                'no_lisensi' => 'required',
                 'tanggal_mulai' => 'required|date|before_or_equal:tanggal_selesai',
                 'tanggal_selesai' => 'required|date|after_or_equal:tanggal_mulai',
                 'provinsi' => 'required',
@@ -175,7 +182,7 @@ class TEventController extends Controller
             $model->tanggal_selesai = $request->tanggal_selesai;
             $model->tipe            = $request->tipe_event;
             $model->penyelenggara   = Auth::id();
-            $model->no_lisensi      = $request->no_lisensi;
+            $model->no_lisensi      = TNomorSurat::createNomor();
             $model->status          = 0;
             $model->createdby       = Auth::id();
             $model->createdon       = Carbon::now();
@@ -249,6 +256,39 @@ class TEventController extends Controller
                         return redirect(route('t-event.create'))->withInput();
                     };
                 }
+
+                $k = 0;
+                foreach ($request->nama_tembusan as $itemTembusan) {
+                    $tembusan = new TEventTembusan();
+                    $tembusan->id_t_event = $model->id;
+                    $tembusan->nama       = $itemTembusan;
+                    $tembusan->email      = $request->email_tembusan[$k];
+                    $tembusan->createdby  = Auth::id();
+                    $tembusan->createdon  = Carbon::now();
+                    if (!$tembusan->save()) {
+                        DB::rollBack();
+                        Session::flash('error', 'Tembusan gagal dibuat, mohon ulangi kembali.');
+                        return redirect(route('t-event.create'))->withInput();
+                    };
+                    $k++;
+                }
+
+                $k = 0;
+                foreach ($request->nama_cp as $itemCp) {
+                    $cp = new TEventContact();
+                    $cp->id_t_event = $model->id;
+                    $cp->nama       = $itemCp;
+                    $cp->telepon    = $request->telp_cp[$k];
+                    $cp->createdby  = Auth::id();
+                    $cp->createdon  = Carbon::now();
+                    if (!$cp->save()) {
+                        DB::rollBack();
+                        Session::flash('error', 'Contact Person gagal dibuat, mohon ulangi kembali.');
+                        return redirect(route('t-event.create'))->withInput();
+                    };
+                    $k++;
+                }
+
                 DB::commit();
                 return redirect(route('t-event.show', $model->id));
             };
@@ -264,40 +304,77 @@ class TEventController extends Controller
 
     private function customValidation($request) {
         $i = 0;
-        foreach ($request->nama_pengawas as $item) {
-            foreach ($request->nama_pengawas as $pembanding) {
-                if ($item == $pembanding) {
-                    $i++;
-                    if ($i > 1) {
-                        return ['status' => 500, 'message' => 'Nama Pengawas tidak boleh sama.'];
+        if (!empty($request->nama_pengawas)) {
+            foreach ($request->nama_pengawas as $item) {
+                foreach ($request->nama_pengawas as $pembanding) {
+                    if ($item == $pembanding) {
+                        $i++;
+                        if ($i > 1) {
+                            return ['status' => 500, 'message' => 'Nama Pengawas tidak boleh sama.'];
+                        }
                     }
                 }
+                $i = 0;
             }
-            $i = 0;
+        } else {
+            return ['status' => 500, 'message' => 'Pengawas Pertandingan tidak boleh kosong.'];
         }
 
-        foreach ($request->nama_koordinator as $item) {
-            foreach ($request->nama_koordinator as $pembanding) {
-                if ($item == $pembanding) {
-                    $i++;
-                    if ($i > 1) {
-                        return ['status' => 500, 'message' => 'Nama Koordinator Wasit tidak boleh sama.'];
+        if (!empty($request->nama_koordinator)) {
+            foreach ($request->nama_koordinator as $item) {
+                foreach ($request->nama_koordinator as $pembanding) {
+                    if ($item == $pembanding) {
+                        $i++;
+                        if ($i > 1) {
+                            return ['status' => 500, 'message' => 'Nama Koordinator Wasit tidak boleh sama.'];
+                        }
                     }
                 }
+                $i = 0;
             }
-            $i = 0;
+        } else {
+            return ['status' => 500, 'message' => 'Koordinator Wasit tidak boleh kosong.'];
         }
 
-        foreach ($request->nama_wasit as $item) {
-            foreach ($request->nama_wasit as $pembanding) {
-                if ($item == $pembanding) {
-                    $i++;
-                    if ($i > 1) {
-                        return ['status' => 500, 'message' => 'Nama Wasit tidak boleh sama.'];
+        if (!empty($request->nama_wasit)) {
+            foreach ($request->nama_wasit as $item) {
+                foreach ($request->nama_wasit as $pembanding) {
+                    if ($item == $pembanding) {
+                        $i++;
+                        if ($i > 1) {
+                            return ['status' => 500, 'message' => 'Nama Wasit tidak boleh sama.'];
+                        }
                     }
                 }
+                $i = 0;
             }
-            $i = 0;
+        } else {
+            return ['status' => 500, 'message' => 'Wasit tidak boleh kosong.'];
+        }
+
+        if (!empty($request->nama_tembusan) && !empty($request->email_tembusan)) {
+            foreach ($request->nama_tembusan as $namaTembusan) {
+                if (empty($namaTembusan)) return ['status' => 500, 'message' => 'Nama Tembusan tidak boleh kosong.'];
+            }
+
+            foreach ($request->email_tembusan as $emailTembusan) {
+                if (empty($emailTembusan)) return ['status' => 500, 'message' => 'Email Tembusan tidak boleh kosong.'];
+            }
+        } else {
+            return ['status' => 500, 'message' => 'Tembusan tidak boleh kosong.'];
+        }
+
+        if (!empty($request->nama_cp) && !empty($request->telp_cp)) {
+            foreach ($request->nama_cp as $namaCp) {
+                if (empty($namaCp)) return ['status' => 500, 'message' => 'Nama Contact Person tidak boleh kosong.'];
+            }
+
+            foreach ($request->telp_cp as $telpCp) {
+                if (empty($telpCp)) return ['status' => 500, 'message' => 'Telepon Contact Person tidak boleh kosong.'];
+                if (!is_numeric($telpCp)) return ['status' => 500, 'message' => 'Telepon Contact Person tidak valid (Gunakan hanya angka).'];
+            }
+        } else {
+            return ['status' => 500, 'message' => 'Contact Person tidak boleh kosong.'];
         }
 
         if (count($request->nama_wasit) < 3) {
@@ -424,6 +501,41 @@ class TEventController extends Controller
                         Session::flash('error', 'Wasit gagal dibuat, mohon ulangi kembali.');
                         return redirect(route('t-event.edit', $id))->withInput();
                     };
+                }
+
+                TEventTembusan::where('id_t_event', '=', $id)->delete();
+                $k = 0;
+                foreach ($request->nama_tembusan as $itemTembusan) {
+                    $tembusan = new TEventTembusan();
+                    $tembusan->id_t_event = $model->id;
+                    $tembusan->nama       = $itemTembusan;
+                    $tembusan->email      = $request->email_tembusan[$k];
+                    $tembusan->createdby  = Auth::id();
+                    $tembusan->createdon  = Carbon::now();
+                    if (!$tembusan->save()) {
+                        DB::rollBack();
+                        Session::flash('error', 'Tembusan gagal dibuat, mohon ulangi kembali.');
+                        return redirect(route('t-event.create'))->withInput();
+                    };
+                    $k++;
+                }
+
+
+                TEventContact::where('id_t_event', '=', $id)->delete();
+                $k = 0;
+                foreach ($request->nama_cp as $itemCp) {
+                    $cp = new TEventContact();
+                    $cp->id_t_event = $model->id;
+                    $cp->nama       = $itemCp;
+                    $cp->telepon    = $request->telp_cp[$k];
+                    $cp->createdby  = Auth::id();
+                    $cp->createdon  = Carbon::now();
+                    if (!$cp->save()) {
+                        DB::rollBack();
+                        Session::flash('error', 'Contact Person gagal dibuat, mohon ulangi kembali.');
+                        return redirect(route('t-event.create'))->withInput();
+                    };
+                    $k++;
                 }
                 DB::commit();
                 return redirect(route('t-event.show', $id));

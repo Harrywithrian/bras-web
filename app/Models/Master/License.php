@@ -18,6 +18,7 @@ class License extends Model
     protected $fillable = [
         'nama',
         'license',
+        'type',
         'keterangan',
         'status',
         'createdby',

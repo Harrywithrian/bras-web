@@ -53,6 +53,13 @@ function showAllData() {
                 title: 'Lisensi',
                 orderable: true,
                 searchable: true
+            },
+            {
+                data: 'type',
+                name: 'type',
+                title: 'Jenis Lisensi',
+                orderable: true,
+                searchable: true
             }
         ]
     });
@@ -120,6 +127,13 @@ function search(event) {
                 data: 'license',
                 name: 'license',
                 title: 'Lisensi',
+                orderable: true,
+                searchable: true
+            },
+            {
+                data: 'type',
+                name: 'type',
+                title: 'Jenis Lisensi',
                 orderable: true,
                 searchable: true
             }

@@ -23,11 +23,13 @@ use App\Http\Controllers\Master\MAppearanceController;
 use App\Http\Controllers\Transaksi\TApprovalController;
 use App\Http\Controllers\Transaksi\TEventController;
 use App\Http\Controllers\Transaksi\TEventApprovalController;
+use App\Http\Controllers\Transaksi\TEventLetterController;
 use App\Http\Controllers\Transaksi\TMatchController;
 use App\Http\Controllers\Transaksi\TPlayCallingController;
 use App\Http\Controllers\Transaksi\TGameManagementController;
 use App\Http\Controllers\Transaksi\TMechanicalCourtController;
 use App\Http\Controllers\Transaksi\TAppearanceController;
+use App\Http\Controllers\Master\WasitController;
 
 use App\Http\Controllers\Transaksi\ReportPertandinganController;
 use App\Http\Controllers\Transaksi\ReportWasitController;
@@ -142,6 +144,14 @@ Route::middleware('auth')->group(function () {
         Route::post('/delete', [IotController::class, 'delete'])->name('iot.delete');
     });
 
+    Route::prefix('wasit')->group(function () {
+        Route::get('/', [WasitController::class, 'index'])->name('wasit.index');
+        Route::get('/index', [WasitController::class, 'index'])->name('wasit.index');
+        Route::get('/get', [WasitController::class, 'get'])->name('wasit.get');
+        Route::post('/search', [WasitController::class, 'search'])->name('wasit.search');
+        Route::get('/show/{id}', [WasitController::class, 'show'])->name('wasit.show');
+    });
+
     Route::prefix('m-game-management')->group(function () {
         Route::get('/', [MGameManagementController::class, 'index'])->name('m-game-management.index');
         Route::get('/index', [MGameManagementController::class, 'index'])->name('m-game-management.index');
@@ -230,6 +240,15 @@ Route::middleware('auth')->group(function () {
         Route::post('/approve', [TEventApprovalController::class, 'approve'])->name('t-event-approval.approve');
         Route::post('/reject', [TEventApprovalController::class, 'reject'])->name('t-event-approval.reject');
         Route::post('/mail', [TEventApprovalController::class, 'mail'])->name('t-event-approval.mail');
+    });
+
+    Route::prefix('t-event-letter')->group(function () {
+        Route::get('/', [TEventLetterController::class, 'index'])->name('t-event-letter.index');
+        Route::get('/index', [TEventLetterController::class, 'index'])->name('t-event-letter.index');
+        Route::get('/get', [TEventLetterController::class, 'get'])->name('t-event-letter.get');
+        Route::post('/search', [TEventLetterController::class, 'search'])->name('t-event-letter.search');
+        Route::get('/show/{id}', [TEventLetterController::class, 'show'])->name('t-event-letter.show');
+        Route::get('/dokumen/{id}', [TEventLetterController::class, 'dokumen'])->name('t-event-letter.dokumen');
     });
 
     Route::prefix('t-match')->group(function () {

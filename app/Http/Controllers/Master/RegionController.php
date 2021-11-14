@@ -18,7 +18,7 @@ class RegionController extends Controller
 
     public function get(Request $request) {
         if ($request->ajax()) {
-            $data = Region::select(['id', 'kode', 'region', 'status'])
+            $data = Region::select(['id', 'kode', 'region', 'email', 'status'])
                 ->whereNull('deletedon')
                 ->get();
 
@@ -28,7 +28,7 @@ class RegionController extends Controller
     }
 
     public function search(Request $request) {
-        $data = Region::select(['id', 'kode', 'region', 'status'])
+        $data = Region::select(['id', 'kode', 'email', 'region', 'status'])
             ->whereNull('deletedon');
 
         if ($request->kode != '') {
@@ -103,6 +103,7 @@ class RegionController extends Controller
             $model = new Region();
             $model->kode = $request->kode;
             $model->region = $request->provinsi;
+            $model->email  = $request->email;
             $model->status = 1;
             $model->createdby  = Auth::id();
             $model->createdon  = Carbon::now();
@@ -154,6 +155,7 @@ class RegionController extends Controller
             $model = Region::find($id);
             $model->kode = $request->kode;
             $model->region = $request->provinsi;
+            $model->email  = $request->email;
             $model->modifiedby = Auth::id();
             $model->modifiedon = Carbon::now();
             if ($model->save()) {

@@ -39,6 +39,18 @@
                     </div>
                 </div>
 
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input id="email" type="email" class="form-control" name="email" value="{{ (empty(old('email'))) ? $model->email : old('email') }}">
+                            @if($errors->has('kode'))
+                                <span id="err_email" class="text-danger">{{ $errors->first('email') }}</span>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+
                 <div class="form-group mt-5 float-end">
                     <button type="submit" class="btn btn-primary"> Simpan </button>
                     <a href="{{ route('region.show', $model->id) }}" class="btn btn-secondary"> Kembali </a>

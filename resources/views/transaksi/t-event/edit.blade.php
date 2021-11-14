@@ -40,7 +40,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>Nomor Lisensi</label>
-                            <input id="no_lisensi" class="form-control" name="no_lisensi" value="{{ (old('no_lisensi')) ? old('no_lisensi') : $model->no_lisensi }}">
+                            <input id="no_lisensi" class="form-control" name="no_lisensi" value="{{ (old('no_lisensi')) ? old('no_lisensi') : $model->no_lisensi }}" readonly>
                             @if($errors->has('no_lisensi'))
                                 <span id="err_no_lisensi" class="text-danger">{{ $errors->first('no_lisensi') }}</span>
                             @endif
@@ -324,6 +324,106 @@
                     </tbody>
                 </table>
 
+                <section class="card bg-primary" style="border-radius: 0; margin-bottom:-7px;">
+                    <div class="card-header">
+                        <h4 class="card-title" style="color: white;">Surat Tembusan</h4>
+                    </div>
+                </section>
+                <table id="table_tembusan" class="table table-row-bordered border gy-5 gs-5 pt-0" style="width:100%">
+                    <tbody>
+                    <tr>
+                        <td style="padding-left:25px !important;">Tembusan</td>
+                        <td style="padding-left:25px !important;">Email</td>
+                    </tr>
+                    <?php
+                    $arrTembusan = null;
+                    if (old('nama_tembusan')) {
+                        $arrTembusan = old('nama_tembusan');
+                        $arrEmail    = old('email_tembusan');
+                    } else {
+                        $qTembusan = \App\Models\Transaksi\TEventTembusan::where('id_t_event', '=', $model->id)->get()->toArray();
+                        foreach($qTembusan as $itemlisttembusan) {
+                            $arrTembusan[] = $itemlisttembusan['nama'];
+                            $arrEmail[] = $itemlisttembusan['email'];
+                        }
+                    }
+                    $k = 0;
+                    ?>
+                    @if($arrTembusan)
+                        @foreach($arrTembusan as $item_tembusan)
+                            <tr>
+                                <td width="40%"><input class="form-control" name="nama_tembusan[]" value="{{ $item_tembusan }}"></td>
+                                <td width="40%"><input type="email" class="form-control" name="email_tembusan[]" value="{{ $arrEmail[$k] }}"></td>
+                                <td>
+                                    <a id="add-w" class="btn btn-icon btn-success"> <i class="bi bi-plus-lg"></i> </a>
+                                    <a id="remove-w" class="btn btn-icon btn-danger"> <i class="bi bi-dash-lg"></i> </a>
+                                </td>
+                            </tr>
+                            <?php $k++ ?>
+                        @endforeach
+                    @else
+                        <tr>
+                            <td width="40%"><input class="form-control" name="nama_tembusan[]"></td>
+                            <td width="40%"><input type="email" class="form-control" name="email_tembusan[]"></td>
+                            <td>
+                                <a id="add-w" class="btn btn-icon btn-success"> <i class="bi bi-plus-lg"></i> </a>
+                                <a id="remove-w" class="btn btn-icon btn-danger"> <i class="bi bi-dash-lg"></i> </a>
+                            </td>
+                        </tr>
+                    @endif
+                    </tbody>
+                </table>
+
+                <section class="card bg-primary" style="border-radius: 0; margin-bottom:-7px;">
+                    <div class="card-header">
+                        <h4 class="card-title" style="color: white;">Contact Person</h4>
+                    </div>
+                </section>
+                <table id="table_cp" class="table table-row-bordered border gy-5 gs-5 pt-0" style="width:100%">
+                    <tbody>
+                    <tr>
+                        <td style="padding-left:25px !important;">Nama</td>
+                        <td style="padding-left:25px !important;">Telepon</td>
+                    </tr>
+                    <?php
+                    $arrCp = null;
+                    if (old('nama_cp')) {
+                        $arrCp = old('nama_cp');
+                        $arrTelepon = old('telp_cp');
+                    } else {
+                        $qCp = \App\Models\Transaksi\TEventContact::where('id_t_event', '=', $model->id)->get()->toArray();
+                        foreach($qCp as $itemlistcp) {
+                            $arrCp[] = $itemlistcp['nama'];
+                            $arrTelepon[] = $itemlistcp['email'];
+                        }
+                    }
+                    $k = 0;
+                    ?>
+                    @if($arrCp)
+                        @foreach($arrCp as $item_cp)
+                            <tr>
+                                <td width="40%"><input class="form-control" name="nama_cp[]" value="{{ $item_cp }}"></td>
+                                <td width="40%"><input class="form-control" name="telp_cp[]" value="{{ $arrTelepon[$k] }}"></td>
+                                <td>
+                                    <a id="add-w" class="btn btn-icon btn-success"> <i class="bi bi-plus-lg"></i> </a>
+                                    <a id="remove-w" class="btn btn-icon btn-danger"> <i class="bi bi-dash-lg"></i> </a>
+                                </td>
+                            </tr>
+                            <?php $k++ ?>
+                        @endforeach
+                    @else
+                        <tr>
+                            <td width="40%"><input class="form-control" name="nama_cp[]"></td>
+                            <td width="40%"><input class="form-control" name="telp_cp[]"></td>
+                            <td>
+                                <a id="add-w" class="btn btn-icon btn-success"> <i class="bi bi-plus-lg"></i> </a>
+                                <a id="remove-w" class="btn btn-icon btn-danger"> <i class="bi bi-dash-lg"></i> </a>
+                            </td>
+                        </tr>
+                    @endif
+                    </tbody>
+                </table>
+
                 <div class="form-group mt-5 float-end">
                     <button type="submit" class="btn btn-primary"> Simpan </button>
                     <a href="{{ route('t-event.index') }}" class="btn btn-secondary"> Kembali </a>
@@ -467,6 +567,60 @@
                     });
                 }
                 // END WASIT
+
+                // TEMBUSAN
+                var ttembusan = $('#table_tembusan');
+                ttembusan.on('click', '#add-w', function () {
+                    initRowTembusan();
+                });
+
+                ttembusan.on('click', '#remove-w', function () {
+                    var ttembusan_item = $('#table_tembusan tbody').children();
+                    if (ttembusan_item.length > 2) {
+                        $(this).parents('tr').remove();
+                    } else {
+                        alert('Sudah mencapai batas maksimum.');
+                    }
+                });
+
+                function initRowTembusan() {
+                    ttembusan.append(`<tr>
+                            <td width="40%"><input class="form-control" name="nama_tembusan[]"></td>
+                            <td width="40%"><input type="email" class="form-control" name="email_tembusan[]"></td>
+                            <td>
+                                <a id="add-w" class="btn btn-icon btn-success"> <i class="bi bi-plus-lg"></i> </a>
+                                <a id="remove-w" class="btn btn-icon btn-danger"> <i class="bi bi-dash-lg"></i> </a>
+                            </td>
+                        </tr>`);
+                }
+                // END TEMBUSAN
+
+                // CP
+                var tcp = $('#table_cp');
+                tcp.on('click', '#add-w', function () {
+                    initRowCp();
+                });
+
+                tcp.on('click', '#remove-w', function () {
+                    var tcp_item = $('#table_cp tbody').children();
+                    if (tcp_item.length > 2) {
+                        $(this).parents('tr').remove();
+                    } else {
+                        alert('Sudah mencapai batas maksimum.');
+                    }
+                });
+
+                function initRowCp() {
+                    tcp.append(`<tr>
+                            <td width="40%"><input class="form-control" name="nama_cp[]"></td>
+                            <td width="40%"><input class="form-control" name="telp_cp[]"></td>
+                            <td>
+                                <a id="add-w" class="btn btn-icon btn-success"> <i class="bi bi-plus-lg"></i> </a>
+                                <a id="remove-w" class="btn btn-icon btn-danger"> <i class="bi bi-dash-lg"></i> </a>
+                            </td>
+                        </tr>`);
+                }
+                // END CP
             });
 
             $("#tanggal_mulai").daterangepicker({

@@ -42,6 +42,17 @@
                     <td>{{ $model->license }}</td>
                 </tr>
                 <tr>
+                    <td width="25%">Jenis Lisensi</td>
+                    <td>
+                        @if ($model->type == 1)
+                            Wasit
+                        @elseif ($model->type == 2)
+                            Pengawas Pertandingan
+                        @else
+                            -
+                        @endif</td>
+                </tr>
+                <tr>
                     <td width="25%">Keterangan</td>
                     <td>{{ ($model->keterangan) ? $model->keterangan : "-" }}</td>
                 </tr>

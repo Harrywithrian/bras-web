@@ -18,6 +18,7 @@ class Region extends Model
     protected $fillable = [
         'kode',
         'region',
+        'email',
         'status',
         'createdby',
         'createdon',

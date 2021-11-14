@@ -59,6 +59,12 @@ function showAllData() {
                 title: 'Provinsi',
                 orderable: true,
                 searchable: true
+            },
+            {
+                data: 'email',
+                name: 'email',
+                orderable: true,
+                searchable: true
             }
         ]
     });
@@ -132,6 +138,12 @@ function search(event) {
                 data: 'region',
                 name: 'region',
                 title: 'Provinsi',
+                orderable: true,
+                searchable: true
+            },
+            {
+                data: 'email',
+                name: 'email',
                 orderable: true,
                 searchable: true
             }

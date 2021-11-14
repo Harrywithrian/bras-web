@@ -1,6 +1,8 @@
 <x-auth-layout>
     <?php
-        $lisensi = \App\Models\Master\License::where('status', '=', 1)->whereNull('deletedon')->get()->toArray();
+        $lisensi = \App\Models\Master\License::select('id', 'license')->where('type', '=', 1)->where('status', '=', 1)->whereNull('deletedon')->get()->toArray();
+        $lisensiPengawas = \App\Models\Master\License::select('id', 'license')->where('type', '=', 2)->where('status', '=', 1)->whereNull('deletedon')->get()->toArray();
+
         $region  = \App\Models\Master\Region::where('status', '=', 1)->whereNull('deletedon')->get()->toArray();
     ?>
 
@@ -14,14 +16,14 @@
 
         <div class="fv-row mb-7">
             <label class="form-label fw-bolder text-dark fs-6">Jenis Daftar</label>
-            <select class="form-select form-control form-control-lg form-control-solid" data-control="select2" data-placeholder="Pilih ..." data-allow-clear="true" id="jenis_daftar" name="jenis_daftar">
+            <select class="form-select form-control form-control-lg form-control-solid" data-placeholder="Pilih ..." data-allow-clear="true" id="jenis_daftar" name="jenis_daftar">
                 <option value=""></option>
                 <option value="6" {{(old('jenis_daftar') == 6) ? 'selected' : '';}}>Pengawas Pertandingan</option>
                 <option value="7" {{(old('jenis_daftar') == 7) ? 'selected' : '';}}>Koordinator Wasit</option>
                 <option value="8" {{(old('jenis_daftar') == 8) ? 'selected' : '';}}>Wasit</option>
             </select>
-            @if($errors->has('provinsi'))
-                <span id="err_provinsi" class="text-danger">{{ $errors->first('provinsi') }}</span>
+            @if($errors->has('jenis_daftar'))
+                <span id="err_jenis_daftar" class="text-danger">{{ $errors->first('jenis_daftar') }}</span>
             @endif
         </div>
 
@@ -45,9 +47,17 @@
             <label class="form-label fw-bolder text-dark fs-6">Jenis Lisensi</label>
             <select class="form-select form-control form-control-lg form-control-solid" data-control="select2" data-placeholder="Pilih Lisensi ..." data-allow-clear="true" id="jenis_lisensi" name="jenis_lisensi">
                 <option value=""></option>
-                @foreach($lisensi as $item)
-                    <option value="{{ $item['id'] }}" {{(old('jenis_lisensi') == $item['id']) ? 'selected' : '';}}>{{ $item['license'] }}</option>
-                @endforeach
+                @if (old('jenis_lisensi'))
+                    @if (old('jenis_daftar') == 6)
+                        @foreach($lisensiPengawas as $item)
+                            <option value="{{ $item['id'] }}" {{(old('jenis_lisensi') == $item['id']) ? 'selected' : '';}}>{{ $item['license'] }}</option>
+                        @endforeach
+                    @else
+                        @foreach($lisensi as $item)
+                            <option value="{{ $item['id'] }}" {{(old('jenis_lisensi') == $item['id']) ? 'selected' : '';}}>{{ $item['license'] }}</option>
+                        @endforeach
+                    @endif
+                @endif
             </select>
             @if($errors->has('jenis_lisensi'))
                 <span id="err_jenis_lisensi" class="text-danger">{{ $errors->first('jenis_lisensi') }}</span>
@@ -187,6 +197,22 @@
                             rtl: false
                         });
                     @endif
+
+                    $('#jenis_daftar').select2().on('change', function() {
+                        var data = $("#jenis_daftar option:selected").text();
+                        $('#jenis_lisensi').empty().trigger("change");
+                        $('#jenis_lisensi').append('<option></option>').trigger("change");
+
+                        if (data == 'Pengawas Pertandingan') {
+                            @foreach($lisensiPengawas as $item)
+                            $('#jenis_lisensi').append('<option value="{{ $item['id'] }}">{{ $item['license'] }}</option>').trigger("change");
+                            @endforeach
+                        } else {
+                            @foreach($lisensi as $item)
+                            $('#jenis_lisensi').append('<option value="{{ $item['id'] }}">{{ $item['license'] }}</option>').trigger("change");
+                            @endforeach
+                        }
+                    });
                 });
 
                 $("#tanggal_lahir").daterangepicker({

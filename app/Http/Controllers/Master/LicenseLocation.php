@@ -18,7 +18,7 @@ class LicenseLocation extends Controller
 
     public function get(Request $request) {
         if ($request->ajax()) {
-            $data = License::select(['id', 'license', 'status'])
+            $data = License::select(['id', 'license', 'type', 'status'])
                 ->whereNull('deletedon')
                 ->get();
 
@@ -28,7 +28,7 @@ class LicenseLocation extends Controller
     }
 
     public function search(Request $request) {
-        $data = License::select(['id', 'license', 'status'])
+        $data = License::select(['id', 'license', 'type', 'status'])
             ->whereNull('deletedon');
 
         if ($request->license != '') {
@@ -48,6 +48,16 @@ class LicenseLocation extends Controller
 
         # KOLOM INDEX ANGKA
         $dataTables = $dataTables->addIndexColumn();
+
+        $dataTables = $dataTables->addColumn('type', function ($row) {
+            if ($row->type == 1) {
+                return "Wasit";
+            } else if ($row->type == 2) {
+                return "Pengawas Pertandingan";
+            } else {
+                return "-";
+            }
+        });
 
         # KOLOM STATUS
         $dataTables = $dataTables->addColumn('status', function ($row) {
@@ -90,6 +100,7 @@ class LicenseLocation extends Controller
         try {
             $rules = [
                 'lisensi' => 'required',
+                'jenis_lisensi' => 'required',
             ];
 
             $customMessages = [
@@ -100,6 +111,7 @@ class LicenseLocation extends Controller
 
             $model = new License();
             $model->license = $request->lisensi;
+            $model->type    = $request->jenis_lisensi;
             $model->keterangan  = $request->keterangan;
             $model->status      = 1;
             $model->createdby   = Auth::id();
@@ -139,6 +151,7 @@ class LicenseLocation extends Controller
         try {
             $rules = [
                 'lisensi' => 'required',
+                'jenis_lisensi' => 'required',
             ];
 
             $customMessages = [
@@ -149,6 +162,7 @@ class LicenseLocation extends Controller
 
             $model = License::find($id);
             $model->license    = $request->lisensi;
+            $model->type       = $request->jenis_lisensi;
             $model->keterangan = $request->keterangan;
             $model->modifiedby = Auth::id();
             $model->modifiedon = Carbon::now();

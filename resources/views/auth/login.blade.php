@@ -13,11 +13,17 @@
         <div class="fv-row mb-10">
             <label class="form-label fs-6 fw-bolder text-dark">Username</label>
             <input class="form-control form-control-lg form-control-solid" type="text" name="username" autocomplete="off" value="{{ old('username') }}" required autofocus/>
+            @if($errors->has('username'))
+                <span id="err_alias" class="text-danger">{{ $errors->first('username') }}</span>
+            @endif
         </div>
 
         <div class="fv-row mb-10">
             <label class="form-label fw-bolder text-dark fs-6 mb-0">Password</label>
             <input class="form-control form-control-lg form-control-solid" type="password" name="password" autocomplete="off" required/>
+            @if($errors->has('password'))
+                <span id="err_alias" class="text-danger">{{ $errors->first('password') }}</span>
+            @endif
         </div>
 
         <div class="fv-row mb-10">

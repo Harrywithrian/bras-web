@@ -19,12 +19,26 @@
                 @csrf
 
                 <div class="row mb-5">
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label>Lisensi</label>
                             <input id="lisensi" class="form-control" name="lisensi" value="{{ old('lisensi') }}">
                             @if($errors->has('nama'))
                                 <span id="err_lisensi" class="text-danger">{{ $errors->first('lisensi') }}</span>
+                            @endif
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Jenis Lisensi</label>
+                            <select class="form-select" id="jenis_lisensi" name="jenis_lisensi">
+                                <option value=""></option>
+                                <option value="1" @if(old('jenis_lisensi')) {{(old('jenis_lisensi') == 1) ? 'selected' : null}} @endif>Wasit</option>
+                                <option value="2" @if(old('jenis_lisensi')) {{(old('jenis_lisensi') == 2) ? 'selected' : null}} @endif>Pengawas Pertandingan</option>
+                            </select>
+                            @if($errors->has('jenis_lisensi'))
+                                <span id="err_jenis_lisensi" class="text-danger">{{ $errors->first('jenis_lisensi') }}</span>
                             @endif
                         </div>
                     </div>

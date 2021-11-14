@@ -46,6 +46,10 @@
                     <td>{{ $model->region }}</td>
                 </tr>
                 <tr>
+                    <td width="25%">Email</td>
+                    <td>{{ $model->email }}</td>
+                </tr>
+                <tr>
                     <td width="25%">Status</td>
                     <td>
                         @if($model->status == 1)

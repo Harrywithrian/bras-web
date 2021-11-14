@@ -35,6 +35,7 @@
                                 <th>Status</th>
                                 <th>Kode</th>
                                 <th>Provinsi</th>
+                                <th>Email</th>
                             </tr>
                             </thead>
                             <tbody>

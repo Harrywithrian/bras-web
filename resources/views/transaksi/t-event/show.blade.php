@@ -182,6 +182,50 @@
                     <?php $i++; ?>
                 @endforeach
             </table>
+
+            <?php $i = 1; ?>
+            <section class="card bg-primary mt-0 mb-0" style="border-radius: 0">
+                <div class="card-header">
+                    <h4 class="card-title" style="color: white;">Tembusan</h4>
+                </div>
+            </section>
+            <table class="table table-striped border mb-0 gy-7 gs-7" style="margin-top:-5px;">
+                <tr>
+                    <td width="5%" style="padding-left:5px; padding-right:5px;"><center><b>No</b></center></td>
+                    <td width="50%"><b>Nama</b></td>
+                    <td><b>Email</b></td>
+                </tr>
+                @foreach($tembusan as $item)
+                    <tr>
+                        <td style="padding-left:5px; padding-right:5px;"><center>{{ $i }}</center></td>
+                        <td>{{ $item['nama'] }}</td>
+                        <td>{{ $item['email'] }}</td>
+                    </tr>
+                    <?php $i++; ?>
+                @endforeach
+            </table>
+
+            <?php $i = 1; ?>
+            <section class="card bg-primary mt-0 mb-0" style="border-radius: 0">
+                <div class="card-header">
+                    <h4 class="card-title" style="color: white;">Contact Person</h4>
+                </div>
+            </section>
+            <table class="table table-striped border mb-0 gy-7 gs-7" style="margin-top:-5px;">
+                <tr>
+                    <td width="5%" style="padding-left:5px; padding-right:5px;"><center><b>No</b></center></td>
+                    <td width="50%"><b>Nama</b></td>
+                    <td><b>Telepon</b></td>
+                </tr>
+                @foreach($cp as $item)
+                    <tr>
+                        <td style="padding-left:5px; padding-right:5px;"><center>{{ $i }}</center></td>
+                        <td>{{ $item['nama'] }}</td>
+                        <td>{{ $item['telepon'] }}</td>
+                    </tr>
+                    <?php $i++; ?>
+                @endforeach
+            </table>
         </div>
     </div>
 

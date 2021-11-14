@@ -35,6 +35,7 @@
                                 <th>Action</th>
                                 <th>Status</th>
                                 <th>Lisensi</th>
+                                <th>Jenis Lisensi</th>
                             </tr>
                             </thead>
                             <tbody>
