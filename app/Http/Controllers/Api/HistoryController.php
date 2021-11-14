@@ -4,14 +4,13 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Transaksi\TMatch;
-use App\Models\Transaksi\TMatchReferee;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
-class MatchController extends Controller
+class HistoryController extends Controller
 {
-    // matches
-    public function matches()
+    // history matches
+    public function history()
     {
         $user = JWTAuth::parseToken()->authenticate();
 
@@ -20,7 +19,7 @@ class MatchController extends Controller
                 return $query->select(['id', 'id_t_match', 'posisi', 'wasit'])->where('wasit', $user->id);
             },
             'event' => function ($query) {
-                return $query->select(['id', 'nama', 'deskripsi', 'tanggal_mulai', 'tanggal_selesai'])->where('status', 0);
+                return $query->select(['id', 'nama', 'deskripsi', 'tanggal_mulai', 'tanggal_selesai'])->where('status', 2);
             },
             'location' => function ($query) {
                 return $query->select(['id', 'nama', 'id_m_region', 'alamat', 'telepon', 'email']);

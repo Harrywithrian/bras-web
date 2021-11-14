@@ -2,6 +2,7 @@
 
 namespace App\Models\Transaksi;
 
+use App\Models\Master\Region;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -43,5 +44,33 @@ class TEvent extends Model
     public function getApproval()
     {
         return $this->hasOne(User::class, 'id', 'penindak');
+    }
+
+    public function participants() {
+        return $this->hasMany(TEventParticipant::class, 'id_t_event', 'id');
+    }
+
+    public function participant() {
+        return $this->hasOne(TEventParticipant::class, 'id_t_event', 'id');
+    }
+
+    public function assignment() {
+        return $this->hasOne(TEventLetter::class, 'id_t_event', 'id');
+    }
+
+    public function locations() {
+        return $this->hasMany(TEventLocation::class, 'id_t_event', 'id');
+    }
+
+    public function location() {
+        return $this->hasOne(TEventLocation::class, 'id_t_event', 'id');
+    }
+
+    public function regions() {
+        return $this->hasMany(TEventRegion::class, 'id_t_event', 'id');
+    }
+
+    public function region() {
+        return $this->hasOne(TEventRegion::class, 'id_t_event', 'id');
     }
 }
