@@ -49,6 +49,7 @@ Route::middleware(['jwt.verify'])->group(function () {
     // match
     Route::prefix('match')->group(function () {
         Route::get('/', [MatchController::class, 'matches'])->name('match');
+        Route::get('/upcoming', [MatchController::class, 'upcomingMatch'])->name('match.upcoming');
     });
 
     // notification

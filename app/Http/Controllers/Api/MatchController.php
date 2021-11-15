@@ -17,17 +17,41 @@ class MatchController extends Controller
 
         $matches = TMatch::with([
             'referee' => function ($query) use ($user) {
-                return $query->select(['id', 'id_t_match', 'posisi', 'wasit'])->where('wasit', $user->id);
+                return $query->select(['id', 'id_t_match', 'posisi', 'wasit']);
             },
             'event' => function ($query) {
-                return $query->select(['id', 'nama', 'deskripsi', 'tanggal_mulai', 'tanggal_selesai'])->where('status', 0);
+                return $query->select(['id', 'nama', 'deskripsi', 'tanggal_mulai', 'tanggal_selesai']);
             },
             'location' => function ($query) {
                 return $query->select(['id', 'nama', 'id_m_region', 'alamat', 'telepon', 'email']);
             },
         ])->whereHas('referee', function ($query) use ($user) {
             return $query->where('wasit', $user->id);
-        })->orderBy('waktu_pertandingan', 'ASC')->get(['id', 'id_t_event', 'id_m_location', 'waktu_pertandingan']);
+        })->where('status', 0)->orderBy('waktu_pertandingan', 'ASC')->get(['id', 'id_t_event', 'id_m_location', 'nama', 'waktu_pertandingan']);
+
+        return response()->json([
+            'statusCode' => 200,
+            'message' => $matches
+        ], 200);
+    }
+
+    public function upcomingMatch()
+    {
+        $user = JWTAuth::parseToken()->authenticate();
+
+        $matches = TMatch::with([
+            'referee' => function ($query) use ($user) {
+                return $query->select(['id', 'id_t_match', 'posisi', 'wasit']);
+            },
+            'event' => function ($query) {
+                return $query->select(['id', 'nama', 'deskripsi', 'tanggal_mulai', 'tanggal_selesai']);
+            },
+            'location' => function ($query) {
+                return $query->select(['id', 'nama', 'id_m_region', 'alamat', 'telepon', 'email']);
+            },
+        ])->whereHas('referee', function ($query) use ($user) {
+            return $query->where('wasit', $user->id);
+        })->where('status', 0)->orderBy('waktu_pertandingan', 'ASC')->first(['id', 'id_t_event', 'id_m_location', 'nama', 'waktu_pertandingan']);
 
         return response()->json([
             'statusCode' => 200,
