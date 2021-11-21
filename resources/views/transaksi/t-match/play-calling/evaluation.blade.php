@@ -44,13 +44,13 @@
       <!-- referee -->
       <div class="d-flex flex-column flex-lg-row my-10" style="gap: 20px;">
 
-        @foreach($match->referee as $referee)
+        @foreach($match->referees as $referee)
         <div style="flex-basis: 0; flex-grow: 1;">
           <!--begin::Option-->
           <input type="radio" class="btn-check" name="referee" value="{{ $referee->user->id }}" data-value='@json($referee->user)' id="kt_radio_referee_{{$referee->user->id}}" />
           <label class="btn btn-outline btn-outline-dashed btn-outline-default py-3 px-3 d-flex align-items-center mb-5" for="kt_radio_referee_{{$referee->user->id}}">
-            <div class="image-input image-input-circle me-5" data-kt-image-input="true" style="background-image: url( {{ asset($referee->user->info->getAvatarUrlAttribute())}} )">
-              <div class="image-input-wrapper w-100px h-100px" style="background-image: url({{ asset($referee->user->info->getAvatarUrlAttribute())}})"></div>
+            <div class="image-input image-input-circle me-5" data-kt-image-input="true" style="background-image: url( {{ $referee->user->info->getAvatarUrlAttribute()}} )">
+              <div class="image-input-wrapper w-100px h-100px" style="background-image: url({{ $referee->user->info->getAvatarUrlAttribute()}})"></div>
             </div>
 
             <span class="d-block fw-bold text-start">
@@ -162,7 +162,7 @@
     .active-referee span .text-muted {
       color: white !important;
     }
-    
+
     .form-check.form-check-solid .form-check-input:checked {
       background-color: red !important;
     }

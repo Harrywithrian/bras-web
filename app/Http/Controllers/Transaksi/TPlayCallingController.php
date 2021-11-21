@@ -41,13 +41,13 @@ class TPlayCallingController extends Controller
     public function create($id)
     {
         $match = TMatch::with([
-            'referee' => function ($query) {
+            'referees' => function ($query) {
                 return $query->select(['id_t_match', 'wasit', 'posisi']);
             },
-            'referee.user' => function ($query) {
+            'referees.user' => function ($query) {
                 return $query->select(['id', 'name']);
             },
-            'referee.user.info' => function ($query) {
+            'referees.user.info' => function ($query) {
                 return $query->select('id', 'user_id', 'id_t_file_foto');
             }
         ])->where('id', $id)->first(['id', 'nama', 'waktu_pertandingan']);
@@ -71,7 +71,8 @@ class TPlayCallingController extends Controller
             new Evaluation('IOT', 'iot', 'checkbox', $iot_data),
         ];
 
-        // Debugbar::info($match->referee[0]->user);
+        // dd($match);
+        Debugbar::info($match);
         return view('transaksi.t-match.play-calling.evaluation', [
             'match' => $match,
             'play_calling_data' => $play_calling_data
