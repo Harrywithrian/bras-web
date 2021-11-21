@@ -27,7 +27,7 @@ class UserInfo extends Model
             $avatar = public_path(Storage::url($model->path));
             if (is_file($avatar) && file_exists($avatar)) {
                 // get avatar url from storage
-                return Storage::url($model->path);
+                return env('APP_URL') . Storage::url($model->path);
             }
 
             // check if the avatar is an external url, eg. image from google
@@ -53,7 +53,7 @@ class UserInfo extends Model
             $avatar = public_path(Storage::url($model->path));
             if (is_file($avatar) && file_exists($avatar)) {
                 // get avatar url from storage
-                return Storage::url($model->path);
+                return env('APP_URL') . Storage::url($model->path);
             }
 
             // check if the avatar is an external url, eg. image from google

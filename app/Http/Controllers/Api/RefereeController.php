@@ -12,21 +12,30 @@ class RefereeController extends Controller
     public function referees()
     {
         $referees = User::role('Wasit')->with([
-            'info',
-            'info.license',
-            'info.fileLicense',
-            'info.filePhoto',
-            'info.role',
-            'info.region'
-        ])->get();
+            'info' => function ($query) {
+                return $query->select(['id', 'user_id', 'no_lisensi', 'id_m_lisensi', 'tempat_lahir', 'tanggal_lahir', 'alamat', 'id_m_region', 'id_t_file_lisensi', 'id_t_file_foto', 'role']);
+            },
+            'info.license' => function ($query) {
+                return $query->select(['id', 'license']);
+            },
+            'info.fileLicense' => function ($query) {
+                return $query->select(['id']);
+            },
+            'info.filePhoto' => function ($query) {
+                return $query->select(['id']);
+            },
+            'info.role' => function ($query) {
+                return $query->select(['id', 'name']);
+            },
+            'info.region' => function ($query) {
+                return $query->select(['id', 'kode', 'region']);
+            }
+        ])->get(['id', 'username', 'name', 'email']);
 
-        // hide attribute from user
-        // $referees->makeHidden(['created_at', 'updated_at', 'email_verified_at'])->toArray();
-        // $referees->info->makeHidden(['created_at', 'updated_at', 'referees_id', 'id_m_lisensi', 'id_m_region', 'id_t_file_lisensi', 'id_t_file_foto'])->toArray();
-        // $referees->info->license->makeHidden(['status', 'createdby', 'createdon', 'modifiedby', 'modifiedon', 'deletedby', 'deletedon']);
-        // $referees->info->region->makeHidden(['status', 'createdby', 'createdon', 'modifiedby', 'modifiedon', 'deletedby', 'deletedon']);
-        // $referees->info->fileLicense->makeHidden(['path']);
-        // $referees->info->filePhoto->makeHidden(['path']);
+        foreach ($referees as $refere) {
+            $refere->info->fileLicense['path'] = $refere->info->getLicenseUrlAttribute();
+            $refere->info->filePhoto['path'] = $refere->info->getAvatarUrlAttribute();
+        }
 
         return response()->json([
             'statusCode' => 200,

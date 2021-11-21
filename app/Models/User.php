@@ -172,8 +172,8 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject
         ])->where('id', $userId)->first(['id', 'username', 'name', 'email']);
 
         // serialize user rile license and photo
-        $user->info->fileLicense['path'] = env('APP_URL') . $user->info->getLicenseUrlAttribute();
-        $user->info->filePhoto['path'] = env('APP_URL') . $user->info->getAvatarUrlAttribute();
+        $user->info->fileLicense['path'] = $user->info->getLicenseUrlAttribute();
+        $user->info->filePhoto['path'] = $user->info->getAvatarUrlAttribute();
 
         return $user;
     }

@@ -50,6 +50,7 @@ Route::middleware(['jwt.verify'])->group(function () {
     Route::prefix('match')->group(function () {
         Route::get('/', [MatchController::class, 'matches'])->name('match');
         Route::get('/upcoming', [MatchController::class, 'upcomingMatch'])->name('match.upcoming');
+        Route::get('/history', [MatchController::class, 'historyMatch'])->name('match.history');
     });
 
     // notification
