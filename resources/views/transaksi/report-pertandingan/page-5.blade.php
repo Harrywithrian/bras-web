@@ -44,7 +44,6 @@ $arr           = array_merge(range('a', 'z'));
                             <td><b> Nama </b></td>
                             <td width="10%"><b> Nilai </b></td>
                             <td width="10%"><b> Rata-rata </b></td>
-                            <td width="10%"><b> Persentase </b></td>
                             <td width="10%"><b> Nilai Akhir </b></td>
                         </tr>
                         <?php
@@ -57,7 +56,6 @@ $arr           = array_merge(range('a', 'z'));
                                     <td><b>{{ $pa1['nama'] }}</b></td>
                                     <td><b>{{ number_format($pa1['sum'],2,".","") }}</b></td>
                                     <td><b>{{ number_format($pa1['avg'],2,".","") }}</b></td>
-                                    <td><b>{{ $pa1['persentase'] . " %" }}</b></td>
                                     <td><b>{{ number_format($pa1['nilai'],2,".","") }}</b></td>
                                 </tr>
                                 <?php
@@ -73,7 +71,6 @@ $arr           = array_merge(range('a', 'z'));
                                             <td>{{ number_format($sa1['nilai'],0,".","") }}</td>
                                             <td></td>
                                             <td></td>
-                                            <td></td>
                                         </tr>
                                         <?php $j++; ?>
                                     @endforeach
@@ -84,7 +81,6 @@ $arr           = array_merge(range('a', 'z'));
                                 <td colspan="2"><b>{{ $aTotalWasit1['nama'] }}</b></td>
                                 <td><b>{{ number_format($aTotalWasit1['sum'],2,".","") }}</b></td>
                                 <td><b>{{ number_format($aTotalWasit1['avg'],2,".","") }}</b></td>
-                                <td><b>{{ number_format($aTotalWasit1['persentase'],2,".","") . " %" }}</b></td>
                                 <td><b>{{ number_format($aTotalWasit1['nilai'],2,".","") }}</b></td>
                             </tr>
                         @endif
@@ -98,7 +94,6 @@ $arr           = array_merge(range('a', 'z'));
                             <td><b> Nama </b></td>
                             <td width="10%"><b> Nilai </b></td>
                             <td width="10%"><b> Rata-rata </b></td>
-                            <td width="10%"><b> Persentase </b></td>
                             <td width="10%"><b> Nilai Akhir </b></td>
                         </tr>
                         <?php
@@ -111,12 +106,11 @@ $arr           = array_merge(range('a', 'z'));
                                     <td><b>{{ $pa2['nama'] }}</b></td>
                                     <td><b>{{ number_format($pa2['sum'],2,".","") }}</b></td>
                                     <td><b>{{ number_format($pa2['avg'],2,".","") }}</b></td>
-                                    <td><b>{{ $pa2['persentase'] . " %" }}</b></td>
                                     <td><b>{{ number_format($pa2['nilai'],2,".","") }}</b></td>
                                 </tr>
                                 <?php
-                                $aChildWasit2 = \App\Models\Transaksi\TMechanicalCourt::where('id_parent', '=', $pa2['id_m_appearance'])
-                                    ->where('id_t_match', '=', $model->id)->where('referee', '=', $wst1->wasit)->where('level', '=', 2)->orderBy('order_by')->get()->toArray();
+                                $aChildWasit2 = \App\Models\Transaksi\TAppearance::where('id_parent', '=', $pa2['id_m_appearance'])
+                                    ->where('id_t_match', '=', $model->id)->where('referee', '=', $wst2->wasit)->where('level', '=', 2)->orderBy('order_by')->get()->toArray();
                                 $j = 0;
                                 ?>
                                 @if($aChildWasit2)
@@ -125,7 +119,6 @@ $arr           = array_merge(range('a', 'z'));
                                             <td></td>
                                             <td>{{ $arr[$j] }}. {{ $sa2['nama'] }}</td>
                                             <td>{{ number_format($sa2['nilai'],0,".","") }}</td>
-                                            <td></td>
                                             <td></td>
                                             <td></td>
                                         </tr>
@@ -138,7 +131,6 @@ $arr           = array_merge(range('a', 'z'));
                                 <td colspan="2"><b>{{ $aTotalWasit2['nama'] }}</b></td>
                                 <td><b>{{ number_format($aTotalWasit2['sum'],2,".","") }}</b></td>
                                 <td><b>{{ number_format($aTotalWasit2['avg'],2,".","") }}</b></td>
-                                <td><b>{{ number_format($aTotalWasit2['persentase'],2,".","") . " %" }}</b></td>
                                 <td><b>{{ number_format($aTotalWasit2['nilai'],2,".","") }}</b></td>
                             </tr>
                         @endif
@@ -152,7 +144,6 @@ $arr           = array_merge(range('a', 'z'));
                             <td><b> Nama </b></td>
                             <td width="10%"><b> Nilai </b></td>
                             <td width="10%"><b> Rata-rata </b></td>
-                            <td width="10%"><b> Persentase </b></td>
                             <td width="10%"><b> Nilai Akhir </b></td>
                         </tr>
                         <?php
@@ -165,12 +156,11 @@ $arr           = array_merge(range('a', 'z'));
                                     <td><b>{{ $pa3['nama'] }}</b></td>
                                     <td><b>{{ number_format($pa3['sum'],2,".","") }}</b></td>
                                     <td><b>{{ number_format($pa3['avg'],2,".","") }}</b></td>
-                                    <td><b>{{ $pa3['persentase'] . " %" }}</b></td>
                                     <td><b>{{ number_format($pa3['nilai'],2,".","") }}</b></td>
                                 </tr>
                                 <?php
-                                $aChildWasit3 = \App\Models\Transaksi\TMechanicalCourt::where('id_parent', '=', $pa3['id_m_appearance'])
-                                    ->where('id_t_match', '=', $model->id)->where('referee', '=', $wst1->wasit)->where('level', '=', 2)->orderBy('order_by')->get()->toArray();
+                                $aChildWasit3 = \App\Models\Transaksi\TAppearance::where('id_parent', '=', $pa3['id_m_appearance'])
+                                    ->where('id_t_match', '=', $model->id)->where('referee', '=', $wst3->wasit)->where('level', '=', 2)->orderBy('order_by')->get()->toArray();
                                 $j = 0;
                                 ?>
                                 @if($aChildWasit3)
@@ -179,7 +169,6 @@ $arr           = array_merge(range('a', 'z'));
                                             <td></td>
                                             <td>{{ $arr[$j] }}. {{ $sa3['nama'] }}</td>
                                             <td>{{ number_format($sa3['nilai'],0,".","") }}</td>
-                                            <td></td>
                                             <td></td>
                                             <td></td>
                                         </tr>
@@ -192,7 +181,6 @@ $arr           = array_merge(range('a', 'z'));
                                 <td colspan="2"><b>{{ $aTotalWasit3['nama'] }}</b></td>
                                 <td><b>{{ number_format($aTotalWasit3['sum'],2,".","") }}</b></td>
                                 <td><b>{{ number_format($aTotalWasit3['avg'],2,".","") }}</b></td>
-                                <td><b>{{ number_format($aTotalWasit3['persentase'],2,".","") . " %" }}</b></td>
                                 <td><b>{{ number_format($aTotalWasit3['nilai'],2,".","") }}</b></td>
                             </tr>
                         @endif

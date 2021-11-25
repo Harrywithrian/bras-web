@@ -44,7 +44,6 @@ $arr           = array_merge(range('a', 'z'));
                             <td><b> Nama </b></td>
                             <td width="10%"><b> Nilai </b></td>
                             <td width="10%"><b> Rata-rata </b></td>
-                            <td width="10%"><b> Persentase </b></td>
                             <td width="10%"><b> Nilai Akhir </b></td>
                         </tr>
                         <?php
@@ -57,7 +56,6 @@ $arr           = array_merge(range('a', 'z'));
                                     <td><b>{{ $pgm1['nama'] }}</b></td>
                                     <td><b>{{ number_format($pgm1['sum'],2,".","") }}</b></td>
                                     <td><b>{{ number_format($pgm1['avg'],2,".","") }}</b></td>
-                                    <td><b>{{ $pgm1['persentase'] . " %" }}</b></td>
                                     <td><b>{{ number_format($pgm1['nilai'],2,".","") }}</b></td>
                                 </tr>
                                 <?php
@@ -73,7 +71,6 @@ $arr           = array_merge(range('a', 'z'));
                                             <td>{{ number_format($sgm1['nilai'],0,".","") }}</td>
                                             <td></td>
                                             <td></td>
-                                            <td></td>
                                         </tr>
                                         <?php $j++; ?>
                                     @endforeach
@@ -84,7 +81,6 @@ $arr           = array_merge(range('a', 'z'));
                                 <td colspan="2"><b>{{ $gmTotalWasit1['nama'] }}</b></td>
                                 <td><b>{{ number_format($gmTotalWasit1['sum'],2,".","") }}</b></td>
                                 <td><b>{{ number_format($gmTotalWasit1['avg'],2,".","") }}</b></td>
-                                <td><b>{{ number_format($gmTotalWasit1['persentase'],2,".","") . " %" }}</b></td>
                                 <td><b>{{ number_format($gmTotalWasit1['nilai'],2,".","") }}</b></td>
                             </tr>
                         @endif
@@ -98,7 +94,6 @@ $arr           = array_merge(range('a', 'z'));
                             <td><b> Nama </b></td>
                             <td width="10%"><b> Nilai </b></td>
                             <td width="10%"><b> Rata-rata </b></td>
-                            <td width="10%"><b> Persentase </b></td>
                             <td width="10%"><b> Nilai Akhir </b></td>
                         </tr>
                         <?php
@@ -111,7 +106,6 @@ $arr           = array_merge(range('a', 'z'));
                                     <td><b>{{ $pgm2['nama'] }}</b></td>
                                     <td><b>{{ number_format($pgm2['sum'],2,".","") }}</b></td>
                                     <td><b>{{ number_format($pgm2['avg'],2,".","") }}</b></td>
-                                    <td><b>{{ $pgm2['persentase'] . " %" }}</b></td>
                                     <td><b>{{ number_format($pgm2['nilai'],2,".","") }}</b></td>
                                 </tr>
                                 <?php
@@ -127,7 +121,6 @@ $arr           = array_merge(range('a', 'z'));
                                             <td>{{ number_format($sgm2['nilai'],0,".","") }}</td>
                                             <td></td>
                                             <td></td>
-                                            <td></td>
                                         </tr>
                                         <?php $j++; ?>
                                     @endforeach
@@ -138,7 +131,6 @@ $arr           = array_merge(range('a', 'z'));
                                 <td colspan="2"><b>{{ $gmTotalWasit2['nama'] }}</b></td>
                                 <td><b>{{ number_format($gmTotalWasit2['sum'],2,".","") }}</b></td>
                                 <td><b>{{ number_format($gmTotalWasit2['avg'],2,".","") }}</b></td>
-                                <td><b>{{ number_format($gmTotalWasit2['persentase'],2,".","") . " %" }}</b></td>
                                 <td><b>{{ number_format($gmTotalWasit2['nilai'],2,".","") }}</b></td>
                             </tr>
                         @endif
@@ -152,7 +144,6 @@ $arr           = array_merge(range('a', 'z'));
                             <td><b> Nama </b></td>
                             <td width="10%"><b> Nilai </b></td>
                             <td width="10%"><b> Rata-rata </b></td>
-                            <td width="10%"><b> Persentase </b></td>
                             <td width="10%"><b> Nilai Akhir </b></td>
                         </tr>
                         @if($gmWasit3)
@@ -162,7 +153,6 @@ $arr           = array_merge(range('a', 'z'));
                                     <td><b>{{ $pgm3['nama'] }}</b></td>
                                     <td><b>{{ number_format($pgm3['sum'],2,".","") }}</b></td>
                                     <td><b>{{ number_format($pgm3['avg'],2,".","") }}</b></td>
-                                    <td><b>{{ $pgm3['persentase'] . " %" }}</b></td>
                                     <td><b>{{ number_format($pgm3['nilai'],2,".","") }}</b></td>
                                 </tr>
                                 <?php
@@ -178,7 +168,6 @@ $arr           = array_merge(range('a', 'z'));
                                             <td>{{ number_format($sgm3['nilai'],0,".","") }}</td>
                                             <td></td>
                                             <td></td>
-                                            <td></td>
                                         </tr>
                                         <?php $j++; ?>
                                     @endforeach
@@ -189,7 +178,6 @@ $arr           = array_merge(range('a', 'z'));
                                 <td colspan="2"><b>{{ $gmTotalWasit3['nama'] }}</b></td>
                                 <td><b>{{ number_format($gmTotalWasit3['sum'],2,".","") }}</b></td>
                                 <td><b>{{ number_format($gmTotalWasit3['avg'],2,".","") }}</b></td>
-                                <td><b>{{ number_format($gmTotalWasit3['persentase'],2,".","") . " %" }}</b></td>
                                 <td><b>{{ number_format($gmTotalWasit3['nilai'],2,".","") }}</b></td>
                             </tr>
                         @endif

@@ -122,14 +122,13 @@
 
     <table>
         <tr>
-            <td colspan="6"><center><b>Game Management</b></center></td>
+            <td colspan="5"><center><b>Game Management</b></center></td>
         </tr>
         <tr>
             <td width="3%"><b> No </b></td>
             <td><b> Nama </b></td>
             <td width="10%"><b> Nilai </b></td>
             <td width="10%"><b> Rata-rata </b></td>
-            <td width="10%"><b> Persentase </b></td>
             <td width="10%"><b> Nilai Akhir </b></td>
         </tr>
         <?php
@@ -142,7 +141,6 @@
                     <td><b>{{ $pgm['nama'] }}</b></td>
                     <td><b>{{ number_format($pgm['sum'],2,".","") }}</b></td>
                     <td><b>{{ number_format($pgm['avg'],2,".","") }}</b></td>
-                    <td><b>{{ $pgm['persentase'] . " %" }}</b></td>
                     <td><b>{{ number_format($pgm['nilai'],2,".","") }}</b></td>
                 </tr>
                 <?php
@@ -158,7 +156,6 @@
                             <td>{{ number_format($sgm['nilai'],0,".","") }}</td>
                             <td></td>
                             <td></td>
-                            <td></td>
                         </tr>
                         <?php $j++; ?>
                     @endforeach
@@ -169,7 +166,6 @@
                 <td colspan="2"><b>{{ $gmTotalWasit['nama'] }}</b></td>
                 <td><b>{{ number_format($gmTotalWasit['sum'],2,".","") }}</b></td>
                 <td><b>{{ number_format($gmTotalWasit['avg'],2,".","") }}</b></td>
-                <td><b>{{ number_format($gmTotalWasit['persentase'],2,".","") . " %" }}</b></td>
                 <td><b>{{ number_format($gmTotalWasit['nilai'],2,".","") }}</b></td>
             </tr>
         @endif
@@ -179,14 +175,13 @@
 
     <table>
         <tr>
-            <td colspan="6"><center><b>Mechanical Court</b></center></td>
+            <td colspan="5"><center><b>Mechanical Court</b></center></td>
         </tr>
         <tr>
             <td width="3%"><b> No </b></td>
             <td><b> Nama </b></td>
             <td width="10%"><b> Nilai </b></td>
             <td width="10%"><b> Rata-rata </b></td>
-            <td width="10%"><b> Persentase </b></td>
             <td width="10%"><b> Nilai Akhir </b></td>
         </tr>
         <?php
@@ -199,7 +194,6 @@
                     <td><b>{{ $pmc['nama'] }}</b></td>
                     <td><b>{{ number_format($pmc['sum'],2,".","") }}</b></td>
                     <td><b>{{ number_format($pmc['avg'],2,".","") }}</b></td>
-                    <td><b>{{ $pmc['persentase'] . " %" }}</b></td>
                     <td><b>{{ number_format($pmc['nilai'],2,".","") }}</b></td>
                 </tr>
                 <?php
@@ -215,7 +209,6 @@
                             <td>{{ number_format($smc['nilai'],0,".","") }}</td>
                             <td></td>
                             <td></td>
-                            <td></td>
                         </tr>
                         <?php $j++; ?>
                     @endforeach
@@ -226,7 +219,6 @@
                 <td colspan="2"><b>{{ $mcTotalWasit['nama'] }}</b></td>
                 <td><b>{{ number_format($mcTotalWasit['sum'],2,".","") }}</b></td>
                 <td><b>{{ number_format($mcTotalWasit['avg'],2,".","") }}</b></td>
-                <td><b>{{ number_format($mcTotalWasit['persentase'],2,".","") . " %" }}</b></td>
                 <td><b>{{ number_format($mcTotalWasit['nilai'],2,".","") }}</b></td>
             </tr>
         @endif
@@ -236,14 +228,13 @@
 
     <table>
         <tr>
-            <td colspan="6"><center><b>Appearance</b></center></td>
+            <td colspan="5"><center><b>Appearance</b></center></td>
         </tr>
         <tr>
             <td width="3%"><b> No </b></td>
             <td><b> Nama </b></td>
             <td width="10%"><b> Nilai </b></td>
             <td width="10%"><b> Rata-rata </b></td>
-            <td width="10%"><b> Persentase </b></td>
             <td width="10%"><b> Nilai Akhir </b></td>
         </tr>
         <?php
@@ -256,7 +247,6 @@
                     <td><b>{{ $pa['nama'] }}</b></td>
                     <td><b>{{ number_format($pa['sum'],2,".","") }}</b></td>
                     <td><b>{{ number_format($pa['avg'],2,".","") }}</b></td>
-                    <td><b>{{ $pa['persentase'] . " %" }}</b></td>
                     <td><b>{{ number_format($pa['nilai'],2,".","") }}</b></td>
                 </tr>
                 <?php
@@ -272,7 +262,6 @@
                             <td>{{ number_format($sa['nilai'],0,".","") }}</td>
                             <td></td>
                             <td></td>
-                            <td></td>
                         </tr>
                         <?php $j++; ?>
                     @endforeach
@@ -283,7 +272,6 @@
                 <td colspan="2"><b>{{ $aTotalWasit['nama'] }}</b></td>
                 <td><b>{{ number_format($aTotalWasit['sum'],2,".","") }}</b></td>
                 <td><b>{{ number_format($aTotalWasit['avg'],2,".","") }}</b></td>
-                <td><b>{{ number_format($aTotalWasit['persentase'],2,".","") . " %" }}</b></td>
                 <td><b>{{ number_format($aTotalWasit['nilai'],2,".","") }}</b></td>
             </tr>
         @endif
@@ -293,45 +281,40 @@
 
     <table>
         <tr>
-            <td colspan="5"><center><b>Evaluasi</b></center></td>
+            <td colspan="4"><center><b>Evaluasi</b></center></td>
         </tr>
         <tr>
             <td width="3%"><b> No </b></td>
             <td><b> Nama </b></td>
-            <td width="10%"><b> Persentase </b></td>
             <td width="10%"><b> Nilai </b></td>
             <td width="10%"><b>Nilai Akhir</b></td>
         </tr>
         <tr>
             <td width="3%">1</td>
             <td> Play Calling </td>
-            <td width="10%"> 55 % </td>
             <td width="10%">{{ ($playCallingTotal) ? $playCallingTotal : 'Belum Di nilai' }}</td>
             <td width="10%"><center> {{ $evaluation->play_calling }} </center></td>
         </tr>
         <tr>
             <td width="3%">2</td>
             <td> Game Management </td>
-            <td width="10%">15 %</td>
             <td width="10%">{{ ($gmTotalWasit) ? $gmTotalWasit->nilai : 'Belum Di nilai' ; }}</td>
             <td width="10%"><center> {{ $evaluation->game_management }} </center></td>
         </tr>
         <tr>
             <td width="3%">3</td>
             <td> Mechanical Court </td>
-            <td width="10%">25 %</td>
             <td width="10%">{{ ($mcTotalWasit) ? $mcTotalWasit->nilai : 'Belum Di nilai' ; }}</td>
             <td width="10%"><center> {{ $evaluation->mechanical_court }} </center></td>
         </tr>
         <tr>
             <td width="3%">4</td>
             <td> Appearance </td>
-            <td width="10%">5 %</td>
             <td width="10%">{{ ($aTotalWasit) ? $aTotalWasit->nilai : 'Belum Di nilai' ; }}</td>
             <td width="10%"><center> {{ $evaluation->appearance }} </center></td>
         </tr>
         <tr>
-            <td colspan="4"><b> Score Akhir </b></td>
+            <td colspan="3"><b> Score Akhir </b></td>
             <td width="10%"><b><center> {{ $evaluation->total_score }} </center></b></td>
         </tr>
     </table>

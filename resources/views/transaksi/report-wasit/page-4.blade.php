@@ -20,7 +20,6 @@ $arr          = array_merge(range('a', 'z'));
         <td><b> Nama </b></td>
         <td width="10%"><b> Nilai </b></td>
         <td width="10%"><b> Rata-rata </b></td>
-        <td width="10%"><b> Persentase </b></td>
         <td width="10%"><b> Nilai Akhir </b></td>
     </tr>
     <?php
@@ -33,7 +32,6 @@ $arr          = array_merge(range('a', 'z'));
                 <td><b>{{ $pmc['nama'] }}</b></td>
                 <td><b>{{ number_format($pmc['sum'],2,".","") }}</b></td>
                 <td><b>{{ number_format($pmc['avg'],2,".","") }}</b></td>
-                <td><b>{{ $pmc['persentase'] . " %" }}</b></td>
                 <td><b>{{ number_format($pmc['nilai'],2,".","") }}</b></td>
             </tr>
             <?php
@@ -49,7 +47,6 @@ $arr          = array_merge(range('a', 'z'));
                         <td>{{ number_format($smc['nilai'],0,".","") }}</td>
                         <td></td>
                         <td></td>
-                        <td></td>
                     </tr>
                     <?php $j++; ?>
                 @endforeach
@@ -60,7 +57,6 @@ $arr          = array_merge(range('a', 'z'));
             <td colspan="2"><b>{{ $mcTotalWasit['nama'] }}</b></td>
             <td><b>{{ number_format($mcTotalWasit['sum'],2,".","") }}</b></td>
             <td><b>{{ number_format($mcTotalWasit['avg'],2,".","") }}</b></td>
-            <td><b>{{ number_format($mcTotalWasit['persentase'],2,".","") . " %" }}</b></td>
             <td><b>{{ number_format($mcTotalWasit['nilai'],2,".","") }}</b></td>
         </tr>
     @endif

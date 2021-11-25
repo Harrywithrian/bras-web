@@ -2,38 +2,25 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="04b1adcb-c7e2-45af-91c2-1ed75952fc90" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/demo1/js/master/wasit/index.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/demo1/js/transaksi/t-event-letter/index.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/master/wasit/index.blade.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/master/wasit/search.blade.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/master/wasit/show.blade.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/transaksi/t-event-letter/index.blade.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/transaksi/t-event-letter/search.blade.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/transaksi/t-event-letter/show.blade.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/demo1/js/master/m-user/index.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/master/user/index.blade.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/master/user/search.blade.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/master/user/show.blade.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/Master/LicenseLocation.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/Master/LicenseLocation.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/Master/RegionController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/Master/RegionController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/Transaksi/TEventApprovalController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/Transaksi/TEventApprovalController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/Transaksi/TEventController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/Transaksi/TEventController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Models/Master/License.php" afterPath="$PROJECT_DIR$/app/Models/Master/License.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Models/Master/Region.php" afterPath="$PROJECT_DIR$/app/Models/Master/Region.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Models/Transaksi/TEventLetter.php" afterPath="$PROJECT_DIR$/app/Models/Transaksi/TEventLetter.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/demo1/js/master/license/index.js" afterPath="$PROJECT_DIR$/public/demo1/js/master/license/index.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/demo1/js/master/region/index.js" afterPath="$PROJECT_DIR$/public/demo1/js/master/region/index.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/auth/login.blade.php" afterPath="$PROJECT_DIR$/resources/views/auth/login.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/auth/register.blade.php" afterPath="$PROJECT_DIR$/resources/views/auth/register.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/master/license/create.blade.php" afterPath="$PROJECT_DIR$/resources/views/master/license/create.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/master/license/edit.blade.php" afterPath="$PROJECT_DIR$/resources/views/master/license/edit.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/master/license/index.blade.php" afterPath="$PROJECT_DIR$/resources/views/master/license/index.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/master/license/show.blade.php" afterPath="$PROJECT_DIR$/resources/views/master/license/show.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/master/region/create.blade.php" afterPath="$PROJECT_DIR$/resources/views/master/region/create.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/master/region/edit.blade.php" afterPath="$PROJECT_DIR$/resources/views/master/region/edit.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/master/region/index.blade.php" afterPath="$PROJECT_DIR$/resources/views/master/region/index.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/master/region/show.blade.php" afterPath="$PROJECT_DIR$/resources/views/master/region/show.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/transaksi/t-event-approval/show.blade.php" afterPath="$PROJECT_DIR$/resources/views/transaksi/t-event-approval/show.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/transaksi/t-event/create.blade.php" afterPath="$PROJECT_DIR$/resources/views/transaksi/t-event/create.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/transaksi/t-event/edit.blade.php" afterPath="$PROJECT_DIR$/resources/views/transaksi/t-event/edit.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/transaksi/t-event/show.blade.php" afterPath="$PROJECT_DIR$/resources/views/transaksi/t-event/show.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/transaksi/report-pertandingan/cetak.blade.php" afterPath="$PROJECT_DIR$/resources/views/transaksi/report-pertandingan/cetak.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/transaksi/report-pertandingan/page-3.blade.php" afterPath="$PROJECT_DIR$/resources/views/transaksi/report-pertandingan/page-3.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/transaksi/report-pertandingan/page-4.blade.php" afterPath="$PROJECT_DIR$/resources/views/transaksi/report-pertandingan/page-4.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/transaksi/report-pertandingan/page-5.blade.php" afterPath="$PROJECT_DIR$/resources/views/transaksi/report-pertandingan/page-5.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/transaksi/report-pertandingan/page-6.blade.php" afterPath="$PROJECT_DIR$/resources/views/transaksi/report-pertandingan/page-6.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/transaksi/report-wasit/cetak.blade.php" afterPath="$PROJECT_DIR$/resources/views/transaksi/report-wasit/cetak.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/transaksi/report-wasit/page-3.blade.php" afterPath="$PROJECT_DIR$/resources/views/transaksi/report-wasit/page-3.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/transaksi/report-wasit/page-4.blade.php" afterPath="$PROJECT_DIR$/resources/views/transaksi/report-wasit/page-4.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/transaksi/report-wasit/page-5.blade.php" afterPath="$PROJECT_DIR$/resources/views/transaksi/report-wasit/page-5.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/transaksi/report-wasit/page-6.blade.php" afterPath="$PROJECT_DIR$/resources/views/transaksi/report-wasit/page-6.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/transaksi/t-match/appearance/show.blade.php" afterPath="$PROJECT_DIR$/resources/views/transaksi/t-match/appearance/show.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/transaksi/t-match/game-management/show.blade.php" afterPath="$PROJECT_DIR$/resources/views/transaksi/t-match/game-management/show.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/transaksi/t-match/mechanical-court/show.blade.php" afterPath="$PROJECT_DIR$/resources/views/transaksi/t-match/mechanical-court/show.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/transaksi/t-match/show-evaluation.blade.php" afterPath="$PROJECT_DIR$/resources/views/transaksi/t-match/show-evaluation.blade.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/web.php" afterPath="$PROJECT_DIR$/routes/web.php" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -45,7 +32,71 @@
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
-    <leaf />
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="web.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/routes/web.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="935">
+              <caret line="88" column="26" lean-forward="false" selection-start-line="88" selection-start-column="26" selection-end-line="88" selection-end-column="26" />
+              <folding>
+                <element signature="e#7#59#0#PHP" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="UserController.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Master/UserController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1914">
+              <caret line="136" column="11" lean-forward="true" selection-start-line="136" selection-start-column="11" selection-end-line="136" selection-end-column="11" />
+              <folding>
+                <element signature="e#47#83#0#PHP" expanded="true" />
+                <marker date="1637854686065" expanded="true" signature="1796:1821" ph="..." />
+                <marker date="1637854686065" expanded="true" signature="1943:1968" ph="..." />
+                <marker date="1637854686065" expanded="true" signature="2067:2092" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="show.blade.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/resources/views/master/user/show.blade.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="228">
+              <caret line="75" column="32" lean-forward="false" selection-start-line="75" selection-start-column="32" selection-end-line="75" selection-end-column="32" />
+              <folding>
+                <element signature="n#style#0;n#span#0;n#td#1;n#tr#2;n#table#0;n#div#1;n#div#0;n#x-base-layout#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#span#1;n#td#1;n#tr#2;n#table#0;n#div#1;n#div#0;n#x-base-layout#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#span#2;n#td#1;n#tr#2;n#table#0;n#div#1;n#div#0;n#x-base-layout#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/demo1/js/master/m-user/index.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1648">
+              <caret line="243" column="34" lean-forward="false" selection-start-line="243" selection-start-column="34" selection-end-line="243" selection-end-column="34" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="IotController.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Master/IotController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2057">
+              <caret line="127" column="4" lean-forward="false" selection-start-line="127" selection-start-column="4" selection-end-line="133" selection-end-column="5" />
+              <folding>
+                <element signature="e#47#83#0#PHP" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -72,6 +123,7 @@
       <find>jenis_lisensi</find>
       <find>model</find>
       <find>detail</find>
+      <find>icon</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -80,27 +132,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/resources/views/transaksi/report-wasit/page-5.blade.php" />
-        <option value="$PROJECT_DIR$/resources/views/transaksi/report-pertandingan/page-5.blade.php" />
-        <option value="$PROJECT_DIR$/config/app.php" />
-        <option value="$PROJECT_DIR$/resources/views/transaksi/report-wasit/page-1.blade.php" />
-        <option value="$PROJECT_DIR$/resources/views/transaksi/report-wasit/page-6.blade.php" />
-        <option value="$PROJECT_DIR$/resources/views/transaksi/report-pertandingan/page-1.blade.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/Transaksi/ReportWasitController.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/Transaksi/ReportPertandinganController.php" />
-        <option value="$PROJECT_DIR$/resources/views/transaksi/report-pertandingan/cetak.blade.php" />
-        <option value="$PROJECT_DIR$/resources/views/transaksi/report-wasit/cetak.blade.php" />
-        <option value="$PROJECT_DIR$/resources/views/auth/register.blade.php" />
-        <option value="$PROJECT_DIR$/resources/views/auth/login.blade.php" />
-        <option value="$PROJECT_DIR$/resources/lang/en/auth.php" />
-        <option value="$PROJECT_DIR$/resources/views/master/wasit/index.blade.php" />
-        <option value="$PROJECT_DIR$/public/demo1/js/master/wasit/index.js" />
-        <option value="$PROJECT_DIR$/resources/views/master/wasit/search.blade.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/Transaksi/TApprovalController.php" />
-        <option value="$PROJECT_DIR$/resources/views/master/wasit/show.blade.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/Master/WasitController.php" />
-        <option value="$PROJECT_DIR$/app/Models/Master/Region.php" />
-        <option value="$PROJECT_DIR$/app/Models/Master/License.php" />
         <option value="$PROJECT_DIR$/public/demo1/js/master/region/index.js" />
         <option value="$PROJECT_DIR$/resources/views/master/region/index.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/master/region/create.blade.php" />
@@ -126,11 +157,32 @@
         <option value="$PROJECT_DIR$/resources/views/transaksi/t-event-letter/search.blade.php" />
         <option value="$PROJECT_DIR$/public/demo1/js/transaksi/t-event-letter/index.js" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/Transaksi/TEventApprovalController.php" />
-        <option value="$PROJECT_DIR$/routes/web.php" />
         <option value="$PROJECT_DIR$/resources/views/transaksi/t-event-letter/show.blade.php" />
         <option value="$PROJECT_DIR$/app/Models/Transaksi/TEventLetter.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/Transaksi/TEventLetterController.php" />
         <option value="$PROJECT_DIR$/resources/views/transaksi/t-event-letter/dokumen.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/transaksi/t-match/show-evaluation.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/transaksi/report-wasit/cetak.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/transaksi/report-wasit/page-3.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/transaksi/report-wasit/page-4.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/transaksi/report-wasit/page-5.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/transaksi/report-wasit/page-6.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/transaksi/report-pertandingan/cetak.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/transaksi/report-pertandingan/page-3.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/transaksi/report-pertandingan/page-4.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/transaksi/report-pertandingan/page-6.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/transaksi/report-pertandingan/page-5.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/transaksi/t-match/game-management/show.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/transaksi/t-match/mechanical-court/show.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/transaksi/t-match/appearance/show.blade.php" />
+        <option value="$PROJECT_DIR$/.env" />
+        <option value="$PROJECT_DIR$/resources/views/master/user/index.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/master/user/search.blade.php" />
+        <option value="$PROJECT_DIR$/public/demo1/js/master/m-user/index.js" />
+        <option value="$PROJECT_DIR$/routes/web.php" />
+        <option value="$PROJECT_DIR$/app/Models/User.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/Master/UserController.php" />
+        <option value="$PROJECT_DIR$/resources/views/master/user/show.blade.php" />
       </list>
     </option>
   </component>
@@ -169,8 +221,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -233,59 +285,7 @@
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="transaksi" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bras-web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bras-web" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="resources" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="views" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="transaksi" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="t-event-letter" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bras-web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bras-web" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="resources" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="views" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="transaksi" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="report-wasit" />
+              <option name="myItemId" value="master" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
           </PATH>
@@ -308,6 +308,10 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="master" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="user" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
           </PATH>
@@ -427,37 +431,7 @@
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="transaksi" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bras-web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bras-web" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="public" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="demo1" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="js" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="transaksi" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="t-event-letter" />
+              <option name="myItemId" value="master" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
           </PATH>
@@ -486,6 +460,10 @@
               <option name="myItemId" value="master" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="m-user" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -537,7 +515,7 @@
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Transaksi" />
+              <option name="myItemId" value="Master" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
           </PATH>
@@ -603,33 +581,7 @@
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Transaksi" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bras-web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bras-web" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Http" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Controllers" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Api" />
+              <option name="myItemId" value="Master" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
           </PATH>
@@ -644,19 +596,19 @@
     <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file://C:/xampp8/htdocs/bras-web/resources/views/transaksi/report-wasit/show-match.blade.php" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\xampp8\htdocs\bras-web\resources\views\transaksi\t-event-letter" />
-      <recent name="C:\xampp8\htdocs\bras-web\public\demo1\js\transaksi" />
-      <recent name="C:\xampp8\htdocs\bras-web\resources\views\master\wasit" />
-      <recent name="C:\xampp8\htdocs\bras-web\public\demo1\js\master\wasit" />
-      <recent name="C:\xampp8\htdocs\bras-web\resources\views\transaksi\report-wasit" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\xampp8\htdocs\bras-web\resources\views\transaksi\t-match" />
       <recent name="C:\xampp8\htdocs\bras-web\storage\app\public" />
       <recent name="C:\xampp8\htdocs\bras-web\resources\views\transaksi\t-approval" />
       <recent name="C:\xampp8\htdocs\bras-web\app\Models\Transaksi" />
       <recent name="C:\xampp8\htdocs\bras-web\app\Models\Master" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\xampp8\htdocs\bras-web\resources\views\master\user" />
+      <recent name="C:\xampp8\htdocs\bras-web\public\demo1\js\master\m-user" />
+      <recent name="C:\xampp8\htdocs\bras-web\resources\views\transaksi\t-event-letter" />
+      <recent name="C:\xampp8\htdocs\bras-web\public\demo1\js\transaksi" />
+      <recent name="C:\xampp8\htdocs\bras-web\resources\views\master\wasit" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -810,17 +762,24 @@
       <workItem from="1636770790694" duration="2911000" />
       <workItem from="1636773909283" duration="3613000" />
       <workItem from="1636777617500" duration="3097000" />
-      <workItem from="1636848024399" duration="1227000" />
+      <workItem from="1636848024399" duration="1274000" />
+      <workItem from="1637486866080" duration="609000" />
+      <workItem from="1637674124951" duration="872000" />
+      <workItem from="1637676186292" duration="927000" />
+      <workItem from="1637757929296" duration="1833000" />
+      <workItem from="1637851594699" duration="2490000" />
+      <workItem from="1637854255597" duration="1353000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="263166000" />
+    <option name="totallyTimeSpent" value="271297000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1066" extended-state="7" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19739583" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19739583" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -853,186 +812,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/resources/views/master/iot/create.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="26" column="32" lean-forward="true" selection-start-line="26" selection-start-column="32" selection-end-line="26" selection-end-column="73" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Master/LocationController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/demo1/js/master/location/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="561">
-          <caret line="57" column="31" lean-forward="true" selection-start-line="57" selection-start-column="31" selection-end-line="58" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/demo1/js/master/wasit/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="611">
-          <caret line="144" column="1" lean-forward="false" selection-start-line="144" selection-start-column="1" selection-end-line="144" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/master/wasit/search.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="449">
-          <caret line="38" column="0" lean-forward="true" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/auth/register.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="449">
-          <caret line="224" column="19" lean-forward="true" selection-start-line="224" selection-start-column="19" selection-end-line="224" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/transaksi/t-approval/show.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="493">
-          <caret line="50" column="12" lean-forward="true" selection-start-line="50" selection-start-column="12" selection-end-line="53" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/master/wasit/index.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="8" lean-forward="true" selection-start-line="6" selection-start-column="8" selection-end-line="7" selection-end-column="69" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/master/wasit/show.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
-          <caret line="28" column="127" lean-forward="false" selection-start-line="28" selection-start-column="127" selection-end-line="28" selection-end-column="127" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Transaksi/TApprovalController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1530">
-          <caret line="124" column="30" lean-forward="false" selection-start-line="124" selection-start-column="30" selection-end-line="124" selection-end-column="30" />
-          <folding>
-            <marker date="1634827106678" expanded="true" signature="3189:3214" ph="..." />
-            <marker date="1634827106678" expanded="true" signature="3344:3369" ph="..." />
-            <marker date="1634827106678" expanded="true" signature="3479:3504" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Models/Master/Location.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Models/Master/Region.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="19" column="17" lean-forward="true" selection-start-line="19" selection-start-column="17" selection-end-line="19" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/master/region/index.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="23" column="22" lean-forward="true" selection-start-line="23" selection-start-column="22" selection-end-line="23" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/demo1/js/master/region/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="142" column="14" lean-forward="true" selection-start-line="142" selection-start-column="14" selection-end-line="142" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/master/region/create.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="211">
-          <caret line="40" column="16" lean-forward="true" selection-start-line="40" selection-start-column="16" selection-end-line="50" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/master/region/edit.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="45" column="160" lean-forward="true" selection-start-line="45" selection-start-column="160" selection-end-line="45" selection-end-column="160" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/master/region/show.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="544">
-          <caret line="50" column="21" lean-forward="true" selection-start-line="50" selection-start-column="21" selection-end-line="50" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Master/WasitController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="51" column="48" lean-forward="false" selection-start-line="51" selection-start-column="48" selection-end-line="51" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Models/Master/License.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="19" column="18" lean-forward="true" selection-start-line="19" selection-start-column="18" selection-end-line="19" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/master/license/index.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
-          <caret line="37" column="49" lean-forward="false" selection-start-line="37" selection-start-column="49" selection-end-line="37" selection-end-column="49" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/demo1/js/master/license/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="138" column="13" lean-forward="false" selection-start-line="138" selection-start-column="13" selection-end-line="138" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/master/m-game-management/create-content.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-255">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Master/RegionController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="157" column="45" lean-forward="true" selection-start-line="157" selection-start-column="45" selection-end-line="157" selection-end-column="45" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/master/license/show.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="51" column="29" lean-forward="false" selection-start-line="51" selection-start-column="29" selection-end-line="51" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Master/LicenseLocation.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="162" column="40" lean-forward="true" selection-start-line="162" selection-start-column="40" selection-end-line="162" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/master/license/create.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="272">
@@ -1121,22 +900,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="228">
           <caret line="185" column="40" lean-forward="true" selection-start-line="185" selection-start-column="40" selection-end-line="187" selection-end-column="52" />
-          <folding>
-            <marker date="1636774894594" expanded="true" signature="3000:3025" ph="..." />
-            <marker date="1636774894594" expanded="true" signature="3152:3177" ph="..." />
-            <marker date="1636774894594" expanded="true" signature="3296:3321" ph="..." />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Transaksi/TEventLetter.php" />
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Master/IotController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="127" column="4" lean-forward="false" selection-start-line="127" selection-start-column="4" selection-end-line="133" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/transaksi/t-event-letter/search.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="340">
@@ -1162,11 +929,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="466">
           <caret line="135" column="30" lean-forward="true" selection-start-line="135" selection-start-column="30" selection-end-line="140" selection-end-column="24" />
-          <folding>
-            <marker date="1636775723434" expanded="true" signature="2940:2965" ph="..." />
-            <marker date="1636775723434" expanded="true" signature="3092:3117" ph="..." />
-            <marker date="1636775723434" expanded="true" signature="3236:3261" ph="..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1174,7 +936,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="619">
           <caret line="268" column="30" lean-forward="true" selection-start-line="268" selection-start-column="30" selection-end-line="268" selection-end-column="30" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1192,13 +953,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/transaksi/report-wasit/cetak.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="26" column="9" lean-forward="true" selection-start-line="26" selection-start-column="9" selection-end-line="26" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/transaksi/t-event-letter/dokumen.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="442">
@@ -1210,17 +964,221 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="245">
           <caret line="170" column="17" lean-forward="false" selection-start-line="170" selection-start-column="8" selection-end-line="170" selection-end-column="17" />
-          <folding>
-            <element signature="e#50#86#0#PHP" expanded="true" />
-          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/GameController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/NotificationController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Transaksi/ReportPertandinganController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/transaksi/t-match/show-evaluation.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="629">
+          <caret line="67" column="34" lean-forward="false" selection-start-line="67" selection-start-column="34" selection-end-line="67" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/transaksi/report-wasit/cetak.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-61">
+          <caret line="283" column="26" lean-forward="false" selection-start-line="283" selection-start-column="26" selection-end-line="283" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/transaksi/report-wasit/page-3.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="517">
+          <caret line="57" column="78" lean-forward="false" selection-start-line="57" selection-start-column="78" selection-end-line="57" selection-end-column="78" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/transaksi/report-wasit/page-6.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="517">
+          <caret line="49" column="8" lean-forward="true" selection-start-line="49" selection-start-column="8" selection-end-line="49" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/transaksi/report-wasit/page-5.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="517">
+          <caret line="58" column="77" lean-forward="false" selection-start-line="58" selection-start-column="77" selection-end-line="58" selection-end-column="77" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/transaksi/report-wasit/page-4.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="517">
+          <caret line="58" column="78" lean-forward="false" selection-start-line="58" selection-start-column="78" selection-end-line="58" selection-end-column="78" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/transaksi/report-pertandingan/cetak.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="585">
+          <caret line="776" column="7" lean-forward="true" selection-start-line="776" selection-start-column="7" selection-end-line="776" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/transaksi/report-pertandingan/page-6.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2754">
+          <caret line="162" column="42" lean-forward="false" selection-start-line="162" selection-start-column="42" selection-end-line="162" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/transaksi/report-pertandingan/page-5.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1591">
+          <caret line="65" column="50" lean-forward="true" selection-start-line="65" selection-start-column="50" selection-end-line="65" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/transaksi/report-pertandingan/page-4.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2311">
+          <caret line="182" column="99" lean-forward="false" selection-start-line="182" selection-start-column="99" selection-end-line="182" selection-end-column="99" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/transaksi/report-pertandingan/page-3.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2736">
+          <caret line="179" column="99" lean-forward="false" selection-start-line="179" selection-start-column="99" selection-end-line="179" selection-end-column="99" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/transaksi/t-match/appearance/show.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="66" column="45" lean-forward="false" selection-start-line="66" selection-start-column="45" selection-end-line="66" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/transaksi/t-match/mechanical-court/show.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="66" column="45" lean-forward="false" selection-start-line="66" selection-start-column="45" selection-end-line="66" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/transaksi/t-match/game-management/show.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="398">
+          <caret line="66" column="32" lean-forward="true" selection-start-line="66" selection-start-column="32" selection-end-line="66" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.env">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="21" column="0" lean-forward="true" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/demo1/js/master/location/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-306">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/master/user/search.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="21" column="57" lean-forward="true" selection-start-line="21" selection-start-column="57" selection-end-line="21" selection-end-column="57" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/master/user/index.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="493">
+          <caret line="38" column="40" lean-forward="false" selection-start-line="38" selection-start-column="40" selection-end-line="38" selection-end-column="40" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/routes/web.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="347">
-          <caret line="250" column="109" lean-forward="false" selection-start-line="250" selection-start-column="109" selection-end-line="250" selection-end-column="109" />
+        <state relative-caret-position="935">
+          <caret line="88" column="26" lean-forward="false" selection-start-line="88" selection-start-column="26" selection-end-line="88" selection-end-column="26" />
+          <folding>
+            <element signature="e#7#59#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Models/User.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="20" column="17" lean-forward="false" selection-start-line="20" selection-start-column="17" selection-end-line="20" selection-end-column="17" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Models/Master/Iot.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="13" column="4" lean-forward="true" selection-start-line="13" selection-start-column="4" selection-end-line="14" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Master/IotController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2057">
+          <caret line="127" column="4" lean-forward="false" selection-start-line="127" selection-start-column="4" selection-end-line="133" selection-end-column="5" />
+          <folding>
+            <element signature="e#47#83#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/demo1/js/master/m-user/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1648">
+          <caret line="243" column="34" lean-forward="false" selection-start-line="243" selection-start-column="34" selection-end-line="243" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Master/UserController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1914">
+          <caret line="136" column="11" lean-forward="true" selection-start-line="136" selection-start-column="11" selection-end-line="136" selection-end-column="11" />
+          <folding>
+            <element signature="e#47#83#0#PHP" expanded="true" />
+            <marker date="1637854686065" expanded="true" signature="1796:1821" ph="..." />
+            <marker date="1637854686065" expanded="true" signature="1943:1968" ph="..." />
+            <marker date="1637854686065" expanded="true" signature="2067:2092" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/master/user/show.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="228">
+          <caret line="75" column="32" lean-forward="false" selection-start-line="75" selection-start-column="32" selection-end-line="75" selection-end-column="32" />
+          <folding>
+            <element signature="n#style#0;n#span#0;n#td#1;n#tr#2;n#table#0;n#div#1;n#div#0;n#x-base-layout#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#1;n#td#1;n#tr#2;n#table#0;n#div#1;n#div#0;n#x-base-layout#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#2;n#td#1;n#tr#2;n#table#0;n#div#1;n#div#0;n#x-base-layout#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

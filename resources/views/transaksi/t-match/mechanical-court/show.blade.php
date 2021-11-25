@@ -39,7 +39,6 @@
                     <td><b> Nama </b></td>
                     <td width="10%"><b> Nilai </b></td>
                     <td width="10%"><b> Rata-rata </b></td>
-                    <td width="10%"><b> Persentase </b></td>
                     <td width="10%"><b> Nilai Akhir </b></td>
                 </tr>
                 @if($mechanicalCourt)
@@ -49,7 +48,6 @@
                             <td><b>{{ $item['nama'] }}</b></td>
                             <td><b>{{ number_format($item['sum'],2,".","") }}</b></td>
                             <td><b>{{ number_format($item['avg'],2,".","") }}</b></td>
-                            <td><b>{{ $item['persentase'] . " %" }}</b></td>
                             <td><b>{{ number_format($item['nilai'],2,".","") }}</b></td>
                         </tr>
                         <?php
@@ -65,8 +63,8 @@
                                     <td>{{ number_format($subitem['nilai'],0,".","") }}</td>
                                     <td></td>
                                     <td></td>
-                                    <td></td>
                                 </tr>
+                                <?php $j++ ?>
                             @endforeach
                         @endif
                         <?php $i++ ?>
@@ -75,7 +73,6 @@
                         <td colspan="2"><b>{{ $total['nama'] }}</b></td>
                         <td><b>{{ number_format($total['sum'],2,".","") }}</b></td>
                         <td><b>{{ number_format($total['avg'],2,".","") }}</b></td>
-                        <td><b>{{ number_format($total['persentase'],2,".","") . " %" }}</b></td>
                         <td><b>{{ number_format($total['nilai'],2,".","") }}</b></td>
                     </tr>
                 @endif

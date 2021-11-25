@@ -10,6 +10,7 @@ use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\IndexController;
+use App\Http\Controllers\Master\UserController;
 use App\Http\Controllers\Master\RegionController;
 use App\Http\Controllers\Master\LocationController;
 use App\Http\Controllers\Master\LicenseLocation;
@@ -72,6 +73,20 @@ Route::middleware('auth')->group(function () {
     Route::prefix('log')->name('log.')->group(function () {
         Route::resource('system', SystemLogsController::class)->only(['index', 'destroy']);
         Route::resource('audit', AuditLogsController::class)->only(['index', 'destroy']);
+    });
+
+    Route::prefix('m-user')->group(function () {
+        Route::get('/', [UserController::class, 'index'])->name('m-user.index');
+        Route::get('/index', [UserController::class, 'index'])->name('m-user.index');
+        Route::get('/get', [UserController::class, 'get'])->name('m-user.get');
+        Route::post('/search', [UserController::class, 'search'])->name('m-user.search');
+        Route::get('/create', [UserController::class, 'create'])->name('m-user.create');
+        Route::post('/store', [UserController::class, 'store'])->name('m-user.store');
+        Route::get('/show/{id}', [UserController::class, 'show'])->name('m-user.show');
+        Route::get('/edit/{id}', [UserController::class, 'edit'])->name('m-user.edit');
+        Route::post('/update/{id}', [UserController::class, 'update'])->name('m-user.update');
+        Route::post('/status', [UserController::class, 'status'])->name('m-user.status');
+        Route::post('/lock', [UserController::class, 'lock'])->name('m-user.lock');
     });
 
     Route::prefix('region')->group(function () {
