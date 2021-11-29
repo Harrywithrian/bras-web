@@ -90,11 +90,11 @@ class TEventController extends Controller
         # KOLOM STATUS
         $dataTables = $dataTables->addColumn('status', function ($row) {
             if ($row->status == 1) {
-                return "<span class='rounded-pill bg-success' style='padding:5px; color: white'> Approved </span>";
+                return "<span class='w-130px badge badge-success me-4'> Approved </span>";
             } if ($row->status == 0) {
-                return "<span class='rounded-pill bg-info' style='padding:5px; color: white'> Waiting Approval </span>";
+                return "<span class='w-130px badge badge-info me-4'> Waiting Approval</span>";
             } else {
-                return "<span class='rounded-pill bg-danger' style='padding:5px; color: white''> Rejected </span>";
+                return "<span class='w-130px badge badge-danger me-4'> Rejected </span>";
             }
         });
 
@@ -123,7 +123,7 @@ class TEventController extends Controller
             ->leftJoin('m_region', 'm_region.id', '=', 't_event_region.id_m_region')
             ->get()->toArray();
 
-        $participant = TEventParticipant::select('users.name', 'users.email', 'm_license.license', 'user_infos.no_lisensi', 'm_region.region', 'user_infos.role')
+        $participant = TEventParticipant::select('users.id', 'users.name', 'users.email', 'm_license.license', 'user_infos.no_lisensi', 'm_region.region', 'user_infos.role')
             ->where('t_event_participant.id_t_event', '=', $id)
             ->leftJoin('user_infos', 'user_infos.user_id', '=', 't_event_participant.user')
             ->leftJoin('m_region', 'm_region.id', '=', 'user_infos.id_m_region')

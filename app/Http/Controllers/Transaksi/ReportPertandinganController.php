@@ -167,13 +167,13 @@ class ReportPertandinganController extends Controller
 
         $dataTables = $dataTables->addColumn('status', function ($row) {
             if ($row->status == 0) {
-                return "<span class='rounded-pill bg-info' style='padding:5px; color: white'> Belum Mulai </span>";
+                return "<span class='w-130px badge badge-info me-4'> Belum Mulai </span>";
             }
             if ($row->status == 1) {
-                return "<span class='rounded-pill bg-primary' style='padding:5px; color: white'> Sedang Berlangsung </span>";
+                return "<span class='w-130px badge badge-primary me-4'> Sedang Berlangsung </span>";
             }
             if ($row->status == 2) {
-                return "<span class='rounded-pill bg-success' style='padding:5px; color: white'> Selesai </span>";
+                return "<span class='w-130px badge badge-success me-4'> Selesai </span>";
             } else {
                 return "-";
             }

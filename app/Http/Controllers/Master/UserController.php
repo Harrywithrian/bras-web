@@ -3,13 +3,19 @@
 namespace App\Http\Controllers\Master;
 
 use App\Http\Controllers\Controller;
+use App\Models\Master\Region;
 use App\Models\Master\Role;
+use App\Models\Transaksi\TFile;
 use App\Models\User;
 use App\Models\UserInfo;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 use Yajra\DataTables\DataTables;
+use Illuminate\Validation\Rules;
 
 class UserController extends Controller
 {
@@ -62,11 +68,11 @@ class UserController extends Controller
         # KOLOM STATUS
         $dataTables = $dataTables->addColumn('status', function ($row) {
             if ($row->status == 1) {
-                return "<span class='text-success' style='padding:5px; color: white'> Active </span>";
+                return "<span class='w-130px badge badge-success me-4'> Active </span>";
             } else if ($row->status == 2) {
-                return "<span class='text-warning' style='padding:5px; color: white''> Locked </span>";
+                return "<span class='w-130px badge badge-warning me-4'> Locked </span>";
             } else {
-                return "<span class='text-danger' style='padding:5px; color: white''> Inactive </span>";
+                return "<span class='w-130px badge badge-danger me-4'> Inactive </span>";
             }
         });
 
@@ -102,12 +108,194 @@ class UserController extends Controller
         $model  = User::find($id);
         $detail = UserInfo::where('user_id', '=', $model->id)->first();
         $role   = Role::find($detail->role);
+        $provinsi = Region::find($detail->id_m_region);
+        $foto   = TFile::find($detail->id_t_file_foto);
 
         return view('master.user.show', [
             'model' => $model,
             'detail' => $detail,
             'role' => $role,
+            'provinsi' => $provinsi,
+            'foto' => $foto,
         ]);
+    }
+
+    public function create() {
+        return view('master.user.create');
+    }
+
+    public function store(Request $request) {
+        try {
+            $rules = [
+                'nama' => 'required|string|max:255',
+                'role' => 'required',
+                'tempat_lahir' => 'required|string|max:100',
+                'tanggal_lahir' => 'required',
+                'alamat' => 'required',
+                'provinsi' => 'required',
+                'email' => 'required|string|email|max:255|unique:users,email',
+                'username' => 'required|string|max:255|unique:users,username',
+                'password'   => ['required', 'confirmed', Rules\Password::defaults()],
+                'upload_foto' => 'required|mimes:jpeg,png,jpg|max:10000'
+            ];
+
+            $customMessages = [
+                'required' => 'Kolom :attribute tidak boleh kosong.',
+                'string' => 'Kolom :attribute harus berupa string.',
+                'email' => 'Kolom :attribute harus berupa email.',
+                'unique' => 'Kolom :attribute sudah terdaftar.',
+                'confirmed' => 'Kolom :attribute tidak sesuai dengan re-type password.',
+                'mimes' => 'File :attribute tidak sesuai.',
+            ];
+
+            $this->validate($request, $rules, $customMessages);
+
+            $fileFoto    = $request->file('upload_foto');
+            $path        = 'profile/' . $request->username . date('HisdmY');
+            $namaFoto    = 'foto_' . $request->username .'.' . $fileFoto->getClientOriginalExtension();
+            $fullPathFoto = $path . '/' . $namaFoto;
+            $fileFoto->storeAs('public/' . $path, $namaFoto);
+
+            DB::beginTransaction();
+            $modelFoto = new TFile();
+            $modelFoto->name = $namaFoto;
+            $modelFoto->path = $fullPathFoto;
+            $modelFoto->extension = $fileFoto->getClientOriginalExtension();
+            $modelFoto->save();
+
+            $model = new User();
+            $model->username = $request->username;
+            $model->name     = $request->nama;
+            $model->status   = 1;
+            $model->email    = $request->email;
+            $model->email_verified_at = Carbon::now();
+            $model->password          = Hash::make($request->password);
+            if ($model->save()) {
+                $detail = new UserInfo();
+                $detail->user_id = $model->id;
+                $detail->tempat_lahir  = $request->tempat_lahir;
+                $detail->tanggal_lahir = $request->tanggal_lahir;
+                $detail->alamat        = $request->alamat;
+                $detail->id_m_region   = $request->provinsi;
+                $detail->id_t_file_foto = $modelFoto->id;
+                $detail->role           = $request->role;
+                if ($detail->save()) {
+                    $role = Role::findById($detail->role);
+                    $model->assignRole($role->name);
+
+                    DB::commit();
+                    Session::flash('success', 'User Berhasil Dibuat.');
+                    return redirect()->route('m-user.show', $model->id);
+                }
+                DB::rollBack();
+                Session::flash('error', 'User Detail Gagal Dibuat.');
+                return redirect()->route('m-user.create')->withInput();
+            }
+            DB::rollBack();
+            Session::flash('error', 'User Gagal Dibuat.');
+            return redirect()->route('m-user.create')->withInput();
+
+        }  catch(Exception $e) {
+            Session::flash('error', $e->getMessage());
+            return redirect()->route('m-user.create')->withInput();
+        }
+    }
+
+    public function edit($id) {
+        $model = User::find($id);
+        $detail = UserInfo::where('user_id', '=', $model->id)->first();
+
+        return view('master.user.edit', [
+            'model' => $model,
+            'detail' => $detail,
+        ]);
+    }
+
+    public function update(Request $request, $id) {
+        try {
+            $rules = [
+                'nama' => 'required|string|max:255',
+                'role' => 'required',
+                'tempat_lahir' => 'required|string|max:100',
+                'tanggal_lahir' => 'required',
+                'alamat' => 'required',
+                'provinsi' => 'required',
+            ];
+
+            if ($request->password) {
+                $rules['password'] = ['required', 'confirmed', Rules\Password::defaults()];
+            }
+
+            if ($request->upload_foto) {
+                $rules['upload_foto'] = 'required|mimes:jpeg,png,jpg|max:10000';
+            }
+
+            $customMessages = [
+                'required' => 'Kolom :attribute tidak boleh kosong.',
+                'string' => 'Kolom :attribute harus berupa string.',
+                'email' => 'Kolom :attribute harus berupa email.',
+                'unique' => 'Kolom :attribute sudah terdaftar.',
+                'confirmed' => 'Kolom :attribute tidak sesuai dengan re-type password.',
+                'mimes' => 'File :attribute tidak sesuai.',
+            ];
+
+            $this->validate($request, $rules, $customMessages);
+
+            if ($request->upload_foto) {
+                $fileFoto    = $request->file('upload_foto');
+                $path        = 'profile/' . $request->username . date('HisdmY');
+                $namaFoto    = 'foto_' . $request->username .'.' . $fileFoto->getClientOriginalExtension();
+                $fullPathFoto = $path . '/' . $namaFoto;
+                $fileFoto->storeAs('public/' . $path, $namaFoto);
+
+                $detail = UserInfo::where('user_id', '=', $id)->first();
+
+                $modelFoto = TFile::find($detail->id_t_file_foto);
+                $modelFoto->name = $namaFoto;
+                $modelFoto->path = $fullPathFoto;
+                $modelFoto->extension = $fileFoto->getClientOriginalExtension();
+                $modelFoto->save();
+            }
+
+            $model = User::find($id);
+            $model->username = $request->username;
+            $model->name     = $request->nama;
+            $model->status   = 1;
+            $model->email    = $request->email;
+            $model->email_verified_at = Carbon::now();
+            $model->password          = Hash::make($request->password);
+            if ($model->save()) {
+                $detail = UserInfo::where('user_id', '=', $id)->first();
+
+                $old = $detail->role;
+
+                $detail->tempat_lahir  = $request->tempat_lahir;
+                $detail->tanggal_lahir = $request->tanggal_lahir;
+                $detail->alamat        = $request->alamat;
+                $detail->id_m_region   = $request->provinsi;
+                $detail->id_t_file_foto = isset($modelFoto) ? $modelFoto->id: $detail->id_t_file_foto ;
+                $detail->role           = $request->role;
+                if ($detail->save()) {
+                    $role = Role::findById($detail->role);
+                    $model->removeRole($old);
+                    $model->assignRole($role->name);
+
+                    DB::commit();
+                    Session::flash('success', 'User Berhasil Diubah.');
+                    return redirect()->route('m-user.show', $model->id);
+                }
+                DB::rollBack();
+                Session::flash('error', 'User Detail Gagal Diubah.');
+                return redirect()->route('m-user.edit')->withInput();
+            }
+            DB::rollBack();
+            Session::flash('error', 'User Gagal Diubah.');
+            return redirect()->route('m-user.edit')->withInput();
+
+        } catch(Exception $e) {
+            Session::flash('error', $e->getMessage());
+            return redirect()->route('m-user.edit')->withInput();
+        }
     }
 
     public function status(Request $request) {

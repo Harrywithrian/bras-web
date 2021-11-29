@@ -53,11 +53,11 @@
                     <td width="25%">Status</td>
                     <td>
                         @if($model->status == 0)
-                            <span class='rounded-pill bg-info' style="padding:5px; color: white"> Waiting Approval </span>
+                            <span class='w-130px badge badge-info me-4'> Waiting Approval </span>
                         @elseif($model->status == 1)
-                            <span class='rounded-pill bg-success' style="padding:5px; color: white"> Approved </span>
+                            <span class='w-130px badge badge-success me-4'> Approved </span>
                         @elseif($model->status == -1)
-                            <span class='rounded-pill bg-danger' style="padding:5px; color: white"> Rejected </span>
+                            <span class='w-130px badge badge-danger me-4'> Rejected </span>
                         @else
                             -
                         @endif
@@ -67,9 +67,9 @@
                     <td width="25%">Prioritas Event</td>
                     <td>
                         @if($model->tipe == 0)
-                            <span class='rounded-pill bg-success' style="padding:5px; color: white"> Normal </span>
+                            <span class='w-130px badge badge-success me-4'> Normal </span>
                         @elseif($model->tipe == 1)
-                            <span class='rounded-pill bg-danger' style="padding:5px; color: white"> Urgent </span>
+                            <span class='w-130px badge badge-danger me-4'> Urgent </span>
                         @else
                             -
                         @endif

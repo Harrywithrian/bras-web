@@ -88,11 +88,11 @@
                     <td width="25%">Status</td>
                     <td>
                         @if($model->status == 0)
-                            <span class='rounded-pill bg-info' style="padding:5px; color: white"> Belum Mulai </span>
+                            <span class="w-130px badge badge-info me-4"> Belum Mulai </span>
                         @elseif($model->status == 1)
-                            <span class='rounded-pill bg-primary' style="padding:5px; color: white"> Berlangsung </span>
+                            <span class="w-130px badge badge-primary me-4"> Berlangsung </span>
                         @elseif($model->status == 2)
-                            <span class='rounded-pill bg-success' style="padding:5px; color: white"> Selesai </span>
+                            <span class="w-130px badge badge-success me-4"> Selesai </span>
                         @else
                             -
                         @endif
@@ -158,6 +158,16 @@
                     <td width="34%"><center><img width="34%" class="responsive" src="{{ url('storage/'.$foto1->path) }}"></center></td>
                     <td width="33%"><center><img width="33%" class="responsive" src="{{ url('storage/'.$foto2->path) }}"></center></td>
                     <td width="33%"><center><img width="33%" class="responsive" src="{{ url('storage/'.$foto3->path) }}"></center></td>
+                </tr>
+                <tr>
+                    <td width="34%"><center>@if($notif1->status == 0) <span class="w-130px badge badge-info me-4"> Sent </span> @elseif($notif1->status == 1) <span class="w-130px badge badge-success me-4"> Read </span> @elseif($notif1->status == 2) <span class="w-130px badge badge-primary me-4"> Replied </span> @else - @endif </center></td>
+                    <td width="34%"><center>@if($notif2->status == 0) <span class="w-130px badge badge-info me-4"> Sent </span> @elseif($notif2->status == 1) <span class="w-130px badge badge-success me-4"> Read </span> @elseif($notif2->status == 2) <span class="w-130px badge badge-primary me-4"> Replied </span> @else - @endif </center></td>
+                    <td width="34%"><center>@if($notif3->status == 0) <span class="w-130px badge badge-info me-4"> Sent </span> @elseif($notif3->status == 1) <span class="w-130px badge badge-success me-4"> Read </span> @elseif($notif3->status == 2) <span class="w-130px badge badge-primary me-4"> Replied </span> @else - @endif </center></td>
+                </tr>
+                <tr>
+                    <td width="34%"><center>@if($notif1->reply) <b>{{ $notif1->reply }}</b> @else Belum Ada Respon @endif</center></td>
+                    <td width="34%"><center>@if($notif2->reply) <b>{{ $notif2->reply }}</b> @else Belum Ada Respon @endif</center></td>
+                    <td width="34%"><center>@if($notif3->reply) <b>{{ $notif3->reply }}</b> @else Belum Ada Respon @endif</center></td>
                 </tr>
             </table>
         </div>

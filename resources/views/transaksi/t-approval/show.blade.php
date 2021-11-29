@@ -59,6 +59,10 @@
             <div class="card shadow-sm">
                 <div class="card-body">
 
+                    <a href="{{ route('t-approval.index') }}" class="btn btn-secondary"> Kembali </a>
+
+                    <br><br>
+
                     <div class="alert alert-dismissible bg-primary p-3" style="margin-bottom:0px; border-radius: 0px;">
                         <div class="d-flex flex-column text-light">
                             <span style="font-weight:bold;">Akun</span>

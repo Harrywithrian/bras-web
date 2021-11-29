@@ -10,7 +10,13 @@ use App\Models\Transaksi\TEventLocation;
 use App\Models\Transaksi\TEventParticipant;
 use App\Models\Transaksi\TEventRegion;
 use App\Models\Transaksi\TEventTembusan;
+use App\Models\Transaksi\TNotification;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Session;
 use Yajra\DataTables\DataTables;
 use PDF;
 
@@ -64,9 +70,9 @@ class TEventLetterController extends Controller
         # KOLOM STATUS
         $dataTables = $dataTables->addColumn('sent', function ($row) {
             if ($row->sent == 0) {
-                return "Belum Terkirim";
+                return "<span class='w-130px badge badge-info me-4'> Belum Terkirim </span>";
             } else {
-                return "Terkirim";
+                return "<span class='w-130px badge badge-success me-4'> Terkirim </span>";
             }
         });
 
@@ -194,8 +200,141 @@ class TEventLetterController extends Controller
             'monthEnd' => $monthEnd,
         ];
 
-//        return view('transaksi.t-event-letter.dokumen', $data);
         $pdf = PDF::loadView('transaksi.t-event-letter.dokumen', $data)->setPaper('a4', 'potrait');
         return $pdf->download('Surat Tugas_' . $letter->no_surat);
+    }
+
+    public function send($id) {
+        $letter   = TEventLetter::find($id);
+        $event    = TEvent::find($letter->id);
+        $participant = TEventParticipant::where('id_t_event', '=', $letter->id)->get()->toArray();
+        $to       = null;
+        if ($participant) {
+            foreach ($participant as $item) {
+                $notif = new TNotification();
+                $notif->user = $item['user'];
+                $notif->type = 1;
+                $notif->id_event_match = $letter->id;
+                $notif->status         = 0;
+                $notif->createdby   = Auth::id();
+                $notif->createdon   = Carbon::now();
+                $notif->save();
+
+                $user = User::find($item['user']);
+                $to[] = $user->email;
+            }
+        }
+
+        $letter->sent = $letter->sent + 1;
+        $letter->save();
+
+        # PDF
+        $month    = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+        $letter   = TEventLetter::find($id);
+        if (empty($letter->sent_date)) {
+            $letter->sent_date = date('Y-m-d');
+            $letter->save();
+        }
+
+        $model    = TEvent::find($letter->id_t_event);
+        $location = TEventLocation::select('m_location.nama', 'm_region.region', 'm_location.alamat')
+            ->where('t_event_location.id_t_event', '=', $letter->id_t_event)
+            ->leftJoin('m_location', 'm_location.id', '=', 't_event_location.id_m_location')
+            ->leftJoin('m_region', 'm_region.id', '=', 'm_location.id_m_region')
+            ->get()->toArray();
+
+        $region   = TEventRegion::select('m_region.kode', 'm_region.region', 'm_region.email')
+            ->where('t_event_region.id_t_event', '=', $letter->id_t_event)
+            ->leftJoin('m_region', 'm_region.id', '=', 't_event_region.id_m_region')
+            ->get()->toArray();
+
+        $pengawas = TEventParticipant::select('users.name', 'users.email', 'm_license.license', 'user_infos.no_lisensi', 'm_region.region', 'user_infos.role')
+            ->where('t_event_participant.id_t_event', '=', $letter->id_t_event)
+            ->where('t_event_participant.role', '=', 6)
+            ->leftJoin('user_infos', 'user_infos.user_id', '=', 't_event_participant.user')
+            ->leftJoin('m_region', 'm_region.id', '=', 'user_infos.id_m_region')
+            ->leftJoin('users', 'users.id', '=', 't_event_participant.user')
+            ->leftJoin('m_license', 'user_infos.id_m_lisensi', '=', 'm_license.id')
+            ->orderBy('user_infos.role', 'ASC')
+            ->get()->toArray();
+
+        $koordinator = TEventParticipant::select('users.name', 'users.email', 'm_license.license', 'user_infos.no_lisensi', 'm_region.region', 'user_infos.role')
+            ->where('t_event_participant.id_t_event', '=', $letter->id_t_event)
+            ->where('t_event_participant.role', '=', 7)
+            ->leftJoin('user_infos', 'user_infos.user_id', '=', 't_event_participant.user')
+            ->leftJoin('m_region', 'm_region.id', '=', 'user_infos.id_m_region')
+            ->leftJoin('users', 'users.id', '=', 't_event_participant.user')
+            ->leftJoin('m_license', 'user_infos.id_m_lisensi', '=', 'm_license.id')
+            ->orderBy('user_infos.role', 'ASC')
+            ->get()->toArray();
+
+        $wasit = TEventParticipant::select('users.name', 'users.email', 'm_license.license', 'user_infos.no_lisensi', 'm_region.region', 'user_infos.role')
+            ->where('t_event_participant.id_t_event', '=', $letter->id_t_event)
+            ->where('t_event_participant.role', '=', 8)
+            ->leftJoin('user_infos', 'user_infos.user_id', '=', 't_event_participant.user')
+            ->leftJoin('m_region', 'm_region.id', '=', 'user_infos.id_m_region')
+            ->leftJoin('users', 'users.id', '=', 't_event_participant.user')
+            ->leftJoin('m_license', 'user_infos.id_m_lisensi', '=', 'm_license.id')
+            ->orderBy('user_infos.role', 'ASC')
+            ->get()->toArray();
+
+        $tembusan = TEventTembusan::where('id_t_event', '=', $letter->id_t_event)->get()->toArray();
+        $cp       = TEventContact::where('id_t_event', '=', $letter->id_t_event)->get()->toArray();
+
+        $numbMonth      = date('n', strtotime($letter->sent_date)) - 1;
+        $numbMonthStart = date('n', strtotime($model->tanggal_mulai)) - 1;
+        $numbMonthEnd   = date('n', strtotime($model->tanggal_selesai)) - 1;
+
+        $sent_date  = date('d', strtotime($letter->sent_date)) . " " . $month[$numbMonth] . " " . date('Y', strtotime($letter->sent_date));
+        $monthStart = date('d', strtotime($model->tanggal_mulai)) . " " . $month[$numbMonthStart] . " " . date('Y', strtotime($model->tanggal_mulai));
+        $monthEnd   = date('d', strtotime($model->tanggal_selesai)) . " " . $month[$numbMonthEnd] . " " . date('Y', strtotime($model->tanggal_selesai));
+
+        $data = [
+            'letter' => $letter,
+            'model' => $model,
+            'location' => $location,
+            'region' => $region,
+            'pengawas' => $pengawas,
+            'koordinator' => $koordinator,
+            'wasit' => $wasit,
+            'tembusan' => $tembusan,
+            'cp' => $cp,
+            'sent_date' => $sent_date,
+            'monthStart' => $monthStart,
+            'monthEnd' => $monthEnd,
+        ];
+
+        $pdf = PDF::loadView('transaksi.t-event-letter.dokumen', $data)->setPaper('a4', 'potrait');
+        #END PDF
+
+        #MAIL
+        if ($region) {
+            foreach ($region as $item) {
+                if($item['email']) {
+                    $to[] = $item['email'];
+                };
+            }
+        }
+
+        if ($tembusan) {
+            foreach ($tembusan as $item) {
+                if($item['email']) {
+                    $to[] = $item['email'];
+                };
+            }
+        }
+
+        if ($to) {
+            $to = ['hry.andrian@gmail.com'];
+            Mail::send('transaksi.t-event-letter.mail', $data, function ($message) use ($to, $data, $pdf) {
+                $message->to($to)
+                    ->subject('Surat Tugas')
+                    ->attachData($pdf->output(), 'surat_undangan.pdf');
+            });
+        }
+
+        #END MAIL
+        Session::flash('success', 'Surat tugas telah dikirim.');
+        return redirect()->route('t-event-letter.show', $id);
     }
 }

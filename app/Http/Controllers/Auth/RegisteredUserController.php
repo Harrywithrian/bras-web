@@ -77,7 +77,7 @@ class RegisteredUserController extends Controller
         $namaLisensi = 'lisensi_' . $request->username .'.' . $fileLisensi->getClientOriginalExtension();
         $fullPathLisensi = $path . '/' . $namaLisensi;
 
-        $namaFoto    = 'foto.' . $request->username .'.' . $fileFoto->getClientOriginalExtension();
+        $namaFoto    = 'foto_' . $request->username .'.' . $fileFoto->getClientOriginalExtension();
         $fullPathFoto = $path . '/' . $namaFoto;
 
         $fileLisensi->storeAs('public/' . $path, $namaLisensi);

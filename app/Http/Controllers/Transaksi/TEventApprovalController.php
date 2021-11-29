@@ -87,11 +87,11 @@ class TEventApprovalController extends Controller
         # KOLOM STATUS
         $dataTables = $dataTables->addColumn('status', function ($row) {
             if ($row->status == 1) {
-                return "<span class='rounded-pill bg-success' style='padding:5px; color: white'> Approved </span>";
+                return "<span class='w-130px badge badge-success me-4'> Approved </span>";
             } if ($row->status == 0) {
-                return "<span class='rounded-pill bg-info' style='padding:5px; color: white'> Waiting Approval </span>";
+                return "<span class='w-130px badge badge-info me-4'> Waiting Approval</span>";
             } else {
-                return "<span class='rounded-pill bg-danger' style='padding:5px; color: white''> Rejected </span>";
+                return "<span class='w-130px badge badge-danger me-4'> Rejected </span>";
             }
         });
 

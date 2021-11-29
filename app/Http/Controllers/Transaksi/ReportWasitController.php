@@ -167,13 +167,13 @@ class ReportWasitController extends Controller
 
         $dataTables = $dataTables->addColumn('status', function ($row) {
             if ($row->status == 0) {
-                return "Belum Mulai";
+                return "<span class='w-130px badge badge-info me-4'> Belum Mulai </span>";
             }
             if ($row->status == 1) {
-                return "Sedang Berlangsung";
+                return "<span class='w-130px badge badge-primary me-4'> Sedang Berlangsung </span>";
             }
             if ($row->status == 2) {
-                return "Selesai";
+                return "<span class='w-130px badge badge-success me-4'> Selesai </span>";
             } else {
                 return "-";
             }

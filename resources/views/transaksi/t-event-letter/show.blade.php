@@ -20,7 +20,7 @@
 
         <div class="card-body">
 
-            <button class="btn btn-success" id="sendLetter" data-id="{{ $letter->id }}" onClick="sendLetter(event)"> Kirim Surat </button>
+            <a href="{{ route('t-event-letter.send', $letter->id) }}" class="btn btn-primary"> Kirim Surat </a>
             <a href="{{ route('t-event-letter.dokumen', $letter->id) }}" class="btn btn-primary"> Preview Dokumen </a>
             <a href="{{ route('t-event-letter.index') }}" class="btn btn-secondary"> Kembali </a>
 
@@ -40,7 +40,7 @@
                 </tr>
                 <tr>
                     <td width="25%">Status</td>
-                    <td>{{ ($letter->sent == 0) ? 'Belum Terkirim' : 'Terkirim' ; }}</td>
+                    <td>{!! ($letter->sent == 0) ? "<span class='w-130px badge badge-info me-4'> Belum Terkirim </span>" : "<span class='w-130px badge badge-success me-4'> Terkirim </span>" !!}</td>
                 </tr>
                 @if($letter->sent > 0)
                     <tr>
@@ -76,11 +76,11 @@
                     <td width="25%">Status</td>
                     <td>
                         @if($model->status == 0)
-                            <span class='rounded-pill bg-info' style="padding:5px; color: white"> Waiting Approval </span>
+                            <span class='w-130px badge badge-info me-4'> Waiting Approval </span>
                         @elseif($model->status == 1)
-                            <span class='rounded-pill bg-success' style="padding:5px; color: white"> Approved </span>
+                            <span class='w-130px badge badge-success me-4'> Approved </span>
                         @elseif($model->status == -1)
-                            <span class='rounded-pill bg-danger' style="padding:5px; color: white"> Rejected </span>
+                            <span class='w-130px badge badge-danger me-4'> Rejected </span>
                         @else
                             -
                         @endif
@@ -90,9 +90,9 @@
                     <td width="25%">Prioritas Event</td>
                     <td>
                         @if($model->tipe == 0)
-                            <span class='rounded-pill bg-success' style="padding:5px; color: white"> Normal </span>
+                            <span class='w-130px badge badge-success me-4'> Normal </span>
                         @elseif($model->tipe == 1)
-                            <span class='rounded-pill bg-danger' style="padding:5px; color: white"> Urgent </span>
+                            <span class='w-130px badge badge-danger me-4'> Urgent </span>
                         @else
                             -
                         @endif
@@ -284,102 +284,25 @@
 
     @section('scripts')
     <script>
-        function approve(event) {
-            event.preventDefault();
-            var id = $('#approve').data("id");
-            var token  = $("meta[name='csrf-token']").attr("content");
+        $(document).ready( function() {
+            @if(\Illuminate\Support\Facades\Session::has('success'))
+                var msg = JSON.parse('<?php echo json_encode(\Illuminate\Support\Facades\Session::get('success')); ?>');
+                toastr['success'](msg, 'Success', {
+                    closeButton: true,
+                    tapToDismiss: false,
+                    rtl: false
+                });
+            @endif
 
-            warningMessage = 'Apakah anda akan setujui event ini?';
-            buttonName = "Approve";
-
-            Swal.fire({
-                title: "Approval",
-                text: warningMessage,
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: buttonName
-            }).then(function (result) {
-                if (result.value) {
-                    $.ajax({
-                        url: '/t-event-approval/approve',
-                        type: 'POST',
-                        data: {
-                            _token: token,
-                            id: id
-                        },
-                        success: function (response) {
-                            if (response.status == 200) {
-                                Swal.fire({
-                                    icon: "success",
-                                    title: response.header,
-                                    text: response.message,
-                                    confirmButtonClass: 'btn btn-success'
-                                }).then(function (result) {
-                                    if (result.value) {
-                                        window.location.replace("/t-event-approval/show/" + id);
-                                    }
-                                });
-                            } else {
-                                Swal.fire({
-                                    icon: "warning",
-                                    title: response.header,
-                                    text: response.message,
-                                    confirmButtonClass: 'btn btn-success'
-                                }).then(function (result) {
-                                    if (result.value) {
-                                        window.location.replace("/t-event-approval/show/" + id);
-                                    }
-                                });
-                            }
-                        }
-                    });
-                }
-            });
-        }
-
-        function reject(event) {
-            event.preventDefault();
-            var id = $('#btnTolak').data("id");
-            var keterangan = $('#tolak').val();
-            var token  = $("meta[name='csrf-token']").attr("content");
-
-            $.ajax({
-                url: '/t-event-approval/reject',
-                type: 'POST',
-                data: {
-                    _token: token,
-                    id: id,
-                    ket: keterangan
-                },
-                success: function (response) {
-                    if (response.status == 200) {
-                        Swal.fire({
-                            icon: "success",
-                            title: response.header,
-                            text: response.message,
-                            confirmButtonClass: 'btn btn-success'
-                        }).then(function (result) {
-                            if (result.value) {
-                                window.location.replace("/t-event-approval/show/" + id);
-                            }
-                        });
-                    } else {
-                        Swal.fire({
-                            icon: "warning",
-                            title: response.header,
-                            text: response.message,
-                            confirmButtonClass: 'btn btn-success'
-                        }).then(function (result) {
-                            if (result.value) {
-                                window.location.replace("/t-event-approval/show/" + id);
-                            }
-                        });
-                    }
-                }
-            });
-        }
+            @if(\Illuminate\Support\Facades\Session::has('error'))
+                var msg = JSON.parse('<?php echo json_encode(\Illuminate\Support\Facades\Session::get('error')); ?>');
+                toastr['error'](msg, 'Error', {
+                    closeButton: true,
+                    tapToDismiss: false,
+                    rtl: false
+                });
+            @endif
+        });
     </script>
     @endsection
 

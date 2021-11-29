@@ -19,6 +19,7 @@ use App\Models\Transaksi\TMatch;
 use App\Models\Transaksi\TMatchEvaluation;
 use App\Models\Transaksi\TMatchReferee;
 use App\Models\Transaksi\TMechanicalCourt;
+use App\Models\Transaksi\TNotification;
 use App\Models\UserInfo;
 use Carbon\Carbon;
 use Debugbar;
@@ -200,13 +201,13 @@ class TMatchController extends Controller
 
         $dataTables = $dataTables->addColumn('status', function ($row) {
             if ($row->status == 0) {
-                return "<span class='rounded-pill bg-info' style='padding:5px; color: white'> Belum Mulai </span>";
+                return "<span class='w-130px badge badge-info me-4'> Belum Mulai </span>";
             }
             if ($row->status == 1) {
-                return "<span class='rounded-pill bg-primary' style='padding:5px; color: white'> Sedang Berlangsung </span>";
+                return "<span class='w-130px badge badge-primary me-4'> Sedang Berlangsung </span>";
             }
             if ($row->status == 2) {
-                return "<span class='rounded-pill bg-success' style='padding:5px; color: white'> Selesai </span>";
+                return "<span class='w-130px badge badge-success me-4'> Selesai </span>";
             } else {
                 return "-";
             }
@@ -238,6 +239,10 @@ class TMatchController extends Controller
         $foto2 = UserInfo::select(['t_file.path'])->leftJoin('t_file', 't_file.id', '=', 'user_infos.id_t_file_foto')->where('user_id', '=', $wst2->id)->first();
         $foto3 = UserInfo::select(['t_file.path'])->leftJoin('t_file', 't_file.id', '=', 'user_infos.id_t_file_foto')->where('user_id', '=', $wst3->id)->first();
 
+        $notif1 = TNotification::where('user', '=', $wst1->id)->where('id_event_match', '=', $id)->where('type', '=', 2)->first();
+        $notif2 = TNotification::where('user', '=', $wst2->id)->where('id_event_match', '=', $id)->where('type', '=', 2)->first();
+        $notif3 = TNotification::where('user', '=', $wst3->id)->where('id_event_match', '=', $id)->where('type', '=', 2)->first();
+
         return view('transaksi.t-match.show', [
             'model' => $model,
             'lokasi' => $lokasi,
@@ -248,6 +253,9 @@ class TMatchController extends Controller
             'foto1' => $foto1,
             'foto2' => $foto2,
             'foto3' => $foto3,
+            'notif1' => $notif1,
+            'notif2' => $notif2,
+            'notif3' => $notif3,
         ]);
     }
 
@@ -334,6 +342,34 @@ class TMatchController extends Controller
                         $wasit3->createdby       = Auth::id();
                         $wasit3->createdon       = Carbon::now();
                         if ($wasit3->save()) {
+
+                            $notif1 = new TNotification();
+                            $notif1->user = $request->wasit1;
+                            $notif1->type = 2;
+                            $notif1->id_event_match = $model->id;
+                            $notif1->status         = 0;
+                            $notif1->createdby      = Auth::id();
+                            $notif1->createdon      = Carbon::now();
+                            $notif1->save();
+
+                            $notif2 = new TNotification();
+                            $notif2->user = $request->wasit2;
+                            $notif2->type = 2;
+                            $notif2->id_event_match = $model->id;
+                            $notif2->status         = 0;
+                            $notif2->createdby      = Auth::id();
+                            $notif2->createdon      = Carbon::now();
+                            $notif2->save();
+
+                            $notif3 = new TNotification();
+                            $notif3->user = $request->wasit3;
+                            $notif3->type = 2;
+                            $notif3->id_event_match = $model->id;
+                            $notif3->status         = 0;
+                            $notif3->createdby      = Auth::id();
+                            $notif3->createdon      = Carbon::now();
+                            $notif3->save();
+
                             DB::commit();
                             Session::flash('success', 'Pertandingan berhasil dibuat.');
                             return redirect()->route('t-match.index', $id);

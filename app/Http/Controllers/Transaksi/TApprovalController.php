@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Spatie\Permission\Models\Role;
 use App\Models\Transaksi\TFile;
 use App\Models\Transaksi\TUserApproval;
@@ -92,11 +93,11 @@ class TApprovalController extends Controller
         # KOLOM STATUS
         $dataTables = $dataTables->addColumn('status', function ($row) {
             if ($row->status == 1) {
-                return "<span class='rounded-pill bg-success' style='padding:5px; color: white'> Approved </span>";
+                return "<span class='w-130px badge badge-success me-4'> Approved </span>";
             } if ($row->status == 0) {
-                return "<span class='rounded-pill bg-primary' style='padding:5px; color: white'> Waiting </span>";
+                return "<span class='w-130px badge badge-primary me-4'> Waiting </span>";
             } else {
-                return "<span class='rounded-pill bg-danger' style='padding:5px; color: white''> Rejected </span>";
+                return "<span class='w-130px badge badge-danger me-4'> Rejected </span>";
             }
         });
 
@@ -175,6 +176,20 @@ class TApprovalController extends Controller
                         $header  = 'Success';
                         $message = 'User '. $model->username. ' berhasil di approve.';
 
+                        $to   = $user->email;
+                        $data = [
+                            'username' => $user->username,
+                            'tanggal_approve' => Carbon::now(),
+                            'nama' => $user->name,
+                            'no_lisensi' => $userDetail->no_lisensi,
+                            'status' => 'Approved'
+                        ];
+
+                        Mail::send('transaksi.t-approval.mail', $data, function ($message) use ($to, $data) {
+                            $message->to($to)
+                                ->subject('Approval Akun IBR');
+                        });
+
                         return response()->json([
                             'status' => $status,
                             'header' => $header,
@@ -235,6 +250,20 @@ class TApprovalController extends Controller
         $status  = 200;
         $header  = 'Success';
         $message = 'User '. $model->username. ' berhasil di reject.';
+
+        $to   = $model->email;
+        $data = [
+            'username' => $model->username,
+            'tanggal_approve' => Carbon::now(),
+            'nama' => $model->name,
+            'no_lisensi' => $model->no_lisensi,
+            'status' => 'Rejected'
+        ];
+
+        Mail::send('transaksi.t-approval.mail', $data, function ($message) use ($to, $data) {
+            $message->to($to)
+                ->subject('Approval Akun IBR');
+        });
 
         return response()->json([
             'status' => $status,

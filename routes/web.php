@@ -35,6 +35,8 @@ use App\Http\Controllers\Master\WasitController;
 use App\Http\Controllers\Transaksi\ReportPertandinganController;
 use App\Http\Controllers\Transaksi\ReportWasitController;
 
+use App\Http\Controllers\Transaksi\TNotifikasiController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -264,6 +266,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/search', [TEventLetterController::class, 'search'])->name('t-event-letter.search');
         Route::get('/show/{id}', [TEventLetterController::class, 'show'])->name('t-event-letter.show');
         Route::get('/dokumen/{id}', [TEventLetterController::class, 'dokumen'])->name('t-event-letter.dokumen');
+        Route::get('/send/{id}', [TEventLetterController::class, 'send'])->name('t-event-letter.send');
     });
 
     Route::prefix('t-match')->group(function () {
@@ -326,6 +329,13 @@ Route::middleware('auth')->group(function () {
         Route::post('/search-match', [ReportWasitController::class, 'searchMatch'])->name('report-wasit.search-match');
         Route::get('/show-match/{id}/{wasit}', [ReportWasitController::class, 'showMatch'])->name('report-wasit.show-match');
         Route::get('/cetak/{id}/{wasit}', [ReportWasitController::class, 'cetak'])->name('report-wasit.cetak');
+    });
+
+    Route::prefix('notifikasi')->group(function () {
+        Route::get('/event/{id}', [TNotifikasiController::class, 'event'])->name('notifikasi.event');
+        Route::get('/match/{id}', [TNotifikasiController::class, 'match'])->name('notifikasi.match');
+        Route::post('/reply-event/{id}', [TNotifikasiController::class, 'replyEvent'])->name('notifikasi.reply-event');
+        Route::post('/reply-match/{id}', [TNotifikasiController::class, 'replyMatch'])->name('notifikasi.reply-match');
     });
 });
 

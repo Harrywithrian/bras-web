@@ -61,9 +61,9 @@
                     <td width="25%">Status</td>
                     <td>
                         @if($model->status == 1)
-                            <span class='rounded-pill bg-success' style="padding:5px; color: white"> Active </span>
+                            <span class='w-130px badge badge-success me-4'> Active </span>
                         @elseif($model->status == 0)
-                            <span class='rounded-pill bg-warning' style="padding:5px; color: white"> Inactive </span>
+                            <span class='w-130px badge badge-warning me-4'> Inactive </span>
                         @else
                             -
                         @endif

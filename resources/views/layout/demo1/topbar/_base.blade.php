@@ -13,8 +13,13 @@
         <div class="btn btn-icon btn-active-light-primary position-relative {{ $toolbarButtonHeightClass }}" data-kt-menu-trigger="click" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
             {!! theme()->getSvgIcon("icons/duotune/communication/com012.svg", $toolbarButtonIconSizeClass) !!}
 
-            <span class="bullet bullet-dot bg-success h-6px w-6px position-absolute translate-middle top-0 start-50 animation-blink">
-            </span>
+            <?php
+                $notifUser = \Illuminate\Support\Facades\Auth::id();
+                $notif = \App\Models\Transaksi\TNotification::where('user', '=', $notifUser)->where('status', '=', 0)->orderBy('createdon', 'DESC')->limit(10)->get()->all();
+            ?>
+            @if ($notif)
+                <span class="bullet bullet-dot bg-success h-10px w-10px position-absolute translate-middle top-0 start-50 animation-blink"></span>
+            @endif
         </div>
         {{ theme()->getView('partials/topbar/_notifications-menu') }}
         {{--end::Menu--}}

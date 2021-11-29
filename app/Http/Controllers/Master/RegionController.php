@@ -52,9 +52,9 @@ class RegionController extends Controller
         # KOLOM ACTION
         $dataTables = $dataTables->addColumn('status', function ($row) {
             if ($row->status == 1) {
-                return "<span class='rounded-pill bg-success' style='padding:5px; color: white'> Active </span>";
+                return "<span class='w-130px badge badge-success me-4'> Active </span>";
             } else {
-                return "<span class='rounded-pill bg-warning' style='padding:5px; color: white''> Inactive </span>";
+                return "<span class='w-130px badge badge-warning me-4'> Inactive </span>";
             }
         });
 

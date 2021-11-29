@@ -3,6 +3,12 @@
         tr td {
             border: 1px solid #ddd !important;
         }
+
+        .responsive {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
     </style>
 
     <?php $title = $model->username ?>
@@ -33,65 +39,87 @@
 
             <br><br>
 
-            <section class="card bg-primary mb-0" style="border-radius: 0">
-                <div class="card-header">
-                    <h4 class="card-title" style="color: white;">Account</h4>
+            <div class="row">
+                <div class="col-md-2">
+                    <center>
+                        <img class="responsive" src="{{ url('storage/'.$foto->path) }}">
+                    </center>
                 </div>
-            </section>
-            <table class="table table-striped border mb-0 gy-7 gs-7" style="margin-top:-5px;">
-                <tr>
-                    <td width="25%">Username</td>
-                    <td>{{ $model->username }}</td>
-                </tr>
-                <tr>
-                    <td width="25%">Email</td>
-                    <td>{{ $model->email }}</td>
-                </tr>
-                <tr>
-                    <td width="25%">Status</td>
-                    <td>
-                        @if ($model->status == 1)
-                            <span class='text-success' style='padding:5px;'> Active </span>
-                        @elseif ($model->status == 2)
-                            <span class='text-warning' style='padding:5px;'> Locked </span>
-                        @else
-                            <span class='text-danger' style='padding:5px;'> Inactive </span>
-                        @endif
-                    </td>
-                </tr>
-            </table>
 
-            <section class="card bg-primary mt-0 mb-0" style="border-radius: 0">
-                <div class="card-header">
-                    <h4 class="card-title" style="color: white;">General</h4>
-                </div>
-            </section>
-            <table class="table table-striped border mb-0 gy-7 gs-7" style="margin-top:-5px;">
-                <tr>
-                    <td width="25%">Nama</td>
-                    <td>{{ $model->name }}</td>
-                </tr>
-                <tr>
-                    <td width="25%">Role</td>
-                    <td>{{ $role->name }}</td>
-                </tr>
-            </table>
+                <div class="col-md-10">
+                    <section class="card bg-primary mb-0" style="border-radius: 0">
+                        <div class="card-header">
+                            <h4 class="card-title" style="color: white;">Account</h4>
+                        </div>
+                    </section>
+                    <table class="table table-striped border mb-0 gy-7 gs-7" style="margin-top:-5px;">
+                        <tr>
+                            <td width="25%">Username</td>
+                            <td>{{ $model->username }}</td>
+                        </tr>
+                        <tr>
+                            <td width="25%">Email</td>
+                            <td>{{ $model->email }}</td>
+                        </tr>
+                        <tr>
+                            <td width="25%">Status</td>
+                            <td>
+                                @if ($model->status == 1)
+                                    <span class='w-130px badge badge-success me-4'> Active </span>
+                                @elseif ($model->status == 2)
+                                    <span class='w-130px badge badge-warning me-4'> Locked </span>
+                                @else
+                                    <span class='w-130px badge badge-danger me-4'> Inactive </span>
+                                @endif
+                            </td>
+                        </tr>
+                    </table>
 
-            <section class="card bg-primary mt-0 mb-0" style="border-radius: 0">
-                <div class="card-header">
-                    <h4 class="card-title" style="color: white;">System</h4>
+                    <section class="card bg-primary mt-0 mb-0" style="border-radius: 0">
+                        <div class="card-header">
+                            <h4 class="card-title" style="color: white;">General</h4>
+                        </div>
+                    </section>
+                    <table class="table table-striped border mb-0 gy-7 gs-7" style="margin-top:-5px;">
+                        <tr>
+                            <td width="25%">Nama</td>
+                            <td>{{ $model->name }}</td>
+                        </tr>
+                        <tr>
+                            <td width="25%">Role</td>
+                            <td>{{ $role->name }}</td>
+                        </tr>
+                        <tr>
+                            <td width="25%">Tempat, Tanggal Lahir</td>
+                            <td>{{ $detail->tempat_lahir }}, {{ date('d-m-Y', strtotime($detail->tanggal_lahir)) }}</td>
+                        </tr>
+                        <tr>
+                            <td width="25%">Provinsi</td>
+                            <td>{{ $provinsi->region }}</td>
+                        </tr>
+                        <tr>
+                            <td width="25%">Alamat</td>
+                            <td>{{ $detail->alamat }}</td>
+                        </tr>
+                    </table>
+
+                    <section class="card bg-primary mt-0 mb-0" style="border-radius: 0">
+                        <div class="card-header">
+                            <h4 class="card-title" style="color: white;">System</h4>
+                        </div>
+                    </section>
+                    <table class="table table-striped border mb-0 gy-7 gs-7" style="margin-top:-5px;">
+                        <tr>
+                            <td width="25%">Waktu Dibuat</td>
+                            <td>{{ date("H:i:s d-m-Y", strtotime($model->created_at)) }}</td>
+                        </tr>
+                        <tr>
+                            <td width="25%">Waktu Diubah</td>
+                            <td>{{ date("H:i:s d-m-Y", strtotime($model->updated_at)) }}</td>
+                        </tr>
+                    </table>
                 </div>
-            </section>
-            <table class="table table-striped border mb-0 gy-7 gs-7" style="margin-top:-5px;">
-                <tr>
-                    <td width="25%">Waktu Dibuat</td>
-                    <td>{{ date("H:i:s d-m-Y", strtotime($model->created_at)) }}</td>
-                </tr>
-                <tr>
-                    <td width="25%">Waktu Diubah</td>
-                    <td>{{ date("H:i:s d-m-Y", strtotime($model->updated_at)) }}</td>
-                </tr>
-            </table>
+            </div>
 
         </div>
     </div>

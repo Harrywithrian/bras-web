@@ -52,11 +52,11 @@
                     <td width="25%">Status</td>
                     <td>
                         @if($model->status == 0)
-                            <span class='rounded-pill bg-info' style="padding:5px; color: white"> Waiting Approval </span>
+                            <span class='w-130px badge badge-info me-4'> Waiting Approval </span>
                         @elseif($model->status == 1)
-                            <span class='rounded-pill bg-success' style="padding:5px; color: white"> Approved </span>
+                            <span class='w-130px badge badge-success me-4'> Approved </span>
                         @elseif($model->status == -1)
-                            <span class='rounded-pill bg-danger' style="padding:5px; color: white"> Rejected </span>
+                            <span class='w-130px badge badge-danger me-4'> Rejected </span>
                         @else
                             -
                         @endif
@@ -66,9 +66,9 @@
                     <td width="25%">Prioritas Event</td>
                     <td>
                         @if($model->tipe == 0)
-                            <span class='rounded-pill bg-success' style="padding:5px; color: white"> Normal </span>
+                            <span class='w-130px badge badge-success me-4'> Normal </span>
                         @elseif($model->tipe == 1)
-                            <span class='rounded-pill bg-danger' style="padding:5px; color: white"> Urgent </span>
+                            <span class='w-130px badge badge-danger me-4'> Urgent </span>
                         @else
                             -
                         @endif
@@ -168,8 +168,26 @@
                     <td><b>Nomor Lisensi</b></td>
                     <td><b>Provinsi</b></td>
                     <td><b>Status</b></td>
+                    <td><b>Notifikasi</b></td>
                 </tr>
                 @foreach($participant as $item)
+                    <?php
+                    $notifikasi = \App\Models\Transaksi\TNotification::where('user', '=', $item['id'])->where('id_event_match', '=', $model->id)->where('type', '=', 1)->first();
+
+                    if ($notifikasi) {
+                        if ($notifikasi->status == 0) {
+                            $notif = "<span class='w-130px badge badge-info me-4'> Sent </span>";
+                        } else if ($notifikasi->status == 1) {
+                            $notif = "<span class='w-130px badge badge-success me-4'> Read </span>";
+                        } else if ($notifikasi->status == 2) {
+                            $notif = "<span class='w-130px badge badge-primary me-4' data-bs-toggle='tooltip' data-bs-placement='top' title='". $notifikasi->reply ."'> Replied </span>";
+                        } else {
+                            $notif = "-";
+                        }
+                    } else {
+                        $notif = "-";
+                    }
+                    ?>
                     <tr>
                         <td style="padding-left:5px; padding-right:5px;"><center>{{ $i }}</center></td>
                         <td>{{ $item['name'] }}</td>
@@ -178,6 +196,7 @@
                         <td>{{ $item['no_lisensi'] }}</td>
                         <td>{{ $item['region'] }}</td>
                         <td>@if($item['role'] == 6) Pengawas Pertandingan @elseif($item['role'] == 7) Koordinator Wasit @elseif($item['role'] == 8) Wasit @else - @endif</td>
+                        <td>{!! $notif !!}</td>
                     </tr>
                     <?php $i++; ?>
                 @endforeach
