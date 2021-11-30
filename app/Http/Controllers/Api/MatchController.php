@@ -16,8 +16,17 @@ class MatchController extends Controller
         $user = JWTAuth::parseToken()->authenticate();
 
         $matches = TMatch::with([
-            'referee' => function ($query) use ($user) {
+            'referees' => function ($query) {
                 return $query->select(['id', 'id_t_match', 'posisi', 'wasit']);
+            },
+            'referees.user' => function ($query) {
+                return $query->select(['id', 'name']);
+            },
+            'referees.user.info' => function ($query) {
+                return $query->select(['id', 'user_id', 'id_t_file_foto']);
+            },
+            'referees.user.info.filePhoto' => function ($query) {
+                return $query->select(['id']);
             },
             'event' => function ($query) {
                 return $query->select(['id', 'nama', 'deskripsi', 'tanggal_mulai', 'tanggal_selesai']);
@@ -25,9 +34,18 @@ class MatchController extends Controller
             'location' => function ($query) {
                 return $query->select(['id', 'nama', 'id_m_region', 'alamat', 'telepon', 'email']);
             },
-        ])->whereHas('referee', function ($query) use ($user) {
+            'location.region' => function ($query) {
+                return $query->select(['id', 'region']);
+            },
+        ])->whereHas('referees', function ($query) use ($user) {
             return $query->where('wasit', $user->id);
         })->where('status', 0)->orderBy('waktu_pertandingan', 'ASC')->get(['id', 'id_t_event', 'id_m_location', 'nama', 'waktu_pertandingan']);
+
+        foreach ($matches as $match) {
+            foreach ($match->referees as $referee) {
+                $referee->user->info->filePhoto['path'] = $referee->user->info->getAvatarUrlAttribute();
+            }
+        }
 
         return response()->json([
             'statusCode' => 200,
@@ -39,9 +57,18 @@ class MatchController extends Controller
     {
         $user = JWTAuth::parseToken()->authenticate();
 
-        $matches = TMatch::with([
-            'referee' => function ($query) use ($user) {
+        $match = TMatch::with([
+            'referees' => function ($query) {
                 return $query->select(['id', 'id_t_match', 'posisi', 'wasit']);
+            },
+            'referees.user' => function ($query) {
+                return $query->select(['id', 'name']);
+            },
+            'referees.user.info' => function ($query) {
+                return $query->select(['id', 'user_id', 'id_t_file_foto']);
+            },
+            'referees.user.info.filePhoto' => function ($query) {
+                return $query->select(['id']);
             },
             'event' => function ($query) {
                 return $query->select(['id', 'nama', 'deskripsi', 'tanggal_mulai', 'tanggal_selesai']);
@@ -49,13 +76,23 @@ class MatchController extends Controller
             'location' => function ($query) {
                 return $query->select(['id', 'nama', 'id_m_region', 'alamat', 'telepon', 'email']);
             },
-        ])->whereHas('referee', function ($query) use ($user) {
+            'location' => function ($query) {
+                return $query->select(['id', 'nama', 'id_m_region', 'alamat', 'telepon', 'email']);
+            },
+            'location.region' => function ($query) {
+                return $query->select(['id', 'region']);
+            },
+        ])->whereHas('referees', function ($query) use ($user) {
             return $query->where('wasit', $user->id);
         })->where('status', 0)->orderBy('waktu_pertandingan', 'ASC')->first(['id', 'id_t_event', 'id_m_location', 'nama', 'waktu_pertandingan']);
 
+        foreach ($match->referees as $referee) {
+            $referee->user->info->filePhoto['path'] = $referee->user->info->getAvatarUrlAttribute();
+        }
+
         return response()->json([
             'statusCode' => 200,
-            'message' => $matches
+            'message' => $match
         ], 200);
     }
 
@@ -64,8 +101,17 @@ class MatchController extends Controller
         $user = JWTAuth::parseToken()->authenticate();
 
         $matches = TMatch::with([
-            'referee' => function ($query) use ($user) {
+            'referees' => function ($query) {
                 return $query->select(['id', 'id_t_match', 'posisi', 'wasit']);
+            },
+            'referees.user' => function ($query) {
+                return $query->select(['id', 'name']);
+            },
+            'referees.user.info' => function ($query) {
+                return $query->select(['id', 'user_id', 'id_t_file_foto']);
+            },
+            'referees.user.info.filePhoto' => function ($query) {
+                return $query->select(['id']);
             },
             'event' => function ($query) {
                 return $query->select(['id', 'nama', 'deskripsi', 'tanggal_mulai', 'tanggal_selesai']);
@@ -73,9 +119,18 @@ class MatchController extends Controller
             'location' => function ($query) {
                 return $query->select(['id', 'nama', 'id_m_region', 'alamat', 'telepon', 'email']);
             },
+            'location.region' => function ($query) {
+                return $query->select(['id', 'region']);
+            },
         ])->whereHas('referee', function ($query) use ($user) {
             return $query->where('wasit', $user->id);
         })->whereIn('status', [1, 2])->orderBy('waktu_pertandingan', 'DESC')->get(['id', 'id_t_event', 'id_m_location', 'nama', 'waktu_pertandingan']);
+
+        foreach ($matches as $match) {
+            foreach ($match->referees as $referee) {
+                $referee->user->info->filePhoto['path'] = $referee->user->info->getAvatarUrlAttribute();
+            }
+        }
 
         return response()->json([
             'statusCode' => 200,
