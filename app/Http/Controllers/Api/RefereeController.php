@@ -30,11 +30,11 @@ class RefereeController extends Controller
             'info.region' => function ($query) {
                 return $query->select(['id', 'kode', 'region']);
             }
-        ])->get(['id', 'username', 'name', 'email']);
+        ])->get(['id', 'name', 'email']);
 
-        foreach ($referees as $refere) {
-            $refere->info->fileLicense['path'] = $refere->info->getLicenseUrlAttribute();
-            $refere->info->filePhoto['path'] = $refere->info->getAvatarUrlAttribute();
+        foreach ($referees as $referee) {
+            $referee->info->fileLicense['path'] = $referee->info->getLicenseUrlAttribute();
+            $referee->info->filePhoto['path'] = $referee->info->getAvatarUrlAttribute();
         }
 
         return response()->json([

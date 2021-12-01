@@ -20,10 +20,28 @@ class AssignmentController extends Controller
     {
         $user = JWTAuth::parseToken()->authenticate();
 
-        $task = TEvent::with([
-            'participants' => function ($query) use ($user) {
-                return $query->select(['id', 'id_t_event', 'user']);
-            }
+        $assigments = TEvent::with([
+            'participants' => function ($query) {
+                return $query->select(['id', 'id_t_event', 'user', 'role']);
+            },
+            'participants.assignee' => function ($query) {
+                return $query->select(['id', 'name']);
+            },
+            'participants.assignee.info' => function ($query) {
+                return $query->select(['id', 'user_id', 'id_t_file_foto']);
+            },
+            'participants.assignee.info.filePhoto' => function ($query) {
+                return $query->select(['id']);
+            },
+            'locations' => function ($query) {
+                return $query->select(['id', 'id_t_event', 'id_m_location']);
+            },
+            'locations.location' => function ($query) {
+                return $query->select(['id', 'nama', 'id_m_region', 'alamat', 'telepon', 'email']);
+            },
+            'locations.location.region' => function ($query) {
+                return $query->select(['id', 'region']);
+            },
         ])
             ->whereHas('participants', function ($query) use ($user) {
                 return $query->where('user', $user->id);
@@ -32,9 +50,16 @@ class AssignmentController extends Controller
             ->orderBy('createdon', 'DESC')
             ->get(['id', 'nama', 'deskripsi', 'tanggal_mulai', 'tanggal_selesai']);
 
+
+        foreach ($assigments as $assignment) {
+            foreach ($assignment->participants as $participant) {
+                $participant->assignee->info->filePhoto['path'] = $participant->assignee->info->getAvatarUrlAttribute();
+            }
+        }
+
         return response()->json([
             'statusCode' => 200,
-            'message' => $task
+            'message' => $assigments
         ], 200);
     }
 }

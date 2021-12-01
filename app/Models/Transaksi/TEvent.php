@@ -46,10 +46,12 @@ class TEvent extends Model
         return $this->hasOne(User::class, 'id', 'penindak');
     }
 
+    // referee participants
     public function participants() {
         return $this->hasMany(TEventParticipant::class, 'id_t_event', 'id');
     }
 
+    // referee participant
     public function participant() {
         return $this->hasOne(TEventParticipant::class, 'id_t_event', 'id');
     }

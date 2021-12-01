@@ -2,6 +2,7 @@
 
 namespace App\Models\Transaksi;
 
+use App\Models\Master\Location;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -21,4 +22,8 @@ class TEventLocation extends Model
         'createdby',
         'createdon',
     ];
+
+    public function location() {
+        return $this->belongsTo(Location::class, 'id_m_location', 'id');
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Models\Transaksi;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -22,4 +23,9 @@ class TEventParticipant extends Model
         'createdby',
         'createdon',
     ];
+
+    // relation
+    public function assignee() {
+        return $this->belongsTo(User::class, 'user', 'id');
+    }
 }
