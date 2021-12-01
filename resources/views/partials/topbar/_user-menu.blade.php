@@ -32,7 +32,7 @@
 
     <!--begin::Menu item-->
     <div class="menu-item px-5">
-        <a href="{{ theme()->getPageUrl('settings.index') }}" class="menu-link px-5">
+        <a href="{{ route('profile.index', \Illuminate\Support\Facades\Auth::id()) }}" class="menu-link px-5">
             {{ __('My Profile') }}
         </a>
     </div>

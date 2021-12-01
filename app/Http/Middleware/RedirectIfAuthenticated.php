@@ -27,7 +27,6 @@ class RedirectIfAuthenticated
                 return redirect(theme()->getPageUrl(RouteServiceProvider::HOME));
             }
         }
-
         return $next($request);
     }
 }

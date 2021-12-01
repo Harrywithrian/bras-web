@@ -20,6 +20,7 @@ use App\Models\Transaksi\TMatchEvaluation;
 use App\Models\Transaksi\TMatchReferee;
 use App\Models\Transaksi\TMechanicalCourt;
 use App\Models\Transaksi\TNotification;
+use App\Models\Transaksi\TPlayCalling;
 use App\Models\UserInfo;
 use Carbon\Carbon;
 use Debugbar;
@@ -265,10 +266,10 @@ class TMatchController extends Controller
         $modelWasit = TMatchReferee::leftJoin('users', 'users.id', '=', 't_match_referee.wasit')->where('id_t_match', '=', $id)->where('t_match_referee.wasit', '=', $wasit)->first();
         $evaluation = TMatchEvaluation::where('id_t_match', '=', $id)->where('referee', '=', $wasit)->first();
 
-
-        $gameManagement = TGameManagement::where('id_t_match', '=', $id)->where('referee', '=', $wasit)->where('level', '=', 3)->first();
+        $tPlayCalling    = TPlayCalling::where('id_t_match', '=', $id)->where('referee', '=', $wasit)->sum('score');
+        $gameManagement  = TGameManagement::where('id_t_match', '=', $id)->where('referee', '=', $wasit)->where('level', '=', 3)->first();
         $mechanicalCourt = TMechanicalCourt::where('id_t_match', '=', $id)->where('referee', '=', $wasit)->where('level', '=', 3)->first();
-        $appearance = TAppearance::where('id_t_match', '=', $id)->where('referee', '=', $wasit)->where('level', '=', 3)->first();
+        $appearance      = TAppearance::where('id_t_match', '=', $id)->where('referee', '=', $wasit)->where('level', '=', 3)->first();
 
 
         return view('transaksi.t-match.show-evaluation', [
@@ -276,6 +277,7 @@ class TMatchController extends Controller
             'event' => $event,
             'modelWasit' => $modelWasit,
             'evaluation' => $evaluation,
+            'tPlayCalling' => $tPlayCalling,
             'gameManagement' => $gameManagement,
             'mechanicalCourt' => $mechanicalCourt,
             'appearance' => $appearance,

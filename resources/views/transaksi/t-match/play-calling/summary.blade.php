@@ -91,14 +91,14 @@
                     {{ $summary->playCalling ->sum('score')}}
                   </td>
                 </tr>
-                <tr>
-                  <td colspan="7">
-                    Average
-                  </td>
-                  <td>
-                    {{ $summary->playCalling ->avg('score')}}
-                  </td>
-                </tr>
+                {{--<tr>--}}
+                  {{--<td colspan="7">--}}
+                    {{--Average--}}
+                  {{--</td>--}}
+                  {{--<td>--}}
+                    {{--{{ $summary->playCalling ->avg('score')}}--}}
+                  {{--</td>--}}
+                {{--</tr>--}}
               </tbody>
             </table>
           </div>

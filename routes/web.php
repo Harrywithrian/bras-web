@@ -31,6 +31,7 @@ use App\Http\Controllers\Transaksi\TGameManagementController;
 use App\Http\Controllers\Transaksi\TMechanicalCourtController;
 use App\Http\Controllers\Transaksi\TAppearanceController;
 use App\Http\Controllers\Master\WasitController;
+use App\Http\Controllers\Master\ProfileController;
 
 use App\Http\Controllers\Transaksi\ReportPertandinganController;
 use App\Http\Controllers\Transaksi\ReportWasitController;
@@ -75,6 +76,13 @@ Route::middleware('auth')->group(function () {
     Route::prefix('log')->name('log.')->group(function () {
         Route::resource('system', SystemLogsController::class)->only(['index', 'destroy']);
         Route::resource('audit', AuditLogsController::class)->only(['index', 'destroy']);
+    });
+
+    Route::prefix('profile')->group(function () {
+        Route::get('/index/{id}', [ProfileController::class, 'index'])->name('profile.index');
+        Route::get('/match/{id}', [ProfileController::class, 'match'])->name('profile.match');
+        Route::get('/show-match/{id}/{wasit}', [ProfileController::class, 'showMatch'])->name('profile.show-match');
+        Route::post('/search-match', [ProfileController::class, 'searchMatch'])->name('report-wasit.search-match');
     });
 
     Route::prefix('m-user')->group(function () {

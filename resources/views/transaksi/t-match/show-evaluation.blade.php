@@ -43,7 +43,7 @@
                 <tr>
                     <td width="3%">1</td>
                     <td> Play Calling </td>
-                    <td width="10%">Belum Di nilai</td>
+                    <td width="10%">{{ $tPlayCalling }}</td>
                     <td width="10%"><center> {{ $evaluation->play_calling }} </center></td>
                 </tr>
                 <tr>
