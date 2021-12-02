@@ -47,7 +47,20 @@ $(document).ready(() => {
 
   // stop timer
   $(document).on('click', '#timer-stop', function () {
-    timer.stop()
+    Swal.fire({
+      text: message,
+      icon: icon,
+      buttonsStyling: false,
+      confirmButtonText: "Ok",
+      customClass: {
+        confirmButton: "btn btn-primary"
+      }
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        timer.stop()
+      }
+    });
   })
 
   $("#quarter-picker").val(quarter.getQuarter());
