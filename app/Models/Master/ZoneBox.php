@@ -26,6 +26,8 @@ class ZoneBox
       return new ZoneBox($index, $zone . ' ' . $index, 1);
     }, $zone_box, array_keys($zone_box));
 
+    array_push($zone_box, new ZoneBox(7, 'Backcourt', 7));
+
     return $zone_box;
   }
 }

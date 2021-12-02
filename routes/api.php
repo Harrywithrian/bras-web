@@ -28,6 +28,7 @@ use Illuminate\Support\Facades\Route;
 
 // Sample API route
 Route::get('/profits', [\App\Http\Controllers\SampleDataController::class, 'profits'])->name('profits');
+Route::get('/test/match/report', [MatchController::class, 'matchReport'])->name('match.report');
 
 // auth
 Route::prefix('auth')->group(function () {

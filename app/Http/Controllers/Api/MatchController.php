@@ -137,4 +137,42 @@ class MatchController extends Controller
             'message' => $matches
         ], 200);
     }
+
+    public function matchReport()
+    {
+        $match = TMatch::with([
+            'referees' => function ($query) {
+                return $query->select(['id', 'id_t_match', 'posisi', 'wasit']);
+            },
+            'referees.user' => function ($query) {
+                return $query->select(['id', 'name']);
+            },
+            'referees.user.info' => function ($query) {
+                return $query->select(['id', 'user_id', 'id_t_file_foto']);
+            },
+            'referees.user.info.filePhoto' => function ($query) {
+                return $query->select(['id']);
+            },
+            'referees.user.playCalling' => function ($query) {
+                return $query->select(['id', 'quarter', 'time', 'referee', 'id_t_match']);
+            },
+            'event' => function ($query) {
+                return $query->select(['id', 'nama', 'deskripsi', 'tanggal_mulai', 'tanggal_selesai']);
+            },
+            'location' => function ($query) {
+                return $query->select(['id', 'nama', 'id_m_region', 'alamat', 'telepon', 'email']);
+            },
+            'location.region' => function ($query) {
+                return $query->select(['id', 'region']);
+            },
+        ])
+            // ->where('status', '=', 2)
+            ->where('id', 1)
+            // ->where('status', 2)
+            ->orderBy('waktu_pertandingan', 'DESC')
+            ->first(['id', 'id_t_event', 'id_m_location', 'nama', 'waktu_pertandingan']);
+
+
+        dd(json_encode($match->toArray(), JSON_PRETTY_PRINT));
+    }
 }

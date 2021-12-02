@@ -32,4 +32,8 @@ class TMatchReferee extends Model
     public function match() {
         return $this->belongsTo(TMatch::class, 'id_t_match', 'id');
     }
+
+    // public function playCalls() {
+    //     return $this->hasMany(TPlayCalling::class, 'id_t_match', 'id_t_match');
+    // }
 }

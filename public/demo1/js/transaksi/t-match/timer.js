@@ -50,6 +50,10 @@ class Timer {
       that.displayTime()
       that.duration = that.time.$d
       that.setLastDuration(that.duration)
+
+      if (that.time.format(that.timeFormat) == '00:00') {
+        that.stop()
+      }
     }, 1000)
   }
 
