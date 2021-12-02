@@ -48,12 +48,14 @@ $(document).ready(() => {
   // stop timer
   $(document).on('click', '#timer-stop', function () {
     Swal.fire({
-      text: message,
-      icon: icon,
+      text: 'Apakah anda akan mereset timer?',
+      icon: 'warning',
       buttonsStyling: false,
       confirmButtonText: "Ok",
+      showCancelButton: true,
       customClass: {
-        confirmButton: "btn btn-primary"
+        confirmButton: "btn btn-primary",
+        cancelButton: "btn btn-warning",
       }
     }).then((result) => {
       /* Read more about isConfirmed, isDenied below */
