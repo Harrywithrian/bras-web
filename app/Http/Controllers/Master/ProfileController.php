@@ -189,77 +189,18 @@ class ProfileController extends Controller
         $playCalling['q3Percent'] = ($playCalling['total'] > 0) ? ($playCalling['q3']['total'] / $playCalling['total']) * 100 : 0;
         $playCalling['q4Percent'] = ($playCalling['total'] > 0) ? ($playCalling['q4']['total'] / $playCalling['total']) * 100 : 0;
 
-        $callReferee['wst1']['q1']['total'] = TPlayCalling::where('id_t_match', '=', $match->id)->where('quarter', '=', 1)->where('referee', '=', $wst1->id)->count();
-        $callReferee['wst1']['q1']['first']  = ($callReferee['wst1']['q1']['total'] > 0) ? TPlayCalling::where('id_t_match', '=', $match->id)->where('quarter', '=', 1)->where('time', '>', '05:00')->where('referee', '=', $wst1->id)->count() : 0;
-        $callReferee['wst1']['q1']['second'] = ($callReferee['wst1']['q1']['total'] > 0) ? TPlayCalling::where('id_t_match', '=', $match->id)->where('quarter', '=', 1)->where('time', '<=', '05:00')->where('referee', '=', $wst1->id)->count() : 0;
-        $callReferee['wst1']['q1']['firstPercent']  = ($callReferee['wst1']['q1']['total'] > 0) ? ($callReferee['wst1']['q1']['first'] / $callReferee['wst1']['q1']['total']) * 100 : 0;
-        $callReferee['wst1']['q1']['secondPercent'] = ($callReferee['wst1']['q1']['total'] > 0) ? ($callReferee['wst1']['q1']['second'] / $callReferee['wst1']['q1']['total']) * 100 : 0;
+        $arrWasit = [$wst1->id => 'wst1', $wst2->id => 'wst2', $wst3->id => 'wst3'];
+        $arrQuarter = [1 => 'q1', 2 => 'q2', 3 => 'q3', 4 => 'q4'];
 
-        $callReferee['wst1']['q2']['total'] = TPlayCalling::where('id_t_match', '=', $match->id)->where('quarter', '=', 2)->where('referee', '=', $wst1->id)->count();
-        $callReferee['wst1']['q2']['first']  = ($callReferee['wst1']['q2']['total'] > 0) ? TPlayCalling::where('id_t_match', '=', $match->id)->where('quarter', '=', 2)->where('time', '>', '05:00')->where('referee', '=', $wst1->id)->count() : 0;
-        $callReferee['wst1']['q2']['second'] = ($callReferee['wst1']['q2']['total'] > 0) ? TPlayCalling::where('id_t_match', '=', $match->id)->where('quarter', '=', 2)->where('time', '<=', '05:00')->where('referee', '=', $wst1->id)->count() : 0;
-        $callReferee['wst1']['q2']['firstPercent']  = ($callReferee['wst1']['q2']['total'] > 0) ? ($callReferee['wst1']['q2']['first'] / $callReferee['wst1']['q2']['total']) * 100 : 0;
-        $callReferee['wst1']['q2']['secondPercent'] = ($callReferee['wst1']['q2']['total'] > 0) ? ($callReferee['wst1']['q2']['second'] / $callReferee['wst1']['q2']['total']) * 100 : 0;
-
-        $callReferee['wst1']['q3']['total'] = TPlayCalling::where('id_t_match', '=', $match->id)->where('quarter', '=', 3)->where('referee', '=', $wst1->id)->count();
-        $callReferee['wst1']['q3']['first']  = ($callReferee['wst1']['q3']['total'] > 0) ? TPlayCalling::where('id_t_match', '=', $match->id)->where('quarter', '=', 3)->where('time', '>', '05:00')->where('referee', '=', $wst1->id)->count() : 0;
-        $callReferee['wst1']['q3']['second'] = ($callReferee['wst1']['q3']['total'] > 0) ? TPlayCalling::where('id_t_match', '=', $match->id)->where('quarter', '=', 3)->where('time', '<=', '05:00')->where('referee', '=', $wst1->id)->count() : 0;
-        $callReferee['wst1']['q3']['firstPercent']  = ($callReferee['wst1']['q3']['total'] > 0) ? ($callReferee['wst1']['q3']['first'] / $callReferee['wst1']['q3']['total']) * 100 : 0;
-        $callReferee['wst1']['q3']['secondPercent'] = ($callReferee['wst1']['q3']['total'] > 0) ? ($callReferee['wst1']['q3']['second'] / $callReferee['wst1']['q3']['total']) * 100 : 0;
-
-        $callReferee['wst1']['q4']['total'] = TPlayCalling::where('id_t_match', '=', $match->id)->where('quarter', '=', 4)->where('referee', '=', $wst1->id)->count();
-        $callReferee['wst1']['q4']['first']  = ($callReferee['wst1']['q4']['total'] > 0) ? TPlayCalling::where('id_t_match', '=', $match->id)->where('quarter', '=', 4)->where('time', '>', '05:00')->where('referee', '=', $wst1->id)->count() : 0;
-        $callReferee['wst1']['q4']['second'] = ($callReferee['wst1']['q4']['total'] > 0) ? TPlayCalling::where('id_t_match', '=', $match->id)->where('quarter', '=', 4)->where('time', '<=', '05:00')->where('referee', '=', $wst1->id)->count() : 0;
-        $callReferee['wst1']['q4']['firstPercent']  = ($callReferee['wst1']['q4']['total'] > 0) ? ($callReferee['wst1']['q4']['first'] / $callReferee['wst1']['q4']['total']) * 100 : 0;
-        $callReferee['wst1']['q4']['secondPercent'] = ($callReferee['wst1']['q4']['total'] > 0) ? ($callReferee['wst1']['q4']['second'] / $callReferee['wst1']['q4']['total']) * 100 : 0;
-
-        $callReferee['wst2']['q1']['total'] = TPlayCalling::where('id_t_match', '=', $match->id)->where('quarter', '=', 1)->where('referee', '=', $wst2->id)->count();
-        $callReferee['wst2']['q1']['first']  = ($callReferee['wst2']['q1']['total'] > 0) ? TPlayCalling::where('id_t_match', '=', $match->id)->where('quarter', '=', 1)->where('time', '>', '05:00')->where('referee', '=', $wst2->id)->count() : 0;
-        $callReferee['wst2']['q1']['second'] = ($callReferee['wst2']['q1']['total'] > 0) ? TPlayCalling::where('id_t_match', '=', $match->id)->where('quarter', '=', 1)->where('time', '<=', '05:00')->where('referee', '=', $wst2->id)->count() : 0;
-        $callReferee['wst2']['q1']['firstPercent']  = ($callReferee['wst2']['q1']['total'] > 0) ? ($callReferee['wst2']['q1']['first'] / $callReferee['wst2']['q1']['total']) * 100 : 0;
-        $callReferee['wst2']['q1']['secondPercent'] = ($callReferee['wst2']['q1']['total'] > 0) ? ($callReferee['wst2']['q1']['second'] / $callReferee['wst2']['q1']['total']) * 100 : 0;
-
-        $callReferee['wst2']['q2']['total'] = TPlayCalling::where('id_t_match', '=', $match->id)->where('quarter', '=', 2)->where('referee', '=', $wst2->id)->count();
-        $callReferee['wst2']['q2']['first']  = ($callReferee['wst2']['q2']['total'] > 0) ? TPlayCalling::where('id_t_match', '=', $match->id)->where('quarter', '=', 2)->where('time', '>', '05:00')->where('referee', '=', $wst2->id)->count() : 0;
-        $callReferee['wst2']['q2']['second'] = ($callReferee['wst2']['q2']['total'] > 0) ? TPlayCalling::where('id_t_match', '=', $match->id)->where('quarter', '=', 2)->where('time', '<=', '05:00')->where('referee', '=', $wst2->id)->count() : 0;
-        $callReferee['wst2']['q2']['firstPercent']  = ($callReferee['wst2']['q2']['total'] > 0) ? ($callReferee['wst2']['q2']['first'] / $callReferee['wst2']['q2']['total']) * 100 : 0;
-        $callReferee['wst2']['q2']['secondPercent'] = ($callReferee['wst2']['q2']['total'] > 0) ? ($callReferee['wst2']['q2']['second'] / $callReferee['wst2']['q2']['total']) * 100 : 0;
-
-        $callReferee['wst2']['q3']['total'] = TPlayCalling::where('id_t_match', '=', $match->id)->where('quarter', '=', 3)->where('referee', '=', $wst2->id)->count();
-        $callReferee['wst2']['q3']['first']  = ($callReferee['wst2']['q3']['total'] > 0) ? TPlayCalling::where('id_t_match', '=', $match->id)->where('quarter', '=', 3)->where('time', '>', '05:00')->where('referee', '=', $wst2->id)->count() : 0;
-        $callReferee['wst2']['q3']['second'] = ($callReferee['wst2']['q3']['total'] > 0) ? TPlayCalling::where('id_t_match', '=', $match->id)->where('quarter', '=', 3)->where('time', '<=', '05:00')->where('referee', '=', $wst2->id)->count() : 0;
-        $callReferee['wst2']['q3']['firstPercent']  = ($callReferee['wst2']['q3']['total'] > 0) ? ($callReferee['wst2']['q3']['first'] / $callReferee['wst2']['q3']['total']) * 100 : 0;
-        $callReferee['wst2']['q3']['secondPercent'] = ($callReferee['wst2']['q3']['total'] > 0) ? ($callReferee['wst2']['q3']['second'] / $callReferee['wst2']['q3']['total']) * 100 : 0;
-
-        $callReferee['wst2']['q4']['total'] = TPlayCalling::where('id_t_match', '=', $match->id)->where('quarter', '=', 4)->where('referee', '=', $wst2->id)->count();
-        $callReferee['wst2']['q4']['first']  = ($callReferee['wst2']['q4']['total'] > 0) ? TPlayCalling::where('id_t_match', '=', $match->id)->where('quarter', '=', 4)->where('time', '>', '05:00')->where('referee', '=', $wst2->id)->count() : 0;
-        $callReferee['wst2']['q4']['second'] = ($callReferee['wst2']['q4']['total'] > 0) ? TPlayCalling::where('id_t_match', '=', $match->id)->where('quarter', '=', 4)->where('time', '<=', '05:00')->where('referee', '=', $wst2->id)->count() : 0;
-        $callReferee['wst2']['q4']['firstPercent']  = ($callReferee['wst2']['q4']['total'] > 0) ? ($callReferee['wst2']['q4']['first'] / $callReferee['wst2']['q4']['total']) * 100 : 0;
-        $callReferee['wst2']['q4']['secondPercent'] = ($callReferee['wst2']['q4']['total'] > 0) ? ($callReferee['wst2']['q4']['second'] / $callReferee['wst2']['q4']['total']) * 100 : 0;
-
-        $callReferee['wst3']['q1']['total'] = TPlayCalling::where('id_t_match', '=', $match->id)->where('quarter', '=', 1)->where('referee', '=', $wst3->id)->count();
-        $callReferee['wst3']['q1']['first']  = ($callReferee['wst3']['q1']['total'] > 0) ? TPlayCalling::where('id_t_match', '=', $match->id)->where('quarter', '=', 1)->where('time', '>', '05:00')->where('referee', '=', $wst3->id)->count() : 0;
-        $callReferee['wst3']['q1']['second'] = ($callReferee['wst3']['q1']['total'] > 0) ? TPlayCalling::where('id_t_match', '=', $match->id)->where('quarter', '=', 1)->where('time', '<=', '05:00')->where('referee', '=', $wst3->id)->count() : 0;
-        $callReferee['wst3']['q1']['firstPercent']  = ($callReferee['wst3']['q1']['total'] > 0) ? ($callReferee['wst3']['q1']['first'] / $callReferee['wst3']['q1']['total']) * 100 : 0;
-        $callReferee['wst3']['q1']['secondPercent'] = ($callReferee['wst3']['q1']['total'] > 0) ? ($callReferee['wst3']['q1']['second'] / $callReferee['wst3']['q1']['total']) * 100 : 0;
-
-        $callReferee['wst3']['q2']['total'] = TPlayCalling::where('id_t_match', '=', $match->id)->where('quarter', '=', 2)->where('referee', '=', $wst3->id)->count();
-        $callReferee['wst3']['q2']['first']  = ($callReferee['wst3']['q2']['total'] > 0) ? TPlayCalling::where('id_t_match', '=', $match->id)->where('quarter', '=', 2)->where('time', '>', '05:00')->where('referee', '=', $wst3->id)->count() : 0;
-        $callReferee['wst3']['q2']['second'] = ($callReferee['wst3']['q2']['total'] > 0) ? TPlayCalling::where('id_t_match', '=', $match->id)->where('quarter', '=', 2)->where('time', '<=', '05:00')->where('referee', '=', $wst3->id)->count() : 0;
-        $callReferee['wst3']['q2']['firstPercent']  = ($callReferee['wst3']['q2']['total'] > 0) ? ($callReferee['wst3']['q2']['first'] / $callReferee['wst3']['q2']['total']) * 100 : 0;
-        $callReferee['wst3']['q2']['secondPercent'] = ($callReferee['wst3']['q2']['total'] > 0) ? ($callReferee['wst3']['q2']['second'] / $callReferee['wst3']['q2']['total']) * 100 : 0;
-
-        $callReferee['wst3']['q3']['total'] = TPlayCalling::where('id_t_match', '=', $match->id)->where('quarter', '=', 3)->where('referee', '=', $wst3->id)->count();
-        $callReferee['wst3']['q3']['first']  = ($callReferee['wst3']['q3']['total'] > 0) ? TPlayCalling::where('id_t_match', '=', $match->id)->where('quarter', '=', 3)->where('time', '>', '05:00')->where('referee', '=', $wst3->id)->count() : 0;
-        $callReferee['wst3']['q3']['second'] = ($callReferee['wst3']['q3']['total'] > 0) ? TPlayCalling::where('id_t_match', '=', $match->id)->where('quarter', '=', 3)->where('time', '<=', '05:00')->where('referee', '=', $wst3->id)->count() : 0;
-        $callReferee['wst3']['q3']['firstPercent']  = ($callReferee['wst3']['q3']['total'] > 0) ? ($callReferee['wst3']['q3']['first'] / $callReferee['wst3']['q3']['total']) * 100 : 0;
-        $callReferee['wst3']['q3']['secondPercent'] = ($callReferee['wst3']['q3']['total'] > 0) ? ($callReferee['wst3']['q3']['second'] / $callReferee['wst3']['q3']['total']) * 100 : 0;
-
-        $callReferee['wst3']['q4']['total'] = TPlayCalling::where('id_t_match', '=', $match->id)->where('quarter', '=', 4)->where('referee', '=', $wst3->id)->count();
-        $callReferee['wst3']['q4']['first']  = ($callReferee['wst3']['q4']['total'] > 0) ? TPlayCalling::where('id_t_match', '=', $match->id)->where('quarter', '=', 4)->where('time', '>', '05:00')->where('referee', '=', $wst3->id)->count() : 0;
-        $callReferee['wst3']['q4']['second'] = ($callReferee['wst3']['q4']['total'] > 0) ? TPlayCalling::where('id_t_match', '=', $match->id)->where('quarter', '=', 4)->where('time', '<=', '05:00')->where('referee', '=', $wst3->id)->count() : 0;
-        $callReferee['wst3']['q4']['firstPercent']  = ($callReferee['wst3']['q4']['total'] > 0) ? ($callReferee['wst3']['q4']['first'] / $callReferee['wst3']['q4']['total']) * 100 : 0;
-        $callReferee['wst3']['q4']['secondPercent'] = ($callReferee['wst3']['q4']['total'] > 0) ? ($callReferee['wst3']['q4']['second'] / $callReferee['wst3']['q4']['total']) * 100 : 0;
+        foreach ($arrWasit as $idWasit => $noWasit) {
+            foreach ($arrQuarter as $idQuarter => $noQuarter) {
+                $callReferee[$noWasit][$noQuarter]['total'] = TPlayCalling::where('id_t_match', '=', $match->id)->where('quarter', '=', $idQuarter)->where('referee', '=', $idWasit)->count();
+                $callReferee[$noWasit][$noQuarter]['first']  = ($callReferee[$noWasit][$noQuarter]['total'] > 0) ? TPlayCalling::where('id_t_match', '=', $match->id)->where('quarter', '=', $idQuarter)->where('time', '>', '05:00')->where('referee', '=', $idWasit)->count() : 0;
+                $callReferee[$noWasit][$noQuarter]['second'] = ($callReferee[$noWasit][$noQuarter]['total'] > 0) ? TPlayCalling::where('id_t_match', '=', $match->id)->where('quarter', '=', $idQuarter)->where('time', '<=', '05:00')->where('referee', '=', $idWasit)->count() : 0;
+                $callReferee[$noWasit][$noQuarter]['firstPercent']  = ($callReferee[$noWasit][$noQuarter]['total'] > 0) ? ($callReferee[$noWasit][$noQuarter]['first'] / $callReferee[$noWasit][$noQuarter]['total']) * 100 : 0;
+                $callReferee[$noWasit][$noQuarter]['secondPercent'] = ($callReferee[$noWasit][$noQuarter]['total'] > 0) ? ($callReferee[$noWasit][$noQuarter]['second'] / $callReferee[$noWasit][$noQuarter]['total']) * 100 : 0;
+            }
+        }
 
         $callReferee['wst1']['total'] = TPlayCalling::where('id_t_match', '=', $match->id)->where('referee', '=', $wst1->id)->count();
         $callReferee['wst1']['totalPercent'] = ($playCalling['total'] > 0) ? ($callReferee['wst1']['total'] / $playCalling['total']) * 100 : 0;
@@ -281,6 +222,16 @@ class ProfileController extends Controller
         $callReferee['wst3']['q2Percent'] = ($callReferee['wst3']['total'] > 0) ? ($callReferee['wst3']['q2']['total'] / $callReferee['wst3']['total']) * 100 : 0;
         $callReferee['wst3']['q3Percent'] = ($callReferee['wst3']['total'] > 0) ? ($callReferee['wst3']['q3']['total'] / $callReferee['wst3']['total']) * 100 : 0;
         $callReferee['wst3']['q4Percent'] = ($callReferee['wst3']['total'] > 0) ? ($callReferee['wst3']['q4']['total'] / $callReferee['wst3']['total']) * 100 : 0;
+
+        for ($i = 1;$i < 7;$i++) {
+            foreach ($arrQuarter as $idQuarter => $noQuarter) {
+                $callZone[$i][$noQuarter]['total'] = TPlayCalling::where('id_t_match', '=', $match->id)->where('quarter', '=', $idQuarter)->where('zone_box_id', '=', $i)->count();
+                $callZone[$i][$noQuarter]['first']  = ($callZone[$i][$noQuarter]['total'] > 0) ? TPlayCalling::where('id_t_match', '=', $match->id)->where('quarter', '=', $idQuarter)->where('time', '>', '05:00')->where('zone_box_id', '=', $i)->count() : 0;
+                $callZone[$i][$noQuarter]['second']  = ($callZone[$i][$noQuarter]['total'] > 0) ? TPlayCalling::where('id_t_match', '=', $match->id)->where('quarter', '=', $idQuarter)->where('time', '<=', '05:00')->where('zone_box_id', '=', $i)->count() : 0;
+                $callZone[$i][$noQuarter]['firstPercent']  = ($callZone[$i][$noQuarter]['total'] > 0) ? ($callZone[$i][$noQuarter]['first'] / $callZone[$i][$noQuarter]['total']) * 100 : 0;
+                $callZone[$i][$noQuarter]['secondPercent'] = ($callZone[$i][$noQuarter]['total'] > 0) ? ($callZone[$i][$noQuarter]['second'] / $callZone[$i][$noQuarter]['total']) * 100 : 0;
+            }
+        }
 
         return ['playCalling' => $playCalling, 'callReferee' => $callReferee];
     }
