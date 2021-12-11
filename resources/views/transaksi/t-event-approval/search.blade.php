@@ -3,19 +3,14 @@
 
         <form id="search">
             <div class="row mb-5">
-                <div class="col-md-2">
+                <div class="col-md-3">
                     <label for="nama">Nama</label>
                     <input type="text" class="form-control" id="nama" name="nama" value="">
                 </div>
 
                 <div class="col-md-3">
-                    <label for="no_lisensi">Nomor Lisensi</label>
+                    <label for="no_lisensi">Nomor Surat</label>
                     <input type="text" class="form-control" id="no_lisensi" name="no_lisensi" value="">
-                </div>
-
-                <div class="col-md-2">
-                    <label for="penyelenggara">Penyelenggara</label>
-                    <input type="text" class="form-control" id="penyelenggara" name="penyelenggara" value="">
                 </div>
 
                 <div class="col-md-3">
@@ -23,7 +18,7 @@
                     <input class="form-control" placeholder="Pilih Tanggal ..." name="tanggal_event" id="tanggal_event">
                 </div>
 
-                <div class="col-md-2">
+                <div class="col-md-3">
                     <label for="status">Status</label>
                     <select class="form-select" id="status" name="status">
                         <option value=""></option>

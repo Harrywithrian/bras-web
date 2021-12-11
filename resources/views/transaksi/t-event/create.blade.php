@@ -305,7 +305,7 @@
                         @foreach(old('nama_cp') as $item_cp)
                             <tr>
                                 <td width="40%"><input class="form-control" name="nama_cp[]" value="{{ $item_cp }}"></td>
-                                <td width="40%"><input type="email" class="form-control" value="{{ old('telp_cp')[$k] }}"></td>
+                                <td width="40%"><input class="form-control" name="telp_cp[]" value="{{ (!empty(old('telp_cp')[$k])) ? old('telp_cp')[$k] : '' }}"></td>
                                 <td>
                                     <a id="add-w" class="btn btn-icon btn-success"> <i class="bi bi-plus-lg"></i> </a>
                                     <a id="remove-w" class="btn btn-icon btn-danger"> <i class="bi bi-dash-lg"></i> </a>

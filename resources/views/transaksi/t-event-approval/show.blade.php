@@ -38,7 +38,7 @@
                     <td>{{ $model->nama }}</td>
                 </tr>
                 <tr>
-                    <td width="25%">Nomor Lisensi Event</td>
+                    <td width="25%">Nomor Surat</td>
                     <td>{{ $model->no_lisensi }}</td>
                 </tr>
                 <tr>
@@ -76,7 +76,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td width="25%">Penyelenggara</td>
+                    <td width="25%">Komisi Teknik</td>
                     <td>{{ $model->getPenyelenggara->name }}</td>
                 </tr>
                 <tr>

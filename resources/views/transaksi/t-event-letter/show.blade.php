@@ -20,6 +20,7 @@
 
         <div class="card-body">
 
+            <button class="btn btn-warning" id="reject" data-bs-toggle="modal" data-bs-target="#rejectModal" data-id="{{ $model->id }}"> Ubah Nomor Surat </button>
             <a href="{{ route('t-event-letter.send', $letter->id) }}" class="btn btn-primary"> Kirim Surat </a>
             <a href="{{ route('t-event-letter.dokumen', $letter->id) }}" class="btn btn-primary"> Preview Dokumen </a>
             <a href="{{ route('t-event-letter.index') }}" class="btn btn-secondary"> Kembali </a>
@@ -61,10 +62,6 @@
                     <td>{{ $model->nama }}</td>
                 </tr>
                 <tr>
-                    <td width="25%">Nomor Lisensi Event</td>
-                    <td>{{ $model->no_lisensi }}</td>
-                </tr>
-                <tr>
                     <td width="25%">Deskripsi</td>
                     <td>{{ $model->deskripsi }}</td>
                 </tr>
@@ -99,7 +96,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td width="25%">Penyelenggara</td>
+                    <td width="25%">Komisi Teknik</td>
                     <td>{{ $model->getPenyelenggara->name }}</td>
                 </tr>
                 <tr>
@@ -258,17 +255,17 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Tolak Event</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Ubah Nomor Surat</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="row mb-5">
                         <div class="col-md-12">
                             <div class="col-md-12">
-                                <label>Alasan Tolak</label>
-                                <textarea id="tolak" class="form-control" name="tolak"></textarea>
-                                @if($errors->has('tolak'))
-                                    <span id="err_tolak" class="text-danger">{{ $errors->first('tolak') }}</span>
+                                <label>Nomor Surat</label>
+                                <input id="no_surat" class="form-control" name="no_surat" value="{{ $letter->no_surat }}">
+                                @if($errors->has('no_surat'))
+                                    <span id="no_surat" class="text-danger">{{ $errors->first('no_surat') }}</span>
                                 @endif
                             </div>
                         </div>
@@ -276,7 +273,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                    <button id="btnTolak" type="button" class="btn btn-danger" data-id="{{ $model->id }}" onClick="reject(event)">Tolak Event</button>
+                    <button id="gantiSurat" type="button" class="btn btn-success" data-id="{{ $letter->id }}" onClick="gantiSurat(event)">Submit</button>
                 </div>
             </div>
         </div>
@@ -303,6 +300,48 @@
                 });
             @endif
         });
+
+        function gantiSurat(event) {
+            event.preventDefault();
+            var id = $('#gantiSurat').data("id");
+            var no_surat = $('#no_surat').val();
+            var token  = $("meta[name='csrf-token']").attr("content");
+
+            $.ajax({
+                url: '/t-event-letter/update',
+                type: 'POST',
+                data: {
+                    _token: token,
+                    id: id,
+                    no_surat: no_surat
+                },
+                success: function (response) {
+                    if (response.status == 200) {
+                        Swal.fire({
+                            icon: "success",
+                            title: response.header,
+                            text: response.message,
+                            confirmButtonClass: 'btn btn-success'
+                        }).then(function (result) {
+                            if (result.value) {
+                                window.location.replace("/t-event-letter/show/" + id);
+                            }
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: "warning",
+                            title: response.header,
+                            text: response.message,
+                            confirmButtonClass: 'btn btn-success'
+                        }).then(function (result) {
+                            if (result.value) {
+                                window.location.replace("/t-event-letter/show/" + id);
+                            }
+                        });
+                    }
+                }
+            });
+        }
     </script>
     @endsection
 

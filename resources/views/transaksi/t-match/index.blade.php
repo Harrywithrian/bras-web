@@ -1,5 +1,9 @@
 <x-base-layout>
-    <?php $title = 'Pertandingan Event ' . $event->nama ?>
+    <?php
+        $title = 'Pertandingan Event ' . $event->nama;
+        $user = \App\Models\UserInfo::where('user_id', '=', \Illuminate\Support\Facades\Auth::id())->first();
+        $dateNow = date('Y-m-d');
+    ?>
 
     <link href="{{asset('demo1/plugins/custom/datatables/datatables.bundle.css')}}" rel="stylesheet" type="text/css"/>
 
@@ -21,7 +25,10 @@
             <div class="row">
                 <div class="col-12">
                     <div class="float-end mb-5">
-                        <a class="btn btn-xs btn-primary" href="{{ route('t-match.create', $event->id) }}"> Tambah Pertandingan </a>
+                        <a class="btn btn-xs btn-secondary" href="{{ route('t-match.index-event') }}"> Kembali </a>
+                        @if($user->role == 7 && $dateNow < $event->tanggal_selesai)
+                            <a class="btn btn-xs btn-primary" href="{{ route('t-match.create', $event->id) }}"> Tambah Pertandingan </a>
+                        @endif
                     </div>
                 </div>
             </div>

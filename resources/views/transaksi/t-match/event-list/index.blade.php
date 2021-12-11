@@ -26,10 +26,9 @@
                                 <th>No</th>
                                 <th>Action</th>
                                 <th>Nama</th>
-                                <th>Nomor Lisensi</th>
                                 <th>Tanggal Mulai</th>
                                 <th>Tanggal Selesai</th>
-                                <th>Penyelenggara</th>
+                                <th>Komisi Teknik</th>
                             </tr>
                             </thead>
                             <tbody>

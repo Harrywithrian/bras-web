@@ -1,8 +1,8 @@
 @php
-    $logoFileName = 'logo-white.svg';
+    $logoFileName = 'logo_dark.png';
 
     if (theme()->getOption('layout', 'aside/theme') === 'light') {
-        $logoFileName = 'logo.svg';
+        $logoFileName = 'logo.png';
     }
 @endphp
 

@@ -1,15 +1,22 @@
 <x-auth-layout>
 
+    <!--begin::Logo-->
+    <center>
+        <a href="{{ $theme->getPageUrl('index') }}" class="mb-5">
+            <img alt="Logo" src="{{ asset(theme()->getMediaUrlPath() . 'logos/logo.png') }}" class="h-90px"/>
+        </a>
+    </center>
+    <!--end::Logo-->
+
+    <div class="text-center mt-5 mb-10">
+        {{--<h1 class="text-dark">--}}
+            {{--Indonesia Basketball Referee--}}
+        {{--</h1>--}}
+        <h5>Silahkan Login Menggunakan Username Yang Terdaftar</h5>
+    </div>
+
     <form method="POST" action="{{ theme()->getPageUrl('login') }}" class="form w-100" novalidate="novalidate" id="kt_sign_in_form">
     @csrf
-
-        <div class="text-center mb-10">
-            <h1 class="text-dark">
-                Indonesia Basketball Referee
-            </h1>
-            <label>Silahkan Login Menggunakan Username Yang Terdaftar</label>
-        </div>
-
         <div class="fv-row mb-10">
             <label class="form-label fs-6 fw-bolder text-dark">Username</label>
             <input class="form-control form-control-lg form-control-solid" type="text" name="username" autocomplete="off" value="{{ old('username') }}" required autofocus/>

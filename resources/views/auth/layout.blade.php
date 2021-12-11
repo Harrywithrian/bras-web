@@ -9,12 +9,6 @@
 
             <!--begin::Content-->
             <div class="d-flex flex-center flex-column flex-column-fluid p-10 pb-lg-20">
-                <!--begin::Logo-->
-                <a href="{{ $theme->getPageUrl('index') }}" class="mb-5">
-                    <img alt="Logo" src="{{ asset(theme()->getMediaUrlPath() . 'logos/logo-white.svg') }}" class="h-90px"/>
-                </a>
-                <!--end::Logo-->
-
                 <!--begin::Wrapper-->
                 <div class="{{ $wrapperClass ?? '' }} bg-body rounded shadow-sm p-10 p-lg-15 mx-auto">
                     {{ $slot }}

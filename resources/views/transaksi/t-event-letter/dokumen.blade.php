@@ -108,7 +108,7 @@
 
 <br><br><br><br>
 
-<p><b><u>NAMA KETUM</u></b></p>
+<p><b><u>{{ $ketum->name }}</u></b></p>
 <p>Ketua Umum</p>
 
 <br>

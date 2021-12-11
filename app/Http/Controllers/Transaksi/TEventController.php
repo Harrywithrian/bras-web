@@ -290,6 +290,7 @@ class TEventController extends Controller
                 }
 
                 DB::commit();
+                Session::flash('success', 'Event berhasil dibuat.');
                 return redirect(route('t-event.show', $model->id));
             };
             DB::rollBack();

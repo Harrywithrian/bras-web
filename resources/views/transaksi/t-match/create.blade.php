@@ -168,8 +168,8 @@
                     autoUpdateInput: false,
                     autoApply: true,
                     drops: "down",
-                    minDate: '{{ (date("d-m-Y") > $event->tanggal_mulai) ? date('m/d/Y') : date('m/d/Y', strtotime($event->tanggal_mulai)) }}',
-                    maxDate: '{{ date('m/d/Y', strtotime($event->tanggal_selesai)) }}',
+                    {{--minDate: '{{ (date("d-m-Y") > $event->tanggal_mulai) ? date('m/d/Y') : date('m/d/Y', strtotime($event->tanggal_mulai)) }}',--}}
+                    {{--maxDate: '{{ date('m/d/Y', strtotime($event->tanggal_selesai)) }}',--}}
                     locale: {
                         cancelLabel: 'Clear'
                     }

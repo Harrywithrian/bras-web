@@ -82,7 +82,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/index/{id}', [ProfileController::class, 'index'])->name('profile.index');
         Route::get('/match/{id}', [ProfileController::class, 'match'])->name('profile.match');
         Route::get('/show-match/{id}/{wasit}', [ProfileController::class, 'showMatch'])->name('profile.show-match');
-        Route::post('/search-match', [ProfileController::class, 'searchMatch'])->name('report-wasit.search-match');
+        Route::post('/search-match', [ProfileController::class, 'searchMatch'])->name('profile.search-match');
+        Route::get('/print-match/{id}/{wasit}', [ProfileController::class, 'printMatch'])->name('profile.print-match');
     });
 
     Route::prefix('m-user')->group(function () {
@@ -275,6 +276,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/show/{id}', [TEventLetterController::class, 'show'])->name('t-event-letter.show');
         Route::get('/dokumen/{id}', [TEventLetterController::class, 'dokumen'])->name('t-event-letter.dokumen');
         Route::get('/send/{id}', [TEventLetterController::class, 'send'])->name('t-event-letter.send');
+        Route::post('/update', [TEventLetterController::class, 'update'])->name('t-event-letter.update');
     });
 
     Route::prefix('t-match')->group(function () {

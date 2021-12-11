@@ -394,7 +394,7 @@
                         $qCp = \App\Models\Transaksi\TEventContact::where('id_t_event', '=', $model->id)->get()->toArray();
                         foreach($qCp as $itemlistcp) {
                             $arrCp[] = $itemlistcp['nama'];
-                            $arrTelepon[] = $itemlistcp['email'];
+                            $arrTelepon[] = $itemlistcp['telepon'];
                         }
                     }
                     $k = 0;

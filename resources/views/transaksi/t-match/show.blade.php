@@ -28,6 +28,7 @@
     $evaluation2 = \App\Models\Transaksi\TMatchEvaluation::where('id_t_match', '=', $model->id)->where('referee', '=', $wst2->id)->first();
     $evaluation3 = \App\Models\Transaksi\TMatchEvaluation::where('id_t_match', '=', $model->id)->where('referee', '=', $wst3->id)->first();
 
+    $user = \App\Models\UserInfo::where('user_id', '=', \Illuminate\Support\Facades\Auth::id())->first();
     ?>
 
     <ol class="breadcrumb text-muted fs-6 fw-bold mb-5">
@@ -45,14 +46,16 @@
 
         <div class="card-body">
 
-            <a href="{{ route('t-match.play-calling.create', $model->id) }}" class="btn btn-primary"> Match Start </a>
-            @if($model->status != 0)
-                @if(!$gameManagement1) <a href="{{ route('game-management.create', $model->id) }}" class="btn btn-primary"> game management </a> @endif
-                @if(!$mechanicalCourt1) <a href="{{ route('mechanical-court.create', $model->id) }}" class="btn btn-primary"> Mechanical Court </a> @endif
-                @if(!$appearance1) <a href="{{ route('appearance.create', $model->id) }}" class="btn btn-primary"> Appearance </a> @endif
+            @if($user->role == 7)
+                @if(!$playCalling1) <a href="{{ route('t-match.play-calling.create', $model->id) }}" class="btn btn-primary"> Match Start </a> @endif
+                @if($model->status != 0)
+                    @if(!$gameManagement1) <a href="{{ route('game-management.create', $model->id) }}" class="btn btn-primary"> game management </a> @endif
+                    @if(!$mechanicalCourt1) <a href="{{ route('mechanical-court.create', $model->id) }}" class="btn btn-primary"> Mechanical Court </a> @endif
+                    @if(!$appearance1) <a href="{{ route('appearance.create', $model->id) }}" class="btn btn-primary"> Appearance </a> @endif
+                @endif
             @endif
             @if ($model->status == 1)
-                <a href="{{ route('t-match.done', $model->id) }}" class="btn btn-warning"> Pertandingan Selesai </a>
+                    @if($playCalling1 && $gameManagement1 && $mechanicalCourt1 && $appearance1) <a href="{{ route('t-match.done', $model->id) }}" class="btn btn-warning"> Pertandingan Selesai </a> @endif
             @endif
             <a href="{{ route('t-match.index', $event->id) }}" class="btn btn-secondary"> Kembali </a>
 

@@ -20,7 +20,7 @@
 
         <div class="card-body">
 
-            @if($model->status == -1)
+            @if($model->status == -1 && (\Illuminate\Support\Facades\Auth::id() == $model->penyelenggara || \Illuminate\Support\Facades\Auth::id() == 1))
                 <a href="{{ route('t-event.edit', $model->id) }}" class="btn btn-warning"> Edit </a>
                 <button class="btn btn-danger" id="delete" data-id="{{ $model->id }}" onClick="hapus(event)"> Delete </button>
             @endif
@@ -37,7 +37,7 @@
                     <td>{{ $model->nama }}</td>
                 </tr>
                 <tr>
-                    <td width="25%">Nomor Lisensi Event</td>
+                    <td width="25%">Nomor Surat</td>
                     <td>{{ $model->no_lisensi }}</td>
                 </tr>
                 <tr>
@@ -75,7 +75,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td width="25%">Penyelenggara</td>
+                    <td width="25%">Komisi Teknik</td>
                     <td>{{ $model->getPenyelenggara->name }}</td>
                 </tr>
                 <tr>
@@ -250,6 +250,25 @@
 
     @section('scripts')
         <script>
+            $(document).ready( function() {
+                @if(\Illuminate\Support\Facades\Session::has('error'))
+                    var msg = JSON.parse('<?php echo json_encode(\Illuminate\Support\Facades\Session::get('success')); ?>');
+                    toastr['success'](msg, 'Success', {
+                        closeButton: true,
+                        tapToDismiss: false,
+                        rtl: false
+                    });
+
+                    @if(\Illuminate\Support\Facades\Session::has('error'))
+                    var msg = JSON.parse('<?php echo json_encode(\Illuminate\Support\Facades\Session::get('error')); ?>');
+                        toastr['error'](msg, 'Error', {
+                            closeButton: true,
+                            tapToDismiss: false,
+                            rtl: false
+                        });
+                    @endif
+                @endif
+            });
             function hapus(event) {
                 event.preventDefault();
                 var id = $('#delete').data("id");

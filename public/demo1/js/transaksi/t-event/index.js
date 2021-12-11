@@ -69,7 +69,7 @@ function showAllData() {
             {
                 data: 'no_lisensi',
                 name: 'no_lisensi',
-                title: 'Nomor Lisensi',
+                title: 'Nomor Surat',
                 orderable: true,
                 searchable: true
             },
@@ -88,6 +88,7 @@ function showAllData() {
             {
                 data: 'penyelenggara',
                 name: 'penyelenggara',
+                title: 'Komisi Teknik',
                 orderable: true,
                 searchable: true
             }
@@ -165,7 +166,7 @@ function search(event) {
             {
                 data: 'no_lisensi',
                 name: 'no_lisensi',
-                title: 'Nomor Lisensi',
+                title: 'Nomor Surat',
                 orderable: true,
                 searchable: true
             },
@@ -184,6 +185,7 @@ function search(event) {
             {
                 data: 'penyelenggara',
                 name: 'penyelenggara',
+                title: 'Komisi Teknik',
                 orderable: true,
                 searchable: true
             }

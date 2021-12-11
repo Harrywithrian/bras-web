@@ -41,9 +41,6 @@
         <li class="nav-item">
             <a class="nav-link" data-bs-toggle="tab" href="#match">Pertandingan</a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="tab" href="#notification">Notifikasi</a>
-        </li>
     </ul>
     <div class="card shadow-sm">
         <div class="card-body">
@@ -51,7 +48,6 @@
             <div class="tab-content" id="tab">
                 <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="page_1"> @include('master.profile.general') </div>
                 <div class="tab-pane fade" id="match" role="tabpanel" aria-labelledby="page_2"> @include('master.profile.match') </div>
-                <div class="tab-pane fade" id="notification" role="tabpanel" aria-labelledby="page_3"> @include('master.profile.notification') </div>
             </div>
 
         </div>

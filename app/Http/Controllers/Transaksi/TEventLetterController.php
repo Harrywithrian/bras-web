@@ -124,6 +124,51 @@ class TEventLetterController extends Controller
         ]);
     }
 
+    public function update(Request $request) {
+        $letter   = TEventLetter::find($request->id);
+        $model    = TEvent::find($letter->id_t_event);
+
+        if (empty($letter) || empty($model)) {
+            $status  = 500;
+            $header  = 'Error';
+            $message = 'Event Tidak Ditemukan.';
+
+            return response()->json([
+                'status' => $status,
+                'header' => $header,
+                'message' => $message
+            ]);
+        }
+
+        $exist = TEvent::where('no_lisensi', '=', $request->no_surat)->whereNull('deletedby')->first();
+        if ($exist) {
+            $status  = 500;
+            $header  = 'Error';
+            $message = 'Nomor Surat Sudah Terdaftar.';
+
+            return response()->json([
+                'status' => $status,
+                'header' => $header,
+                'message' => $message
+            ]);
+        }
+        $letter->no_surat = $request->no_surat;
+        $letter->save();
+
+        $model->no_lisensi = $request->no_surat;
+        $model->save();
+
+        $status  = 200;
+        $header  = 'Success';
+        $message = 'Nomor Surat Berhasil Diubah.';
+
+        return response()->json([
+            'status' => $status,
+            'header' => $header,
+            'message' => $message
+        ]);
+    }
+
     public function dokumen($id) {
         $month    = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
         $letter   = TEventLetter::find($id);
@@ -176,6 +221,7 @@ class TEventLetterController extends Controller
 
         $tembusan = TEventTembusan::where('id_t_event', '=', $letter->id_t_event)->get()->toArray();
         $cp       = TEventContact::where('id_t_event', '=', $letter->id_t_event)->get()->toArray();
+        $ketum    = User::find($model->penindak);
 
         $numbMonth      = date('n', strtotime($letter->sent_date)) - 1;
         $numbMonthStart = date('n', strtotime($model->tanggal_mulai)) - 1;
@@ -195,6 +241,7 @@ class TEventLetterController extends Controller
             'wasit' => $wasit,
             'tembusan' => $tembusan,
             'cp' => $cp,
+            'ketum' => $ketum,
             'sent_date' => $sent_date,
             'monthStart' => $monthStart,
             'monthEnd' => $monthEnd,
@@ -280,6 +327,7 @@ class TEventLetterController extends Controller
 
         $tembusan = TEventTembusan::where('id_t_event', '=', $letter->id_t_event)->get()->toArray();
         $cp       = TEventContact::where('id_t_event', '=', $letter->id_t_event)->get()->toArray();
+        $ketum    = User::find($model->penindak);
 
         $numbMonth      = date('n', strtotime($letter->sent_date)) - 1;
         $numbMonthStart = date('n', strtotime($model->tanggal_mulai)) - 1;
@@ -299,6 +347,7 @@ class TEventLetterController extends Controller
             'wasit' => $wasit,
             'tembusan' => $tembusan,
             'cp' => $cp,
+            'ketum' => $ketum,
             'sent_date' => $sent_date,
             'monthStart' => $monthStart,
             'monthEnd' => $monthEnd,

@@ -66,6 +66,9 @@ class TMatchController extends Controller
                 't_event.tanggal_selesai',
                 'users.name as penyelenggara',
             ])->leftJoin('users', 'users.id', '=', 't_event.penyelenggara')
+                ->leftJoin('t_event_participant', 't_event_participant.id_t_event', '=', 't_event.id')
+                ->where('t_event_participant.user', '=', Auth::id())
+                ->where('t_event_participant.role', '!=', 8)
                 ->whereNull('t_event.deletedon')
                 ->orderBy('t_event.createdon', 'DESC')
                 ->get();
@@ -86,6 +89,9 @@ class TMatchController extends Controller
             't_event.tanggal_selesai',
             'users.name as penyelenggara',
         ])->leftJoin('users', 'users.id', '=', 't_event.penyelenggara')
+            ->leftJoin('t_event_participant', 't_event_participant.id_t_event', '=', 't_event.id')
+            ->where('t_event_participant.user', '=', Auth::id())
+            ->where('t_event_participant.role', '!=', 8)
             ->whereNull('t_event.deletedon')
             ->orderBy('t_event.createdon', 'DESC');
 

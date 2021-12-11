@@ -20,7 +20,8 @@
 
         <div class="card-body">
 
-            <a href="{{ route('profile.index', $id) }}" class="btn btn-secondary"> Kembali </a>
+            <a href="{{ route('profile.print-match', [$id, $wasit]) }}" class="btn btn-primary"> Cetak </a>
+            <a href="{{ route('profile.index', $wasit) }}" class="btn btn-secondary"> Kembali </a>
 
             <br><br>
 
@@ -111,21 +112,16 @@
                 </tr>
                 <tr>
                     <td rowspan="2" style="vertical-align : middle;text-align:center;"><center>Calls</center></td>
-                    <td><center>{{ $playCalling['q1']['first'] }} ({{ number_format($playCalling['q1']['firstPercent'], 0) }}%)</center></td>
-                    <td><center>{{ $playCalling['q1']['second'] }} ({{ number_format($playCalling['q1']['secondPercent'], 0) }}%)</center></td>
-                    <td><center>{{ $playCalling['q2']['first'] }} ({{ number_format($playCalling['q2']['firstPercent'], 0) }}%)</center></td>
-                    <td><center>{{ $playCalling['q2']['second'] }} ({{ number_format($playCalling['q2']['secondPercent'], 0) }}%)</center></td>
-                    <td><center>{{ $playCalling['q3']['first'] }} ({{ number_format($playCalling['q3']['firstPercent'], 0) }}%)</center></td>
-                    <td><center>{{ $playCalling['q3']['second'] }} ({{ number_format($playCalling['q3']['secondPercent'], 0) }}%)</center></td>
-                    <td><center>{{ $playCalling['q4']['first'] }} ({{ number_format($playCalling['q4']['firstPercent'], 0) }}%)</center></td>
-                    <td><center>{{ $playCalling['q4']['second'] }} ({{ number_format($playCalling['q4']['secondPercent'], 0) }}%)</center></td>
+                    @for($i = 1;$i < 5;$i++)
+                        <td><center>{{ $playCalling[$i]['first'] }} ({{ number_format($playCalling[$i]['firstPercent'], 0) }}%)</center></td>
+                        <td><center>{{ $playCalling[$i]['second'] }} ({{ number_format($playCalling[$i]['secondPercent'], 0) }}%)</center></td>
+                    @endfor
                     <td rowspan="2" style="vertical-align : middle;text-align:center;"><center>{{ $playCalling['total'] }} (100%)</center></td>
                 </tr>
                 <tr>
-                    <td colspan="2"><center>{{ $playCalling['q1']['total'] }} ({{ number_format($playCalling['q1Percent'], 0) }}%)</center></td>
-                    <td colspan="2"><center>{{ $playCalling['q2']['total'] }} ({{ number_format($playCalling['q2Percent'], 0) }}%)</center></td>
-                    <td colspan="2"><center>{{ $playCalling['q3']['total'] }} ({{ number_format($playCalling['q3Percent'], 0) }}%)</center></td>
-                    <td colspan="2"><center>{{ $playCalling['q4']['total'] }} ({{ number_format($playCalling['q4Percent'], 0) }}%)</center></td>
+                    @for($i = 1;$i < 5;$i++)
+                        <td colspan="2"><center>{{ $playCalling[$i]['total'] }} ({{ number_format($playCalling[$i]['totalPercent'], 0) }}%)</center></td>
+                    @endfor
                 </tr>
             </table>
 
@@ -156,57 +152,42 @@
                 </tr>
                 <tr>
                     <td rowspan="2" style="vertical-align : middle;text-align:center;"><center>{{ $wst1->name }}</center></td>
-                    <td><center>{{ $callReferee['wst1']['q1']['first'] }} ({{ number_format($callReferee['wst1']['q1']['firstPercent'], 0) }}%)</center></td>
-                    <td><center>{{ $callReferee['wst1']['q1']['second'] }} ({{ number_format($callReferee['wst1']['q1']['secondPercent'], 0) }}%)</center></td>
-                    <td><center>{{ $callReferee['wst1']['q2']['first'] }} ({{ number_format($callReferee['wst1']['q2']['firstPercent'], 0) }}%)</center></td>
-                    <td><center>{{ $callReferee['wst1']['q2']['second'] }} ({{ number_format($callReferee['wst1']['q2']['secondPercent'], 0) }}%)</center></td>
-                    <td><center>{{ $callReferee['wst1']['q3']['first'] }} ({{ number_format($callReferee['wst1']['q3']['firstPercent'], 0) }}%)</center></td>
-                    <td><center>{{ $callReferee['wst1']['q3']['second'] }} ({{ number_format($callReferee['wst1']['q3']['secondPercent'], 0) }}%)</center></td>
-                    <td><center>{{ $callReferee['wst1']['q4']['first'] }} ({{ number_format($callReferee['wst1']['q4']['firstPercent'], 0) }}%)</center></td>
-                    <td><center>{{ $callReferee['wst1']['q4']['second'] }} ({{ number_format($callReferee['wst1']['q4']['secondPercent'], 0) }}%)</center></td>
+                    @for($i = 1;$i < 5;$i++)
+                        <td><center>{{ $callReferee['wst1'][$i]['first'] }} ({{ number_format($callReferee['wst1'][$i]['firstPercent'], 0) }}%)</center></td>
+                        <td><center>{{ $callReferee['wst1'][$i]['second'] }} ({{ number_format($callReferee['wst1'][$i]['secondPercent'], 0) }}%)</center></td>
+                    @endfor
                     <td rowspan="2" style="vertical-align : middle;text-align:center;"><center>{{ $callReferee['wst1']['total'] }} ({{ number_format($callReferee['wst1']['totalPercent'], 0) }}%)</center></td>
                 </tr>
                 <tr>
-                    <td colspan="2"><center>{{ $callReferee['wst1']['q1']['total'] }} ({{ number_format($callReferee['wst1']['q1Percent'], 0) }}%)</center></td>
-                    <td colspan="2"><center>{{ $callReferee['wst1']['q2']['total'] }} ({{ number_format($callReferee['wst1']['q2Percent'], 0) }}%)</center></td>
-                    <td colspan="2"><center>{{ $callReferee['wst1']['q3']['total'] }} ({{ number_format($callReferee['wst1']['q3Percent'], 0) }}%)</center></td>
-                    <td colspan="2"><center>{{ $callReferee['wst1']['q4']['total'] }} ({{ number_format($callReferee['wst1']['q4Percent'], 0) }}%)</center></td>
+                    @for($i = 1;$i < 5;$i++)
+                        <td colspan="2"><center>{{ $callReferee['wst1'][$i]['total'] }} ({{ number_format($callReferee['wst1'][$i]['totalPercent'], 0) }}%)</center></td>
+                    @endfor
                 </tr>
                 <tr>
                     <td rowspan="2" style="vertical-align : middle;text-align:center;"><center>{{ $wst2->name }}</center></td>
-                    <td><center>{{ $callReferee['wst2']['q1']['first'] }} ({{ number_format($callReferee['wst2']['q1']['firstPercent'], 0) }}%)</center></td>
-                    <td><center>{{ $callReferee['wst2']['q1']['second'] }} ({{ number_format($callReferee['wst2']['q1']['secondPercent'], 0) }}%)</center></td>
-                    <td><center>{{ $callReferee['wst2']['q2']['first'] }} ({{ number_format($callReferee['wst2']['q2']['firstPercent'], 0) }}%)</center></td>
-                    <td><center>{{ $callReferee['wst2']['q2']['second'] }} ({{ number_format($callReferee['wst2']['q2']['secondPercent'], 0) }}%)</center></td>
-                    <td><center>{{ $callReferee['wst2']['q3']['first'] }} ({{ number_format($callReferee['wst2']['q3']['firstPercent'], 0) }}%)</center></td>
-                    <td><center>{{ $callReferee['wst2']['q3']['second'] }} ({{ number_format($callReferee['wst2']['q3']['secondPercent'], 0) }}%)</center></td>
-                    <td><center>{{ $callReferee['wst2']['q4']['first'] }} ({{ number_format($callReferee['wst2']['q4']['firstPercent'], 0) }}%)</center></td>
-                    <td><center>{{ $callReferee['wst2']['q4']['second'] }} ({{ number_format($callReferee['wst2']['q4']['secondPercent'], 0) }}%)</center></td>
+                    @for($i = 1;$i < 5;$i++)
+                        <td><center>{{ $callReferee['wst2'][$i]['first'] }} ({{ number_format($callReferee['wst2'][$i]['firstPercent'], 0) }}%)</center></td>
+                        <td><center>{{ $callReferee['wst2'][$i]['second'] }} ({{ number_format($callReferee['wst2'][$i]['secondPercent'], 0) }}%)</center></td>
+                    @endfor
                     <td rowspan="2" style="vertical-align : middle;text-align:center;"><center>{{ $callReferee['wst2']['total'] }} ({{ number_format($callReferee['wst2']['totalPercent'], 0) }}%)</center></td>
                 </tr>
                 <tr>
-                    <td colspan="2"><center>{{ $callReferee['wst2']['q1']['total'] }} ({{ number_format($callReferee['wst2']['q1Percent'], 0) }}%)</center></td>
-                    <td colspan="2"><center>{{ $callReferee['wst2']['q2']['total'] }} ({{ number_format($callReferee['wst2']['q2Percent'], 0) }}%)</center></td>
-                    <td colspan="2"><center>{{ $callReferee['wst2']['q3']['total'] }} ({{ number_format($callReferee['wst2']['q3Percent'], 0) }}%)</center></td>
-                    <td colspan="2"><center>{{ $callReferee['wst2']['q4']['total'] }} ({{ number_format($callReferee['wst2']['q4Percent'], 0) }}%)</center></td>
+                    @for($i = 1;$i < 5;$i++)
+                        <td colspan="2"><center>{{ $callReferee['wst2'][$i]['total'] }} ({{ number_format($callReferee['wst2'][$i]['totalPercent'], 0) }}%)</center></td>
+                    @endfor
                 </tr>
                 <tr>
                     <td rowspan="2" style="vertical-align : middle;text-align:center;"><center>{{ $wst3->name }}</center></td>
-                    <td><center>{{ $callReferee['wst3']['q1']['first'] }} ({{ number_format($callReferee['wst3']['q1']['firstPercent'], 0) }}%)</center></td>
-                    <td><center>{{ $callReferee['wst3']['q1']['second'] }} ({{ number_format($callReferee['wst3']['q1']['secondPercent'], 0) }}%)</center></td>
-                    <td><center>{{ $callReferee['wst3']['q2']['first'] }} ({{ number_format($callReferee['wst3']['q2']['firstPercent'], 0) }}%)</center></td>
-                    <td><center>{{ $callReferee['wst3']['q2']['second'] }} ({{ number_format($callReferee['wst3']['q2']['secondPercent'], 0) }}%)</center></td>
-                    <td><center>{{ $callReferee['wst3']['q3']['first'] }} ({{ number_format($callReferee['wst3']['q3']['firstPercent'], 0) }}%)</center></td>
-                    <td><center>{{ $callReferee['wst3']['q3']['second'] }} ({{ number_format($callReferee['wst3']['q3']['secondPercent'], 0) }}%)</center></td>
-                    <td><center>{{ $callReferee['wst3']['q4']['first'] }} ({{ number_format($callReferee['wst3']['q4']['firstPercent'], 0) }}%)</center></td>
-                    <td><center>{{ $callReferee['wst3']['q4']['second'] }} ({{ number_format($callReferee['wst3']['q4']['secondPercent'], 0) }}%)</center></td>
-                    <td rowspan="2" style="vertical-align : middle;text-align:center;"><center>{{ $callReferee['wst3']['total'] }}  ({{ number_format($callReferee['wst3']['totalPercent'], 0) }}%)</center></td>
+                    @for($i = 1;$i < 5;$i++)
+                        <td><center>{{ $callReferee['wst3'][$i]['first'] }} ({{ number_format($callReferee['wst3'][$i]['firstPercent'], 0) }}%)</center></td>
+                        <td><center>{{ $callReferee['wst3'][$i]['second'] }} ({{ number_format($callReferee['wst3'][$i]['secondPercent'], 0) }}%)</center></td>
+                    @endfor
+                    <td rowspan="2" style="vertical-align : middle;text-align:center;"><center>{{ $callReferee['wst3']['total'] }} ({{ number_format($callReferee['wst3']['totalPercent'], 0) }}%)</center></td>
                 </tr>
                 <tr>
-                    <td colspan="2"><center>{{ $callReferee['wst3']['q1']['total'] }} ({{ number_format($callReferee['wst3']['q1Percent'], 0) }}%)</center></td>
-                    <td colspan="2"><center>{{ $callReferee['wst3']['q2']['total'] }} ({{ number_format($callReferee['wst3']['q2Percent'], 0) }}%)</center></td>
-                    <td colspan="2"><center>{{ $callReferee['wst3']['q3']['total'] }} ({{ number_format($callReferee['wst3']['q3Percent'], 0) }}%)</center></td>
-                    <td colspan="2"><center>{{ $callReferee['wst3']['q4']['total'] }} ({{ number_format($callReferee['wst3']['q4Percent'], 0) }}%)</center></td>
+                    @for($i = 1;$i < 5;$i++)
+                        <td colspan="2"><center>{{ $callReferee['wst3'][$i]['total'] }} ({{ number_format($callReferee['wst3'][$i]['totalPercent'], 0) }}%)</center></td>
+                    @endfor
                 </tr>
                 <tr>
                     <td colspan="9"><center>Total</center></td>
