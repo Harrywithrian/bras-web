@@ -303,18 +303,24 @@ Route::middleware('auth')->group(function () {
         Route::get('/show/{id}/{wasit}', [TGameManagementController::class, 'show'])->name('game-management.show');
         Route::get('/create/{id}', [TGameManagementController::class, 'create'])->name('game-management.create');
         Route::post('/store/{id}', [TGameManagementController::class, 'store'])->name('game-management.store');
+        Route::get('/edit/{id}/{wasit}', [TGameManagementController::class, 'edit'])->name('game-management.edit');
+        Route::post('/update/{id}/{wasit}', [TGameManagementController::class, 'update'])->name('game-management.update');
     });
 
     Route::prefix('mechanical-court')->group(function () {
         Route::get('/show/{id}/{wasit}', [TMechanicalCourtController::class, 'show'])->name('mechanical-court.show');
         Route::get('/create/{id}', [TMechanicalCourtController::class, 'create'])->name('mechanical-court.create');
         Route::post('/store/{id}', [TMechanicalCourtController::class, 'store'])->name('mechanical-court.store');
+        Route::get('/edit/{id}/{wasit}', [TMechanicalCourtController::class, 'edit'])->name('mechanical-court.edit');
+        Route::post('/update/{id}/{wasit}', [TMechanicalCourtController::class, 'update'])->name('mechanical-court.update');
     });
 
     Route::prefix('appearance')->group(function () {
         Route::get('/show/{id}/{wasit}', [TAppearanceController::class, 'show'])->name('appearance.show');
         Route::get('/create/{id}', [TAppearanceController::class, 'create'])->name('appearance.create');
         Route::post('/store/{id}', [TAppearanceController::class, 'store'])->name('appearance.store');
+        Route::get('/edit/{id}/{wasit}', [TAppearanceController::class, 'edit'])->name('appearance.edit');
+        Route::post('/update/{id}/{wasit}', [TAppearanceController::class, 'update'])->name('appearance.update');
     });
 
     Route::prefix('report-pertandingan')->group(function () {

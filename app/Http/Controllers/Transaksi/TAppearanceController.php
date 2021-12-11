@@ -282,6 +282,150 @@ class TAppearanceController extends Controller
         return redirect()->route('t-match.show', $id);
     }
 
+    public function edit($id, $wasit) {
+        $model = TMatch::find($id);
+        $event = TEvent::find($model->id_t_event);
+        $wst   = TMatchReferee::leftJoin('users', 'users.id', '=', 't_match_referee.wasit')->select(['t_match_referee.id', 't_match_referee.wasit', 'users.name'])->where('id_t_match', '=', $id)->where('wasit', '=', $wasit)->first();
+
+        $mechanicalCourt = TAppearance::where('id_t_match', '=', $id)->where('referee', '=', $wasit)->get()->toArray();
+        $dataMC = [];
+        foreach ($mechanicalCourt as $item) {
+            $dataMC[$item['id_m_appearance']] = number_format($item['nilai'], 0, "", "");
+        }
+
+        $data = MAppearance::where('level', '=', 1)
+            ->whereNull('deletedon')
+            ->orderBy('order_by')
+            ->get()
+            ->toArray();
+
+        return view('transaksi.t-match.appearance.edit', [
+            'id' => $id,
+            'wasit' => $wasit,
+            'model' => $model,
+            'event' => $event,
+            'wst' => $wst,
+            'data' => $data,
+            'dataMC' => $dataMC
+        ]);
+    }
+
+    public function update(Request $request, $id, $wasit) {
+        $data = MAppearance::where('level', '=', 1)
+            ->whereNull('deletedon')
+            ->orderBy('order_by')
+            ->get()
+            ->toArray();
+
+        DB::beginTransaction();
+        if ($data) {
+            # DATA AKHIR
+            $sumtotal = 0;
+            $avgTotal = 0;
+            $count    = 0;
+            $akhir    = 0;
+            $countData = 0;
+
+            # DELETE OLD ITEM
+            TAppearance::where('id_t_match', '=', $id)->where('referee', '=', $wasit)->delete();
+
+            foreach ($data as $item) {
+                $child = MAppearance::where('id_m_appearance', '=', $item['id'])->whereNull('deletedon')->orderBy('order_by')->get()->toArray();
+                if ($child) {
+
+                    # INISIALISASI DATA DETAIL
+                    $sum = 0;
+                    $tot = 0;
+
+                    # PERULANGAN SUB ITEM
+                    foreach ($child as $subitem) {
+                        # VALIDASI PENILAIAN KOSONG
+                        if (empty($request->index[$subitem['id']])) {
+                            DB::rollBack();
+                            Session::flash('error', 'Nilai belum lengkap, mohon lengkapi penilaian.');
+                            return redirect(route('appearance.edit', [$id, $wasit]))->withInput();
+                        }
+
+                        # INSERT MODEL CHILD
+                        $val = $this->insertChildA($id, $wasit, $subitem, $item, $request->index[$subitem['id']]);
+                        if ($val == 500) {
+                            DB::rollBack();
+                            Session::flash('error', 'Gagal simpan. Mohon ulangi update penilaian.');
+                            return redirect(route('appearance.edit', [$id, $wasit]))->withInput();
+                        }
+                        # END INSERT MODEL CHILD
+
+                        # PERHITUNGAN TOTAL SUB ITEM
+                        $sum = $sum + $request->index[$subitem['id']];
+
+                        # COUNTING ITEM PER SUB
+                        $tot++;
+
+                        # COUNTING ITEM KESELURUHAN
+                        $count++;
+                    }
+                    # PERHITUNGAN RATA RATA PARENT ITEM
+                    $avg = $sum / $tot;
+
+                    # PERHITUNGAN HASIL AKHIR PARENT ITEM
+                    $hasil = $avg * ( $item['persentase'] / 100 );
+
+                    # PENGUMPULAN TOTAL NILAI AWAL
+                    $sumtotal = $sumtotal + $sum;
+
+                    # PERHITUNGAN TOTAL NILAI AKHIR
+                    $akhir    = $akhir + $hasil;
+
+                    # PERHITUNGAN TOTAL NILAI AVERAGE
+                    $avgTotal = $avgTotal + $avg;
+
+                    # INSERT MODEL PARENT
+                    $val = $this->insertParentA($id, $wasit, $item, $sum, $avg, $hasil);
+                    if ($val == 500) {
+                        DB::rollBack();
+                        Session::flash('error', 'Gagal simpan. Mohon ulangi update penilaian.');
+                        return redirect(route('appearance.edit', [$id, $wasit]))->withInput();
+                    }
+                    # END INSERT MODEL PARENT
+                }
+                $countData++;
+            }
+
+            $insertTotal = new TAppearance();
+            $insertTotal->referee = $wasit;
+            $insertTotal->nama    = 'Total';
+            $insertTotal->level   = 3;
+            $insertTotal->id_t_match = $id;
+            $insertTotal->persentase = $sumtotal / $count;
+            $insertTotal->order_by = 1;
+            $insertTotal->sum      = $sumtotal;
+            $insertTotal->avg      = $avgTotal / $countData;
+            $insertTotal->nilai    = $akhir;
+            $insertTotal->createdby  = Auth::id();
+            $insertTotal->createdon  = Carbon::now();
+            $insertTotal->save();
+
+            $evaluation = TMatchEvaluation::where('id_t_match', '=', $id)->where('referee', '=', $wasit)->first();
+            if (empty($evaluation)) {
+                $evaluation = new TMatchEvaluation();
+                $evaluation->id_t_match = $id;
+                $evaluation->referee = $wasit;
+                $evaluation->createdby  = Auth::id();
+                $evaluation->createdon  = Carbon::now();
+            }
+            $evaluation->appearance      = $akhir * ( 5 / 100 );
+            $evaluation->total_score     = $evaluation->play_calling + $evaluation->game_management + $evaluation->mechanical_court + $evaluation->appearance;
+            $evaluation->modifiedby      = Auth::id();
+            $evaluation->modifiedon      = Carbon::now();
+            $evaluation->save();
+
+            DB::commit();
+            Session::flash('success', 'Appearance berhasil diubah.');
+            return redirect()->route('t-match.show', $id);
+        }
+        return redirect()->route('t-match.show', $id);
+    }
+
     public function insertChildA($id, $wasit, $subitem, $item, $nilai) {
         $model = new TAppearance();
         $model->referee = $wasit;

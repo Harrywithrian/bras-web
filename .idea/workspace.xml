@@ -2,67 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="04b1adcb-c7e2-45af-91c2-1ed75952fc90" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/master/profile/cetak.blade.php" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public/demo1/media/logos/logo-white.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public/storage/profile/A00112050427112021/foto_A001.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public/storage/profile/A00112050427112021/lisensi_A001.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public/storage/profile/A00212065227112021/foto_A002.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public/storage/profile/A00212065227112021/lisensi_A002.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public/storage/profile/A00312090027112021/foto_A003.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public/storage/profile/A00312090027112021/lisensi_A003.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public/storage/profile/A00412270127112021/foto_A004.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public/storage/profile/A00412270127112021/lisensi_A004.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public/storage/profile/Andrian12290827112021/foto_Andrian.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public/storage/profile/Anzai12304427112021/foto_Anzai.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public/storage/profile/FIBA00112031527112021/foto_FIBA001.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public/storage/profile/FIBA00112031527112021/lisensi_FIBA001.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public/storage/profile/ayako12324727112021/foto_ayako.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public/storage/profile/kogure12345827112021/foto_kogure.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/assets/demo1/media/logos/logo-white.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/storage/app/public/profile/A00112050427112021/foto_A001.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/storage/app/public/profile/A00112050427112021/lisensi_A001.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/storage/app/public/profile/A00212065227112021/foto_A002.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/storage/app/public/profile/A00212065227112021/lisensi_A002.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/storage/app/public/profile/A00312090027112021/foto_A003.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/storage/app/public/profile/A00312090027112021/lisensi_A003.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/storage/app/public/profile/A00412270127112021/foto_A004.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/storage/app/public/profile/A00412270127112021/lisensi_A004.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/storage/app/public/profile/Andrian12290827112021/foto_Andrian.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/storage/app/public/profile/Anzai12304427112021/foto_Anzai.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/storage/app/public/profile/FIBA00112031527112021/foto_FIBA001.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/storage/app/public/profile/FIBA00112031527112021/lisensi_FIBA001.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/storage/app/public/profile/ayako12324727112021/foto_ayako.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/storage/app/public/profile/kogure12345827112021/foto_kogure.png" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/demo1/media/logos/logo.png" afterPath="$PROJECT_DIR$/public/demo1/media/logos/logo.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/demo1/media/logos/logo.png" afterPath="$PROJECT_DIR$/resources/assets/demo1/media/logos/logo.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/transaksi/t-match/appearance/edit.blade.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/transaksi/t-match/game-management/edit.blade.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/transaksi/t-match/mechanical-court/edit.blade.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/Master/ProfileController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/Master/ProfileController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/Transaksi/TEventController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/Transaksi/TEventController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/Transaksi/TEventLetterController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/Transaksi/TEventLetterController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/Transaksi/TMatchController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/Transaksi/TMatchController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/demo1/js/transaksi/t-event-approval/index.js" afterPath="$PROJECT_DIR$/public/demo1/js/transaksi/t-event-approval/index.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/demo1/js/transaksi/t-event/index.js" afterPath="$PROJECT_DIR$/public/demo1/js/transaksi/t-event/index.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/demo1/js/transaksi/t-match/index-event.js" afterPath="$PROJECT_DIR$/public/demo1/js/transaksi/t-match/index-event.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/auth/layout.blade.php" afterPath="$PROJECT_DIR$/resources/views/auth/layout.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/auth/login.blade.php" afterPath="$PROJECT_DIR$/resources/views/auth/login.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/layout/demo1/aside/_base.blade.php" afterPath="$PROJECT_DIR$/resources/views/layout/demo1/aside/_base.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/master/profile/index.blade.php" afterPath="$PROJECT_DIR$/resources/views/master/profile/index.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/master/profile/show-match.blade.php" afterPath="$PROJECT_DIR$/resources/views/master/profile/show-match.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/transaksi/t-event-approval/index.blade.php" afterPath="$PROJECT_DIR$/resources/views/transaksi/t-event-approval/index.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/transaksi/t-event-approval/search.blade.php" afterPath="$PROJECT_DIR$/resources/views/transaksi/t-event-approval/search.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/transaksi/t-event-approval/show.blade.php" afterPath="$PROJECT_DIR$/resources/views/transaksi/t-event-approval/show.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/transaksi/t-event-letter/dokumen.blade.php" afterPath="$PROJECT_DIR$/resources/views/transaksi/t-event-letter/dokumen.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/transaksi/t-event-letter/show.blade.php" afterPath="$PROJECT_DIR$/resources/views/transaksi/t-event-letter/show.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/transaksi/t-event/create.blade.php" afterPath="$PROJECT_DIR$/resources/views/transaksi/t-event/create.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/transaksi/t-event/edit.blade.php" afterPath="$PROJECT_DIR$/resources/views/transaksi/t-event/edit.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/transaksi/t-event/index.blade.php" afterPath="$PROJECT_DIR$/resources/views/transaksi/t-event/index.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/transaksi/t-event/search.blade.php" afterPath="$PROJECT_DIR$/resources/views/transaksi/t-event/search.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/transaksi/t-event/show.blade.php" afterPath="$PROJECT_DIR$/resources/views/transaksi/t-event/show.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/transaksi/t-match/create.blade.php" afterPath="$PROJECT_DIR$/resources/views/transaksi/t-match/create.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/transaksi/t-match/event-list/index.blade.php" afterPath="$PROJECT_DIR$/resources/views/transaksi/t-match/event-list/index.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/transaksi/t-match/event-list/search.blade.php" afterPath="$PROJECT_DIR$/resources/views/transaksi/t-match/event-list/search.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/transaksi/t-match/index.blade.php" afterPath="$PROJECT_DIR$/resources/views/transaksi/t-match/index.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/transaksi/t-match/show.blade.php" afterPath="$PROJECT_DIR$/resources/views/transaksi/t-match/show.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/Transaksi/TAppearanceController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/Transaksi/TAppearanceController.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/Transaksi/TGameManagementController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/Transaksi/TGameManagementController.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/Transaksi/TMechanicalCourtController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/Transaksi/TMechanicalCourtController.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/transaksi/t-match/appearance/show.blade.php" afterPath="$PROJECT_DIR$/resources/views/transaksi/t-match/appearance/show.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/transaksi/t-match/game-management/show.blade.php" afterPath="$PROJECT_DIR$/resources/views/transaksi/t-match/game-management/show.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/transaksi/t-match/mechanical-court/show.blade.php" afterPath="$PROJECT_DIR$/resources/views/transaksi/t-match/mechanical-court/show.blade.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/web.php" afterPath="$PROJECT_DIR$/routes/web.php" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -74,7 +23,7 @@
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+    <leaf />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -108,6 +57,7 @@
       <find>menu</find>
       <find>aside-menu</find>
       <find>email</find>
+      <find>game</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -116,15 +66,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/resources/views/master/region/show.blade.php" />
-        <option value="$PROJECT_DIR$/resources/views/master/iot/show.blade.php" />
-        <option value="$PROJECT_DIR$/resources/views/master/license/show.blade.php" />
-        <option value="$PROJECT_DIR$/resources/views/master/location/show.blade.php" />
-        <option value="$PROJECT_DIR$/resources/views/master/violation/show.blade.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/Transaksi/TApprovalController.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/Transaksi/TEventApprovalController.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/Transaksi/ReportPertandinganController.php" />
-        <option value="$PROJECT_DIR$/app/Providers/RouteServiceProvider.php" />
         <option value="$PROJECT_DIR$/app/Http/Middleware/RedirectIfAuthenticated.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/Auth/AuthenticatedSessionController.php" />
         <option value="$PROJECT_DIR$/resources/views/partials/topbar/_user-menu.blade.php" />
@@ -164,9 +105,18 @@
         <option value="$PROJECT_DIR$/app/Http/Controllers/Transaksi/TMatchController.php" />
         <option value="$PROJECT_DIR$/resources/views/transaksi/t-match/create.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/transaksi/t-match/show.blade.php" />
-        <option value="$PROJECT_DIR$/routes/web.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/Transaksi/TEventLetterController.php" />
         <option value="$PROJECT_DIR$/resources/views/transaksi/t-event-letter/show.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/transaksi/t-match/game-management/show.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/transaksi/t-match/game-management/edit.blade.php" />
+        <option value="$PROJECT_DIR$/routes/web.php" />
+        <option value="$PROJECT_DIR$/resources/views/transaksi/t-match/mechanical-court/edit.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/transaksi/t-match/mechanical-court/show.blade.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/Transaksi/TGameManagementController.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/Transaksi/TMechanicalCourtController.php" />
+        <option value="$PROJECT_DIR$/resources/views/transaksi/t-match/appearance/show.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/transaksi/t-match/appearance/edit.blade.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/Transaksi/TAppearanceController.php" />
       </list>
     </option>
   </component>
@@ -205,7 +155,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -294,7 +243,7 @@
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="t-event-letter" />
+              <option name="myItemId" value="report-pertandingan" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
           </PATH>
@@ -309,142 +258,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="resources" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="views" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="transaksi" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="t-event-approval" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bras-web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bras-web" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="resources" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bras-web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bras-web" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="public" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bras-web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bras-web" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="public" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="demo1" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bras-web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bras-web" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="public" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="demo1" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="js" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bras-web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bras-web" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="public" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="demo1" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="js" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="transaksi" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="t-match" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bras-web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bras-web" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="public" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="demo1" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="js" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="transaksi" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
           </PATH>
@@ -531,6 +344,7 @@
         </subPane>
       </pane>
       <pane id="Scratches" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -540,19 +354,19 @@
     <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file://C:/xampp8/htdocs/bras-web/app/Http/Controllers/Master/IotController.php" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\xampp8\htdocs\bras-web\resources\views\master\profile" />
-      <recent name="C:\xampp8\htdocs\bras-web\public\demo1\js\master\profile" />
-      <recent name="C:\xampp8\htdocs\bras-web\resources\views\transaksi\t-notifikasi" />
-      <recent name="C:\xampp8\htdocs\bras-web\resources\views\transaksi\t-approval" />
-      <recent name="C:\xampp8\htdocs\bras-web\resources\views\master\user" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\xampp8\htdocs\bras-web\resources\views\transaksi\t-match" />
       <recent name="C:\xampp8\htdocs\bras-web\storage\app\public" />
       <recent name="C:\xampp8\htdocs\bras-web\resources\views\transaksi\t-approval" />
       <recent name="C:\xampp8\htdocs\bras-web\app\Models\Transaksi" />
       <recent name="C:\xampp8\htdocs\bras-web\app\Models\Master" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\xampp8\htdocs\bras-web\resources\views\transaksi\t-match\appearance" />
+      <recent name="C:\xampp8\htdocs\bras-web\resources\views\transaksi\t-match\mechanical-court" />
+      <recent name="C:\xampp8\htdocs\bras-web\resources\views\transaksi\t-match\game-management" />
+      <recent name="C:\xampp8\htdocs\bras-web\resources\views\master\profile" />
+      <recent name="C:\xampp8\htdocs\bras-web\public\demo1\js\master\profile" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -731,15 +545,16 @@
       <workItem from="1638461404687" duration="2190000" />
       <workItem from="1638512604105" duration="8235000" />
       <workItem from="1639201153608" duration="7072000" />
-      <workItem from="1639209694151" duration="1239000" />
+      <workItem from="1639209694151" duration="1832000" />
+      <workItem from="1639220703679" duration="4390000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="327891000" />
+    <option name="totallyTimeSpent" value="332874000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1066" extended-state="7" />
+    <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
     <layout>
       <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19739583" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -774,79 +589,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Transaksi/TPlayCallingController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2019">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/IndexController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/transaksi/t-match/show-evaluation.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="680">
-          <caret line="40" column="78" lean-forward="false" selection-start-line="40" selection-start-column="78" selection-end-line="40" selection-end-column="78" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/transaksi/t-match/play-calling/summary.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="463">
-          <caret line="93" column="16" lean-forward="false" selection-start-line="93" selection-start-column="20" selection-end-line="100" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/master/iot/show.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1173">
-          <caret line="69" column="22" lean-forward="true" selection-start-line="69" selection-start-column="22" selection-end-line="69" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/master/profile/show-match.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="223">
-          <caret line="129" column="65" lean-forward="true" selection-start-line="129" selection-start-column="65" selection-end-line="129" selection-end-column="82" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/master/profile/cetak.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="136" column="54" lean-forward="false" selection-start-line="136" selection-start-column="54" selection-end-line="136" selection-end-column="54" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Transaksi/ReportPertandinganController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="251" column="30" lean-forward="true" selection-start-line="251" selection-start-column="30" selection-end-line="251" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/master/profile/index.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="461">
-          <caret line="49" column="135" lean-forward="false" selection-start-line="49" selection-start-column="135" selection-end-line="49" selection-end-column="135" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Transaksi/TNotifikasiController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="31" lean-forward="false" selection-start-line="2" selection-start-column="31" selection-end-line="2" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Master/ProfileController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2977">
@@ -1057,7 +799,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="510">
           <caret line="30" column="49" lean-forward="false" selection-start-line="30" selection-start-column="49" selection-end-line="30" selection-end-column="49" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1065,7 +806,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="459">
           <caret line="54" column="22" lean-forward="false" selection-start-line="54" selection-start-column="22" selection-end-line="54" selection-end-column="22" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1073,7 +813,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="425">
           <caret line="28" column="24" lean-forward="false" selection-start-line="28" selection-start-column="24" selection-end-line="28" selection-end-column="83" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1081,7 +820,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1089,7 +827,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1097,15 +834,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="544">
           <caret line="32" column="49" lean-forward="false" selection-start-line="32" selection-start-column="49" selection-end-line="32" selection-end-column="49" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/routes/web.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="527">
-          <caret line="279" column="7" lean-forward="true" selection-start-line="279" selection-start-column="7" selection-end-line="279" selection-end-column="7" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1113,7 +841,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="657">
           <caret line="164" column="13" lean-forward="false" selection-start-line="164" selection-start-column="13" selection-end-line="164" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1137,7 +864,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
           <caret line="259" column="22" lean-forward="true" selection-start-line="259" selection-start-column="22" selection-end-line="259" selection-end-column="22" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1145,6 +871,97 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-986">
           <caret line="23" column="131" lean-forward="true" selection-start-line="23" selection-start-column="131" selection-end-line="24" selection-end-column="156" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/web.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="544">
+          <caret line="316" column="0" lean-forward="true" selection-start-line="316" selection-start-column="0" selection-end-line="316" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/transaksi/t-match/mechanical-court/show.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="26" column="32" lean-forward="true" selection-start-line="26" selection-start-column="32" selection-end-line="26" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/transaksi/t-match/mechanical-court/edit.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="183">
+          <caret line="15" column="6" lean-forward="false" selection-start-line="15" selection-start-column="6" selection-end-line="15" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Transaksi/TMechanicalCourtController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2652">
+          <caret line="419" column="42" lean-forward="false" selection-start-line="419" selection-start-column="42" selection-end-line="419" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/transaksi/t-match/game-management/edit.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="24" column="13" lean-forward="false" selection-start-line="24" selection-start-column="13" selection-end-line="24" selection-end-column="13" />
+          <folding>
+            <element signature="n#style#0;n#i#0;n#a#0;n#li#0;n#ol#0;n#x-base-layout#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/transaksi/t-match/game-management/show.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="544">
+          <caret line="32" column="0" lean-forward="true" selection-start-line="32" selection-start-column="0" selection-end-line="33" selection-end-column="130" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/transaksi/t-match/appearance/show.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="561">
+          <caret line="33" column="41" lean-forward="false" selection-start-line="33" selection-start-column="41" selection-end-line="33" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/transaksi/t-match/appearance/edit.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1447">
+          <caret line="91" column="49" lean-forward="false" selection-start-line="91" selection-start-column="49" selection-end-line="91" selection-end-column="49" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Transaksi/TAppearanceController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="209">
+          <caret line="415" column="40" lean-forward="false" selection-start-line="415" selection-start-column="40" selection-end-line="415" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Transaksi/TGameManagementController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="362">
+          <caret line="426" column="5" lean-forward="false" selection-start-line="312" selection-start-column="4" selection-end-line="426" selection-end-column="5" />
+          <folding>
+            <element signature="e#50#86#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/transaksi/report-pertandingan/page-3.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
