@@ -20,8 +20,12 @@
 
         <div class="card-body">
 
-            <button class="btn btn-warning" id="reject" data-bs-toggle="modal" data-bs-target="#rejectModal" data-id="{{ $model->id }}"> Ubah Nomor Surat </button>
-            <a href="{{ route('t-event-letter.send', $letter->id) }}" class="btn btn-primary"> Kirim Surat </a>
+            @if($model->status == 1)
+                @if($letter->sent == 0)
+                    <button class="btn btn-warning" id="reject" data-bs-toggle="modal" data-bs-target="#rejectModal" data-id="{{ $model->id }}"> Ubah Nomor Surat </button>
+                @endif
+                <a href="{{ route('t-event-letter.send', $letter->id) }}" class="btn btn-primary"> Kirim Surat </a>
+            @endif
             <a href="{{ route('t-event-letter.dokumen', $letter->id) }}" class="btn btn-primary"> Preview Dokumen </a>
             <a href="{{ route('t-event-letter.index') }}" class="btn btn-secondary"> Kembali </a>
 
@@ -78,6 +82,8 @@
                             <span class='w-130px badge badge-success me-4'> Approved </span>
                         @elseif($model->status == -1)
                             <span class='w-130px badge badge-danger me-4'> Rejected </span>
+                        @elseif ($model->status == 2)
+                            <span class='w-130px badge badge-primary me-4'> Selesai </span>
                         @else
                             -
                         @endif

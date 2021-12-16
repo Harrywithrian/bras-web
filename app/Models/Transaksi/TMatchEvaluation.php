@@ -23,6 +23,7 @@ class TMatchEvaluation extends Model
         'mechanical_court',
         'appearance',
         'total_score',
+        'notes',
         'createdby',
         'createdon',
         'modifiedby',

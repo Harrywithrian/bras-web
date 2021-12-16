@@ -44,6 +44,27 @@
     @section('scripts')
         <script src="{{asset('demo1/js/transaksi/t-match/index-event.js')}}"></script>
         <script src="{{asset('demo1/plugins/custom/datatables/datatables.bundle.js')}}"></script>
+        <script>
+            $(document).ready( function() {
+                @if(\Illuminate\Support\Facades\Session::has('success'))
+                    var msg = JSON.parse('<?php echo json_encode(\Illuminate\Support\Facades\Session::get('success')); ?>');
+                    toastr['success'](msg, 'Success', {
+                        closeButton: true,
+                        tapToDismiss: false,
+                        rtl: false
+                    });
+                @endif
+
+                @if(\Illuminate\Support\Facades\Session::has('error'))
+                    var msg = JSON.parse('<?php echo json_encode(\Illuminate\Support\Facades\Session::get('error')); ?>');
+                    toastr['error'](msg, 'Error', {
+                        closeButton: true,
+                        tapToDismiss: false,
+                        rtl: false
+                    });
+                @endif
+            });
+        </script>
     @endsection
 
 </x-base-layout>

@@ -21,6 +21,8 @@ use App\Models\Transaksi\TMatchReferee;
 use App\Models\Transaksi\TMechanicalCourt;
 use App\Models\Transaksi\TNotification;
 use App\Models\Transaksi\TPlayCalling;
+use App\Models\Transaksi\TEventParticipant;
+use App\Models\Transaksi\TRefereePoint;
 use App\Models\UserInfo;
 use Carbon\Carbon;
 use Debugbar;
@@ -404,6 +406,71 @@ class TMatchController extends Controller
         }
     }
 
+    public function doneEvent($id) {
+        $event = TEvent::find($id);
+        $listMatch = TMatch::where('id_t_event', '=', $id)->get()->toArray();
+        if (empty($listMatch)) {
+            Session::flash('error', 'Pertandingan Tidak Ditemukan.');
+            return redirect()->route('t-match.index', $id);
+        }
+        foreach ($listMatch as $item) {
+            if ($item['status'] != 2) {
+                Session::flash('error', 'Pertandingan Belum Selesai.');
+                return redirect()->route('t-match.index', $id);
+            }
+        }
+
+        $listWasit = TEventParticipant::where('id_t_event', '=', $id)->where('role', '=', 8)->get()->toArray();
+        $hasil = [];
+        foreach($listWasit as $item) {
+            $nilai = 0;
+            $i     = 0;
+            foreach($listMatch as $subItem) {
+                $evaluation = TMatchEvaluation::where('id_t_match', '=', $subItem['id'])->where('referee', '=', $item['user'])->first();
+                if ($evaluation) {
+                    $nilai = $nilai + $evaluation->total_score;
+                    $i++;
+                }
+            }
+            if ($i > 0) {
+                $hasil[] = [
+                    'wasit' => $item['user'],
+                    'nilai' => $nilai / $i
+                ];
+            }
+        }
+        
+        if ($hasil) {
+            try {
+                DB::beginTransaction();
+                foreach ($hasil as $item) {
+                    $rank = TRefereePoint::where('wasit', '=', $item['wasit'])->first();
+                    if (empty($rank)) {
+                        $rank = new TRefereePoint();
+                        $rank->wasit = $item['wasit'];
+                        $rank->point = $item['nilai'];
+                    } else {
+                        $rank->point = $rank->point + $item['nilai'];
+                    }
+                    $rank->save();
+                }
+
+                $event = TEvent::find($id);
+                $event->status = 2;
+                $event->save();
+
+                DB::commit();
+
+                Session::flash('success', 'Event berhasil di selesaikan.');
+                return redirect()->route('t-match.index-event');
+            } catch (Exception $e) {
+                DB::rollBack();
+                Session::flash('error', $e->getMessage());
+                return redirect()->route('t-match.index', $id);
+            }
+        }
+    }
+
     public function evaluation($id)
     {
         // match
@@ -454,4 +521,50 @@ class TMatchController extends Controller
         return redirect()->route('t-match.show', $id);
     }
 
+    public function notesEvaluation($id) {
+        $model = TMatch::find($id);
+        $event = TEvent::find($model->id_t_event);
+        
+        $wst1 = TMatchReferee::leftJoin('users', 'users.id', '=', 't_match_referee.wasit')->where('id_t_match', '=', $id)->where('posisi', '=', 'Crew Chief')->first();
+        $wst2 = TMatchReferee::leftJoin('users', 'users.id', '=', 't_match_referee.wasit')->where('id_t_match', '=', $id)->where('posisi', '=', 'Official 1')->first();
+        $wst3 = TMatchReferee::leftJoin('users', 'users.id', '=', 't_match_referee.wasit')->where('id_t_match', '=', $id)->where('posisi', '=', 'Official 2')->first();
+
+        $eval1 = TMatchEvaluation::where('id_t_match', '=', $id)->where('referee', '=', $wst1->wasit)->first();
+        $eval2 = TMatchEvaluation::where('id_t_match', '=', $id)->where('referee', '=', $wst2->wasit)->first();
+        $eval3 = TMatchEvaluation::where('id_t_match', '=', $id)->where('referee', '=', $wst3->wasit)->first();
+
+        return view('transaksi.t-match.notes-evaluation', [
+            'id' => $id,
+            'model' => $model,
+            'event' => $event,
+            'wst1' => $wst1,
+            'wst2' => $wst2,
+            'wst3' => $wst3,
+            'eval1' => $eval1,
+            'eval2' => $eval2,
+            'eval3' => $eval3,
+        ]);
+    }
+
+    public function submitNotesEvaluation(Request $request, $id) {
+        $wst1 = TMatchReferee::leftJoin('users', 'users.id', '=', 't_match_referee.wasit')->where('id_t_match', '=', $id)->where('posisi', '=', 'Crew Chief')->first();
+        $wst2 = TMatchReferee::leftJoin('users', 'users.id', '=', 't_match_referee.wasit')->where('id_t_match', '=', $id)->where('posisi', '=', 'Official 1')->first();
+        $wst3 = TMatchReferee::leftJoin('users', 'users.id', '=', 't_match_referee.wasit')->where('id_t_match', '=', $id)->where('posisi', '=', 'Official 2')->first();
+
+        $eval1 = TMatchEvaluation::where('id_t_match', '=', $id)->where('referee', '=', $wst1->wasit)->first();
+        $eval2 = TMatchEvaluation::where('id_t_match', '=', $id)->where('referee', '=', $wst2->wasit)->first();
+        $eval3 = TMatchEvaluation::where('id_t_match', '=', $id)->where('referee', '=', $wst3->wasit)->first();
+
+        $eval1->notes = $request->evaluasi_1;
+        $eval1->save();
+
+        $eval2->notes = $request->evaluasi_2;
+        $eval2->save();
+
+        $eval3->notes = $request->evaluasi_3;
+        $eval3->save();
+
+        Session::flash('success', 'Catatan wasit sudah tersimpan.');
+        return redirect()->route('t-match.show', $id);
+    }
 }

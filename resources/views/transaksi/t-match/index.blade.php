@@ -26,7 +26,10 @@
                 <div class="col-12">
                     <div class="float-end mb-5">
                         <a class="btn btn-xs btn-secondary" href="{{ route('t-match.index-event') }}"> Kembali </a>
-                        @if($user->role == 7 && $dateNow < $event->tanggal_selesai)
+                        @if($user->role == 7 && $event->status != 2)
+                            <a class="btn btn-xs btn-success" href="{{ route('t-match.done-event', $event->id) }}"> Event Selesai </a>
+                        @endif
+                        @if($user->role == 7 && $dateNow < $event->tanggal_selesai && $event->status != 2)
                             <a class="btn btn-xs btn-primary" href="{{ route('t-match.create', $event->id) }}"> Tambah Pertandingan </a>
                         @endif
                     </div>
@@ -69,6 +72,15 @@
                 @if(\Illuminate\Support\Facades\Session::has('success'))
                     var msg = JSON.parse('<?php echo json_encode(\Illuminate\Support\Facades\Session::get('success')); ?>');
                     toastr['success'](msg, 'Success', {
+                        closeButton: true,
+                        tapToDismiss: false,
+                        rtl: false
+                    });
+                @endif
+
+                @if(\Illuminate\Support\Facades\Session::has('error'))
+                    var msg = JSON.parse('<?php echo json_encode(\Illuminate\Support\Facades\Session::get('error')); ?>');
+                    toastr['error'](msg, 'Error', {
                         closeButton: true,
                         tapToDismiss: false,
                         rtl: false

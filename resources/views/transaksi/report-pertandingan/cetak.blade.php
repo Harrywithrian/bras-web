@@ -60,7 +60,7 @@
     $evaluation3 = \App\Models\Transaksi\TMatchEvaluation::where('id_t_match', '=', $id)->where('referee', '=', $wst3->wasit)->first();
     ?>
 
-    <center><img height="40px;" src="{{ public_path() . "/demo1/media/logos/logo.svg" }}"></center>
+    <center><img height="60px;" src="{{ public_path() . "/demo1/media/logos/logo.png" }}"></center>
     <center><h2>{{ $event->nama }}</h2></center>
     <center><h2>{{ $match->nama }}</h2></center>
     <center><h4>Waktu Pertandingan : {{ date('H:i d/m/Y', strtotime($match->waktu_pertandingan)) }}</h4></center>
@@ -773,5 +773,32 @@
             <td width="10%"><b><center> {{ $evaluation3->total_score }} </center></b></td>
         </tr>
     </table>
+
+    <div class="page_break"></div>
+
+    <table width="100%">
+        <tr>
+            <td><center><b>Catatan Evaluasi</b></center></td>
+        </tr>
+        <tr>
+            <td><b>{{ $wst1->name }}</b></td>
+        </tr>
+        <tr>
+            <td>{{ $evaluation1->notes }}</td>
+        </tr>
+        <tr>
+            <td><b>{{ $wst2->name }}</b></td>
+        </tr>
+        <tr>
+            <td>{{ $evaluation2->notes }}</td>
+        </tr>
+        <tr>
+            <td><b>{{ $wst3->name }}</b></td>
+        </tr>
+        <tr>
+            <td>{{ $evaluation3->notes }}</td>
+        </tr>
+    </table>
+
 </body>
 </html>

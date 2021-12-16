@@ -284,6 +284,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/index-event', [TMatchController::class, 'IndexEvent'])->name('t-match.index-event');
         Route::get('/get-event', [TMatchController::class, 'getEvent'])->name('t-match.get-event');
         Route::post('/search-event', [TMatchController::class, 'searchEvent'])->name('t-match.search-event');
+        Route::get('/done-event/{id}', [TMatchController::class, 'doneEvent'])->name('t-match.done-event');
         Route::get('/index/{id}', [TMatchController::class, 'index'])->name('t-match.index');
         Route::get('/get/{id}', [TMatchController::class, 'get'])->name('t-match.get');
         Route::post('/search', [TMatchController::class, 'search'])->name('t-match.search');
@@ -293,6 +294,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/done/{id}', [TMatchController::class, 'done'])->name('t-match.done');
         Route::get('/show-evaluation/{id}/{wasit}', [TMatchController::class, 'showEvaluation'])->name('t-match.show-evaluation');
         Route::get('/evaluation/{id}', [TMatchController::class, 'evaluation'])->name('t-match.evaluation');
+        Route::get('/notes-evaluation/{id}', [TMatchController::class, 'notesEvaluation'])->name('t-match.notes-evaluation');
+        Route::post('/submit-notes-evaluation/{id}', [TMatchController::class, 'submitNotesEvaluation'])->name('t-match.submit-notes-evaluation');
         Route::get('/{id}/play-calling/evaluation', [TPlayCallingController::class, 'create'])->name('t-match.play-calling.create');
         Route::post('/{id}/play-calling/evaluation', [TPlayCallingController::class, 'store'])->name('t-match.play-calling.store');
         Route::get('/{id}/play-calling/{referee}/summary', [TPlayCallingController::class, 'summary'])->name('t-match.play-calling.summary');

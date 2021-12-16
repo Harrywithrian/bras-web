@@ -57,6 +57,8 @@
                             <span class='w-130px badge badge-success me-4'> Approved </span>
                         @elseif($model->status == -1)
                             <span class='w-130px badge badge-danger me-4'> Rejected </span>
+                        @elseif ($model->status == 2)
+                            <span class='w-130px badge badge-primary me-4'> Selesai </span>
                         @else
                             -
                         @endif

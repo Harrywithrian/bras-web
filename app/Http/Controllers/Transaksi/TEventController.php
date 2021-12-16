@@ -93,6 +93,8 @@ class TEventController extends Controller
                 return "<span class='w-130px badge badge-success me-4'> Approved </span>";
             } if ($row->status == 0) {
                 return "<span class='w-130px badge badge-info me-4'> Waiting Approval</span>";
+            } if ($row->status == 2) {
+                return "<span class='w-130px badge badge-primary me-4'> Selesai </span>";
             } else {
                 return "<span class='w-130px badge badge-danger me-4'> Rejected </span>";
             }

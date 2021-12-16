@@ -20,12 +20,30 @@
                 @csrf
 
                 <div class="row mb-5">
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label>Pelanggaran</label>
                             <input id="pelanggaran" class="form-control" name="pelanggaran" value="{{ (empty(old('pelanggaran'))) ? $model->violation : old('pelanggaran') }}">
                             @if($errors->has('pelanggaran'))
                                 <span id="err_pelanggaran" class="text-danger">{{ $errors->first('pelanggaran') }}</span>
+                            @endif
+                        </div>
+                    </div>
+
+                    <?php $oldJenis = (!empty(old('jenis'))) ? old('jenis') : $model->jenis ; ?>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Jenis Pelanggaran</label>
+                            <select class="form-select" data-control="select2" data-placeholder="Pilih Jenis Pelanggaran ..." id="jenis" name="jenis">
+                                <option value=""></option>
+                                <option value="1" @if($oldJenis) {{ ($oldJenis == 1) ? 'selected' : null ; }} @endif>Fouls</option>
+                                <option value="2" @if($oldJenis) {{ ($oldJenis == 2) ? 'selected' : null ; }} @endif>IRS</option>
+                                <option value="3" @if($oldJenis) {{ ($oldJenis == 3) ? 'selected' : null ; }} @endif>Travelling</option>
+                                <option value="4" @if($oldJenis) {{ ($oldJenis == 4) ? 'selected' : null ; }} @endif>Other Violations</option>
+                            </select>
+                            @if($errors->has('jenis'))
+                                <span id="err_jenis" class="text-danger">{{ $errors->first('jenis') }}</span>
                             @endif
                         </div>
                     </div>

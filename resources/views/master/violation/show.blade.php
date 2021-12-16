@@ -42,6 +42,22 @@
                     <td>{{ $model->violation }}</td>
                 </tr>
                 <tr>
+                    <td width="25%">Jenis</td>
+                    <td>
+                        @if ($model->jenis == 1)
+                            Fouls
+                        @elseif ($model->jenis == 2)
+                            IRS
+                        @elseif ($model->jenis == 3)
+                            Travelling
+                        @elseif ($model->jenis == 4)
+                            Other Violations
+                        @else
+                            -
+                        @endif
+                    </td>
+                </tr>
+                <tr>
                     <td width="25%">Keterangan</td>
                     <td>{{ ($model->keterangan) ? $model->keterangan : "-" }}</td>
                 </tr>

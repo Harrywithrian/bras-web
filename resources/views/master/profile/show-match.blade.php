@@ -92,36 +92,104 @@
             </section>
             <table class="table table-striped border mb-0 gy-7 gs-7" style="margin-top:-5px;">
                 <tr>
-                    <td><center>Periodes</center></td>
-                    <td colspan="2"><center>1st Period</center></td>
-                    <td colspan="2"><center>2nd Period</center></td>
-                    <td colspan="2"><center>3rd Period</center></td>
-                    <td colspan="2"><center>4th Period</center></td>
-                    <td rowspan="2" style="vertical-align : middle;text-align:center;"><center>Total</center></td>
+                    <td><center><b>Periodes</b></center></td>
+                    <td colspan="2"><center><b>1st Period</b></center></td>
+                    <td colspan="2"><center><b>2nd Period</b></center></td>
+                    <td colspan="2"><center><b>3rd Period</b></center></td>
+                    <td colspan="2"><center><b>4th Period</b></center></td>
+                    <td rowspan="2" colspan="2" style="vertical-align : middle;text-align:center;"><center><b>Total</b></center></td>
                 </tr>
                 <tr>
-                    <td><center>Time</center></td>
-                    <td><center>5'</center></td>
-                    <td><center>10'</center></td>
-                    <td><center>5'</center></td>
-                    <td><center>10'</center></td>
-                    <td><center>5'</center></td>
-                    <td><center>10'</center></td>
-                    <td><center>5'</center></td>
-                    <td><center>10'</center></td>
-                </tr>
-                <tr>
-                    <td rowspan="2" style="vertical-align : middle;text-align:center;"><center>Calls</center></td>
-                    @for($i = 1;$i < 5;$i++)
-                        <td><center>{{ $playCalling[$i]['first'] }} ({{ number_format($playCalling[$i]['firstPercent'], 0) }}%)</center></td>
-                        <td><center>{{ $playCalling[$i]['second'] }} ({{ number_format($playCalling[$i]['secondPercent'], 0) }}%)</center></td>
+                    <td><center><b>Time</b></center></td>
+                    @for($i = 0;$i < 4;$i++)
+                        <td><center><b>5'</b></center></td>
+                        <td><center><b>10'</b></center></td>
                     @endfor
-                    <td rowspan="2" style="vertical-align : middle;text-align:center;"><center>{{ $playCalling['total'] }} (100%)</center></td>
+                </tr>
+
+                {{-- Summary Calls --}}
+                <tr>
+                    <td rowspan="2" style="vertical-align : middle;text-align:center;"><center><b>Calls</b></center></td>
+                    @foreach($summary['summary'] as $item)
+                        <td><center>{{ $item['firstcall'] }} ({{ number_format($item['firstPercent'], 0) }}%)</center></td>
+                        <td><center>{{ $item['secondcall'] }} ({{ number_format($item['secondPercent'], 0) }}%)</center></td>
+                    @endforeach
+                    <td><center>{{ $summary['tSummary']['first'] }} ({{ number_format($summary['tSummary']['firstPercent'], 0) }}%)</center></td>
+                    <td><center>{{ $summary['tSummary']['second'] }} ({{ number_format($summary['tSummary']['secondPercent'], 0) }}%)</center></td>
                 </tr>
                 <tr>
-                    @for($i = 1;$i < 5;$i++)
-                        <td colspan="2"><center>{{ $playCalling[$i]['total'] }} ({{ number_format($playCalling[$i]['totalPercent'], 0) }}%)</center></td>
-                    @endfor
+                    @foreach($summary['summary'] as $item)
+                        <td colspan="2"><center>{{ $item['total'] }}  ({{ number_format($item['totalPercent'], 0) }}%)</center></td>
+                    @endforeach
+                    <td colspan="2"><center>{{ $summary['tSummary']['total'] }} (100%)</center></td>
+                </tr>
+
+                {{-- Summary Fouls --}}
+                <tr>
+                    <td rowspan="2" style="vertical-align : middle;text-align:center;"><center><b>Fouls</b></center></td>
+                    @foreach($summary['foulSummary']['fouls'] as $item)
+                        <td><center>{{ $item['firstcall'] }} ({{ number_format($item['firstPercent'], 0) }}%)</center></td>
+                        <td><center>{{ $item['secondcall'] }} ({{ number_format($item['secondPercent'], 0) }}%)</center></td>
+                    @endforeach
+                    <td><center>{{ $summary['foulTotalSummary']['fouls']['first'] }} ({{ number_format($summary['foulTotalSummary']['fouls']['firstPercent'], 0) }}%)</center></td>
+                    <td><center>{{ $summary['foulTotalSummary']['fouls']['second'] }} ({{ number_format($summary['foulTotalSummary']['fouls']['secondPercent'], 0) }}%)</center></td>
+                </tr>
+                <tr>
+                    @foreach($summary['foulSummary']['fouls'] as $item)
+                        <td colspan="2"><center>{{ $item['total'] }}  ({{ number_format($item['totalPercent'], 0) }}%)</center></td>
+                    @endforeach
+                    <td colspan="2"><center>{{ $summary['foulTotalSummary']['fouls']['total'] }} ({{ number_format($summary['foulTotalSummary']['fouls']['summaryPercent'], 0) }}%)</center></td>
+                </tr>
+
+                {{-- Summary IRS --}}
+                <tr>
+                    <td rowspan="2" style="vertical-align : middle;text-align:center;"><center><b>IRS</b></center></td>
+                    @foreach($summary['foulSummary']['IRS'] as $item)
+                        <td><center>{{ $item['firstcall'] }} ({{ number_format($item['firstPercent'], 0) }}%)</center></td>
+                        <td><center>{{ $item['secondcall'] }} ({{ number_format($item['secondPercent'], 0) }}%)</center></td>
+                    @endforeach
+                    <td><center>{{ $summary['foulTotalSummary']['IRS']['first'] }} ({{ number_format($summary['foulTotalSummary']['IRS']['firstPercent'], 0) }}%)</center></td>
+                    <td><center>{{ $summary['foulTotalSummary']['IRS']['second'] }} ({{ number_format($summary['foulTotalSummary']['IRS']['secondPercent'], 0) }}%)</center></td>
+                </tr>
+                <tr>
+                    @foreach($summary['foulSummary']['IRS'] as $item)
+                        <td colspan="2"><center>{{ $item['total'] }}  ({{ number_format($item['totalPercent'], 0) }}%)</center></td>
+                    @endforeach
+                    <td colspan="2"><center>{{ $summary['foulTotalSummary']['IRS']['total'] }} ({{ number_format($summary['foulTotalSummary']['IRS']['summaryPercent'], 0) }}%)</center></td>
+                </tr>
+
+                {{-- Summary IRS --}}
+                <tr>
+                    <td rowspan="2" style="vertical-align : middle;text-align:center;"><center><b>Travelling</b></center></td>
+                    @foreach($summary['foulSummary']['Travelling'] as $item)
+                        <td><center>{{ $item['firstcall'] }} ({{ number_format($item['firstPercent'], 0) }}%)</center></td>
+                        <td><center>{{ $item['secondcall'] }} ({{ number_format($item['secondPercent'], 0) }}%)</center></td>
+                    @endforeach
+                    <td><center>{{ $summary['foulTotalSummary']['Travelling']['first'] }} ({{ number_format($summary['foulTotalSummary']['Travelling']['firstPercent'], 0) }}%)</center></td>
+                    <td><center>{{ $summary['foulTotalSummary']['Travelling']['second'] }} ({{ number_format($summary['foulTotalSummary']['Travelling']['secondPercent'], 0) }}%)</center></td>
+                </tr>
+                <tr>
+                    @foreach($summary['foulSummary']['Travelling'] as $item)
+                        <td colspan="2"><center>{{ $item['total'] }}  ({{ number_format($item['totalPercent'], 0) }}%)</center></td>
+                    @endforeach
+                    <td colspan="2"><center>{{ $summary['foulTotalSummary']['Travelling']['total'] }} ({{ number_format($summary['foulTotalSummary']['Travelling']['summaryPercent'], 0) }}%)</center></td>
+                </tr>
+
+                {{--Other Violation --}}
+                <tr>
+                    <td rowspan="2" style="vertical-align : middle;text-align:center;"><center><b>Other Violations</b></center></td>
+                    @foreach($summary['foulSummary']['Other Violations'] as $item)
+                        <td><center>{{ $item['firstcall'] }} ({{ number_format($item['firstPercent'], 0) }}%)</center></td>
+                        <td><center>{{ $item['secondcall'] }} ({{ number_format($item['secondPercent'], 0) }}%)</center></td>
+                    @endforeach
+                    <td><center>{{ $summary['foulTotalSummary']['Other Violations']['first'] }} ({{ number_format($summary['foulTotalSummary']['Other Violations']['firstPercent'], 0) }}%)</center></td>
+                    <td><center>{{ $summary['foulTotalSummary']['Other Violations']['second'] }} ({{ number_format($summary['foulTotalSummary']['Other Violations']['secondPercent'], 0) }}%)</center></td>
+                </tr>
+                <tr>
+                    @foreach($summary['foulSummary']['Other Violations'] as $item)
+                        <td colspan="2"><center>{{ $item['total'] }}  ({{ number_format($item['totalPercent'], 0) }}%)</center></td>
+                    @endforeach
+                    <td colspan="2"><center>{{ $summary['foulTotalSummary']['Other Violations']['total'] }} ({{ number_format($summary['foulTotalSummary']['Other Violations']['summaryPercent'], 0) }}%)</center></td>
                 </tr>
             </table>
 
@@ -130,68 +198,47 @@
                     <h4 class="card-title" style="color: white;">Calls per Referee</h4>
                 </div>
             </section>
+
             <table class="table table-striped border mb-0 gy-7 gs-7" style="margin-top:-5px;">
                 <tr>
-                    <td><center>Periodes</center></td>
-                    <td colspan="2"><center>1st Period</center></td>
-                    <td colspan="2"><center>2nd Period</center></td>
-                    <td colspan="2"><center>3rd Period</center></td>
-                    <td colspan="2"><center>4th Period</center></td>
-                    <td rowspan="2" style="vertical-align : middle;text-align:center;"><center>Total</center></td>
+                    <td><center><b>Periodes</b></center></td>
+                    <td colspan="2"><center><b>1st Period</b></center></td>
+                    <td colspan="2"><center><b>2nd Period</b></center></td>
+                    <td colspan="2"><center><b>3rd Period</b></center></td>
+                    <td colspan="2"><center><b>4th Period</b></center></td>
+                    <td rowspan="2" colspan="2" style="vertical-align : middle;text-align:center;"><center><b>Total</b></center></td>
                 </tr>
                 <tr>
-                    <td><center>Time</center></td>
-                    <td><center>5'</center></td>
-                    <td><center>10'</center></td>
-                    <td><center>5'</center></td>
-                    <td><center>10'</center></td>
-                    <td><center>5'</center></td>
-                    <td><center>10'</center></td>
-                    <td><center>5'</center></td>
-                    <td><center>10'</center></td>
-                </tr>
-                <tr>
-                    <td rowspan="2" style="vertical-align : middle;text-align:center;"><center>{{ $wst1->name }}</center></td>
-                    @for($i = 1;$i < 5;$i++)
-                        <td><center>{{ $callReferee['wst1'][$i]['first'] }} ({{ number_format($callReferee['wst1'][$i]['firstPercent'], 0) }}%)</center></td>
-                        <td><center>{{ $callReferee['wst1'][$i]['second'] }} ({{ number_format($callReferee['wst1'][$i]['secondPercent'], 0) }}%)</center></td>
-                    @endfor
-                    <td rowspan="2" style="vertical-align : middle;text-align:center;"><center>{{ $callReferee['wst1']['total'] }} ({{ number_format($callReferee['wst1']['totalPercent'], 0) }}%)</center></td>
-                </tr>
-                <tr>
-                    @for($i = 1;$i < 5;$i++)
-                        <td colspan="2"><center>{{ $callReferee['wst1'][$i]['total'] }} ({{ number_format($callReferee['wst1'][$i]['totalPercent'], 0) }}%)</center></td>
+                    <td><center><b>Time</b></center></td>
+                    @for($i = 0;$i < 4;$i++)
+                        <td><center><b>5'</b></center></td>
+                        <td><center><b>10'</b></center></td>
                     @endfor
                 </tr>
+
+                <?php $i = 0; ?>
+                @foreach ($summary['referee'] as $item)
+                    <tr>
+                        <td rowspan="2" style="vertical-align : middle;text-align:center;"><center><b>{{ $item['name'] }}</b></center></td>
+                        @for($j = 1;$j < 5;$j++)
+                            <td><center>{{ $item[$j]['firstcall'] }} ({{ number_format($item[$j]['firstPercent'], 0) }}%)</center></td>
+                            <td><center>{{ $item[$j]['secondcall'] }} ({{ number_format($item[$j]['secondPercent'], 0) }}%)</center></td>
+                        @endfor
+                        <td><center>{{ $summary['refereeTotal'][$i]['first'] }} ({{ number_format($summary['refereeTotal'][$i]['firstPercent'], 0) }}%)</center></td>
+                        <td><center>{{ $summary['refereeTotal'][$i]['second'] }} ({{ number_format($summary['refereeTotal'][$i]['secondPercent'], 0) }}%)</center></td>
+                    </tr>
+                    <tr>
+                        @for($j = 1;$j < 5;$j++)
+                            <td colspan="2"><center>{{ $item[$j]['total'] }}  ({{ number_format($item[$j]['totalPercent'], 0) }}%)</center></td>
+                            @endfor
+                        <td colspan="2"><center>{{ $summary['refereeTotal'][$i]['total'] }} ({{ number_format($summary['refereeTotal'][$i]['summaryPercent'], 0) }}%)</center></td>
+                    </tr>
+                    <?php $i++ ?>
+                @endforeach
                 <tr>
-                    <td rowspan="2" style="vertical-align : middle;text-align:center;"><center>{{ $wst2->name }}</center></td>
-                    @for($i = 1;$i < 5;$i++)
-                        <td><center>{{ $callReferee['wst2'][$i]['first'] }} ({{ number_format($callReferee['wst2'][$i]['firstPercent'], 0) }}%)</center></td>
-                        <td><center>{{ $callReferee['wst2'][$i]['second'] }} ({{ number_format($callReferee['wst2'][$i]['secondPercent'], 0) }}%)</center></td>
-                    @endfor
-                    <td rowspan="2" style="vertical-align : middle;text-align:center;"><center>{{ $callReferee['wst2']['total'] }} ({{ number_format($callReferee['wst2']['totalPercent'], 0) }}%)</center></td>
-                </tr>
-                <tr>
-                    @for($i = 1;$i < 5;$i++)
-                        <td colspan="2"><center>{{ $callReferee['wst2'][$i]['total'] }} ({{ number_format($callReferee['wst2'][$i]['totalPercent'], 0) }}%)</center></td>
-                    @endfor
-                </tr>
-                <tr>
-                    <td rowspan="2" style="vertical-align : middle;text-align:center;"><center>{{ $wst3->name }}</center></td>
-                    @for($i = 1;$i < 5;$i++)
-                        <td><center>{{ $callReferee['wst3'][$i]['first'] }} ({{ number_format($callReferee['wst3'][$i]['firstPercent'], 0) }}%)</center></td>
-                        <td><center>{{ $callReferee['wst3'][$i]['second'] }} ({{ number_format($callReferee['wst3'][$i]['secondPercent'], 0) }}%)</center></td>
-                    @endfor
-                    <td rowspan="2" style="vertical-align : middle;text-align:center;"><center>{{ $callReferee['wst3']['total'] }} ({{ number_format($callReferee['wst3']['totalPercent'], 0) }}%)</center></td>
-                </tr>
-                <tr>
-                    @for($i = 1;$i < 5;$i++)
-                        <td colspan="2"><center>{{ $callReferee['wst3'][$i]['total'] }} ({{ number_format($callReferee['wst3'][$i]['totalPercent'], 0) }}%)</center></td>
-                    @endfor
-                </tr>
-                <tr>
-                    <td colspan="9"><center>Total</center></td>
-                    <td><center>{{ $playCalling['total'] }} (100%)</center></td>
+                    <td><center><b>Total</b></center></td>
+                    <td colspan="8"></td>
+                    <td colspan="2"><center>{{ $summary['tSummary']['total'] }} (100%)</center></td>
                 </tr>
             </table>
         </div>

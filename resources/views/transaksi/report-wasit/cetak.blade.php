@@ -27,7 +27,7 @@
     <?php
         $arr = array_merge(range('a', 'z'));
     ?>
-    <center><img height="40px;" src="{{ public_path() . "/demo1/media/logos/logo.svg" }}"></center>
+    <center><img height="60px;" src="{{ public_path() . "/demo1/media/logos/logo.png" }}"></center>
     <center><h2>{{ $event->nama }}</h2></center>
     <center><h2>{{ $match->nama }}</h2></center>
     <center><h4>Waktu Pertandingan : {{ date('H:i d/m/Y', strtotime($match->waktu_pertandingan)) }}</h4></center>
@@ -316,6 +316,17 @@
         <tr>
             <td colspan="3"><b> Score Akhir </b></td>
             <td width="10%"><b><center> {{ $evaluation->total_score }} </center></b></td>
+        </tr>
+    </table>
+
+    <br>
+    
+    <table>
+        <tr>
+            <td><center><b>Catatan</b></center></td>
+        </tr>
+        <tr>
+            <td>{{  $evaluation->notes }}</td>
         </tr>
     </table>
 </body>

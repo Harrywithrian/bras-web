@@ -69,6 +69,13 @@
                     <td width="10%"><b><center> {{ $evaluation->total_score }} </center></b></td>
                 </tr>
             </table>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <label>Catatan Evaluasi</label>
+                    <textarea id="evaluasi" class="form-control" name="evaluasi" readOnly>{{ $evaluation->notes }}</textarea>
+                </div>
+            </div>
         </div>
     </div>
 

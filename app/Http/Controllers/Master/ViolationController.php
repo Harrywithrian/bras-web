@@ -90,6 +90,7 @@ class ViolationController extends Controller
         try {
             $rules = [
                 'pelanggaran' => 'required',
+                'jenis' => 'required'
             ];
 
             $customMessages = [
@@ -100,6 +101,7 @@ class ViolationController extends Controller
 
             $model = new Violation();
             $model->violation   = $request->pelanggaran;
+            $model->jenis       = $request->jenis;
             $model->keterangan  = $request->keterangan;
             $model->status      = 1;
             $model->createdby   = Auth::id();
@@ -139,6 +141,7 @@ class ViolationController extends Controller
         try {
             $rules = [
                 'pelanggaran' => 'required',
+                'jenis' => 'required'
             ];
 
             $customMessages = [

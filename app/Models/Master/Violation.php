@@ -18,6 +18,7 @@ class Violation extends Model
     protected $fillable = [
         'nama',
         'violation',
+        'jenis',
         'keterangan',
         'status',
         'createdby',

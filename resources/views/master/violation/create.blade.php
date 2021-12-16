@@ -19,12 +19,28 @@
                 @csrf
 
                 <div class="row mb-5">
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label>Pelanggaran</label>
                             <input id="pelanggaran" class="form-control" name="pelanggaran" value="{{ old('pelanggaran') }}">
                             @if($errors->has('pelanggaran'))
                                 <span id="err_pelanggaran" class="text-danger">{{ $errors->first('pelanggaran') }}</span>
+                            @endif
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Jenis Pelanggaran</label>
+                            <select class="form-select" data-control="select2" data-placeholder="Pilih Jenis Pelanggaran ..." id="jenis" name="jenis">
+                                <option value=""></option>
+                                <option value="1" @if(old('jenis')) {{ (old('jenis') == 1) ? 'selected' : null ; }} @endif>Fouls</option>
+                                <option value="2" @if(old('jenis')) {{ (old('jenis') == 2) ? 'selected' : null ; }} @endif>IRS</option>
+                                <option value="3" @if(old('jenis')) {{ (old('jenis') == 3) ? 'selected' : null ; }} @endif>Travelling</option>
+                                <option value="4" @if(old('jenis')) {{ (old('jenis') == 4) ? 'selected' : null ; }} @endif>Other Violations</option>
+                            </select>
+                            @if($errors->has('jenis'))
+                                <span id="err_jenis" class="text-danger">{{ $errors->first('jenis') }}</span>
                             @endif
                         </div>
                     </div>

@@ -85,6 +85,12 @@ $aTotalWasit3 = \App\Models\Transaksi\TAppearance::where('id_t_match', '=', $mod
                         </tr>
                     </table>
 
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label>Catatan Evaluasi</label>
+                            <textarea id="evaluasi_1" class="form-control" name="evaluasi_1" readOnly>{{ $evaluation1->notes }}</textarea>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="tab-pane fade show" id="e-wst2" role="tabpanel" aria-labelledby="e-wst2">
@@ -125,6 +131,12 @@ $aTotalWasit3 = \App\Models\Transaksi\TAppearance::where('id_t_match', '=', $mod
                         </tr>
                     </table>
 
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label>Catatan Evaluasi</label>
+                            <textarea id="evaluasi_2" class="form-control" name="evaluasi_2" readOnly>{{ $evaluation2->notes }}</textarea>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="tab-pane fade show" id="e-wst3" role="tabpanel" aria-labelledby="e-wst3">
@@ -165,6 +177,12 @@ $aTotalWasit3 = \App\Models\Transaksi\TAppearance::where('id_t_match', '=', $mod
                         </tr>
                     </table>
 
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label>Catatan Evaluasi</label>
+                            <textarea id="evaluasi_3" class="form-control" name="evaluasi_3" readOnly>{{ $evaluation3->notes }}</textarea>
+                        </div>
+                    </div>
                 </div>
 
             </div>

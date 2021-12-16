@@ -33,7 +33,7 @@ class ReportPertandinganController extends Controller
                 't_event.tanggal_selesai',
                 'users.name as penyelenggara',
             ])->leftJoin('users', 'users.id', '=', 't_event.penyelenggara')
-                ->where('t_event.status', '=', 1)
+                ->where('t_event.status', '=', 2)
                 ->whereNull('t_event.deletedon')
                 ->orderBy('t_event.createdon', 'DESC')
                 ->get();
@@ -54,7 +54,7 @@ class ReportPertandinganController extends Controller
             't_event.tanggal_selesai',
             'users.name as penyelenggara',
         ])->leftJoin('users', 'users.id', '=', 't_event.penyelenggara')
-            ->where('t_event.status', '=', 1)
+            ->where('t_event.status', '=', 2)
             ->whereNull('t_event.deletedon')
             ->orderBy('t_event.createdon', 'DESC');
 

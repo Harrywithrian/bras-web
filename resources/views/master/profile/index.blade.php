@@ -26,7 +26,8 @@
                 <div class="col-10">
                     <h2>{{ $user->name }}</h2>
                     <h5 class="text-gray-600" style="margin-top:-10px; margin-bottom:10px;">{{ $user->email }}</h5>
-                    <span class='w-130px badge badge-primary me-4'>{{ $provinsi->region }}</span>
+                    <span class='w-130px badge badge-primary'>{{ $provinsi->region }}</span>
+                    @if(!empty($rank)) <span class='w-130px badge badge-primary'>Rank Referee : {{ $rank }}</span> @endif
                 </div>
             </div>
         </div>
@@ -38,16 +39,18 @@
         <li class="nav-item">
             <a class="nav-link active" data-bs-toggle="tab" href="#profile">Profile</a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="tab" href="#match">Pertandingan</a>
-        </li>
+        @if ($userDetail->role == 8)
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="tab" href="#match">Pertandingan</a>
+            </li>
+        @endif
     </ul>
     <div class="card shadow-sm">
         <div class="card-body">
 
             <div class="tab-content" id="tab">
                 <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="page_1"> @include('master.profile.general') </div>
-                <div class="tab-pane fade" id="match" role="tabpanel" aria-labelledby="page_2"> @include('master.profile.match') </div>
+                @if ($userDetail->role == 8) <div class="tab-pane fade" id="match" role="tabpanel" aria-labelledby="page_2"> @include('master.profile.match') </div> @endif
             </div>
 
         </div>

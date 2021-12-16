@@ -30,8 +30,9 @@
         </div>
 
         <div class="card-body">
-
-            <a href="{{ route('game-management.edit', [$model->id, $modelWasit->id]) }}" class="btn btn-primary mb-5"> Update </a>
+            @if($event->status == 2)
+                <a href="{{ route('game-management.edit', [$model->id, $modelWasit->id]) }}" class="btn btn-primary mb-5"> Update </a>
+            @endif
             <a href="{{ route('t-match.show', $model->id) }}" class="btn btn-secondary mb-5"> Kembali </a>
 
             <table id="template-preview" class="table">
