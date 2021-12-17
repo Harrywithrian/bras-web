@@ -31,7 +31,7 @@
         <div class="card-body">
             <form method="post" action="{{ route('t-match.store', $event->id) }}">
                 @csrf
-
+                
                 <div class="row mb-5">
                     <div class="col-md-6">
                         <div class="form-group">
@@ -163,21 +163,24 @@
 
                 $("#waktu").daterangepicker({
                     timePicker: true,
+                    timePicker24Hour:true,
                     singleDatePicker: true,
                     showDropdowns: true,
-                    autoUpdateInput: false,
-                    autoApply: true,
+                    // autoUpdateInput: false,
+                    // autoApply: true,
                     drops: "down",
-                    {{--minDate: '{{ (date("d-m-Y") > $event->tanggal_mulai) ? date('m/d/Y') : date('m/d/Y', strtotime($event->tanggal_mulai)) }}',--}}
-                    {{--maxDate: '{{ date('m/d/Y', strtotime($event->tanggal_selesai)) }}',--}}
+                    minDate: '{{ (date("Y-m-d H:i") > $event->tanggal_mulai) ? date("Y-m-d H:i") : date("Y-m-d H:i", strtotime($event->tanggal_mulai)) }}',
+                    maxDate: '{{ date("Y-m-d H:i", strtotime($event->tanggal_selesai)) }}',
                     locale: {
-                        cancelLabel: 'Clear'
+                        format:'Y-M-D hh:mm'
                     }
                 });
 
-                $("#waktu").on('apply.daterangepicker', function(ev, picker) {
-                    $(this).val(picker.startDate.format('YYYY-MM-DD H:mm'));
-                });
+                $('#waktu').val('');
+
+                // $("#waktu").on('apply.daterangepicker', function(ev, picker) {
+                //     $(this).val(picker.startDate.format('YYYY-MM-DD H:mm'));
+                // });
             });
         </script>
     @endsection

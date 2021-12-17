@@ -14,10 +14,15 @@ use App\Models\Transaksi\TMatchReferee;
 use App\Models\Transaksi\TPlayCalling;
 use App\Models\Transaksi\TMatchEvaluation;
 use App\Models\Transaksi\TRefereePoint;
+use App\Models\Transaksi\TUpdateRequest;
+use Illuminate\Support\Facades\Session;
 use App\Models\User;
 use App\Models\UserInfo;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
+use Carbon\Carbon;
+use Illuminate\Validation\Rules;
+use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends Controller
 {
@@ -49,6 +54,122 @@ class ProfileController extends Controller
             'foto' => $foto,
             'rank' => $rank
         ]);
+    }
+
+    public function downloadLisensi($id) {
+        $model = TFile::find($id);
+        $file  = public_path(). '/storage/' . $model->path;
+        $headers = array(
+            'Content-Type: application/pdf',
+        );
+        return response()->download($file, $model->name, $headers);
+    }
+
+    public function edit($id) {
+        $user = User::find($id);
+        $detail = UserInfo::where('user_id', '=', $id)->first();
+        $region = Region::where('status', '=', 1)->get();
+        $license = License::where('status', '=', 1)->where('type', '=', 1)->get();
+        $foto    = TFile::find($detail->id_t_file_foto);
+        $file    = TFile::find($detail->id_t_file_lisensi);
+
+        return view('master.profile.edit', [
+            'user' => $user,
+            'detail' => $detail,
+            'region' => $region,
+            'license' => $license,
+            'foto' => $foto,
+            'file' => $file,
+        ]);
+    }
+
+    public function update(Request $request, $id) {
+        $rules = [
+            'provinsi' => 'required',
+            'jenis_lisensi' => 'required',
+            'alamat' => 'required',
+            'upload_lisensi' => 'sometimes|nullable|mimes:pdf|max:10000',
+            'upload_foto' => 'sometimes|nullable|mimes:jpeg,png,jpg|max:10000'
+        ];
+
+        $customMessages = [
+            'required' => 'Kolom :attribute tidak boleh kosong.',
+            'unique' => 'Kolom :attribute sudah terdaftar.',
+            'mimes' => 'File :attribute tidak sesuai.',
+        ];
+
+        $this->validate($request, $rules, $customMessages);
+
+        $user = User::find($id);
+        $detail = UserInfo::where('user_id', '=', $id)->first();
+
+        $fileLisensi = $request->file('upload_lisensi');
+        $fileFoto    = $request->file('upload_foto');
+        $path        = 'profile/' . $user->username . date('HisdmY');
+
+        $modelLisensi = null;
+        $fileFoto = null;
+
+        if ($fileLisensi) {
+            $namaLisensi = 'lisensi_' . $user->username .'.' . $fileLisensi->getClientOriginalExtension();
+            $fullPathLisensi = $path . '/' . $namaLisensi;
+
+            $fileLisensi->storeAs('public/' . $path, $namaLisensi);
+
+            $modelLisensi = new TFile();
+            $modelLisensi->name = $namaLisensi;
+            $modelLisensi->path = $fullPathLisensi;
+            $modelLisensi->extension = $fileLisensi->getClientOriginalExtension();
+            $modelLisensi->save();
+        }
+
+        if ($fileFoto) {
+            $namaFoto    = 'foto_' . $user->username .'.' . $fileFoto->getClientOriginalExtension();
+            $fullPathFoto = $path . '/' . $namaFoto;
+            
+            $fileFoto->storeAs('public/' . $path, $namaFoto);
+
+            $modelFoto = new TFile();
+            $modelFoto->name = $namaFoto;
+            $modelFoto->path = $fullPathFoto;
+            $modelFoto->extension = $fileFoto->getClientOriginalExtension();
+            $modelFoto->save();
+        }
+        
+        $model = new TUpdateRequest();
+        $model->user_id = $id;
+        $model->status  = 0;
+        $model->no_lisensi = $request->no_lisensi;
+        $model->id_m_lisensi = $request->jenis_lisensi;
+        $model->alamat = $request->alamat;
+        $model->id_m_region = $request->provinsi;
+        $model->id_t_file_lisensi = ($modelLisensi) ? $modelLisensi->id : null ;
+        $model->id_t_file_foto = ($fileFoto) ? $fileFoto->id : null ;
+        $model->created_at = Carbon::now();
+        $model->save();
+
+        Session::flash('success', 'Update berhasil, mohon menunggu admin untuk melakukan approval.');
+        return redirect()->route('profile.index', $id);
+    }
+
+    public function updatePassword(Request $request, $id) {
+        $rules = [
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        ];
+
+        $customMessages = [
+            'required' => 'Kolom :attribute tidak boleh kosong.',
+            'confirmed' => 'Kolom :attribute tidak sesuai dengan re-type password.',
+        ];
+
+        $this->validate($request, $rules, $customMessages);
+
+        $model = User::find($id);
+        $model->password = Hash::make($request->password);
+        $model->save();
+
+        Session::flash('success', 'Update password berhasil.');
+        return redirect()->route('profile.index', $id);
     }
 
     public function match(Request $request, $id) {

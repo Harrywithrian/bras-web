@@ -22,6 +22,7 @@ use App\Http\Controllers\Master\MMechanicalCourtController;
 use App\Http\Controllers\Master\MAppearanceController;
 
 use App\Http\Controllers\Transaksi\TApprovalController;
+use App\Http\Controllers\Transaksi\TApprovalUpdateController;
 use App\Http\Controllers\Transaksi\TEventController;
 use App\Http\Controllers\Transaksi\TEventApprovalController;
 use App\Http\Controllers\Transaksi\TEventLetterController;
@@ -81,6 +82,10 @@ Route::middleware('auth')->group(function () {
     Route::prefix('profile')->group(function () {
         Route::get('/index/{id}', [ProfileController::class, 'index'])->name('profile.index');
         Route::get('/match/{id}', [ProfileController::class, 'match'])->name('profile.match');
+        Route::get('/edit/{id}', [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::post('/update/{id}', [ProfileController::class, 'update'])->name('profile.update');
+        Route::post('/update-password/{id}', [ProfileController::class, 'updatePassword'])->name('profile.update-password');
+        Route::get('/download-lisensi/{id}', [ProfileController::class, 'downloadLisensi'])->name('profile.download-lisensi');
         Route::get('/show-match/{id}/{wasit}', [ProfileController::class, 'showMatch'])->name('profile.show-match');
         Route::post('/search-match', [ProfileController::class, 'searchMatch'])->name('profile.search-match');
         Route::get('/print-match/{id}/{wasit}', [ProfileController::class, 'printMatch'])->name('profile.print-match');
@@ -242,6 +247,16 @@ Route::middleware('auth')->group(function () {
         Route::post('/approve', [TApprovalController::class, 'approve'])->name('t-approval.approve');
         Route::post('/reject', [TApprovalController::class, 'reject'])->name('t-approval.reject');
         Route::get('/download-lisensi/{id}', [TApprovalController::class, 'downloadLisensi'])->name('t-approval.download-lisensi');
+    });
+
+    Route::prefix('t-approval-update')->group(function () {
+        Route::get('/index', [TApprovalUpdateController::class, 'index'])->name('t-approval-update.index');
+        Route::get('/get', [TApprovalUpdateController::class, 'get'])->name('t-approval-update.get');
+        Route::post('/search', [TApprovalUpdateController::class, 'search'])->name('t-approval-update.search');
+        Route::get('/show/{id}', [TApprovalUpdateController::class, 'show'])->name('t-approval-update.show');
+        Route::post('/approve', [TApprovalUpdateController::class, 'approve'])->name('t-approval-update.approve');
+        Route::post('/reject', [TApprovalUpdateController::class, 'reject'])->name('t-approval-update.reject');
+        Route::get('/download-lisensi/{id}', [TApprovalUpdateController::class, 'downloadLisensi'])->name('t-approval-update.download-lisensi');
     });
 
     Route::prefix('t-event')->group(function () {

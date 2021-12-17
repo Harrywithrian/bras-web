@@ -40,8 +40,8 @@
 
     <!--begin::Menu item-->
     <div class="menu-item px-5 my-1">
-        <a href="{{ theme()->getPageUrl('settings.index') }}" class="menu-link px-5">
-            {{ __('Account Settings') }}
+        <a href="{{ route('profile.edit', \Illuminate\Support\Facades\Auth::id()) }}" class="menu-link px-5">
+            {{ __('Profile Settings') }}
         </a>
     </div>
     <!--end::Menu item-->
