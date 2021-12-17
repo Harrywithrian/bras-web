@@ -71,12 +71,12 @@
 
         <!--begin::View more-->
         <?php if ($logs) { ?>
-            <div class="py-3 text-center border-top">
+            {{-- <div class="py-3 text-center border-top">
                 <a href="{{ theme()->getPageUrl('pages/profile/activity') }}" class="btn btn-color-gray-600 btn-active-color-primary">
                     View All
                     {!! theme()->getSvgIcon("icons/duotune/arrows/arr064.svg", "svg-icon-5") !!}
                 </a>
-            </div>
+            </div> --}}
         <?php } else { ?>
             <h3 class="text-gray-500" style="margin-top:-10px !important; margin-bottom:20px !important;"><center>Tidak Ada Notifikasi</center></h3>
         <?php } ?>
