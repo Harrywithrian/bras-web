@@ -31,7 +31,7 @@
 
         <div class="card-body">
 
-            @if($event->status == 2)
+            @if($event->status != 2)
                 <a href="{{ route('appearance.edit', [$model->id, $modelWasit->id]) }}" class="btn btn-primary mb-5"> Update </a>
             @endif
             <a href="{{ route('t-match.show', $model->id) }}" class="btn btn-secondary mb-5"> Kembali </a>

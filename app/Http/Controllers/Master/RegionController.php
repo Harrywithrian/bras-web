@@ -13,7 +13,10 @@ use Carbon\Carbon;
 class RegionController extends Controller
 {
     public function index() {
-        return view('master.region.index');
+        $role = UserInfo::where('user_id', '=', Auth::id())->first();
+        return view('master.region.index', [
+            'role' => $role
+        ]);
     }
 
     public function get(Request $request) {

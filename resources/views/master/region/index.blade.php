@@ -19,7 +19,9 @@
             <div class="row">
                 <div class="col-12">
                     <div class="float-end mb-5">
-                        <a class="btn btn-xs btn-primary" href="{{ route('region.create') }}"> Tambah data </a>
+                            @if($role == 1 || $role == 2 || Auth::id() == 1)
+                                <a class="btn btn-xs btn-primary" href="{{ route('region.create') }}"> Tambah data </a>
+                            @endif
                     </div>
                 </div>
             </div>

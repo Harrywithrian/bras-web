@@ -20,13 +20,15 @@
 
         <div class="card-body">
 
-            <a href="{{ route('region.edit', $model->id) }}" class="btn btn-warning"> Edit </a>
-            @if($model->status == 1)
-                <button class="btn btn-danger" id="switchStatus" data-toogle="inactive" data-id="{{ $model->id }}" onClick="aktif(event)"> Inactive </button>
-            @else
-                <button class="btn btn-success" id="switchStatus" data-toogle="active" data-id="{{ $model->id }}" onClick="aktif(event)"> Active </button>
+            @if($role == 1 || $role == 2 || Auth::id() == 1)
+                <a href="{{ route('region.edit', $model->id) }}" class="btn btn-warning"> Edit </a>
+                @if($model->status == 1)
+                    <button class="btn btn-danger" id="switchStatus" data-toogle="inactive" data-id="{{ $model->id }}" onClick="aktif(event)"> Inactive </button>
+                @else
+                    <button class="btn btn-success" id="switchStatus" data-toogle="active" data-id="{{ $model->id }}" onClick="aktif(event)"> Active </button>
+                @endif
+                <button class="btn btn-danger" id="delete" data-id="{{ $model->id }}" onClick="hapus(event)"> Delete </button>
             @endif
-            <button class="btn btn-danger" id="delete" data-id="{{ $model->id }}" onClick="hapus(event)"> Delete </button>
             <a href="{{ route('region.index') }}" class="btn btn-secondary"> Kembali </a>
 
             <br><br>
