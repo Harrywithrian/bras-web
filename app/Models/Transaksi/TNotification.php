@@ -24,4 +24,49 @@ class TNotification extends Model
         'createdby',
         'createdon',
     ];
+
+    // relation
+    /**
+     * Notification relation to event
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function event()
+    {
+        return $this->belongsTo(TEvent::class, 'id_event_match', 'id');
+    }
+
+    /**
+     * Notification relation to match
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function match()
+    {
+        return $this->belongsTo(TMatch::class, 'id_event_match', 'id');
+    }
+
+    /**
+     * Notification relation to match
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function scopeDescription($query)
+    {
+
+        $isMatch = $query->select('type')->first();
+        // dd($isMatch->type);
+        return $query
+            ->when($isMatch->type === '1', function ($q) {
+                // return event
+                return $q->with('event');
+            }, function ($q) {
+                // return match
+                return $q->with('match');
+            });
+        // ->when($this->type == 2, function ($q) {
+        //     // return match
+        //     return $q->with('match');
+        // });
+    }
 }

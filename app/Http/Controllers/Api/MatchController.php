@@ -53,6 +53,53 @@ class MatchController extends Controller
         ], 200);
     }
 
+    // match
+    public function match($id)
+    {
+        $user = JWTAuth::parseToken()->authenticate();
+
+        $match = TMatch::with([
+            'referees' => function ($query) {
+                return $query->select(['id', 'id_t_match', 'posisi', 'wasit']);
+            },
+            'referees.user' => function ($query) {
+                return $query->select(['id', 'name']);
+            },
+            'referees.user.info' => function ($query) {
+                return $query->select(['id', 'user_id', 'id_t_file_foto']);
+            },
+            'referees.user.info.filePhoto' => function ($query) {
+                return $query->select(['id']);
+            },
+            'event' => function ($query) {
+                return $query->select(['id', 'nama', 'deskripsi', 'tanggal_mulai', 'tanggal_selesai']);
+            },
+            'location' => function ($query) {
+                return $query->select(['id', 'nama', 'id_m_region', 'alamat', 'telepon', 'email']);
+            },
+            'location.region' => function ($query) {
+                return $query->select(['id', 'region']);
+            },
+        ])->whereHas('referees', function ($query) use ($user) {
+            return $query->where('wasit', $user->id);
+        })
+            ->where('id', $id)
+            // ->where('status', 0)
+            // ->orderBy('waktu_pertandingan', 'ASC')
+            ->first(['id', 'id_t_event', 'id_m_location', 'nama', 'waktu_pertandingan']);
+
+        // foreach ($matches as $match) {
+            foreach ($match->referees as $referee) {
+                $referee->user->info->filePhoto['path'] = $referee->user->info->getAvatarUrlAttribute();
+            }
+        // }
+
+        return response()->json([
+            'statusCode' => 200,
+            'message' => $match
+        ], 200);
+    }
+
     public function upcomingMatch()
     {
         $user = JWTAuth::parseToken()->authenticate();

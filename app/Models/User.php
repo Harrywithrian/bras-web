@@ -6,6 +6,7 @@ use App\Core\Traits\SpatieLogsActivity;
 use App\Models\Transaksi\TMatch;
 use App\Models\Transaksi\TMatchEvaluation;
 use App\Models\Transaksi\TMatchReferee;
+use App\Models\Transaksi\TNotification;
 use App\Models\Transaksi\TPlayCalling;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -103,6 +104,16 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject
     public function playCalling()
     {
         return $this->hasMany(TPlayCalling::class, 'referee', 'id');
+    }
+
+    /**
+     * User relation to play calling model
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function notification()
+    {
+        return $this->hasMany(TNotification::class, 'user', 'id');
     }
 
     /**

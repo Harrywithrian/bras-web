@@ -37,9 +37,14 @@ Route::prefix('auth')->group(function () {
 });
 
 Route::middleware(['jwt.verify'])->group(function () {
+    Route::prefix('logout')->group(function () {
+        Route::get('/', [AuthController::class, 'logout'])->name('auth.logout');
+    });
+
     // assignment
     Route::prefix('assignment')->group(function () {
         Route::get('/', [AssignmentController::class, 'assignments'])->name('assignment');
+        Route::get('/search/{id}', [AssignmentController::class, 'assignment'])->name('assignment.search.id');
     });
 
     // game
@@ -52,6 +57,7 @@ Route::middleware(['jwt.verify'])->group(function () {
         Route::get('/', [MatchController::class, 'matches'])->name('match');
         Route::get('/upcoming', [MatchController::class, 'upcomingMatch'])->name('match.upcoming');
         Route::get('/history', [MatchController::class, 'historyMatch'])->name('match.history');
+        Route::get('/search/{id}', [MatchController::class, 'match'])->name('match.search.id');
     });
 
     // notification
