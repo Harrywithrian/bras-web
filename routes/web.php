@@ -63,6 +63,22 @@ use App\Http\Controllers\Transaksi\TNotifikasiController;
 //});
 
 Route::middleware('auth')->group(function () {
+    Route::get('storage/profile/{foldername}/{filename}', function ($foldername, $filename){
+        $path = storage_path('app/public/profile/' .$foldername . '/' . $filename);
+    
+        if (!File::exists($path)) {
+            abort(404);
+        }
+                        
+        $file = File::get($path);
+        $type = File::mimeType($path);
+                                
+        $response = Response::make($file, 200);
+        $response->header("Content-Type", $type);
+                                        
+        return $response;
+    });
+    
     Route::get('/', [IndexController::class, 'index'])->name('index');
 
     // Account pages

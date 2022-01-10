@@ -374,10 +374,9 @@ class TEventLetterController extends Controller
         }
 
         if ($to) {
-            $to = ['hry.andrian@gmail.com'];
-            Mail::send('transaksi.t-event-letter.mail', $data, function ($message) use ($to, $data, $pdf) {
+            Mail::send('mail.event-notification', $data, function ($message) use ($to, $data, $pdf) {
                 $message->to($to)
-                    ->subject('Surat Tugas')
+                    ->subject('Surat Tugas/Tembusan')
                     ->attachData($pdf->output(), 'surat_undangan.pdf');
             });
         }

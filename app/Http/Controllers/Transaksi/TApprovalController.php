@@ -185,7 +185,7 @@ class TApprovalController extends Controller
                             'status' => 'Approved'
                         ];
 
-                        Mail::send('transaksi.t-approval.mail', $data, function ($message) use ($to, $data) {
+                        Mail::send('mail.approve-user', $data, function ($message) use ($to, $data) {
                             $message->to($to)
                                 ->subject('Approval Akun IBR');
                         });
@@ -260,9 +260,9 @@ class TApprovalController extends Controller
             'status' => 'Rejected'
         ];
 
-        Mail::send('transaksi.t-approval.mail', $data, function ($message) use ($to, $data) {
+        Mail::send('mail.approve-user', $data, function ($message) use ($to, $data) {
             $message->to($to)
-                ->subject('Approval Akun IBR');
+                ->subject('Approval Akun User');
         });
 
         return response()->json([

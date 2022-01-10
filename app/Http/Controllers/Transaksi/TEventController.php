@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Transaksi;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
+use App\Models\UserInfo;
 use App\Models\Transaksi\TEvent;
 use App\Models\Transaksi\TEventContact;
 use App\Models\Transaksi\TEventLocation;
@@ -16,6 +18,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Mail;
 
 class TEventController extends Controller
 {
@@ -291,6 +294,8 @@ class TEventController extends Controller
                     $k++;
                 }
 
+                $this->send();
+
                 DB::commit();
                 Session::flash('success', 'Event berhasil dibuat.');
                 return redirect(route('t-event.show', $model->id));
@@ -302,6 +307,23 @@ class TEventController extends Controller
             DB::rollBack();
             Session::flash('error', $e->getMessage());
             return redirect()->route('t-event.create');
+        }
+    }
+
+    public function send() {
+        $user = User::select('name', 'email')->leftJoin('user_infos','user_infos.user_id', '=', 'users.id')->where('role', '=', 3)->where('status', '!=', 0)->get()->toArray();
+        if ($user) {
+            foreach ($user as $item) {
+                $to   = $item['email'];
+                $data = [
+                    'nama' => $item['name']
+                ];
+
+                Mail::send('mail.event-approval', $data, function ($message) use ($to, $data) {
+                    $message->to($to)
+                        ->subject('Approval Penugasan Wasit');
+                });
+            }
         }
     }
 

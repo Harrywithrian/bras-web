@@ -33,13 +33,11 @@
           <span class="fs-5tx" id="timer-display"> --:-- </span>
         </div>
         <div class="d-flex justify-content-center hide-content" style="gap: 20px;" id="timer-control">
-          <div class="btn btn-white btn-icon" id="timer-start"> <i class="fas fa-play-circle fs-2tx"></i> </div>
-          <div class="btn btn-white btn-icon" id="timer-pause"> <i class="fas fa-pause-circle fs-2tx"></i> </div>
-          <div class="btn btn-white btn-icon" id="timer-stop"> <i class="fas fa-stop-circle fs-2tx"></i> </div>
+          <div class="btn btn-white btn-icon" id="timer-start"> <i class="fas fa-play-circle fs-2tx" style="color: #009EF7 !important"></i> </div>
+          <div class="btn btn-white btn-icon" id="timer-pause"> <i class="fas fa-pause-circle fs-2tx" style="color: #009EF7 !important"></i> </div>
+          <div class="btn btn-white btn-icon" id="timer-stop"> <i class="fas fa-stop-circle fs-2tx" style="color: #009EF7 !important"></i> </div>
         </div>
       </div>
-
-
 
       <!-- referee -->
       <div class="d-flex flex-column flex-lg-row my-10" style="gap: 20px;">
@@ -98,7 +96,7 @@
 
 
       <div class="d-grid my-5">
-        <div class="btn btn-light-primary hide-content" id="add-play-calling"> Tambah </div>
+        <div class="btn btn-primary hide-content" id="add-play-calling"> Tambah </div>
       </div>
 
       <!-- table -->
@@ -135,7 +133,7 @@
       </form>
 
       <div class="d-grid my-5">
-        <div class="btn btn-light-primary" id="submit-play-calling"> Simpan </div>
+        <div class="btn btn-primary" id="submit-play-calling"> Simpan </div>
       </div>
 
 
