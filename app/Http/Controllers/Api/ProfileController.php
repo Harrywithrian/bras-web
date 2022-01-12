@@ -26,60 +26,60 @@ class ProfileController extends Controller
         ], 200);
     }
 
-    // // profile avatar
-    // public function avatar($fileId)
-    // {
-    //     $file = TFile::select(['path'])->where('id', $fileId)->where('path', 'LIKE', '%foto%')->first();
+    // profile avatar
+    public function avatar($fileId)
+    {
+        $file = TFile::select(['path'])->where('id', $fileId)->where('path', 'LIKE', '%foto%')->first();
 
-    //     try {
-    //         $filePath = storage_path('app/public' . '/' . $file->path);
-    //         $file = File::get($filePath);
-    //         $fileType = File::mimeType($filePath);
+        try {
+            $filePath = storage_path('app/public' . '/' . $file->path);
+            $file = File::get($filePath);
+            $fileType = File::mimeType($filePath);
 
-    //         $response = Response::make($file, 200, [
-    //             'Content-Type' => $fileType
-    //         ]);
+            $response = Response::make($file, 200, [
+                'Content-Type' => $fileType
+            ]);
 
-    //         return $response;
-    //     } catch (\Throwable $th) {
-    //         return $this->defaultAvatar();
-    //     }
-    // }
+            return $response;
+        } catch (\Throwable $th) {
+            return $this->defaultAvatar();
+        }
+    }
 
-    // // profile license
-    // public function license($fileId)
-    // {
-    //     $file = TFile::select(['path'])->where('id', $fileId)->where('path', 'LIKE', '%lisensi%')->first();
+    // profile license
+    public function license($fileId)
+    {
+        $file = TFile::select(['path'])->where('id', $fileId)->where('path', 'LIKE', '%lisensi%')->first();
 
-    //     try {
-    //         $filePath = storage_path('app/public' . '/' . $file->path);
-    //         $file = File::get($filePath);
-    //         $fileType = File::mimeType($filePath);
+        try {
+            $filePath = storage_path('app/public' . '/' . $file->path);
+            $file = File::get($filePath);
+            $fileType = File::mimeType($filePath);
 
-    //         $response = Response::make($file, 200, [
-    //             'Content-Type' => $fileType
-    //         ]);
+            $response = Response::make($file, 200, [
+                'Content-Type' => $fileType
+            ]);
 
-    //         return $response;
-    //     } catch (\Throwable $th) {
-    //         return response()->json([
-    //             'statusCode' => 404,
-    //             'message' => 'Not found'
-    //         ], 404);
-    //     }
-    // }
+            return $response;
+        } catch (\Throwable $th) {
+            return response()->json([
+                'statusCode' => 404,
+                'message' => 'Not found'
+            ], 404);
+        }
+    }
 
-    // // default avatar
-    // public function defaultAvatar()
-    // {
-    //     $filePath = storage_path('app/public' . '/' . 'default-avatar.jpg');
-    //     $file = File::get($filePath);
-    //     $fileType = File::mimeType($filePath);
+    // default avatar
+    public function defaultAvatar()
+    {
+        $filePath = storage_path('app/public' . '/' . 'default-avatar.jpg');
+        $file = File::get($filePath);
+        $fileType = File::mimeType($filePath);
 
-    //     $response = Response::make($file, 200, [
-    //         'Content-Type' => $fileType
-    //     ]);
+        $response = Response::make($file, 200, [
+            'Content-Type' => $fileType
+        ]);
 
-    //     return $response;
-    // }
+        return $response;
+    }
 }

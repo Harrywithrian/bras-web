@@ -79,8 +79,8 @@ Route::middleware(['jwt.verify'])->group(function () {
     // profile
     Route::prefix('profile')->group(function () {
         Route::get('/', [ProfileController::class, 'profile'])->name('profile');
-        // Route::get('/avatar', [ProfileController::class, 'defaultAvatar'])->name('profile.avatar.default');
-        // Route::get('/avatar/{fileId}', [ProfileController::class, 'file'])->name('profile.avatar');
-        // Route::get('/license/{fileId}', [ProfileController::class, 'file'])->name('profile.license');
+        Route::get('/avatar', [ProfileController::class, 'defaultAvatar'])->name('profile.avatar.default');
+        Route::get('/avatar/{fileId}', [ProfileController::class, 'avatar'])->name('profile.avatar');
+        Route::get('/license/{fileId}', [ProfileController::class, 'license'])->name('profile.license');
     });
 });
