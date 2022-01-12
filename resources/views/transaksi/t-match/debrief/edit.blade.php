@@ -77,7 +77,10 @@
                 <div class="d-flex flex-column flex-lg-row" style="gap: 20px;">
                     <div class="flex-fill flex-column">
                         <h6>Call Analysis</h6>
-                        <?php $ca = \App\Models\Master\CallAnalysis::where('status', '=', 1)->whereNull('deletedon')->get()->toArray(); ?>
+                        @if($errors->has('call_analysis'))
+                            <span id="err_wasit1" class="text-danger">{{ $errors->first('call_analysis') }}</span>
+                        @endif
+                        <?php $ca = \App\Models\Master\CallAnalysis::where('status', '=', 1)->where('id', '!=', 4)->whereNull('deletedon')->get()->toArray(); ?>
                         <div data-kt-buttons="true">
                 
                             @foreach($ca as $item)

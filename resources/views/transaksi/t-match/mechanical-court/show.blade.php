@@ -13,6 +13,7 @@
     $title = 'Mechanical Court : ' . $modelWasit->name;
     $i     = 1;
     $arr   = array_merge(range('a', 'z'));
+    $penilaian = ['100' => 'Baik Sekali', '90' => 'Baik', '80' => 'Cukup', '70' => 'Kurang', '60' => 'Buruk'];
     ?>
 
     <ol class="breadcrumb text-muted fs-6 fw-bold mb-5">
@@ -31,7 +32,7 @@
 
         <div class="card-body">
             
-            @if($event->status != 2) {
+            @if($event->status != 2)
                 <a href="{{ route('mechanical-court.edit', [$model->id, $modelWasit->id]) }}" class="btn btn-primary mb-5"> Update </a>
             @endif
             <a href="{{ route('t-match.show', $model->id) }}" class="btn btn-secondary mb-5"> Kembali </a>
@@ -40,18 +41,13 @@
                 <tr>
                     <td width="3%"><b> No </b></td>
                     <td><b> Nama </b></td>
-                    <td width="10%"><b> Nilai </b></td>
-                    <td width="10%"><b> Rata-rata </b></td>
-                    <td width="10%"><b> Nilai Akhir </b></td>
+                    <td width="10%"><b> Penilaian </b></td>
                 </tr>
                 @if($mechanicalCourt)
                     @foreach($mechanicalCourt as $item)
                         <tr>
                             <td><b>{{ $i }}</b></td>
                             <td><b>{{ $item['nama'] }}</b></td>
-                            <td><b>{{ number_format($item['sum'],2,".","") }}</b></td>
-                            <td><b>{{ number_format($item['avg'],2,".","") }}</b></td>
-                            <td><b>{{ number_format($item['nilai'],2,".","") }}</b></td>
                         </tr>
                         <?php
                         $child = \App\Models\Transaksi\TMechanicalCourt::where('id_parent', '=', $item['id_m_mechanical_court'])
@@ -63,9 +59,7 @@
                                 <tr>
                                     <td></td>
                                     <td>{{ $arr[$j] }}. {{ $subitem['nama'] }}</td>
-                                    <td>{{ number_format($subitem['nilai'],0,".","") }}</td>
-                                    <td></td>
-                                    <td></td>
+                                    <td>{{ $penilaian[number_format($subitem['nilai'],0,".","")] }}</td>
                                 </tr>
                                 <?php $j++ ?>
                             @endforeach
@@ -74,9 +68,7 @@
                     @endforeach
                     <tr>
                         <td colspan="2"><b>{{ $total['nama'] }}</b></td>
-                        <td><b>{{ number_format($total['sum'],2,".","") }}</b></td>
-                        <td><b>{{ number_format($total['avg'],2,".","") }}</b></td>
-                        <td><b>{{ number_format($total['nilai'],2,".","") }}</b></td>
+                        <td><b>{{ number_format(($total['nilai'] / 100) * 25,3,".","") }}</b></td>
                     </tr>
                 @endif
             </table>

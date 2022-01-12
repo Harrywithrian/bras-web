@@ -61,7 +61,7 @@
                 <a href="{{ route('t-match.notes-evaluation', $model->id) }}" class="btn btn-primary"> Catatan Evaluasi </a>
             @endif
             @if ($model->status == 1)
-                    @if($playCalling1 && $gameManagement1 && $mechanicalCourt1 && $appearance1) 
+                    @if($playCalling1 && $gameManagement1 && $mechanicalCourt1 && $appearance1 && empty($debrief)) 
                         <a href="{{ route('t-match.done', $model->id) }}" class="btn btn-warning"> Pertandingan Selesai </a> 
                     @endif
             @endif

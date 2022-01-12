@@ -52,30 +52,35 @@ $aTotalWasit3 = \App\Models\Transaksi\TAppearance::where('id_t_match', '=', $mod
                         <tr>
                             <td width="3%"><b> No </b></td>
                             <td><b> Nama </b></td>
+                            <td width="10%"><b> Nilai </b></td>
                             <td width="10%"><b><center> Nilai Akhir </center></b></td>
                         </tr>
                         <tr>
                             <td width="3%">1</td>
                             <td> Play Calling </td>
+                            <td width="10%">{{ ($pcTotalWasit1) ? $pcTotalWasit1 : 'Belum Di nilai' }}</td>
                             <td width="10%"><center> {{ $evaluation1->play_calling }} </center></td>
                         </tr>
                         <tr>
                             <td width="3%">2</td>
                             <td> Game Management </td>
+                            <td width="10%">{{ ($gmTotalWasit1) ? $gmTotalWasit1->nilai : 'Belum Di nilai' ; }}</td>
                             <td width="10%"><center> {{ $evaluation1->game_management }} </center></td>
                         </tr>
                         <tr>
                             <td width="3%">3</td>
                             <td> Mechanical Court </td>
+                            <td width="10%">{{ ($mcTotalWasit1) ? $mcTotalWasit1->nilai : 'Belum Di nilai' ; }}</td>
                             <td width="10%"><center> {{ $evaluation1->mechanical_court }} </center></td>
                         </tr>
                         <tr>
                             <td width="3%">4</td>
                             <td> Appearance </td>
+                            <td width="10%">{{ ($aTotalWasit1) ? $aTotalWasit1->nilai : 'Belum Di nilai' ; }}</td>
                             <td width="10%"><center> {{ $evaluation1->appearance }} </center></td>
                         </tr>
                         <tr>
-                            <td colspan="2"><b> Score Akhir </b></td>
+                            <td colspan="3"><b> Score Akhir </b></td>
                             <td width="10%"><b><center> {{ $evaluation1->total_score }} </center></b></td>
                         </tr>
                     </table>
@@ -93,30 +98,35 @@ $aTotalWasit3 = \App\Models\Transaksi\TAppearance::where('id_t_match', '=', $mod
                         <tr>
                             <td width="3%"><b> No </b></td>
                             <td><b> Nama </b></td>
+                            <td width="10%"><b> Persentase </b></td>
                             <td width="10%"><b><center> Nilai Akhir </center></b></td>
                         </tr>
                         <tr>
                             <td width="3%">1</td>
                             <td> Play Calling </td>
+                            <td width="10%">{{ ($pcTotalWasit2) ? $pcTotalWasit2 : 'Belum Di nilai' }}</td>
                             <td width="10%"><center> {{ $evaluation2->play_calling }} </center></td>
                         </tr>
                         <tr>
                             <td width="3%">2</td>
                             <td> Game Management </td>
+                            <td width="10%">{{ ($gmTotalWasit2) ? $gmTotalWasit2->nilai : 'Belum Di nilai' ; }}</td>
                             <td width="10%"><center> {{ $evaluation2->game_management }} </center></td>
                         </tr>
                         <tr>
                             <td width="3%">3</td>
                             <td> Mechanical Court </td>
+                            <td width="10%">{{ ($mcTotalWasit2) ? $mcTotalWasit2->nilai : 'Belum Di nilai' ; }}</td>
                             <td width="10%"><center> {{ $evaluation2->mechanical_court }} </center></td>
                         </tr>
                         <tr>
                             <td width="3%">4</td>
                             <td> Appearance </td>
+                            <td width="10%">{{ ($aTotalWasit2) ? $aTotalWasit2->nilai : 'Belum Di nilai' ; }}</td>
                             <td width="10%"><center> {{ $evaluation2->appearance }} </center></td>
                         </tr>
                         <tr>
-                            <td colspan="2"><b> Score Akhir </b></td>
+                            <td colspan="3"><b> Score Akhir </b></td>
                             <td width="10%"><b><center> {{ $evaluation2->total_score }} </center></b></td>
                         </tr>
                     </table>
@@ -134,30 +144,35 @@ $aTotalWasit3 = \App\Models\Transaksi\TAppearance::where('id_t_match', '=', $mod
                         <tr>
                             <td width="3%"><b> No </b></td>
                             <td><b> Nama </b></td>
+                            <td width="10%"><b> Nilai </b></td>
                             <td width="10%"><b><center> Nilai Akhir </center></b></td>
                         </tr>
                         <tr>
                             <td width="3%">1</td>
                             <td> Play Calling </td>
+                            <td width="10%">{{ ($pcTotalWasit3) ? $pcTotalWasit3 : 'Belum Di nilai' }}</td>
                             <td width="10%"><center> {{ $evaluation3->play_calling }} </center></td>
                         </tr>
                         <tr>
                             <td width="3%">2</td>
                             <td> Game Management </td>
+                            <td width="10%">{{ ($gmTotalWasit3) ? $gmTotalWasit3->nilai : 'Belum Di nilai' ; }}</td>
                             <td width="10%"><center> {{ $evaluation3->game_management }} </center></td>
                         </tr>
                         <tr>
                             <td width="3%">3</td>
                             <td> Mechanical Court </td>
+                            <td width="10%">{{ ($mcTotalWasit3) ? $mcTotalWasit3->nilai : 'Belum Di nilai' ; }}</td>
                             <td width="10%"><center> {{ $evaluation3->mechanical_court }} </center></td>
                         </tr>
                         <tr>
                             <td width="3%">4</td>
                             <td> Appearance </td>
+                            <td width="10%">{{ ($aTotalWasit3) ? $aTotalWasit3->nilai : 'Belum Di nilai' ; }}</td>
                             <td width="10%"><center> {{ $evaluation3->appearance }} </center></td>
                         </tr>
                         <tr>
-                            <td colspan="2"><b> Score Akhir </b></td>
+                            <td colspan="3"><b> Score Akhir </b></td>
                             <td width="10%"><b><center> {{ $evaluation3->total_score }} </center></b></td>
                         </tr>
                     </table>

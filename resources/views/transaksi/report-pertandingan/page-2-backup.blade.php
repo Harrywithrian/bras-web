@@ -30,6 +30,7 @@ $wasit[$wst3->wasit] = \App\Models\Transaksi\TMatchReferee::where('id_t_match', 
         <td><b> Type </b></td>
         <td><b> Position </b></td>
         <td><b> Box </b></td>
+        <td><b> Score </b></td>
         <td><b> IOT </b></td>
     </tr>
     <?php $i = 1 ?>
@@ -49,6 +50,7 @@ $wasit[$wst3->wasit] = \App\Models\Transaksi\TMatchReferee::where('id_t_match', 
             <td @if ($count > 0) rowspan="{{ $count + 1 }}" @endif> {{ $pcItem['call_type'] }} </td>
             <td @if ($count > 0) rowspan="{{ $count + 1 }}" @endif> {{ $pcItem['position'] }} </td>
             <td @if ($count > 0) rowspan="{{ $count + 1 }}" @endif> {{ $pcItem['zone_box'] }} </td>
+            <td @if ($count > 0) rowspan="{{ $count + 1 }}" @endif> {{ $pcItem['score'] }} </td>
             @if ($iot)
                 @foreach($iot as $iotItem)
                     <tr>

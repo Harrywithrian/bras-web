@@ -26,7 +26,6 @@
 <body>
     <?php
     $arr = array_merge(range('a', 'z'));
-    $penilaian     = ['100' => 'Baik Sekali', '90' => 'Baik', '80' => 'Cukup', '70' => 'Kurang', '60' => 'Buruk'];
 
     $pcTotalWasit1 = \App\Models\Transaksi\TPlayCalling::where('id_t_match', '=', $id)->where('referee', '=', $wst1->wasit)->sum('score');
     $pcTotalWasit2 = \App\Models\Transaksi\TPlayCalling::where('id_t_match', '=', $id)->where('referee', '=', $wst2->wasit)->sum('score');
@@ -110,7 +109,7 @@
 
     <table>
         <tr>
-            <td colspan="3" style="vertical-align : middle;text-align:center;background-color:#42A5F5;"><center><b>Play Calling</b></center></td>
+            <td colspan="3"><center><b>Play Calling</b></center></td>
         </tr>
         <tr>
             <td> Crew Chief </td>
@@ -136,6 +135,7 @@
             <td><b> Type </b></td>
             <td><b> Position </b></td>
             <td><b> Box </b></td>
+            <td><b> Score </b></td>
             <td><b> IOT </b></td>
         </tr>
         <?php $i = 1 ?>
@@ -154,6 +154,7 @@
                 <td @if ($count > 0) rowspan="{{ $count }}" @endif> {{ $pcItem['call_type'] }} </td>
                 <td @if ($count > 0) rowspan="{{ $count }}" @endif> {{ $pcItem['position'] }} </td>
                 <td @if ($count > 0) rowspan="{{ $count }}" @endif> {{ $pcItem['zone_box'] }} </td>
+                <td @if ($count > 0) rowspan="{{ $count }}" @endif> {{ $pcItem['score'] }} </td>
             @if ($iot)
                 <td>{{ $iot[0]['iot_alias'] }}</td>
                 </tr>
@@ -174,12 +175,14 @@
 
     <table>
         <tr>
-            <td colspan="3" style="vertical-align : middle;text-align:center;background-color:#42A5F5;"><center><b>Game Management : {{ $wst1->name }} (Crew Chief)</b></center></td>
+            <td colspan="5"><center><b>Game Management : {{ $wst1->name }} (Crew Chief)</b></center></td>
         </tr>
         <tr>
             <td width="3%"><b> No </b></td>
             <td><b> Nama </b></td>
-            <td width="20%"><b> Penilaian </b></td>
+            <td width="10%"><b> Nilai </b></td>
+            <td width="10%"><b> Rata-rata </b></td>
+            <td width="10%"><b> Nilai Akhir </b></td>
         </tr>
         <?php
         $i = 1;
@@ -188,7 +191,10 @@
             @foreach($gmWasit1 as $pgm1)
                 <tr>
                     <td><b>{{ $i }}</b></td>
-                    <td colspan="2"><b>{{ $pgm1['nama'] }}</b></td>
+                    <td><b>{{ $pgm1['nama'] }}</b></td>
+                    <td><b>{{ number_format($pgm1['sum'],2,".","") }}</b></td>
+                    <td><b>{{ number_format($pgm1['avg'],2,".","") }}</b></td>
+                    <td><b>{{ number_format($pgm1['nilai'],2,".","") }}</b></td>
                 </tr>
                 <?php
                 $gmChildWasit1 = \App\Models\Transaksi\TGameManagement::where('id_parent', '=', $pgm1['id_m_game_management'])
@@ -200,7 +206,9 @@
                         <tr>
                             <td></td>
                             <td>{{ $arr[$j] }}. {{ $sgm1['nama'] }}</td>
-                            <td>{{ $penilaian[number_format($sgm1['nilai'],0,".","")] }}</td>
+                            <td>{{ number_format($sgm1['nilai'],0,".","") }}</td>
+                            <td></td>
+                            <td></td>
                         </tr>
                         <?php $j++; ?>
                     @endforeach
@@ -209,7 +217,9 @@
             @endforeach
             <tr>
                 <td colspan="2"><b>{{ $gmTotalWasit1['nama'] }}</b></td>
-                <td><b>{{ number_format(($gmTotalWasit1['nilai'] / 100) * 15,2,".","") }}</b></td>
+                <td><b>{{ number_format($gmTotalWasit1['sum'],2,".","") }}</b></td>
+                <td><b>{{ number_format($gmTotalWasit1['avg'],2,".","") }}</b></td>
+                <td><b>{{ number_format($gmTotalWasit1['nilai'],2,".","") }}</b></td>
             </tr>
         @endif
     </table>
@@ -218,12 +228,14 @@
 
     <table>
         <tr>
-            <td colspan="3" style="vertical-align : middle;text-align:center;background-color:#42A5F5;"><center><b>Game Management : {{ $wst2->name }} (Official 1)</b></center></td>
+            <td colspan="5"><center><b>Game Management : {{ $wst2->name }} (Official 1)</b></center></td>
         </tr>
         <tr>
             <td width="3%"><b> No </b></td>
             <td><b> Nama </b></td>
-            <td width="20%"><b> Penilaian </b></td>
+            <td width="10%"><b> Nilai </b></td>
+            <td width="10%"><b> Rata-rata </b></td>
+            <td width="10%"><b> Nilai Akhir </b></td>
         </tr>
         <?php
         $i = 1;
@@ -232,7 +244,10 @@
             @foreach($gmWasit2 as $pgm2)
                 <tr>
                     <td><b>{{ $i }}</b></td>
-                    <td colspan="2"><b>{{ $pgm2['nama'] }}</b></td>
+                    <td><b>{{ $pgm2['nama'] }}</b></td>
+                    <td><b>{{ number_format($pgm2['sum'],2,".","") }}</b></td>
+                    <td><b>{{ number_format($pgm2['avg'],2,".","") }}</b></td>
+                    <td><b>{{ number_format($pgm2['nilai'],2,".","") }}</b></td>
                 </tr>
                 <?php
                 $gmChildWasit2 = \App\Models\Transaksi\TGameManagement::where('id_parent', '=', $pgm2['id_m_game_management'])
@@ -244,7 +259,9 @@
                         <tr>
                             <td></td>
                             <td>{{ $arr[$j] }}. {{ $sgm2['nama'] }}</td>
-                            <td>{{ $penilaian[number_format($sgm2['nilai'],0,".","")] }}</td>
+                            <td>{{ number_format($sgm2['nilai'],0,".","") }}</td>
+                            <td></td>
+                            <td></td>
                         </tr>
                         <?php $j++; ?>
                     @endforeach
@@ -253,7 +270,9 @@
             @endforeach
             <tr>
                 <td colspan="2"><b>{{ $gmTotalWasit2['nama'] }}</b></td>
-                <td><b>{{ number_format(($gmTotalWasit2['nilai'] / 100) * 15,2,".","") }}</b></td>
+                <td><b>{{ number_format($gmTotalWasit2['sum'],2,".","") }}</b></td>
+                <td><b>{{ number_format($gmTotalWasit2['avg'],2,".","") }}</b></td>
+                <td><b>{{ number_format($gmTotalWasit2['nilai'],2,".","") }}</b></td>
             </tr>
         @endif
     </table>
@@ -262,12 +281,14 @@
 
     <table>
         <tr>
-            <td colspan="3" style="vertical-align : middle;text-align:center;background-color:#42A5F5;"><center><b>Game Management : {{ $wst3->name }} (Official 2)</b></center></td>
+            <td colspan="5"><center><b>Game Management : {{ $wst3->name }} (Official 2)</b></center></td>
         </tr>
         <tr>
             <td width="3%"><b> No </b></td>
             <td><b> Nama </b></td>
-            <td width="20%"><b> Penilaian </b></td>
+            <td width="10%"><b> Nilai </b></td>
+            <td width="10%"><b> Rata-rata </b></td>
+            <td width="10%"><b> Nilai Akhir </b></td>
         </tr>
         <?php
         $i = 1;
@@ -276,7 +297,10 @@
             @foreach($gmWasit3 as $pgm3)
                 <tr>
                     <td><b>{{ $i }}</b></td>
-                    <td colspan="2"><b>{{ $pgm3['nama'] }}</b></td>
+                    <td><b>{{ $pgm3['nama'] }}</b></td>
+                    <td><b>{{ number_format($pgm3['sum'],2,".","") }}</b></td>
+                    <td><b>{{ number_format($pgm3['avg'],2,".","") }}</b></td>
+                    <td><b>{{ number_format($pgm3['nilai'],2,".","") }}</b></td>
                 </tr>
                 <?php
                 $gmChildWasit3 = \App\Models\Transaksi\TGameManagement::where('id_parent', '=', $pgm3['id_m_game_management'])
@@ -288,7 +312,9 @@
                         <tr>
                             <td></td>
                             <td>{{ $arr[$j] }}. {{ $sgm3['nama'] }}</td>
-                            <td>{{ $penilaian[number_format($sgm3['nilai'],0,".","")] }}</td>
+                            <td>{{ number_format($sgm3['nilai'],0,".","") }}</td>
+                            <td></td>
+                            <td></td>
                         </tr>
                         <?php $j++; ?>
                     @endforeach
@@ -297,7 +323,9 @@
             @endforeach
             <tr>
                 <td colspan="2"><b>{{ $gmTotalWasit3['nama'] }}</b></td>
-                <td><b>{{ number_format(($gmTotalWasit3['nilai'] / 100) * 15,2,".","") }}</b></td>
+                <td><b>{{ number_format($gmTotalWasit3['sum'],2,".","") }}</b></td>
+                <td><b>{{ number_format($gmTotalWasit3['avg'],2,".","") }}</b></td>
+                <td><b>{{ number_format($gmTotalWasit3['nilai'],2,".","") }}</b></td>
             </tr>
         @endif
     </table>
@@ -306,12 +334,14 @@
 
     <table>
         <tr>
-            <td colspan="3" style="vertical-align : middle;text-align:center;background-color:#42A5F5;"><center><b>Mechanical Court : {{ $wst1->name }} (Crew Chief)</b></center></td>
+            <td colspan="5"><center><b>Mechanical Court : {{ $wst1->name }} (Crew Chief)</b></center></td>
         </tr>
         <tr>
             <td width="3%"><b> No </b></td>
             <td><b> Nama </b></td>
-            <td width="20%"><b> Penilaian </b></td>
+            <td width="10%"><b> Nilai </b></td>
+            <td width="10%"><b> Rata-rata </b></td>
+            <td width="10%"><b> Nilai Akhir </b></td>
         </tr>
         <?php
         $i = 1;
@@ -320,7 +350,10 @@
             @foreach($mcWasit1 as $pmc1)
                 <tr>
                     <td><b>{{ $i }}</b></td>
-                    <td colspan="2"><b>{{ $pmc1['nama'] }}</b></td>
+                    <td><b>{{ $pmc1['nama'] }}</b></td>
+                    <td><b>{{ number_format($pmc1['sum'],2,".","") }}</b></td>
+                    <td><b>{{ number_format($pmc1['avg'],2,".","") }}</b></td>
+                    <td><b>{{ number_format($pmc1['nilai'],2,".","") }}</b></td>
                 </tr>
                 <?php
                 $mcChildWasit1 = \App\Models\Transaksi\TMechanicalCourt::where('id_parent', '=', $pmc1['id_m_mechanical_court'])
@@ -332,7 +365,9 @@
                         <tr>
                             <td></td>
                             <td>{{ $arr[$j] }}. {{ $smc1['nama'] }}</td>
-                            <td>{{ $penilaian[number_format($smc1['nilai'],0,".","")] }}</td>
+                            <td>{{ number_format($smc1['nilai'],0,".","") }}</td>
+                            <td></td>
+                            <td></td>
                         </tr>
                         <?php $j++; ?>
                     @endforeach
@@ -341,7 +376,9 @@
             @endforeach
             <tr>
                 <td colspan="2"><b>{{ $mcTotalWasit1['nama'] }}</b></td>
-                <td><b>{{ number_format(($mcTotalWasit1['nilai'] / 100) * 25,2,".","") }}</b></td>
+                <td><b>{{ number_format($mcTotalWasit1['sum'],2,".","") }}</b></td>
+                <td><b>{{ number_format($mcTotalWasit1['avg'],2,".","") }}</b></td>
+                <td><b>{{ number_format($mcTotalWasit1['nilai'],2,".","") }}</b></td>
             </tr>
         @endif
     </table>
@@ -350,12 +387,14 @@
 
     <table>
         <tr>
-            <td colspan="3" style="vertical-align : middle;text-align:center;background-color:#42A5F5;"><center><b>Mechanical Court : {{ $wst2->name }} (Official 1)</b></center></td>
+            <td colspan="5"><center><b>Mechanical Court : {{ $wst2->name }} (Official 1)</b></center></td>
         </tr>
         <tr>
             <td width="3%"><b> No </b></td>
             <td><b> Nama </b></td>
-            <td width="20%"><b> Penilaian </b></td>
+            <td width="10%"><b> Nilai </b></td>
+            <td width="10%"><b> Rata-rata </b></td>
+            <td width="10%"><b> Nilai Akhir </b></td>
         </tr>
         <?php
         $i = 1;
@@ -364,7 +403,10 @@
             @foreach($mcWasit2 as $pmc2)
                 <tr>
                     <td><b>{{ $i }}</b></td>
-                    <td colspan="2"><b>{{ $pmc2['nama'] }}</b></td>
+                    <td><b>{{ $pmc2['nama'] }}</b></td>
+                    <td><b>{{ number_format($pmc2['sum'],2,".","") }}</b></td>
+                    <td><b>{{ number_format($pmc2['avg'],2,".","") }}</b></td>
+                    <td><b>{{ number_format($pmc2['nilai'],2,".","") }}</b></td>
                 </tr>
                 <?php
                 $mcChildWasit2 = \App\Models\Transaksi\TMechanicalCourt::where('id_parent', '=', $pmc2['id_m_mechanical_court'])
@@ -376,7 +418,9 @@
                         <tr>
                             <td></td>
                             <td>{{ $arr[$j] }}. {{ $smc2['nama'] }}</td>
-                            <td>{{ $penilaian[number_format($smc2['nilai'],0,".","")] }}</td>
+                            <td>{{ number_format($smc2['nilai'],0,".","") }}</td>
+                            <td></td>
+                            <td></td>
                         </tr>
                         <?php $j++; ?>
                     @endforeach
@@ -385,7 +429,9 @@
             @endforeach
             <tr>
                 <td colspan="2"><b>{{ $mcTotalWasit2['nama'] }}</b></td>
-                <td><b>{{ number_format(($mcTotalWasit2['nilai'] / 100) * 25,2,".","") }}</b></td>
+                <td><b>{{ number_format($mcTotalWasit2['sum'],2,".","") }}</b></td>
+                <td><b>{{ number_format($mcTotalWasit2['avg'],2,".","") }}</b></td>
+                <td><b>{{ number_format($mcTotalWasit2['nilai'],2,".","") }}</b></td>
             </tr>
         @endif
     </table>
@@ -394,12 +440,14 @@
 
     <table>
         <tr>
-            <td colspan="3" style="vertical-align : middle;text-align:center;background-color:#42A5F5;"><center><b>Mechanical Court : {{ $wst3->name }} (Official 2)</b></center></td>
+            <td colspan="5"><center><b>Mechanical Court : {{ $wst3->name }} (Official 2)</b></center></td>
         </tr>
         <tr>
             <td width="3%"><b> No </b></td>
             <td><b> Nama </b></td>
-            <td width="20%"><b> Penilaian </b></td>
+            <td width="10%"><b> Nilai </b></td>
+            <td width="10%"><b> Rata-rata </b></td>
+            <td width="10%"><b> Nilai Akhir </b></td>
         </tr>
         <?php
         $i = 1;
@@ -408,7 +456,10 @@
             @foreach($mcWasit3 as $pmc3)
                 <tr>
                     <td><b>{{ $i }}</b></td>
-                    <td colspan="2"><b>{{ $pmc3['nama'] }}</b></td>
+                    <td><b>{{ $pmc3['nama'] }}</b></td>
+                    <td><b>{{ number_format($pmc3['sum'],2,".","") }}</b></td>
+                    <td><b>{{ number_format($pmc3['avg'],2,".","") }}</b></td>
+                    <td><b>{{ number_format($pmc3['nilai'],2,".","") }}</b></td>
                 </tr>
                 <?php
                 $mcChildWasit3 = \App\Models\Transaksi\TMechanicalCourt::where('id_parent', '=', $pmc3['id_m_mechanical_court'])
@@ -420,7 +471,9 @@
                         <tr>
                             <td></td>
                             <td>{{ $arr[$j] }}. {{ $smc3['nama'] }}</td>
-                            <td>{{ $penilaian[number_format($smc3['nilai'],0,".","")] }}</td>
+                            <td>{{ number_format($smc3['nilai'],0,".","") }}</td>
+                            <td></td>
+                            <td></td>
                         </tr>
                         <?php $j++; ?>
                     @endforeach
@@ -429,7 +482,9 @@
             @endforeach
             <tr>
                 <td colspan="2"><b>{{ $mcTotalWasit3['nama'] }}</b></td>
-                <td><b>{{ number_format(($mcTotalWasit3['nilai'] / 100) * 25,2,".","") }}</b></td>
+                <td><b>{{ number_format($mcTotalWasit3['sum'],2,".","") }}</b></td>
+                <td><b>{{ number_format($mcTotalWasit3['avg'],2,".","") }}</b></td>
+                <td><b>{{ number_format($mcTotalWasit3['nilai'],2,".","") }}</b></td>
             </tr>
         @endif
     </table>
@@ -438,12 +493,14 @@
 
     <table>
         <tr>
-            <td colspan="3" style="vertical-align : middle;text-align:center;background-color:#42A5F5;"><center><b>Appearance : {{ $wst1->name }} (Crew Chief)</b></center></td>
+            <td colspan="5"><center><b>Appearance : {{ $wst1->name }} (Crew Chief)</b></center></td>
         </tr>
         <tr>
             <td width="3%"><b> No </b></td>
             <td><b> Nama </b></td>
-            <td width="20%"><b> Penilaian </b></td>
+            <td width="10%"><b> Nilai </b></td>
+            <td width="10%"><b> Rata-rata </b></td>
+            <td width="10%"><b> Nilai Akhir </b></td>
         </tr>
         <?php
         $i = 1;
@@ -452,7 +509,10 @@
             @foreach($aWasit1 as $pa1)
                 <tr>
                     <td><b>{{ $i }}</b></td>
-                    <td colspan="2"><b>{{ $pa1['nama'] }}</b></td>
+                    <td><b>{{ $pa1['nama'] }}</b></td>
+                    <td><b>{{ number_format($pa1['sum'],2,".","") }}</b></td>
+                    <td><b>{{ number_format($pa1['avg'],2,".","") }}</b></td>
+                    <td><b>{{ number_format($pa1['nilai'],2,".","") }}</b></td>
                 </tr>
                 <?php
                 $aChildWasit1 = \App\Models\Transaksi\TAppearance::where('id_parent', '=', $pa1['id_m_appearance'])
@@ -464,7 +524,9 @@
                         <tr>
                             <td></td>
                             <td>{{ $arr[$j] }}. {{ $sa1['nama'] }}</td>
-                            <td>{{ $penilaian[number_format($sa1['nilai'],0,".","")] }}</td>
+                            <td>{{ number_format($sa1['nilai'],0,".","") }}</td>
+                            <td></td>
+                            <td></td>
                         </tr>
                         <?php $j++; ?>
                     @endforeach
@@ -473,7 +535,9 @@
             @endforeach
             <tr>
                 <td colspan="2"><b>{{ $aTotalWasit1['nama'] }}</b></td>
-                <td><b>{{ number_format(($aTotalWasit1['nilai'] / 100) * 5,2,".","") }}</b></td>
+                <td><b>{{ number_format($aTotalWasit1['sum'],2,".","") }}</b></td>
+                <td><b>{{ number_format($aTotalWasit1['avg'],2,".","") }}</b></td>
+                <td><b>{{ number_format($aTotalWasit1['nilai'],2,".","") }}</b></td>
             </tr>
         @endif
     </table>
@@ -482,12 +546,14 @@
 
     <table>
         <tr>
-            <td colspan="3" style="vertical-align : middle;text-align:center;background-color:#42A5F5;"><center><b>Appearance : {{ $wst2->name }} (Official 1)</b></center></td>
+            <td colspan="5"><center><b>Appearance : {{ $wst2->name }} (Official 1)</b></center></td>
         </tr>
         <tr>
             <td width="3%"><b> No </b></td>
             <td><b> Nama </b></td>
-            <td width="20%"><b> Penilaian </b></td>
+            <td width="10%"><b> Nilai </b></td>
+            <td width="10%"><b> Rata-rata </b></td>
+            <td width="10%"><b> Nilai Akhir </b></td>
         </tr>
         <?php
         $i = 1;
@@ -496,7 +562,10 @@
             @foreach($aWasit2 as $pa2)
                 <tr>
                     <td><b>{{ $i }}</b></td>
-                    <td colspan="2"><b>{{ $pa2['nama'] }}</b></td>
+                    <td><b>{{ $pa2['nama'] }}</b></td>
+                    <td><b>{{ number_format($pa2['sum'],2,".","") }}</b></td>
+                    <td><b>{{ number_format($pa2['avg'],2,".","") }}</b></td>
+                    <td><b>{{ number_format($pa2['nilai'],2,".","") }}</b></td>
                 </tr>
                 <?php
                 $aChildWasit2 = \App\Models\Transaksi\TAppearance::where('id_parent', '=', $pa2['id_m_appearance'])
@@ -508,7 +577,9 @@
                         <tr>
                             <td></td>
                             <td>{{ $arr[$j] }}. {{ $sa2['nama'] }}</td>
-                            <td>{{ $penilaian[number_format($sa2['nilai'],0,".","")] }}</td>
+                            <td>{{ number_format($sa2['nilai'],0,".","") }}</td>
+                            <td></td>
+                            <td></td>
                         </tr>
                         <?php $j++; ?>
                     @endforeach
@@ -517,7 +588,9 @@
             @endforeach
             <tr>
                 <td colspan="2"><b>{{ $aTotalWasit2['nama'] }}</b></td>
-                <td><b>{{ number_format(($aTotalWasit2['nilai'] / 100) * 5,2,".","") }}</b></td>
+                <td><b>{{ number_format($aTotalWasit2['sum'],2,".","") }}</b></td>
+                <td><b>{{ number_format($aTotalWasit2['avg'],2,".","") }}</b></td>
+                <td><b>{{ number_format($aTotalWasit2['nilai'],2,".","") }}</b></td>
             </tr>
         @endif
     </table>
@@ -526,12 +599,14 @@
 
     <table>
         <tr>
-            <td colspan="3" style="vertical-align : middle;text-align:center;background-color:#42A5F5;"><center><b>Appearance : {{ $wst3->name }} (Official 2)</b></center></td>
+            <td colspan="5"><center><b>Appearance : {{ $wst3->name }} (Official 2)</b></center></td>
         </tr>
         <tr>
             <td width="3%"><b> No </b></td>
             <td><b> Nama </b></td>
-            <td width="20%"><b> Penilaian </b></td>
+            <td width="10%"><b> Nilai </b></td>
+            <td width="10%"><b> Rata-rata </b></td>
+            <td width="10%"><b> Nilai Akhir </b></td>
         </tr>
         <?php
         $i = 1;
@@ -540,7 +615,10 @@
             @foreach($aWasit3 as $pa3)
                 <tr>
                     <td><b>{{ $i }}</b></td>
-                    <td colspan="2"><b>{{ $pa3['nama'] }}</b></td>
+                    <td><b>{{ $pa3['nama'] }}</b></td>
+                    <td><b>{{ number_format($pa3['sum'],2,".","") }}</b></td>
+                    <td><b>{{ number_format($pa3['avg'],2,".","") }}</b></td>
+                    <td><b>{{ number_format($pa3['nilai'],2,".","") }}</b></td>
                 </tr>
                 <?php
                 $aChildWasit3 = \App\Models\Transaksi\TAppearance::where('id_parent', '=', $pa3['id_m_appearance'])
@@ -552,7 +630,9 @@
                         <tr>
                             <td></td>
                             <td>{{ $arr[$j] }}. {{ $sa3['nama'] }}</td>
-                            <td>{{ $penilaian[number_format($sa3['nilai'],0,".","")] }}</td>
+                            <td>{{ number_format($sa3['nilai'],0,".","") }}</td>
+                            <td></td>
+                            <td></td>
                         </tr>
                         <?php $j++; ?>
                     @endforeach
@@ -561,7 +641,9 @@
             @endforeach
             <tr>
                 <td colspan="2"><b>{{ $aTotalWasit3['nama'] }}</b></td>
-                <td><b>{{ number_format(($aTotalWasit3['nilai'] / 100) * 5,2,".","") }}</b></td>
+                <td><b>{{ number_format($aTotalWasit3['sum'],2,".","") }}</b></td>
+                <td><b>{{ number_format($aTotalWasit3['avg'],2,".","") }}</b></td>
+                <td><b>{{ number_format($aTotalWasit3['nilai'],2,".","") }}</b></td>
             </tr>
         @endif
     </table>
@@ -570,35 +652,40 @@
 
     <table>
         <tr>
-            <td colspan="3" style="vertical-align : middle;text-align:center;background-color:#42A5F5;"><center><b>Evaluasi : {{ $wst1->name }} (Chief Crew)</b></center></td>
+            <td colspan="4"><center><b>Evaluasi : {{ $wst1->name }} (Chief Crew)</b></center></td>
         </tr>
         <tr>
             <td width="3%"><b> No </b></td>
             <td><b> Nama </b></td>
+            <td width="10%"><b> Nilai </b></td>
             <td width="10%"><b><center> Nilai Akhir </center></b></td>
         </tr>
         <tr>
             <td width="3%">1</td>
             <td> Play Calling </td>
+            <td width="10%">{{ ($pcTotalWasit1) ? $pcTotalWasit1 : 'Belum Di nilai' }}</td>
             <td width="10%"><center> {{ $evaluation1->play_calling }} </center></td>
         </tr>
         <tr>
             <td width="3%">2</td>
             <td> Game Management </td>
+            <td width="10%">{{ ($gmTotalWasit1) ? $gmTotalWasit1->nilai : 'Belum Di nilai' ; }}</td>
             <td width="10%"><center> {{ $evaluation1->game_management }} </center></td>
         </tr>
         <tr>
             <td width="3%">3</td>
             <td> Mechanical Court </td>
+            <td width="10%">{{ ($mcTotalWasit1) ? $mcTotalWasit1->nilai : 'Belum Di nilai' ; }}</td>
             <td width="10%"><center> {{ $evaluation1->mechanical_court }} </center></td>
         </tr>
         <tr>
             <td width="3%">4</td>
             <td> Appearance </td>
+            <td width="10%">{{ ($aTotalWasit1) ? $aTotalWasit1->nilai : 'Belum Di nilai' ; }}</td>
             <td width="10%"><center> {{ $evaluation1->appearance }} </center></td>
         </tr>
         <tr>
-            <td colspan="2"><b> Score Akhir </b></td>
+            <td colspan="3"><b> Score Akhir </b></td>
             <td width="10%"><b><center> {{ $evaluation1->total_score }} </center></b></td>
         </tr>
     </table>
@@ -607,35 +694,40 @@
 
     <table>
         <tr>
-            <td colspan="3" style="vertical-align : middle;text-align:center;background-color:#42A5F5;"><center><b>Evaluasi : {{ $wst2->name }} (Official 1)</b></center></td>
+            <td colspan="4"><center><b>Evaluasi : {{ $wst2->name }} (Official 1)</b></center></td>
         </tr>
         <tr>
             <td width="3%"><b> No </b></td>
             <td><b> Nama </b></td>
+            <td width="10%"><b> Nilai </b></td>
             <td width="10%"><b><center> Nilai Akhir </center></b></td>
         </tr>
         <tr>
             <td width="3%">1</td>
             <td> Play Calling </td>
+            <td width="10%">{{ ($pcTotalWasit2) ? $pcTotalWasit2 : 'Belum Di nilai' }}</td>
             <td width="10%"><center> {{ $evaluation2->play_calling }} </center></td>
         </tr>
         <tr>
             <td width="3%">2</td>
             <td> Game Management </td>
+            <td width="10%">{{ ($gmTotalWasit2) ? $gmTotalWasit2->nilai : 'Belum Di nilai' ; }}</td>
             <td width="10%"><center> {{ $evaluation2->game_management }} </center></td>
         </tr>
         <tr>
             <td width="3%">3</td>
             <td> Mechanical Court </td>
+            <td width="10%">{{ ($mcTotalWasit2) ? $mcTotalWasit2->nilai : 'Belum Di nilai' ; }}</td>
             <td width="10%"><center> {{ $evaluation2->mechanical_court }} </center></td>
         </tr>
         <tr>
             <td width="3%">4</td>
             <td> Appearance </td>
+            <td width="10%">{{ ($aTotalWasit2) ? $aTotalWasit2->nilai : 'Belum Di nilai' ; }}</td>
             <td width="10%"><center> {{ $evaluation2->appearance }} </center></td>
         </tr>
         <tr>
-            <td colspan="2"><b> Score Akhir </b></td>
+            <td colspan="3"><b> Score Akhir </b></td>
             <td width="10%"><b><center> {{ $evaluation2->total_score }} </center></b></td>
         </tr>
     </table>
@@ -644,35 +736,40 @@
 
     <table>
         <tr>
-            <td colspan="3" style="vertical-align : middle;text-align:center;background-color:#42A5F5;"><center><b>Evaluasi : {{ $wst3->name }} (Official 2)</b></center></td>
+            <td colspan="4"><center><b>Evaluasi : {{ $wst3->name }} (Official 2)</b></center></td>
         </tr>
         <tr>
             <td width="3%"><b> No </b></td>
             <td><b> Nama </b></td>
+            <td width="10%"><b> Nilai </b></td>
             <td width="10%"><b><center> Nilai Akhir </center></b></td>
         </tr>
         <tr>
             <td width="3%">1</td>
             <td> Play Calling </td>
+            <td width="10%">{{ ($pcTotalWasit3) ? $pcTotalWasit3 : 'Belum Di nilai' }}</td>
             <td width="10%"><center> {{ $evaluation3->play_calling }} </center></td>
         </tr>
         <tr>
             <td width="3%">2</td>
             <td> Game Management </td>
+            <td width="10%">{{ ($gmTotalWasit3) ? $gmTotalWasit3->nilai : 'Belum Di nilai' ; }}</td>
             <td width="10%"><center> {{ $evaluation3->game_management }} </center></td>
         </tr>
         <tr>
             <td width="3%">3</td>
             <td> Mechanical Court </td>
+            <td width="10%">{{ ($mcTotalWasit3) ? $mcTotalWasit3->nilai : 'Belum Di nilai' ; }}</td>
             <td width="10%"><center> {{ $evaluation3->mechanical_court }} </center></td>
         </tr>
         <tr>
             <td width="3%">4</td>
             <td> Appearance </td>
+            <td width="10%">{{ ($aTotalWasit3) ? $aTotalWasit3->nilai : 'Belum Di nilai' ; }}</td>
             <td width="10%"><center> {{ $evaluation3->appearance }} </center></td>
         </tr>
         <tr>
-            <td colspan="2"><b> Score Akhir </b></td>
+            <td colspan="3"><b> Score Akhir </b></td>
             <td width="10%"><b><center> {{ $evaluation3->total_score }} </center></b></td>
         </tr>
     </table>
@@ -681,7 +778,7 @@
 
     <table width="100%">
         <tr>
-            <td style="vertical-align : middle;text-align:center;background-color:#42A5F5;"><center><b>Catatan Evaluasi</b></center></td>
+            <td><center><b>Catatan Evaluasi</b></center></td>
         </tr>
         <tr>
             <td><b>{{ $wst1->name }}</b></td>

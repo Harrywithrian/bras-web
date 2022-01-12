@@ -18,7 +18,6 @@ $mcTotalWasit2 = \App\Models\Transaksi\TMechanicalCourt::where('id_t_match', '='
 $mcTotalWasit3 = \App\Models\Transaksi\TMechanicalCourt::where('id_t_match', '=', $model->id)->where('referee', '=', $wst3->wasit)->where('level', '=', 3)->first();
 
 $arr           = array_merge(range('a', 'z'));
-$penilaian     = ['100' => 'Baik Sekali', '90' => 'Baik', '80' => 'Cukup', '70' => 'Kurang', '60' => 'Buruk'];
 ?>
 
 <div class="d-flex flex-column flex-md-row rounded border p-5">
@@ -43,7 +42,9 @@ $penilaian     = ['100' => 'Baik Sekali', '90' => 'Baik', '80' => 'Cukup', '70' 
                         <tr>
                             <td width="3%"><b> No </b></td>
                             <td><b> Nama </b></td>
-                            <td width="10%"><b> Penilaian </b></td>
+                            <td width="10%"><b> Nilai </b></td>
+                            <td width="10%"><b> Rata-rata </b></td>
+                            <td width="10%"><b> Nilai Akhir </b></td>
                         </tr>
                         <?php
                         $i = 1;
@@ -53,6 +54,9 @@ $penilaian     = ['100' => 'Baik Sekali', '90' => 'Baik', '80' => 'Cukup', '70' 
                                 <tr>
                                     <td><b>{{ $i }}</b></td>
                                     <td><b>{{ $pmc1['nama'] }}</b></td>
+                                    <td><b>{{ number_format($pmc1['sum'],2,".","") }}</b></td>
+                                    <td><b>{{ number_format($pmc1['avg'],2,".","") }}</b></td>
+                                    <td><b>{{ number_format($pmc1['nilai'],2,".","") }}</b></td>
                                 </tr>
                                 <?php
                                 $mcChildWasit1 = \App\Models\Transaksi\TMechanicalCourt::where('id_parent', '=', $pmc1['id_m_mechanical_court'])
@@ -64,7 +68,9 @@ $penilaian     = ['100' => 'Baik Sekali', '90' => 'Baik', '80' => 'Cukup', '70' 
                                         <tr>
                                             <td></td>
                                             <td>{{ $arr[$j] }}. {{ $smc1['nama'] }}</td>
-                                            <td>{{ $penilaian[number_format($smc1['nilai'],0,".","")] }}</td>
+                                            <td>{{ number_format($smc1['nilai'],0,".","") }}</td>
+                                            <td></td>
+                                            <td></td>
                                         </tr>
                                         <?php $j++; ?>
                                     @endforeach
@@ -73,7 +79,9 @@ $penilaian     = ['100' => 'Baik Sekali', '90' => 'Baik', '80' => 'Cukup', '70' 
                             @endforeach
                             <tr>
                                 <td colspan="2"><b>{{ $mcTotalWasit1['nama'] }}</b></td>
-                                <td><b>{{ number_format(($mcTotalWasit1['nilai'] / 100) * 25,3,".","") }}</b></td>
+                                <td><b>{{ number_format($mcTotalWasit1['sum'],2,".","") }}</b></td>
+                                <td><b>{{ number_format($mcTotalWasit1['avg'],2,".","") }}</b></td>
+                                <td><b>{{ number_format($mcTotalWasit1['nilai'],2,".","") }}</b></td>
                             </tr>
                         @endif
                     </table>
@@ -84,7 +92,9 @@ $penilaian     = ['100' => 'Baik Sekali', '90' => 'Baik', '80' => 'Cukup', '70' 
                         <tr>
                             <td width="3%"><b> No </b></td>
                             <td><b> Nama </b></td>
-                            <td width="10%"><b> Penilaian </b></td>
+                            <td width="10%"><b> Nilai </b></td>
+                            <td width="10%"><b> Rata-rata </b></td>
+                            <td width="10%"><b> Nilai Akhir </b></td>
                         </tr>
                         <?php
                         $i = 1;
@@ -94,6 +104,9 @@ $penilaian     = ['100' => 'Baik Sekali', '90' => 'Baik', '80' => 'Cukup', '70' 
                                 <tr>
                                     <td><b>{{ $i }}</b></td>
                                     <td><b>{{ $pmc2['nama'] }}</b></td>
+                                    <td><b>{{ number_format($pmc2['sum'],2,".","") }}</b></td>
+                                    <td><b>{{ number_format($pmc2['avg'],2,".","") }}</b></td>
+                                    <td><b>{{ number_format($pmc2['nilai'],2,".","") }}</b></td>
                                 </tr>
                                 <?php
                                 $mcChildWasit2 = \App\Models\Transaksi\TMechanicalCourt::where('id_parent', '=', $pmc2['id_m_mechanical_court'])
@@ -105,7 +118,9 @@ $penilaian     = ['100' => 'Baik Sekali', '90' => 'Baik', '80' => 'Cukup', '70' 
                                         <tr>
                                             <td></td>
                                             <td>{{ $arr[$j] }}. {{ $smc2['nama'] }}</td>
-                                            <td>{{ $penilaian[number_format($smc2['nilai'],0,".","")] }}</td>
+                                            <td>{{ number_format($smc2['nilai'],0,".","") }}</td>
+                                            <td></td>
+                                            <td></td>
                                         </tr>
                                         <?php $j++; ?>
                                     @endforeach
@@ -114,7 +129,9 @@ $penilaian     = ['100' => 'Baik Sekali', '90' => 'Baik', '80' => 'Cukup', '70' 
                             @endforeach
                             <tr>
                                 <td colspan="2"><b>{{ $mcTotalWasit2['nama'] }}</b></td>
-                                <td><b>{{ number_format(($mcTotalWasit2['nilai'] / 100) * 25,3,".","") }}</b></td>
+                                <td><b>{{ number_format($mcTotalWasit2['sum'],2,".","") }}</b></td>
+                                <td><b>{{ number_format($mcTotalWasit2['avg'],2,".","") }}</b></td>
+                                <td><b>{{ number_format($mcTotalWasit2['nilai'],2,".","") }}</b></td>
                             </tr>
                         @endif
                     </table>
@@ -125,7 +142,9 @@ $penilaian     = ['100' => 'Baik Sekali', '90' => 'Baik', '80' => 'Cukup', '70' 
                         <tr>
                             <td width="3%"><b> No </b></td>
                             <td><b> Nama </b></td>
-                            <td width="10%"><b> Penilaian </b></td>
+                            <td width="10%"><b> Nilai </b></td>
+                            <td width="10%"><b> Rata-rata </b></td>
+                            <td width="10%"><b> Nilai Akhir </b></td>
                         </tr>
                         <?php
                         $i = 1;
@@ -135,6 +154,9 @@ $penilaian     = ['100' => 'Baik Sekali', '90' => 'Baik', '80' => 'Cukup', '70' 
                                 <tr>
                                     <td><b>{{ $i }}</b></td>
                                     <td><b>{{ $pmc3['nama'] }}</b></td>
+                                    <td><b>{{ number_format($pmc3['sum'],2,".","") }}</b></td>
+                                    <td><b>{{ number_format($pmc3['avg'],2,".","") }}</b></td>
+                                    <td><b>{{ number_format($pmc3['nilai'],2,".","") }}</b></td>
                                 </tr>
                                 <?php
                                 $mcChildWasit3 = \App\Models\Transaksi\TMechanicalCourt::where('id_parent', '=', $pmc3['id_m_mechanical_court'])
@@ -146,7 +168,9 @@ $penilaian     = ['100' => 'Baik Sekali', '90' => 'Baik', '80' => 'Cukup', '70' 
                                         <tr>
                                             <td></td>
                                             <td>{{ $arr[$j] }}. {{ $smc3['nama'] }}</td>
-                                            <td>{{ $penilaian[number_format($smc3['nilai'],0,".","")] }}</td>
+                                            <td>{{ number_format($smc3['nilai'],0,".","") }}</td>
+                                            <td></td>
+                                            <td></td>
                                         </tr>
                                         <?php $j++; ?>
                                     @endforeach
@@ -155,7 +179,9 @@ $penilaian     = ['100' => 'Baik Sekali', '90' => 'Baik', '80' => 'Cukup', '70' 
                             @endforeach
                             <tr>
                                 <td colspan="2"><b>{{ $mcTotalWasit3['nama'] }}</b></td>
-                                <td><b>{{ number_format(($mcTotalWasit3['nilai'] / 100) * 25,3,".","") }}</b></td>
+                                <td><b>{{ number_format($mcTotalWasit3['sum'],2,".","") }}</b></td>
+                                <td><b>{{ number_format($mcTotalWasit3['avg'],2,".","") }}</b></td>
+                                <td><b>{{ number_format($mcTotalWasit3['nilai'],2,".","") }}</b></td>
                             </tr>
                         @endif
                     </table>

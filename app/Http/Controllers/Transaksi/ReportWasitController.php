@@ -117,7 +117,7 @@ class ReportWasitController extends Controller
                 ->leftJoin('t_event', 't_event.id', '=', 't_match.id_t_event')
                 ->leftJoin('t_match_referee', 't_match.id', '=', 't_match_referee.id_t_match')
                 ->where('t_match_referee.wasit', '=', $id)
-                ->where('t_event.status', '=', 2)
+                // ->where('t_event.status', '=', 2)
                 ->get();
 
             return $this->dataTableMatch($data);
@@ -137,8 +137,8 @@ class ReportWasitController extends Controller
         ])->leftJoin('m_location', 'm_location.id', '=', 't_match.id_m_location')
             ->leftJoin('t_event', 't_event.id', '=', 't_match.id_t_event')
             ->leftJoin('t_match_referee', 't_match.id', '=', 't_match_referee.id_t_match')
-            ->where('t_match_referee.wasit', '=', $request->wasit)
-            ->where('t_event.status', '=', 2);
+            ->where('t_match_referee.wasit', '=', $request->wasit);
+            // ->where('t_event.status', '=', 2);
 
         if ($request->nama != '') {
             $data->where('t_match.nama','LIKE','%'.$request->nama.'%');

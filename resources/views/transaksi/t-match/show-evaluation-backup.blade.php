@@ -37,30 +37,35 @@
                 <tr>
                     <td width="3%"><b> No </b></td>
                     <td><b> Nama </b></td>
+                    <td width="10%"><b> Nilai </b></td>
                     <td width="10%"><b><center> Nilai Akhir </center></b></td>
                 </tr>
                 <tr>
                     <td width="3%">1</td>
                     <td> Play Calling </td>
+                    <td width="10%">{{ $tPlayCalling }}</td>
                     <td width="10%"><center> {{ $evaluation->play_calling }} </center></td>
                 </tr>
                 <tr>
                     <td width="3%">2</td>
                     <td> Game Management </td>
+                    <td width="10%">{{ ($gameManagement) ? $gameManagement->nilai : 'Belum Di nilai' ; }}</td>
                     <td width="10%"><center> {{ $evaluation->game_management }} </center></td>
                 </tr>
                 <tr>
                     <td width="3%">3</td>
                     <td> Mechanical Court </td>
+                    <td width="10%">{{ ($mechanicalCourt) ? $mechanicalCourt->nilai : 'Belum Di nilai' ; }}</td>
                     <td width="10%"><center> {{ $evaluation->mechanical_court }} </center></td>
                 </tr>
                 <tr>
                     <td width="3%">4</td>
                     <td> Appearance </td>
+                    <td width="10%">{{ ($appearance) ? $appearance->nilai : 'Belum Di nilai' ; }}</td>
                     <td width="10%"><center> {{ $evaluation->appearance }} </center></td>
                 </tr>
                 <tr>
-                    <td colspan="2"><b> Score Akhir </b></td>
+                    <td colspan="3"><b> Score Akhir </b></td>
                     <td width="10%"><b><center> {{ $evaluation->total_score }} </center></b></td>
                 </tr>
             </table>

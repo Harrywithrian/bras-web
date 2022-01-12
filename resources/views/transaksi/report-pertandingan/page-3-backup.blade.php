@@ -18,7 +18,6 @@ $gmTotalWasit2 = \App\Models\Transaksi\TGameManagement::where('id_t_match', '=',
 $gmTotalWasit3 = \App\Models\Transaksi\TGameManagement::where('id_t_match', '=', $model->id)->where('referee', '=', $wst3->wasit)->where('level', '=', 3)->first();
 
 $arr           = array_merge(range('a', 'z'));
-$penilaian     = ['100' => 'Baik Sekali', '90' => 'Baik', '80' => 'Cukup', '70' => 'Kurang', '60' => 'Buruk'];
 ?>
 
 <div class="d-flex flex-column flex-md-row rounded border p-5">
@@ -43,7 +42,9 @@ $penilaian     = ['100' => 'Baik Sekali', '90' => 'Baik', '80' => 'Cukup', '70' 
                         <tr>
                             <td width="3%"><b> No </b></td>
                             <td><b> Nama </b></td>
-                            <td width="10%"><b> Penilaian </b></td>
+                            <td width="10%"><b> Nilai </b></td>
+                            <td width="10%"><b> Rata-rata </b></td>
+                            <td width="10%"><b> Nilai Akhir </b></td>
                         </tr>
                         <?php
                             $i = 1;
@@ -53,6 +54,9 @@ $penilaian     = ['100' => 'Baik Sekali', '90' => 'Baik', '80' => 'Cukup', '70' 
                                 <tr>
                                     <td><b>{{ $i }}</b></td>
                                     <td><b>{{ $pgm1['nama'] }}</b></td>
+                                    <td><b>{{ number_format($pgm1['sum'],2,".","") }}</b></td>
+                                    <td><b>{{ number_format($pgm1['avg'],2,".","") }}</b></td>
+                                    <td><b>{{ number_format($pgm1['nilai'],2,".","") }}</b></td>
                                 </tr>
                                 <?php
                                 $gmChildWasit1 = \App\Models\Transaksi\TGameManagement::where('id_parent', '=', $pgm1['id_m_game_management'])
@@ -64,7 +68,9 @@ $penilaian     = ['100' => 'Baik Sekali', '90' => 'Baik', '80' => 'Cukup', '70' 
                                         <tr>
                                             <td></td>
                                             <td>{{ $arr[$j] }}. {{ $sgm1['nama'] }}</td>
-                                            <td>{{ $penilaian[number_format($sgm1['nilai'],0,".","")] }}</td>
+                                            <td>{{ number_format($sgm1['nilai'],0,".","") }}</td>
+                                            <td></td>
+                                            <td></td>
                                         </tr>
                                         <?php $j++; ?>
                                     @endforeach
@@ -73,7 +79,9 @@ $penilaian     = ['100' => 'Baik Sekali', '90' => 'Baik', '80' => 'Cukup', '70' 
                             @endforeach
                             <tr>
                                 <td colspan="2"><b>{{ $gmTotalWasit1['nama'] }}</b></td>
-                                <td><b>{{ number_format(($gmTotalWasit1['nilai'] / 100) * 15,3,".","") }}</b></td>
+                                <td><b>{{ number_format($gmTotalWasit1['sum'],2,".","") }}</b></td>
+                                <td><b>{{ number_format($gmTotalWasit1['avg'],2,".","") }}</b></td>
+                                <td><b>{{ number_format($gmTotalWasit1['nilai'],2,".","") }}</b></td>
                             </tr>
                         @endif
                     </table>
@@ -84,7 +92,9 @@ $penilaian     = ['100' => 'Baik Sekali', '90' => 'Baik', '80' => 'Cukup', '70' 
                         <tr>
                             <td width="3%"><b> No </b></td>
                             <td><b> Nama </b></td>
-                            <td width="10%"><b> Penilaian </b></td>
+                            <td width="10%"><b> Nilai </b></td>
+                            <td width="10%"><b> Rata-rata </b></td>
+                            <td width="10%"><b> Nilai Akhir </b></td>
                         </tr>
                         <?php
                         $i = 1;
@@ -94,6 +104,9 @@ $penilaian     = ['100' => 'Baik Sekali', '90' => 'Baik', '80' => 'Cukup', '70' 
                                 <tr>
                                     <td><b>{{ $i }}</b></td>
                                     <td><b>{{ $pgm2['nama'] }}</b></td>
+                                    <td><b>{{ number_format($pgm2['sum'],2,".","") }}</b></td>
+                                    <td><b>{{ number_format($pgm2['avg'],2,".","") }}</b></td>
+                                    <td><b>{{ number_format($pgm2['nilai'],2,".","") }}</b></td>
                                 </tr>
                                 <?php
                                 $gmChildWasit2 = \App\Models\Transaksi\TGameManagement::where('id_parent', '=', $pgm2['id_m_game_management'])
@@ -105,7 +118,9 @@ $penilaian     = ['100' => 'Baik Sekali', '90' => 'Baik', '80' => 'Cukup', '70' 
                                         <tr>
                                             <td></td>
                                             <td>{{ $arr[$j] }}. {{ $sgm2['nama'] }}</td>
-                                            <td>{{ $penilaian[number_format($sgm2['nilai'],0,".","")] }}</td>
+                                            <td>{{ number_format($sgm2['nilai'],0,".","") }}</td>
+                                            <td></td>
+                                            <td></td>
                                         </tr>
                                         <?php $j++; ?>
                                     @endforeach
@@ -114,7 +129,9 @@ $penilaian     = ['100' => 'Baik Sekali', '90' => 'Baik', '80' => 'Cukup', '70' 
                             @endforeach
                             <tr>
                                 <td colspan="2"><b>{{ $gmTotalWasit2['nama'] }}</b></td>
-                                <td><b>{{ number_format(($gmTotalWasit2['nilai'] / 100) * 15,3,".","") }}</b></td>
+                                <td><b>{{ number_format($gmTotalWasit2['sum'],2,".","") }}</b></td>
+                                <td><b>{{ number_format($gmTotalWasit2['avg'],2,".","") }}</b></td>
+                                <td><b>{{ number_format($gmTotalWasit2['nilai'],2,".","") }}</b></td>
                             </tr>
                         @endif
                     </table>
@@ -125,13 +142,18 @@ $penilaian     = ['100' => 'Baik Sekali', '90' => 'Baik', '80' => 'Cukup', '70' 
                         <tr>
                             <td width="3%"><b> No </b></td>
                             <td><b> Nama </b></td>
-                            <td width="10%"><b> Penilaian </b></td>
+                            <td width="10%"><b> Nilai </b></td>
+                            <td width="10%"><b> Rata-rata </b></td>
+                            <td width="10%"><b> Nilai Akhir </b></td>
                         </tr>
                         @if($gmWasit3)
                             @foreach($gmWasit3 as $pgm3)
                                 <tr>
                                     <td><b>{{ $i }}</b></td>
                                     <td><b>{{ $pgm3['nama'] }}</b></td>
+                                    <td><b>{{ number_format($pgm3['sum'],2,".","") }}</b></td>
+                                    <td><b>{{ number_format($pgm3['avg'],2,".","") }}</b></td>
+                                    <td><b>{{ number_format($pgm3['nilai'],2,".","") }}</b></td>
                                 </tr>
                                 <?php
                                 $gmChildWasit3 = \App\Models\Transaksi\TGameManagement::where('id_parent', '=', $pgm3['id_m_game_management'])
@@ -143,7 +165,9 @@ $penilaian     = ['100' => 'Baik Sekali', '90' => 'Baik', '80' => 'Cukup', '70' 
                                         <tr>
                                             <td></td>
                                             <td>{{ $arr[$j] }}. {{ $sgm3['nama'] }}</td>
-                                            <td>{{ $penilaian[number_format($sgm3['nilai'],0,".","")] }}</td>
+                                            <td>{{ number_format($sgm3['nilai'],0,".","") }}</td>
+                                            <td></td>
+                                            <td></td>
                                         </tr>
                                         <?php $j++; ?>
                                     @endforeach
@@ -152,7 +176,9 @@ $penilaian     = ['100' => 'Baik Sekali', '90' => 'Baik', '80' => 'Cukup', '70' 
                             @endforeach
                             <tr>
                                 <td colspan="2"><b>{{ $gmTotalWasit3['nama'] }}</b></td>
-                                <td><b>{{ number_format(($gmTotalWasit3['nilai'] / 100) * 15,3,".","") }}</b></td>
+                                <td><b>{{ number_format($gmTotalWasit3['sum'],2,".","") }}</b></td>
+                                <td><b>{{ number_format($gmTotalWasit3['avg'],2,".","") }}</b></td>
+                                <td><b>{{ number_format($gmTotalWasit3['nilai'],2,".","") }}</b></td>
                             </tr>
                         @endif
                     </table>

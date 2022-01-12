@@ -13,7 +13,6 @@
     $title = 'Appearance : ' . $modelWasit->name;
     $i     = 1;
     $arr   = array_merge(range('a', 'z'));
-    $penilaian = ['100' => 'Baik Sekali', '90' => 'Baik', '80' => 'Cukup', '70' => 'Kurang', '60' => 'Buruk'];
     ?>
 
     <ol class="breadcrumb text-muted fs-6 fw-bold mb-5">
@@ -41,13 +40,18 @@
                 <tr>
                     <td width="3%"><b> No </b></td>
                     <td><b> Nama </b></td>
-                    <td width="10%"><b> Penilaian </b></td>
+                    <td width="10%"><b> Nilai </b></td>
+                    <td width="10%"><b> Rata-rata </b></td>
+                    <td width="10%"><b> Nilai Akhir </b></td>
                 </tr>
                 @if($appearance)
                     @foreach($appearance as $item)
                         <tr>
                             <td><b>{{ $i }}</b></td>
                             <td><b>{{ $item['nama'] }}</b></td>
+                            <td><b>{{ number_format($item['sum'],2,".","") }}</b></td>
+                            <td><b>{{ number_format($item['avg'],2,".","") }}</b></td>
+                            <td><b>{{ number_format($item['nilai'],2,".","") }}</b></td>
                         </tr>
                         <?php
                         $child = \App\Models\Transaksi\TAppearance::where('id_parent', '=', $item['id_m_appearance'])
@@ -59,7 +63,9 @@
                                 <tr>
                                     <td></td>
                                     <td>{{ $arr[$j] }}. {{ $subitem['nama'] }}</td>
-                                    <td>{{ $penilaian[number_format($subitem['nilai'],0,".","")] }}</td>
+                                    <td>{{ number_format($subitem['nilai'],0,".","") }}</td>
+                                    <td></td>
+                                    <td></td>
                                 </tr>
                                 <?php $j++ ?>
                             @endforeach
@@ -68,7 +74,9 @@
                     @endforeach
                     <tr>
                         <td colspan="2"><b>{{ $total['nama'] }}</b></td>
-                        <td><b>{{ number_format(($total['nilai'] / 100) * 5,3,".","") }}</b></td>
+                        <td><b>{{ number_format($total['sum'],2,".","") }}</b></td>
+                        <td><b>{{ number_format($total['avg'],2,".","") }}</b></td>
+                        <td><b>{{ number_format($total['nilai'],2,".","") }}</b></td>
                     </tr>
                 @endif
             </table>
