@@ -27,6 +27,7 @@ use App\Http\Controllers\Transaksi\TEventController;
 use App\Http\Controllers\Transaksi\TEventApprovalController;
 use App\Http\Controllers\Transaksi\TEventLetterController;
 use App\Http\Controllers\Transaksi\TMatchController;
+use App\Http\Controllers\Transaksi\TDebriefController;
 use App\Http\Controllers\Transaksi\TPlayCallingController;
 use App\Http\Controllers\Transaksi\TGameManagementController;
 use App\Http\Controllers\Transaksi\TMechanicalCourtController;
@@ -331,6 +332,12 @@ Route::middleware('auth')->group(function () {
         Route::post('/{id}/play-calling/evaluation', [TPlayCallingController::class, 'store'])->name('t-match.play-calling.store');
         Route::get('/{id}/play-calling/{referee}/summary', [TPlayCallingController::class, 'summary'])->name('t-match.play-calling.summary');
         Route::get('/{id}/play-calling/{referee}/evaluation', [TPlayCallingController::class, 'edit'])->name('t-match.play-calling.edit');
+    });
+
+    Route::prefix('debrief')->group(function () {
+        Route::get('/index/{match}', [TDebriefController::class, 'index'])->name('debrief.index');
+        Route::get('/edit/{id}', [TDebriefController::class, 'edit'])->name('debrief.edit');
+        Route::post('/update/{id}', [TDebriefController::class, 'update'])->name('debrief.update');
     });
 
     Route::prefix('game-management')->group(function () {

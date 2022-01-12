@@ -80,6 +80,8 @@ class TPlayCalling extends Model
 
         // sumup play calling score, get average
         $score = TPlayCalling::select(['score'])->where('id_t_match', $id_t_match)->where('referee', $referee)->get()->sum('score');
+        $total = TPlayCalling::where('id_t_match', $id_t_match)->where('referee', $referee)->count();
+        $total = $total * 5;
 
         // dd($evaluation);
         if (!$evaluation) {
@@ -92,10 +94,10 @@ class TPlayCalling extends Model
         }
 
         // update
-        $evaluation->play_calling = $score * (55 / 100);
+        $evaluation->play_calling = ($score / $total) * 55;
         $evaluation->total_score  = $evaluation->play_calling + $evaluation->game_management + $evaluation->mechanical_court + $evaluation->appearance;
-        $evaluation->modifiedby  = Auth::id();
-        $evaluation->modifiedon = Carbon::now();
+        $evaluation->modifiedby   = Auth::id();
+        $evaluation->modifiedon   = Carbon::now();
 
         return $evaluation->save();
     }

@@ -29,6 +29,8 @@
     $evaluation3 = \App\Models\Transaksi\TMatchEvaluation::where('id_t_match', '=', $model->id)->where('referee', '=', $wst3->id)->first();
 
     $user = \App\Models\UserInfo::where('user_id', '=', \Illuminate\Support\Facades\Auth::id())->first();
+
+    $debrief = \App\Models\Transaksi\TPlayCalling::where('id_t_match', '=', $model->id)->where('call_analysis_id', '=', 4)->first();
     ?>
 
     <ol class="breadcrumb text-muted fs-6 fw-bold mb-5">
@@ -48,6 +50,7 @@
 
             @if($user->role == 7)
                 @if(!$playCalling1) <a href="{{ route('t-match.play-calling.create', $model->id) }}" class="btn btn-primary"> Match Start </a> @endif
+                @if($debrief) <a href="{{ route('debrief.index', $model->id) }}" class="btn btn-primary"> Debrief </a> @endif
                 @if($model->status != 0)
                     @if(!$gameManagement1) <a href="{{ route('game-management.create', $model->id) }}" class="btn btn-primary"> game management </a> @endif
                     @if(!$mechanicalCourt1) <a href="{{ route('mechanical-court.create', $model->id) }}" class="btn btn-primary"> Mechanical Court </a> @endif
