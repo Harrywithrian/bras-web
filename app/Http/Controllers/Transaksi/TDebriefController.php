@@ -100,7 +100,7 @@ class TDebriefController extends Controller
             $evaluation->modifiedon   = Carbon::now();
             $evaluation->save();
 
-            $debrief = TPlayCalling::where('id_t_match', $playCalling->id_t_match)->where('referee', $playCalling->referee)->where('call_analysis', '=', 4)->first();
+            $debrief = TPlayCalling::where('id_t_match', $playCalling->id_t_match)->where('call_analysis', '=', 4)->first();
             if ($debrief) {
                 Session::flash('success', 'Debrief berhasil diubah.');
                 return redirect()->route('debrief.index', $playCalling->id_t_match);
