@@ -270,6 +270,6 @@ class ReportPertandinganController extends Controller
         ];
 
         $pdf = PDF::loadView('transaksi.report-pertandingan.cetak', $data)->setPaper('a4', 'potrait');
-        return $pdf->download('Report Wasit_' . $match->nama);
+        return $pdf->download('Report Wasit_' . $match->nama . '.pdf');
     }
 }

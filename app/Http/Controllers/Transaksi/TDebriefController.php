@@ -52,6 +52,7 @@ class TDebriefController extends Controller
         $mViolation    = Violation::find($request->violation);
         $mPos          = ['1' => 'Trail', '2' => 'Center', '3' => 'Lead'];
         $mZone         = ['1' => 'Zone 1', '2' => 'Zone 2', '3' => 'Zone 3', '4' => 'Zone 4', '5' => 'Zone 5', '6' => 'Zone 6'];
+        $IotTotal      = ($request->iot) ? count($request->iot) : 0 ;
 
         $playCalling = TPlayCalling::find($id);
         $playCalling->call_analysis_id = $request->call_analysis;
@@ -63,22 +64,24 @@ class TDebriefController extends Controller
         $playCalling->zone_box            = $mZone[$request->zone_box];
         $playCalling->call_type_id        = $request->violation;
         $playCalling->call_type           = $mViolation->violation;
-        $playCalling->score               = $mCallAnalysis->value - count($request->iot);
+        $playCalling->score               = $mCallAnalysis->value - $IotTotal;
         $playCalling->modifiedby          = Auth::id();
         $playCalling->modifiedon          = Carbon::now();
         if ($playCalling->save()) {
             TPlayCallingIot::where('id_t_play_calling', '=', $id)->delete();
-            foreach ($request->iot as $item) {
-                $mIot = Iot::find($item);
-
-                $pcIot = new TPlayCallingIot();
-                $pcIot->id_t_play_calling = $id;
-                $pcIot->iot_id            = $mIot->id;
-                $pcIot->iot_alias         = $mIot->alias;
-                $pcIot->iot               = $mIot->nama;
-                $pcIot->createdby         = Auth::id();
-                $pcIot->createdon         = Carbon::now();
-                $pcIot->save();
+            if ($request->iot) {
+                foreach ($request->iot as $item) {
+                    $mIot = Iot::find($item);
+    
+                    $pcIot = new TPlayCallingIot();
+                    $pcIot->id_t_play_calling = $id;
+                    $pcIot->iot_id            = $mIot->id;
+                    $pcIot->iot_alias         = $mIot->alias;
+                    $pcIot->iot               = $mIot->nama;
+                    $pcIot->createdby         = Auth::id();
+                    $pcIot->createdon         = Carbon::now();
+                    $pcIot->save();
+                }
             }
 
             $score = TPlayCalling::select(['score'])->where('id_t_match', $playCalling->id_t_match)->where('referee', $playCalling->referee)->get()->sum('score');
@@ -100,7 +103,7 @@ class TDebriefController extends Controller
             $evaluation->modifiedon   = Carbon::now();
             $evaluation->save();
 
-            $debrief = TPlayCalling::where('id_t_match', $playCalling->id_t_match)->where('call_analysis', '=', 4)->first();
+            $debrief = TPlayCalling::where('id_t_match', $playCalling->id_t_match)->where('call_analysis_id', '=', 4)->first();
             if ($debrief) {
                 Session::flash('success', 'Debrief berhasil diubah.');
                 return redirect()->route('debrief.index', $playCalling->id_t_match);

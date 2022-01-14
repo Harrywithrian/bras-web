@@ -353,7 +353,7 @@ class ProfileController extends Controller
         ];
 
         $pdf = \PDF::loadView('master.profile.cetak', $data)->setPaper('a4', 'landscape');
-        return $pdf->download('Report Pertandingan_' . $match->nama);
+        return $pdf->download('Report Pertandingan_' . $match->nama . '.pdf');
     }
 
     public function summary($match, $wst1, $wst2, $wst3) {

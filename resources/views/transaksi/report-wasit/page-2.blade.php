@@ -29,7 +29,7 @@ $wasit[$wst3->wasit] = \App\Models\Transaksi\TMatchReferee::where('id_t_match', 
         <td><b> Type </b></td>
         <td><b> Position </b></td>
         <td><b> Box </b></td>
-        <td><b> Score </b></td>
+        <td><b> IOT </b></td>
     </tr>
     <?php $i = 1 ?>
     @foreach($playCalling as $pcItem)

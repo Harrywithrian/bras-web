@@ -67,10 +67,10 @@ class PlayCalling {
       const message = "Error, pilih call type dahulu"
       validationErrorCallback(message)
     }
-    else if (!this.currentPlayCalling.playCalling.iot || this.currentPlayCalling.playCalling.iot.length == 0) {
-      const message = "Error, pilih iot terlebih dahulu"
-      validationErrorCallback(message)
-    }
+    // else if (!this.currentPlayCalling.playCalling.iot || this.currentPlayCalling.playCalling.iot.length == 0) {
+    //   const message = "Error, pilih iot terlebih dahulu"
+    //   validationErrorCallback(message)
+    // }
 
     // validation success
     if (
@@ -80,8 +80,9 @@ class PlayCalling {
       this.currentPlayCalling.playCalling.callAnalysis &&
       this.currentPlayCalling.playCalling.position &&
       this.currentPlayCalling.playCalling.zoneBox &&
-      this.currentPlayCalling.playCalling.callType &&
-      this.currentPlayCalling.playCalling.iot.length > 0
+      this.currentPlayCalling.playCalling.callType 
+      // &&
+      // this.currentPlayCalling.playCalling.iot.length > 0
     ) {
       // added on
       this.setAddedOn(Date.now())

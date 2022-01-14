@@ -284,6 +284,6 @@ class ReportWasitController extends Controller
         ];
 
         $pdf = PDF::loadView('transaksi.report-wasit.cetak', $data)->setPaper('a4', 'potrait');
-        return $pdf->download('Report Wasit_' . $match->name . '_' . $user->name);
+        return $pdf->download('Report Wasit_' . $match->name . '_' . $user->name . '.pdf');
     }
 }
