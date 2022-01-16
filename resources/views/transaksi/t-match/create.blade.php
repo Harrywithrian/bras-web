@@ -172,11 +172,13 @@
                     minDate: '{{ (date("Y-m-d H:i") > $event->tanggal_mulai) ? date("Y-m-d H:i") : date("Y-m-d H:i", strtotime($event->tanggal_mulai)) }}',
                     maxDate: '{{ date("Y-m-d H:i", strtotime($event->tanggal_selesai)) }}',
                     locale: {
-                        format:'Y-M-D hh:mm'
+                        format:'Y-M-D HH:mm'
                     }
                 });
 
-                $('#waktu').val('');
+                @if($errors->isEmpty())
+                    $('#waktu').val('');
+                @endif
 
                 // $("#waktu").on('apply.daterangepicker', function(ev, picker) {
                 //     $(this).val(picker.startDate.format('YYYY-MM-DD H:mm'));

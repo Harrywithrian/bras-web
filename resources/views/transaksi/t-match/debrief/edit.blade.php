@@ -128,7 +128,7 @@
 
                     <div class="flex-fill flex-column">
                         <h6>Zone Box</h6>
-                        <?php $zone = ['1' => 'Zone 1', '2' => 'Zone 2', '3' => 'Zone 3', '4' => 'Zone 4', '5' => 'Zone 5', '6' => 'Zone 6']; ?>
+                        <?php $zone = ['1' => 'Zone 1', '2' => 'Zone 2', '3' => 'Zone 3', '4' => 'Zone 4', '5' => 'Zone 5', '6' => 'Zone 6', '7' => 'Backcourt', '8' => 'Transisi']; ?>
                         <div data-kt-buttons="true">
                 
                             @foreach($zone as $key => $item)

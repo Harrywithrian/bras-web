@@ -27,6 +27,7 @@ class ZoneBox
     }, $zone_box, array_keys($zone_box));
 
     array_push($zone_box, new ZoneBox(7, 'Backcourt', 7));
+    array_push($zone_box, new ZoneBox(8, 'Transisi', 8));
 
     return $zone_box;
   }

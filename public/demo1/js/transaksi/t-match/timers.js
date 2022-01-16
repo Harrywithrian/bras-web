@@ -16,6 +16,7 @@ class Timer {
   time = null
   timeFormat = 'mm:ss'
   timer = null
+  timerIsRunning = false;
 
   constructor(duration, selector) {
     this.defaultDuration = duration
@@ -43,6 +44,7 @@ class Timer {
   }
 
   start() {
+    this.timerIsRunning = true;
     this.showPauseControl()
     var that = this
     this.timer = setInterval(function () {
@@ -58,6 +60,7 @@ class Timer {
   }
 
   stop() {
+    this.timerIsRunning = false;
     clearInterval(this.timer)
     // reset timer
     this.duration = this.defaultDuration
@@ -68,6 +71,7 @@ class Timer {
   }
 
   pause(callback) {
+    this.timerIsRunning = false;
     this.showStartControl()
     clearInterval(this.timer)
     callback({ duration: this.duration, time: this.time, formattedTime: this.time.format('mm:ss') })
@@ -111,5 +115,13 @@ class Timer {
     this.timeFormat = 'mm:ss'
     this.timer = null
     localStorage.setItem('quarter', null)
+  }
+
+  getTime() {
+    return { duration: this.duration, time: this.time, formattedTime: this.time.format('mm:ss') };
+  }
+
+  isRunning() {
+    return this.timerIsRunning;
   }
 }

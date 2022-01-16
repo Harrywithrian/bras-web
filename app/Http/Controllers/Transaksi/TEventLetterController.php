@@ -253,15 +253,15 @@ class TEventLetterController extends Controller
 
     public function send($id) {
         $letter   = TEventLetter::find($id);
-        $event    = TEvent::find($letter->id);
-        $participant = TEventParticipant::where('id_t_event', '=', $letter->id)->get()->toArray();
+        $event    = TEvent::find($letter->id_t_event);
+        $participant = TEventParticipant::where('id_t_event', '=', $letter->id_t_event)->get()->toArray();
         $to       = null;
         if ($participant) {
             foreach ($participant as $item) {
                 $notif = new TNotification();
                 $notif->user = $item['user'];
                 $notif->type = 1;
-                $notif->id_event_match = $letter->id;
+                $notif->id_event_match = $letter->id_t_event;
                 $notif->status         = 0;
                 $notif->createdby   = Auth::id();
                 $notif->createdon   = Carbon::now();

@@ -85,7 +85,7 @@ $(document).ready(() => {
 
   // evaluate value whenever violation click
   const pickPlayCall = () => {
-    const callAnalysis = $("input[type=radio][name=call_analysis]:checked").data('value')
+    // const callAnalysis = $("input[type=radio][name=call_analysis]:checked").data('value')
     const position = $("input[type=radio][name=position]:checked").data('value')
     const zoneBox = $("input[type=radio][name=zone_box]:checked").data('value')
     const callType = $("input[type=radio][name=call_type]:checked").data('value')
@@ -95,18 +95,34 @@ $(document).ready(() => {
     }).get()
     // console.log($("input[type=checkbox][name=iot]:checked").length)
 
-    playCalling.setCallAnalysis(callAnalysis)
+    // playCalling.setCallAnalysis(callAnalysis)
     playCalling.setPosition(position)
     playCalling.setZoneBox(zoneBox)
     playCalling.setCallType(callType)
     playCalling.setIot(iot)
   }
 
+  const pickCallAnalysis = () => {
+    const callAnalysis = $("input[type=radio][name=call_analysis]:checked").data('value')
+
+    if (callAnalysis.id == 3) {
+      if (!playCalling.getCurrentPlayCalling().time) {
+        playCalling.setTime(timer.getTime().formattedTime);
+      }
+    } else {
+      if (timer.isRunning()) {
+        playCalling.setTime(null);
+      }
+    }
+
+    playCalling.setCallAnalysis(callAnalysis)
+  }
+
   // referee picker handler
   $("input[type=radio][name=referee]").on("click", pickReferee)
 
   // violation picker handler
-  $("input[type=radio][name=call_analysis]").on("click", pickPlayCall)
+  $("input[type=radio][name=call_analysis]").on("click", pickCallAnalysis)
   $("input[type=radio][name=position]").on("click", pickPlayCall)
   $("input[type=radio][name=zone_box]").on("click", pickPlayCall)
   $("input[type=radio][name=call_type]").on("click", pickPlayCall)

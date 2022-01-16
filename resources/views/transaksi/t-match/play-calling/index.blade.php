@@ -158,9 +158,9 @@
   @section('scripts')
   <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.10.7/dayjs.min.js" integrity="sha512-bwD3VD/j6ypSSnyjuaURidZksoVx3L1RPvTkleC48SbHCZsemT3VKMD39KknPnH728LLXVMTisESIBOAb5/W0Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.10.7/plugin/duration.min.js" integrity="sha512-4/QKmrYrL+3JbEBiIxAUwlsjv1duqB5biE640aqvCJEqgTfyhmCA9WeqJmVfQdeh2hqK9+Fc9WFVpel4N2O/1g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <script src="{{asset('demo1/js/transaksi/t-match/play-calling.js')}}"></script>
-  <script src="{{asset('demo1/js/transaksi/t-match/timer.js')}}"></script>
-  <script src="{{asset('demo1/js/transaksi/t-match/index-play-calling.js')}}"></script>
+  <script src="{{asset('demo1/js/transaksi/t-match/play-callings.js')}}"></script>
+  <script src="{{asset('demo1/js/transaksi/t-match/timers.js')}}"></script>
+  <script src="{{asset('demo1/js/transaksi/t-match/index-play-callings.js')}}"></script>
   <script src="{{asset('demo1/plugins/custom/datatables/datatables.bundle.js')}}"></script>
   @endsection
 
