@@ -33,9 +33,11 @@
           <span class="fs-5tx" id="timer-display"> --:-- </span>
         </div>
         <div class="d-flex justify-content-center hide-content" style="gap: 20px;" id="timer-control">
+          <div class="btn btn-white btn-icon" id="timer-backward"> <i class="fas fa-backward fs-2tx" style="color: #009EF7 !important"></i> </div>
           <div class="btn btn-white btn-icon" id="timer-start"> <i class="fas fa-play-circle fs-2tx" style="color: #009EF7 !important"></i> </div>
           <div class="btn btn-white btn-icon" id="timer-pause"> <i class="fas fa-pause-circle fs-2tx" style="color: #009EF7 !important"></i> </div>
           <div class="btn btn-white btn-icon" id="timer-stop"> <i class="fas fa-stop-circle fs-2tx" style="color: #009EF7 !important"></i> </div>
+          <div class="btn btn-white btn-icon" id="timer-forward"> <i class="fas fa-forward fs-2tx" style="color: #009EF7 !important"></i> </div>
         </div>
       </div>
 
@@ -199,10 +201,10 @@
   @section('scripts')
   <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.10.7/dayjs.min.js" integrity="sha512-bwD3VD/j6ypSSnyjuaURidZksoVx3L1RPvTkleC48SbHCZsemT3VKMD39KknPnH728LLXVMTisESIBOAb5/W0Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.10.7/plugin/duration.min.js" integrity="sha512-4/QKmrYrL+3JbEBiIxAUwlsjv1duqB5biE640aqvCJEqgTfyhmCA9WeqJmVfQdeh2hqK9+Fc9WFVpel4N2O/1g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <script src="{{asset('demo1/js/transaksi/t-match/play-calling.js')}}"></script>
-  <script src="{{asset('demo1/js/transaksi/t-match/timer.js')}}"></script>
+  <script src="{{asset('demo1/js/transaksi/t-match/play-callings.js')}}"></script>
+  <script src="{{asset('demo1/js/transaksi/t-match/timers.js')}}"></script>
   <script src="{{asset('demo1/js/transaksi/t-match/quarter.js')}}"></script>
-  <script src="{{asset('demo1/js/transaksi/t-match/index-play-calling.js')}}"></script>
+  <script src="{{asset('demo1/js/transaksi/t-match/index-play-callings.js')}}"></script>
   <script src="{{asset('demo1/plugins/custom/datatables/datatables.bundle.js')}}"></script>
   @endsection
 

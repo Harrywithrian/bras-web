@@ -17,6 +17,7 @@ class Timer {
   timeFormat = 'mm:ss'
   timer = null
   timerIsRunning = false;
+  timeSkip = 15000;
 
   constructor(duration, selector) {
     this.defaultDuration = duration
@@ -52,9 +53,17 @@ class Timer {
       that.displayTime()
       that.duration = that.time.$d
       that.setLastDuration(that.duration)
+      console.log(that.time);
 
-      if (that.time.format(that.timeFormat) == '00:00') {
-        that.stop()
+      if (that.time.$d.minutes <= 0 && that.time.$d.seconds <= 0) {
+        that.pause(() => {
+          that.duration = {
+            seconds: 0,
+            minutes: 0
+          };
+          that.time = dayjs.duration(that.duration);
+          that.displayTime();
+        })
       }
     }, 1000)
   }
@@ -75,6 +84,38 @@ class Timer {
     this.showStartControl()
     clearInterval(this.timer)
     callback({ duration: this.duration, time: this.time, formattedTime: this.time.format('mm:ss') })
+  }
+
+  backward(callback) {
+    this.time = this.time.add(15, 'seconds');
+    this.duration = this.time.$d;
+
+    if (this.duration.minutes >= 10 && this.duration.seconds >= 0) {
+      this.duration = {
+        seconds: 0,
+        minutes: 10
+      };
+      this.time = dayjs.duration(this.duration)
+    }
+
+    this.displayTime();
+    callback({ duration: this.duration, time: this.time, formattedTime: this.time.format('mm:ss'), timerIsRunning:this.timerIsRunning })
+  }
+
+  forward(callback) {
+    this.time = this.time.subtract(15, 'seconds');
+    this.duration = this.time.$d;
+
+    if (this.duration.minutes <= 0 && this.duration.seconds <= 0) {
+      this.duration = {
+        seconds: 0,
+        minutes: 0
+      };
+      this.time = dayjs.duration(this.duration)
+    }
+    
+    this.displayTime();
+    callback({ duration: this.duration, time: this.time, formattedTime: this.time.format('mm:ss'), timerIsRunning:this.timerIsRunning })
   }
 
   setLastDuration() {

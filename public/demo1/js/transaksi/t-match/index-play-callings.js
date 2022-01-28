@@ -14,6 +14,8 @@ $(document).ready(() => {
     timerStart: $('#timer-start'),
     timerStop: $('#timer-stop'),
     timerPause: $('#timer-pause'),
+    timerBackward: $('#timer-backward'),
+    timerForward: $('#timer-forward'),
   }
 
   // init timer
@@ -32,6 +34,8 @@ $(document).ready(() => {
     $('#add-play-calling').addClass('show-content')
     $('#add-play-calling').removeClass('hide-content')
   }
+
+  playCalling.setTime(timer.getTime().formattedTime);
 
   // start timer
   $(document).on('click', '#timer-start', function () {
@@ -61,6 +65,24 @@ $(document).ready(() => {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
         timer.stop()
+      }
+    });
+  })
+
+  // backward
+  $(document).on('click', '#timer-backward', function () {
+    timer.backward((timerdata) => {
+      if (!timerdata.timerIsRunning) {
+        playCalling.setTime(timerdata.formattedTime)
+      }
+    });
+  })
+
+  // backward
+  $(document).on('click', '#timer-forward', function () {
+    timer.forward((timerdata) => {
+      if (!timerdata.timerIsRunning) {
+        playCalling.setTime(timerdata.formattedTime)
       }
     });
   })
@@ -138,7 +160,8 @@ $(document).ready(() => {
     $("input[type=checkbox][name=iot]:checked").prop("checked", false);
 
     playCalling.setReferee(null)
-    playCalling.setTime(null)
+    // playCalling.setTime(null)
+    playCalling.setTime(timer.getTime().formattedTime)
     playCalling.setCallAnalysis(null)
     playCalling.setPosition(null)
     playCalling.setZoneBox(null)
