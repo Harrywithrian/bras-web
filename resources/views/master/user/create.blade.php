@@ -1,17 +1,18 @@
 <x-base-layout>
     <?php
     $title = 'Tambah User';
-    $region  = \App\Models\Master\Region::where('status', '=', 1)->whereNull('deletedon')->get()->toArray();
+
+    $oldRole = (!empty(old('role'))) ? old('role') : [] ;
     ?>
 
     <ol class="breadcrumb text-muted fs-6 fw-bold mb-5">
         <li class="breadcrumb-item pe-3"><a href="{{ route('index') }}" class="pe-3"><i class="bi bi-house-door" style="margin-bottom:5px;"></i> Home</a></li>
-        <li class="breadcrumb-item pe-3"><a href="{{ route('m-user.index') }}" class="pe-3">User</a></li>
+        <li class="breadcrumb-item pe-3"><a href="{{ route('m-user.index') }}" class="pe-3">Manajemen User</a></li>
         <li class="breadcrumb-item px-3 text-muted">{{ $title }}</li>
     </ol>
 
     <div class="card shadow-sm">
-        <div class="card-header" style="background-color:#1e1e2d; color:white;">
+        <div class="card-header" style="background-color:#181C32;">
             <h3 class="card-title text-light"> {{ $title }} </h3>
         </div>
 
@@ -43,18 +44,16 @@
 
                 <div class="row mb-5">
                     <div class="col-md-6">
-                        <div class="form-group">
+                        <div class="form-group"> 
                             <label>Role</label>
-                            <select class="form-select form-control" data-control="select2" data-placeholder="Pilih Role ..." id="role" name="role">
+                            <select class="select2 form-select" multiple="multiple" id="role" name="role[]">
                                 <option value=""></option>
-                                    <option value="2" {{(old('role') == 2) ? 'selected' : ''}}>Admin</option>
-                                    <option value="3" {{(old('role') == 3) ? 'selected' : ''}}>Ketua Umum</option>
-                                    <option value="4" {{(old('role') == 4) ? 'selected' : ''}}>Pengurus Provinsi</option>
-                                    <option value="5" {{(old('role') == 5) ? 'selected' : ''}}>Komisi Teknik</option>
-                                    <option value="9" {{(old('role') == 9) ? 'selected' : ''}}>Admin Sekertariat</option>
+                                @foreach($role as $item)
+                                    <option value="{{ $item['id'] }}" @if(in_array($item['id'], $oldRole)) selected @endif>{{ $item['name'] }}</option>
+                                @endforeach
                             </select>
-                            @if($errors->has('provinsi'))
-                                <span id="err_provinsi" class="text-danger">{{ $errors->first('provinsi') }}</span>
+                            @if($errors->has('role'))
+                                <span id="err_role" class="text-danger">{{ $errors->first('role') }}</span>
                             @endif
                         </div>
                     </div>
@@ -115,7 +114,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>Provinsi</label>
-                            <select class="form-select form-control" data-control="select2" data-placeholder="Pilih Provinsi ..." id="provinsi" name="provinsi">
+                            <select class="form-select form-control" data-placeholder="Pilih Provinsi ..." id="provinsi" name="provinsi">
                                 <option value=""></option>
                                 @foreach($region as $item)
                                     <option value="{{ $item['id'] }}" {{(old('provinsi') == $item['id']) ? 'selected' : '';}}>{{ $item['region'] }}</option>
@@ -200,17 +199,42 @@
                 @endif
             });
 
+            $("#role").select2({
+                // the following code is used to disable x-scrollbar when click in select input and
+                // take 100% width in responsive also
+                placeholder: "Pilih ...",
+                multiple: true,
+                dropdownAutoWidth: true,
+                width: '100%'
+            });
+
+            $("#provinsi").select2({
+                // the following code is used to disable x-scrollbar when click in select input and
+                // take 100% width in responsive also
+                placeholder: "Pilih ...",
+                dropdownAutoWidth: true,
+                width: '100%'
+            });
+
             $("#tanggal_lahir").daterangepicker({
                 singleDatePicker: true,
                 showDropdowns: true,
                 autoUpdateInput: false,
+                autoApply: true,
                 locale: {
-                    cancelLabel: 'Clear'
-                }
+                    cancelLabel: 'Clear',
+                    format: "YYYY-MM-DD",
+                },
             });
 
             $("#tanggal_lahir").on('apply.daterangepicker', function(ev, picker) {
                 $(this).val(picker.startDate.format('YYYY-MM-DD'));
+            });
+
+            $('#tanggal_lahir').on('cancel.daterangepicker', function(ev, picker) {
+                $(this).val('')
+                picker.setStartDate({})
+                picker.setEndDate({})
             });
         </script>
     @endsection

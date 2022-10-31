@@ -25,31 +25,30 @@ class UserController extends Controller
 
     public function get(Request $request) {
         if ($request->ajax()) {
-            $data = User::select(['id', 'username', 'name', 'status'])
-                ->get();
+            $data = User::select(['id', 'username', 'name', 'status']);
+
+            if ($request->search != '') {
+                $data->where(function ($query) use ($request) {
+                    $query->where('username', 'LIKE', '%'.$request->search.'%')
+                          ->orWhere('name', 'LIKE', '%'.$request->search.'%');
+                });
+            }
+        
+            // if ($request->username != '') {
+            //     $data->where('username','LIKE','%'.$request->username.'%');
+            // }
+    
+            // if ($request->nama != '') {
+            //     $data->where('name','LIKE','%'.$request->nama.'%');
+            // }
+    
+            // if ($request->status != '') {
+            //     $data->where('status', '=', $request->status);
+            // }
 
             return $this->dataTable($data);
         }
         return null;
-    }
-
-    public function search(Request $request) {
-        $data = User::select(['id', 'username', 'name', 'status']);
-
-        if ($request->username != '') {
-            $data->where('username','LIKE','%'.$request->username.'%');
-        }
-
-        if ($request->nama != '') {
-            $data->where('name','LIKE','%'.$request->nama.'%');
-        }
-
-        if ($request->status != '') {
-            $data->where('status', '=', $request->status);
-        }
-
-        $data->get();
-        return $this->dataTable($data);
     }
 
     public function dataTable($data) {
@@ -78,7 +77,7 @@ class UserController extends Controller
 
         # KOLOM ACTION
         $dataTables = $dataTables->addColumn('action', function ($row) {
-            $view   = '<a class="btn btn-info" title="Show" style="padding:5px;" href="' . route('m-user.show', $row->id) . '"> &nbsp<i class="bi bi-eye"></i> </a>';
+            $view   = '<a class="btn btn-primary" title="Show" style="padding:5px;" href="' . route('m-user.show', $row->id) . '"> &nbsp<i class="bi bi-eye"></i> </a>';
             $button = $view;
 
             if ($row->id != 1) {
@@ -107,7 +106,14 @@ class UserController extends Controller
     public function show($id) {
         $model  = User::find($id);
         $detail = UserInfo::where('user_id', '=', $model->id)->first();
-        $role   = Role::find($detail->role);
+        $role = [];
+        $detailRole = explode(',', $detail->role);
+        foreach($detailRole as $item) {
+            $roles   = Role::find($item);
+            if ($roles) {
+                $role[]  = $roles->name;
+            }
+        }
         $provinsi = Region::find($detail->id_m_region);
         $foto   = TFile::find($detail->id_t_file_foto);
 
@@ -121,7 +127,12 @@ class UserController extends Controller
     }
 
     public function create() {
-        return view('master.user.create');
+        $role = Role::where('id', '!=', 1)->get()->toArray();
+        $region  = Region::where('status', '=', 1)->whereNull('deletedon')->get()->toArray();
+        return view('master.user.create',[
+            'role' => $role,
+            'region' => $region
+        ]);
     }
 
     public function store(Request $request) {
@@ -171,6 +182,14 @@ class UserController extends Controller
             $model->email_verified_at = Carbon::now();
             $model->password          = Hash::make($request->password);
             if ($model->save()) {
+                $textRole = '';
+                foreach($request->role as $item) {
+                    if($textRole == '') {
+                        $textRole = $item;
+                    } else {
+                        $textRole .= ',' . $item;
+                    }
+                }
                 $detail = new UserInfo();
                 $detail->user_id = $model->id;
                 $detail->tempat_lahir  = $request->tempat_lahir;
@@ -178,11 +197,12 @@ class UserController extends Controller
                 $detail->alamat        = $request->alamat;
                 $detail->id_m_region   = $request->provinsi;
                 $detail->id_t_file_foto = $modelFoto->id;
-                $detail->role           = $request->role;
+                $detail->role           = $textRole;
                 if ($detail->save()) {
-                    $role = Role::findById($detail->role);
-                    $model->assignRole($role->name);
-
+                    foreach($request->role as $item) {
+                        $role = Role::findById($item);
+                        $model->assignRole($role->name);
+                    }
                     DB::commit();
                     Session::flash('success', 'User Berhasil Dibuat.');
                     return redirect()->route('m-user.show', $model->id);
@@ -204,10 +224,15 @@ class UserController extends Controller
     public function edit($id) {
         $model = User::find($id);
         $detail = UserInfo::where('user_id', '=', $model->id)->first();
+        
+        $role = Role::where('id', '!=', 1)->get()->toArray();
+        $region  = Region::where('status', '=', 1)->whereNull('deletedon')->get()->toArray();
 
         return view('master.user.edit', [
             'model' => $model,
             'detail' => $detail,
+            'role' => $role,
+            'region' => $region
         ]);
     }
 
@@ -268,17 +293,31 @@ class UserController extends Controller
                 $detail = UserInfo::where('user_id', '=', $id)->first();
 
                 $old = $detail->role;
+                $textRole = '';
+                foreach($request->role as $item) {
+                    if($textRole == '') {
+                        $textRole = $item;
+                    } else {
+                        $textRole .= ',' . $item;
+                    }
+                }
 
                 $detail->tempat_lahir  = $request->tempat_lahir;
                 $detail->tanggal_lahir = $request->tanggal_lahir;
                 $detail->alamat        = $request->alamat;
                 $detail->id_m_region   = $request->provinsi;
                 $detail->id_t_file_foto = isset($modelFoto) ? $modelFoto->id: $detail->id_t_file_foto ;
-                $detail->role           = $request->role;
+                $detail->role           = $textRole;
                 if ($detail->save()) {
-                    $role = Role::findById($detail->role);
-                    $model->removeRole($old);
-                    $model->assignRole($role->name);
+                    $detailOldRole = explode(',', $old);
+                    foreach($detailOldRole as $item) {
+                        $role = Role::findById($item);
+                        $model->removeRole($role->name);
+                    }
+                    foreach($request->role as $item) {
+                        $role = Role::findById($item);
+                        $model->assignRole($role->name);
+                    }
 
                     DB::commit();
                     Session::flash('success', 'User Berhasil Diubah.');

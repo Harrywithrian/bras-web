@@ -20,7 +20,7 @@
     </ol>
 
     <div class="card shadow-sm">
-        <div class="card-header" style="background-color:#1e1e2d; color:white;">
+        <div class="card-header" style="background-color:#181C32;">
             <h3 class="card-title text-light"> {{ $title }} </h3>
         </div>
 
@@ -87,7 +87,11 @@
                         </tr>
                         <tr>
                             <td width="25%">Role</td>
-                            <td>{{ $role->name }}</td>
+                            <td>
+                                @foreach ($role as $item)
+                                    <span class='w-130px badge badge-primary'> {{ $item }} </span>
+                                @endforeach
+                            </td>
                         </tr>
                         <tr>
                             <td width="25%">Tempat, Tanggal Lahir</td>
@@ -125,6 +129,7 @@
     </div>
 
     @section('scripts')
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.js"></script>
         <script>
             $(document).ready( function() {
                 @if(\Illuminate\Support\Facades\Session::has('success'))
@@ -170,6 +175,7 @@
                     confirmButtonText: buttonName
                 }).then(function (result) {
                     if (result.value) {
+                        loadingScreen('Mohon Tunggu ...');
                         $.ajax({
                             url: '/m-user/status',
                             type: 'POST',
@@ -179,6 +185,7 @@
                             },
                             success: function (response) {
                                 if (response.status == 200) {
+                                    $.unblockUI();
                                     Swal.fire({
                                         icon: "success",
                                         title: response.header,
@@ -190,6 +197,7 @@
                                         }
                                     });
                                 } else {
+                                    $.unblockUI();
                                     Swal.fire({
                                         icon: "warning",
                                         title: response.header,
@@ -222,6 +230,7 @@
                     confirmButtonText: "Kunci"
                 }).then(function (result) {
                     if (result.value) {
+                        loadingScreen('Mohon Tunggu ...');
                         $.ajax({
                             url: '/m-user/lock',
                             type: 'POST',
@@ -231,6 +240,7 @@
                             },
                             success: function (response) {
                                 if (response.status == 200) {
+                                    $.unblockUI();
                                     Swal.fire({
                                         icon: "success",
                                         title: response.header,
@@ -242,6 +252,7 @@
                                         }
                                     });
                                 } else {
+                                    $.unblockUI();
                                     Swal.fire({
                                         icon: "warning",
                                         title: response.header,
@@ -254,6 +265,26 @@
                                 }
                             }
                         });
+                    }
+                });
+            }
+
+            function loadingScreen(msg) {
+                var $white = '#fff';
+                var src = $("#logo_ibr").attr('src');
+                src = src.replace("logo_dark", "logo");
+                $.blockUI({
+                    message: '<img src="' + src + '" style="height: 80px; width: auto"> <br><br> <h3>' + msg + '</h2>',
+                    timeout: 5000, //unblock after 5 seconds
+                    overlayCSS: {
+                        backgroundColor: $white,
+                        opacity: 0.8,
+                        cursor: 'wait'
+                    },
+                    css: {
+                        border: 0,
+                        padding: 0,
+                        backgroundColor: 'transparent'
                     }
                 });
             }

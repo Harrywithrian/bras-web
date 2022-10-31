@@ -111,8 +111,8 @@ Route::middleware('auth')->group(function () {
     Route::prefix('m-user')->group(function () {
         Route::get('/', [UserController::class, 'index'])->name('m-user.index');
         Route::get('/index', [UserController::class, 'index'])->name('m-user.index');
-        Route::get('/get', [UserController::class, 'get'])->name('m-user.get');
-        Route::post('/search', [UserController::class, 'search'])->name('m-user.search');
+        Route::post('/get', [UserController::class, 'get'])->name('m-user.get');
+        // Route::post('/search', [UserController::class, 'search'])->name('m-user.search');
         Route::get('/create', [UserController::class, 'create'])->name('m-user.create');
         Route::post('/store', [UserController::class, 'store'])->name('m-user.store');
         Route::get('/show/{id}', [UserController::class, 'show'])->name('m-user.show');

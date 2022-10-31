@@ -1,18 +1,26 @@
 <x-base-layout>
     <?php
     $title = 'Edit User : ' . $model->name;
-    $region  = \App\Models\Master\Region::where('status', '=', 1)->whereNull('deletedon')->get()->toArray();
+    
+    $modelRole = explode(',', $detail->role);
+    $oldRole = (!empty(old('role'))) ? old('role') : $modelRole ;
     ?>
+
+    <style>
+        .popover {
+            border: solid 1px black;
+        }
+    </style>
 
     <ol class="breadcrumb text-muted fs-6 fw-bold mb-5">
         <li class="breadcrumb-item pe-3"><a href="{{ route('index') }}" class="pe-3"><i class="bi bi-house-door" style="margin-bottom:5px;"></i> Home</a></li>
-        <li class="breadcrumb-item pe-3"><a href="{{ route('m-user.index') }}" class="pe-3">IOT</a></li>
+        <li class="breadcrumb-item pe-3"><a href="{{ route('m-user.index') }}" class="pe-3">Manajemen User</a></li>
         <li class="breadcrumb-item pe-3"><a href="{{ route('m-user.show', $model->id) }}" class="pe-3">{{ $model->name }}</a></li>
         <li class="breadcrumb-item px-3 text-muted">{{ $title }}</li>
     </ol>
 
     <div class="card shadow-sm">
-        <div class="card-header" style="background-color:#1e1e2d; color:white;">
+        <div class="card-header" style="background-color:#181C32;">
             <h3 class="card-title text-light"> {{ $title }} </h3>
         </div>
 
@@ -42,23 +50,18 @@
                     </div>
                 </div>
 
-                <?php
-                    $oldRole = (old('role')) ? old('role') : $detail->role ;
-                ?>
                 <div class="row mb-5">
                     <div class="col-md-6">
-                        <div class="form-group">
+                        <div class="form-group"> 
                             <label>Role</label>
-                            <select class="form-select form-control" data-control="select2" data-placeholder="Pilih Role ..." id="role" name="role">
+                            <select class="select2 form-select" multiple="multiple" id="role" name="role[]">
                                 <option value=""></option>
-                                <option value="2" {{($oldRole == 2) ? 'selected' : ''}}>Admin</option>
-                                <option value="3" {{($oldRole == 3) ? 'selected' : ''}}>Ketua Umum</option>
-                                <option value="4" {{($oldRole == 4) ? 'selected' : ''}}>Pengurus Provinsi</option>
-                                <option value="5" {{($oldRole == 5) ? 'selected' : ''}}>Komisi Teknik</option>
-                                <option value="9" {{($oldRole == 9) ? 'selected' : ''}}>Admin Sekertariat</option>
+                                @foreach($role as $item)
+                                    <option value="{{ $item['id'] }}" @if(in_array($item['id'], $oldRole)) selected @endif>{{ $item['name'] }}</option>
+                                @endforeach
                             </select>
-                            @if($errors->has('provinsi'))
-                                <span id="err_provinsi" class="text-danger">{{ $errors->first('provinsi') }}</span>
+                            @if($errors->has('role'))
+                                <span id="err_role" class="text-danger">{{ $errors->first('role') }}</span>
                             @endif
                         </div>
                     </div>
@@ -68,7 +71,10 @@
                     <div class="col-md-6">
                         <div data-kt-password-meter="true">
                             <div class="mb-1">
-                                <label>Ubah Password</label>
+                                <label>
+                                    Ubah Password 
+                                    <span style="cursor: pointer;" data-bs-toggle="popover" data-bs-placement="top" title="Info" data-bs-content="Silahkan di isi jika ingin mengubah password, jika tidak maka boleh di kosongkan."><i class="bi bi-info-circle-fill text-primary"></i></span>
+                                </label>
                                 <div class="position-relative mb-3">
                                     <input class="form-control" type="password" name="password" autocomplete="off">
 
@@ -120,7 +126,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>Provinsi</label>
-                            <select class="form-select form-control" data-control="select2" data-placeholder="Pilih Provinsi ..." id="provinsi" name="provinsi">
+                            <select class="form-select form-control" data-placeholder="Pilih Provinsi ..." id="provinsi" name="provinsi">
                                 <option value=""></option>
                                 @foreach($region as $item)
                                     <option value="{{ $item['id'] }}" {{($oldProvinsi == $item['id']) ? 'selected' : '';}}>{{ $item['region'] }}</option>
@@ -157,7 +163,10 @@
 
                 <div class="row mb-5">
                     <div class="col-md-12">
-                        <label>Ubah Foto</label>
+                        <label>
+                            Ubah Foto
+                            <span style="cursor: pointer;" data-bs-toggle="popover" data-bs-placement="top" title="Info" data-bs-content="Silahkan di isi jika ingin mengubah foto profil, jika tidak maka boleh di kosongkan."><i class="bi bi-info-circle-fill text-primary"></i></span>   
+                        </label>
                         <div style="border: solid #EFF2F5 1px; padding:5px; background-color: #EFF2F5; border-radius:5px;">
                             <input type="file" name="upload_foto" class="custom-file-input" id="upload_foto" value="{{ old('upload_foto') }}">
                         </div>
@@ -185,8 +194,8 @@
                 </div>
 
                 <div class="form-group mt-5 float-end">
-                    <button type="submit" class="btn btn-primary"> Simpan </button>
-                    <a href="{{ route('m-user.index') }}" class="btn btn-secondary"> Kembali </a>
+                    <button type="submit" class="btn btn-primary"> Ubah </button>
+                    <a href="{{ route('m-user.show', $model->id) }}" class="btn btn-secondary"> Kembali </a>
                 </div>
         </div>
     </div>
@@ -202,6 +211,44 @@
                         rtl: false
                     });
                 @endif
+            });
+
+            $("#role").select2({
+                // the following code is used to disable x-scrollbar when click in select input and
+                // take 100% width in responsive also
+                placeholder: "Pilih Role ...",
+                multiple: true,
+                dropdownAutoWidth: true,
+                width: '100%'
+            });
+
+            $("#provinsi").select2({
+                // the following code is used to disable x-scrollbar when click in select input and
+                // take 100% width in responsive also
+                placeholder: "Pilih ...",
+                dropdownAutoWidth: true,
+                width: '100%'
+            });
+
+            $("#tanggal_lahir").daterangepicker({
+                singleDatePicker: true,
+                showDropdowns: true,
+                autoUpdateInput: false,
+                autoApply: true,
+                locale: {
+                    cancelLabel: 'Clear',
+                    format: "YYYY-MM-DD",
+                },
+            });
+
+            $("#tanggal_lahir").on('apply.daterangepicker', function(ev, picker) {
+                $(this).val(picker.startDate.format('YYYY-MM-DD'));
+            });
+
+            $('#tanggal_lahir').on('cancel.daterangepicker', function(ev, picker) {
+                $(this).val('')
+                picker.setStartDate({})
+                picker.setEndDate({})
             });
         </script>
     @endsection
