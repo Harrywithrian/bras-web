@@ -14,13 +14,13 @@
     </ol>
 
     <div class="card shadow-sm">
-        <div class="card-header" style="background-color:#1e1e2d; color:white;">
+        <div class="card-header" style="background-color:#181C32;">
             <h3 class="card-title text-light"> {{ $title }} </h3>
         </div>
 
         <div class="card-body">
 
-            @if($role == 1 || $role == 2 || Auth::id() == 1)
+            @if((in_array('1', $role)) || (in_array('2', $role)))
                 <a href="{{ route('region.edit', $model->id) }}" class="btn btn-warning"> Edit </a>
                 @if($model->status == 1)
                     <button class="btn btn-danger" id="switchStatus" data-toogle="inactive" data-id="{{ $model->id }}" onClick="aktif(event)"> Inactive </button>
@@ -93,6 +93,7 @@
     </div>
 
     @section('scripts')
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.js"></script>
         <script>
             $(document).ready( function() {
                 @if(\Illuminate\Support\Facades\Session::has('success'))
@@ -138,6 +139,7 @@
                     confirmButtonText: buttonName
                 }).then(function (result) {
                     if (result.value) {
+                    loadingScreen('Mohon Tunggu ...');
                         $.ajax({
                             url: '/region/status',
                             type: 'POST',
@@ -146,6 +148,7 @@
                                 id: id
                             },
                             success: function (response) {
+                                $.unblockUI();
                                 if (response.status == 200) {
                                     Swal.fire({
                                         icon: "success",
@@ -190,6 +193,7 @@
                     confirmButtonText: "Hapus"
                 }).then(function (result) {
                     if (result.value) {
+                        loadingScreen('Mohon Tunggu ...');
                         $.ajax({
                             url: '/region/delete',
                             type: 'POST',
@@ -198,6 +202,7 @@
                                 id: id
                             },
                             success: function (response) {
+                                $.unblockUI();
                                 if (response.status == 200) {
                                     Swal.fire({
                                         icon: "success",
@@ -222,6 +227,26 @@
                                 }
                             }
                         });
+                    }
+                });
+            }
+
+            function loadingScreen(msg) {
+                var $white = '#fff';
+                var src = $("#logo_ibr").attr('src');
+                src = src.replace("logo_dark", "logo");
+                $.blockUI({
+                    message: '<img src="' + src + '" style="height: 80px; width: auto"> <br><br> <h3>' + msg + '</h2>',
+                    timeout: 5000, //unblock after 5 seconds
+                    overlayCSS: {
+                        backgroundColor: $white,
+                        opacity: 0.8,
+                        cursor: 'wait'
+                    },
+                    css: {
+                        border: 0,
+                        padding: 0,
+                        backgroundColor: 'transparent'
                     }
                 });
             }

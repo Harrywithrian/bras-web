@@ -14,7 +14,8 @@ use Carbon\Carbon;
 class RegionController extends Controller
 {
     public function index() {
-        $role = UserInfo::where('user_id', '=', Auth::id())->first();
+        $user = UserInfo::where('user_id', '=', Auth::id())->first();
+        $role = explode(',', $user->role);
         return view('master.region.index', [
             'role' => $role
         ]);
@@ -23,28 +24,21 @@ class RegionController extends Controller
     public function get(Request $request) {
         if ($request->ajax()) {
             $data = Region::select(['id', 'kode', 'region', 'email', 'status'])
-                ->whereNull('deletedon')
-                ->get();
+                ->whereNull('deletedon');
+
+            if ($request->search != '') {
+                $data->where(function ($query) use ($request) {
+                    $query->where('kode', 'LIKE', '%'.$request->search.'%')
+                          ->orWhere('region', 'LIKE', '%'.$request->search.'%')
+                          ->orWhere('email', 'LIKE', '%'.$request->search.'%');
+                });
+            }
+
+            $data->orderBy('kode', 'ASC');
 
             return $this->dataTable($data);
         }
         return null;
-    }
-
-    public function search(Request $request) {
-        $data = Region::select(['id', 'kode', 'email', 'region', 'status'])
-            ->whereNull('deletedon');
-
-        if ($request->kode != '') {
-            $data->where('kode','LIKE','%'.$request->kode.'%');
-        }
-
-        if ($request->provinsi != '') {
-            $data->where('region','LIKE','%'.$request->provinsi.'%');
-        }
-
-        $data->get();
-        return $this->dataTable($data);
     }
 
     public function dataTable($data) {
@@ -64,9 +58,8 @@ class RegionController extends Controller
 
         # KOLOM ACTION
         $dataTables = $dataTables->addColumn('action', function ($row) {
-            $view = '<a class="btn btn-info" title="Show" style="padding:5px;" href="' . route('region.show', $row->id) . '"> &nbsp<i class="bi bi-eye"></i> </a>';
+            $view = '<a class="btn btn-primary" title="Show" style="padding:5px;" href="' . route('region.show', $row->id) . '"> &nbsp<i class="bi bi-eye"></i> </a>';
             $edit = '<a class="btn btn-warning" title="Edit" style="padding:5px; margin-left:5px;" href="' . route('region.edit', $row->id) . '"> &nbsp<i class="bi bi-pencil-square"></i> </a>';
-            $delete = '<a class="btn btn-danger" style="padding:5px; margin-left:5px;" href="' . route('region.index', $row->id) . '"> &nbsp<i class="bi bi-trash"></i> </a>';
             $delete = '<btn class="btn btn-danger deleted" title="Delete" style="padding:5px; margin-left:5px;" data-id="' . $row->id . '" id="deleted' . $row->id . '"> &nbsp<i class="bi bi-trash"></i> </btn>';
 
             if ($row->status == 1) {
@@ -128,10 +121,13 @@ class RegionController extends Controller
     }
 
     public function show($id) {
+        $user = UserInfo::where('user_id', '=', Auth::id())->first();
+        $role = explode(',', $user->role);
         $model = Region::find($id);
 
         return view('master.region.show', [
-            'model' => $model
+            'model' => $model,
+            'role' => $role
         ]);
     }
 

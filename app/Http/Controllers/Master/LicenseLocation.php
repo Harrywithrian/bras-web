@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Master;
 
 use App\Http\Controllers\Controller;
 use App\Models\Master\License;
+use App\Models\UserInfo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Yajra\DataTables\DataTables;
@@ -13,34 +14,27 @@ use Carbon\Carbon;
 class LicenseLocation extends Controller
 {
     public function index() {
-        return view('master.license.index');
+        $user = UserInfo::where('user_id', '=', Auth::id())->first();
+        $role = explode(',', $user->role);
+        return view('master.license.index', [
+            'role' => $role
+        ]);
     }
 
     public function get(Request $request) {
         if ($request->ajax()) {
             $data = License::select(['id', 'license', 'type', 'status'])
-                ->whereNull('deletedon')
-                ->get();
+                ->whereNull('deletedon');
+
+                if ($request->search != '') {
+                    $data->where(function ($query) use ($request) {
+                        $query->where('license', 'LIKE', '%'.$request->search.'%');
+                    });
+                }
 
             return $this->dataTable($data);
         }
         return null;
-    }
-
-    public function search(Request $request) {
-        $data = License::select(['id', 'license', 'type', 'status'])
-            ->whereNull('deletedon');
-
-        if ($request->license != '') {
-            $data->where('license','LIKE','%'.$request->license.'%');
-        }
-
-        if ($request->status != '') {
-            $data->where('status', '=', $request->status);
-        }
-
-        $data->get();
-        return $this->dataTable($data);
     }
 
     public function dataTable($data) {
@@ -70,7 +64,7 @@ class LicenseLocation extends Controller
 
         # KOLOM ACTION
         $dataTables = $dataTables->addColumn('action', function ($row) {
-            $view = '<a class="btn btn-info" title="Show" style="padding:5px;" href="' . route('license.show', $row->id) . '"> &nbsp<i class="bi bi-eye"></i> </a>';
+            $view = '<a class="btn btn-primary" title="Show" style="padding:5px;" href="' . route('license.show', $row->id) . '"> &nbsp<i class="bi bi-eye"></i> </a>';
             $edit = '<a class="btn btn-warning" title="Edit" style="padding:5px; margin-left:5px;" href="' . route('license.edit', $row->id) . '"> &nbsp<i class="bi bi-pencil-square"></i> </a>';
             $delete = '<btn class="btn btn-danger deleted" title="Delete" style="padding:5px; margin-left:5px;" data-id="' . $row->id . '" id="deleted' . $row->id . '"> &nbsp<i class="bi bi-trash"></i> </btn>';
 
@@ -132,10 +126,13 @@ class LicenseLocation extends Controller
     }
 
     public function show($id) {
+        $user = UserInfo::where('user_id', '=', Auth::id())->first();
+        $role = explode(',', $user->role);
         $model = License::find($id);
 
         return view('master.license.show', [
             'model' => $model,
+            'role' => $role
         ]);
     }
 

@@ -125,8 +125,7 @@ Route::middleware('auth')->group(function () {
     Route::prefix('region')->group(function () {
         Route::get('/', [RegionController::class, 'index'])->name('region.index');
         Route::get('/index', [RegionController::class, 'index'])->name('region.index');
-        Route::get('/get', [RegionController::class, 'get'])->name('region.get');
-        Route::post('/search', [RegionController::class, 'search'])->name('region.search');
+        Route::post('/get', [RegionController::class, 'get'])->name('region.get');
         Route::get('/create', [RegionController::class, 'create'])->name('region.create');
         Route::post('/store', [RegionController::class, 'store'])->name('region.store');
         Route::get('/show/{id}', [RegionController::class, 'show'])->name('region.show');
@@ -139,8 +138,7 @@ Route::middleware('auth')->group(function () {
     Route::prefix('location')->group(function () {
         Route::get('/', [LocationController::class, 'index'])->name('location.index');
         Route::get('/index', [LocationController::class, 'index'])->name('location.index');
-        Route::get('/get', [LocationController::class, 'get'])->name('location.get');
-        Route::post('/search', [LocationController::class, 'search'])->name('location.search');
+        Route::post('/get', [LocationController::class, 'get'])->name('location.get');
         Route::get('/create', [LocationController::class, 'create'])->name('location.create');
         Route::post('/store', [LocationController::class, 'store'])->name('location.store');
         Route::get('/show/{id}', [LocationController::class, 'show'])->name('location.show');
@@ -153,8 +151,7 @@ Route::middleware('auth')->group(function () {
     Route::prefix('license')->group(function () {
         Route::get('/', [LicenseLocation::class, 'index'])->name('license.index');
         Route::get('/index', [LicenseLocation::class, 'index'])->name('license.index');
-        Route::get('/get', [LicenseLocation::class, 'get'])->name('license.get');
-        Route::post('/search', [LicenseLocation::class, 'search'])->name('license.search');
+        Route::post('/get', [LicenseLocation::class, 'get'])->name('license.get');
         Route::get('/create', [LicenseLocation::class, 'create'])->name('license.create');
         Route::post('/store', [LicenseLocation::class, 'store'])->name('license.store');
         Route::get('/show/{id}', [LicenseLocation::class, 'show'])->name('license.show');
@@ -167,8 +164,7 @@ Route::middleware('auth')->group(function () {
     Route::prefix('violation')->group(function () {
         Route::get('/', [ViolationController::class, 'index'])->name('violation.index');
         Route::get('/index', [ViolationController::class, 'index'])->name('violation.index');
-        Route::get('/get', [ViolationController::class, 'get'])->name('violation.get');
-        Route::post('/search', [ViolationController::class, 'search'])->name('violation.search');
+        Route::post('/get', [ViolationController::class, 'get'])->name('violation.get');
         Route::get('/create', [ViolationController::class, 'create'])->name('violation.create');
         Route::post('/store', [ViolationController::class, 'store'])->name('violation.store');
         Route::get('/show/{id}', [ViolationController::class, 'show'])->name('violation.show');

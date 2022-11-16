@@ -34,7 +34,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>Jenis Lisensi</label>
-                            <select class="form-select" id="jenis_lisensi" name="jenis_lisensi">
+                            <select class="form-select" data-placeholder="Pilih Jenis Lisensi ..." id="jenis_lisensi" name="jenis_lisensi">
                                 <option value=""></option>
                                 <option value="1" @if($oldLisensi) {{($oldLisensi == 1) ? 'selected' : null}} @endif>Wasit</option>
                                 <option value="2" @if($oldLisensi) {{($oldLisensi == 2) ? 'selected' : null}} @endif>Pengawas Pertandingan</option>
@@ -75,6 +75,22 @@
                         rtl: false
                     });
                 @endif
+            });
+
+            $("#jenis_lisensi").select2({
+                // the following code is used to disable x-scrollbar when click in select input and
+                // take 100% width in responsive also
+                placeholder: "Pilih ...",
+                dropdownAutoWidth: true,
+                width: '100%',
+            });
+            
+            $("#lisensi").change(function() {
+                $("#err_lisensi").html("");
+            });
+
+            $('#jenis_lisensi').select2().on('change', function(){
+                $("#err_jenis_lisensi").html("");
             });
         </script>
     @endsection

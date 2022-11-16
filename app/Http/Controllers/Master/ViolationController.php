@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Master;
 
 use App\Http\Controllers\Controller;
 use App\Models\Master\Violation;
+use App\Models\UserInfo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Yajra\DataTables\DataTables;
@@ -13,34 +14,27 @@ use Carbon\Carbon;
 class ViolationController extends Controller
 {
     public function index() {
-        return view('master.violation.index');
+        $user = UserInfo::where('user_id', '=', Auth::id())->first();
+        $role = explode(',', $user->role);
+        return view('master.violation.index', [
+            'role' => $role
+        ]);
     }
 
     public function get(Request $request) {
         if ($request->ajax()) {
-            $data = Violation::select(['id', 'violation', 'status'])
-                ->whereNull('deletedon')
-                ->get();
+            $data = Violation::select(['id', 'violation', 'jenis', 'status'])
+                ->whereNull('deletedon');
+
+            if ($request->search != '') {
+                $data->where(function ($query) use ($request) {
+                    $query->where('violation', 'LIKE', '%'.$request->search.'%');
+                });
+            }
 
             return $this->dataTable($data);
         }
         return null;
-    }
-
-    public function search(Request $request) {
-        $data = Violation::select(['id', 'violation', 'status'])
-            ->whereNull('deletedon');
-
-        if ($request->violation != '') {
-            $data->where('violation','LIKE','%'.$request->violation.'%');
-        }
-
-        if ($request->status != '') {
-            $data->where('status', '=', $request->status);
-        }
-
-        $data->get();
-        return $this->dataTable($data);
     }
 
     public function dataTable($data) {
@@ -58,10 +52,25 @@ class ViolationController extends Controller
             }
         });
 
+        # KOLOM JENIS
+        $dataTables = $dataTables->addColumn('jenis_text', function ($row) {
+            if ($row->jenis == 1) {
+                return "Fouls";
+            } else if ($row->jenis == 2) {
+                return "IRS";
+            } else if ($row->jenis == 3) {
+                return "Travelling";
+            } else if ($row->jenis == 4) {
+                return "Other Violation";
+            } else {
+                return "-";
+            }
+        });
+
         # KOLOM ACTION
         $dataTables = $dataTables->addColumn('action', function ($row) {
-            $view = '<a class="btn btn-info" title="Show" style="padding:5px;" href="' . route('violation.show', $row->id) . '"> &nbsp<i class="bi bi-eye"></i> </a>';
-            $edit = '<a class="btn btn-warning" title="Edit" style="padding:5px; margin-left:5px;" href="' . route('license.edit', $row->id) . '"> &nbsp<i class="bi bi-pencil-square"></i> </a>';
+            $view = '<a class="btn btn-primary" title="Show" style="padding:5px;" href="' . route('violation.show', $row->id) . '"> &nbsp<i class="bi bi-eye"></i> </a>';
+            $edit = '<a class="btn btn-warning" title="Edit" style="padding:5px; margin-left:5px;" href="' . route('violation.edit', $row->id) . '"> &nbsp<i class="bi bi-pencil-square"></i> </a>';
             $delete = '<btn class="btn btn-danger deleted" title="Delete" style="padding:5px; margin-left:5px;" data-id="' . $row->id . '" id="deleted' . $row->id . '"> &nbsp<i class="bi bi-trash"></i> </btn>';
 
             if ($row->status == 1) {
@@ -78,7 +87,7 @@ class ViolationController extends Controller
             return $button;
         });
 
-        $dataTables = $dataTables->rawColumns(['status', 'action'])->make(true);
+        $dataTables = $dataTables->rawColumns(['status', 'jenis_text', 'action'])->make(true);
         return $dataTables;
     }
 
@@ -122,10 +131,13 @@ class ViolationController extends Controller
     }
 
     public function show($id) {
+        $user = UserInfo::where('user_id', '=', Auth::id())->first();
+        $role = explode(',', $user->role);
         $model = Violation::find($id);
 
         return view('master.violation.show', [
             'model' => $model,
+            'role' => $role
         ]);
     }
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Master;
 use App\Http\Controllers\Controller;
 use App\Models\Master\Location;
 use App\Models\Master\Region;
+use App\Models\UserInfo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Yajra\DataTables\DataTables;
@@ -14,7 +15,11 @@ use Carbon\Carbon;
 class LocationController extends Controller
 {
     public function index() {
-        return view('master.location.index');
+        $user = UserInfo::where('user_id', '=', Auth::id())->first();
+        $role = explode(',', $user->role);
+        return view('master.location.index', [
+            'role' => $role
+        ]);
     }
 
     public function get(Request $request) {
@@ -28,40 +33,22 @@ class LocationController extends Controller
                 'm_location.email',
                 'm_location.status'
             ])->leftJoin('m_region', 'm_region.id', '=', 'm_location.id_m_region')
-                ->whereNull('m_location.deletedon')
-                ->get();
+                ->whereNull('m_location.deletedon');
+
+            if ($request->search != '') {
+                $data->where(function ($query) use ($request) {
+                    $query->where('m_location.nama', 'LIKE', '%'.$request->search.'%')
+                          ->orWhere('m_region.region', 'LIKE', '%'.$request->search.'%')
+                          ->orWhere('m_location.alamat', 'LIKE', '%'.$request->search.'%')
+                          ->orWhere('m_location.email', 'LIKE', '%'.$request->search.'%');
+                });
+            }
+    
+            $data->orderBy('m_location.createdon', 'DESC');
 
             return $this->dataTable($data);
         }
         return null;
-    }
-
-    public function search(Request $request) {
-        $data = Location::select([
-            'm_location.id',
-            'm_location.nama',
-            'm_region.region',
-            'm_location.alamat',
-            'm_location.telepon',
-            'm_location.email',
-            'm_location.status'
-        ])->leftJoin('m_region', 'm_region.id', '=', 'm_location.id_m_region')
-            ->whereNull('m_location.deletedon');
-
-        if ($request->nama != '') {
-            $data->where('m_location.nama','LIKE','%'.$request->nama.'%');
-        }
-
-        if ($request->region != '') {
-            $data->where('m_location.id_m_region', '=', $request->region);
-        }
-
-        if ($request->status != '') {
-            $data->where('m_location.status', '=', $request->status);
-        }
-
-        $data->get();
-        return $this->dataTable($data);
     }
 
     public function dataTable($data) {
@@ -90,9 +77,8 @@ class LocationController extends Controller
 
         # KOLOM ACTION
         $dataTables = $dataTables->addColumn('action', function ($row) {
-            $view = '<a class="btn btn-info" title="Show" style="padding:5px;" href="' . route('location.show', $row->id) . '"> &nbsp<i class="bi bi-eye"></i> </a>';
+            $view = '<a class="btn btn-primary" title="Show" style="padding:5px;" href="' . route('location.show', $row->id) . '"> &nbsp<i class="bi bi-eye"></i> </a>';
             $edit = '<a class="btn btn-warning" title="Edit" style="padding:5px; margin-left:5px;" href="' . route('location.edit', $row->id) . '"> &nbsp<i class="bi bi-pencil-square"></i> </a>';
-            $delete = '<a class="btn btn-danger" style="padding:5px; margin-left:5px;" href="' . route('location.index', $row->id) . '"> &nbsp<i class="bi bi-trash"></i> </a>';
             $delete = '<btn class="btn btn-danger deleted" title="Delete" style="padding:5px; margin-left:5px;" data-id="' . $row->id . '" id="deleted' . $row->id . '"> &nbsp<i class="bi bi-trash"></i> </btn>';
 
             if ($row->status == 1) {
@@ -122,8 +108,6 @@ class LocationController extends Controller
             $rules = [
                 'nama' => 'required',
                 'provinsi' => 'required',
-                'telepon' => 'required',
-                'email' => 'required|email',
             ];
 
             $customMessages = [
@@ -161,9 +145,13 @@ class LocationController extends Controller
         $model = Location::find($id);
         $provinsi = Region::find($model->id_m_region);
 
+        $user = UserInfo::where('user_id', '=', Auth::id())->first();
+        $role = explode(',', $user->role);
+
         return view('master.location.show', [
             'model' => $model,
-            'provinsi' => $provinsi
+            'provinsi' => $provinsi,
+            'role' => $role
         ]);
     }
 

@@ -8,7 +8,7 @@
     </ol>
 
     <div class="card shadow-sm">
-        <div class="card-header" style="background-color:#1e1e2d; color:white;">
+        <div class="card-header" style="background-color:#181C32; color:white;">
             <h3 class="card-title text-light"> {{ $title }} </h3>
         </div>
 
@@ -19,7 +19,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>Kode</label>
+                            <label>Kode <span style="color: red">*</span></label>
                             <input id="kode" class="form-control" name="kode" value="{{ old('kode') }}">
                             @if($errors->has('kode'))
                                 <span id="err_kode" class="text-danger">{{ $errors->first('kode') }}</span>
@@ -29,7 +29,7 @@
 
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>Provinsi</label>
+                            <label>Provinsi <span style="color: red">*</span></label>
                             <input id="provinsi" class="form-control" name="provinsi" value="{{ old('provinsi') }}">
                             @if($errors->has('provinsi'))
                                 <span id="err_provinsi" class="text-danger">{{ $errors->first('provinsi') }}</span>
@@ -37,6 +37,8 @@
                         </div>
                     </div>
                 </div>
+
+                <br>
 
                 <div class="row">
                     <div class="col-md-6">
@@ -69,6 +71,14 @@
                         rtl: false
                     });
                 @endif
+            });
+
+            $("#kode").change(function() {
+                $("#err_kode").html("");
+            });
+
+            $("#provinsi").change(function() {
+                $("#err_provinsi").html("");
             });
         </script>
     @endsection

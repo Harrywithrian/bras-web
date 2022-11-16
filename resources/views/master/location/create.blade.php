@@ -11,7 +11,7 @@
     </ol>
 
     <div class="card shadow-sm">
-        <div class="card-header" style="background-color:#1e1e2d; color:white;">
+        <div class="card-header" style="background-color:#181C32; color:white;">
             <h3 class="card-title text-light"> {{ $title }} </h3>
         </div>
 
@@ -22,7 +22,7 @@
                 <div class="row mb-5">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>Nama Lokasi</label>
+                            <label>Nama Lokasi <span style="color: red">*</span></label>
                             <input id="nama" class="form-control" name="nama" value="{{ old('nama') }}">
                             @if($errors->has('nama'))
                                 <span id="err_nama" class="text-danger">{{ $errors->first('nama') }}</span>
@@ -32,8 +32,8 @@
 
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>Provinsi</label>
-                            <select class="form-select" data-control="select2" data-placeholder="Pilih Provinsi ..." data-allow-clear="true" id="provinsi" name="provinsi">
+                            <label>Provinsi <span style="color: red">*</span></label>
+                            <select class="form-select" data-placeholder="Pilih Provinsi ..." data-allow-clear="true" id="provinsi" name="provinsi">
                                 <option value=""></option>
                                 @foreach($provinsi as $item)
                                     <option value="{{ $item['id'] }}" {{(old('provinsi') == $item['id']) ? 'selected' : '';}}>{{ $item['region'] }}</option>
@@ -97,6 +97,22 @@
                         rtl: false
                     });
                 @endif
+            });
+
+            $("#provinsi").select2({
+                // the following code is used to disable x-scrollbar when click in select input and
+                // take 100% width in responsive also
+                placeholder: "Pilih ...",
+                dropdownAutoWidth: true,
+                width: '100%'
+            });
+            
+            $("#nama").change(function() {
+                $("#err_nama").html("");
+            });
+
+            $('#provinsi').select2().on('change', function(){
+                $("#err_provinsi").html("");
             });
         </script>
     @endsection

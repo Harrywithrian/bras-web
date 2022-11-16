@@ -21,7 +21,7 @@
                 <div class="row mb-5">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>Pelanggaran</label>
+                            <label>Pelanggaran <span style="color: red">*</span></label>
                             <input id="pelanggaran" class="form-control" name="pelanggaran" value="{{ old('pelanggaran') }}">
                             @if($errors->has('pelanggaran'))
                                 <span id="err_pelanggaran" class="text-danger">{{ $errors->first('pelanggaran') }}</span>
@@ -31,8 +31,8 @@
 
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>Jenis Pelanggaran</label>
-                            <select class="form-select" data-control="select2" data-placeholder="Pilih Jenis Pelanggaran ..." id="jenis" name="jenis">
+                            <label>Jenis Pelanggaran <span style="color: red">*</span></label>
+                            <select class="form-select" data-placeholder="Pilih Jenis Pelanggaran ..." id="jenis" name="jenis">
                                 <option value=""></option>
                                 <option value="1" @if(old('jenis')) {{ (old('jenis') == 1) ? 'selected' : null ; }} @endif>Fouls</option>
                                 <option value="2" @if(old('jenis')) {{ (old('jenis') == 2) ? 'selected' : null ; }} @endif>IRS</option>
@@ -75,6 +75,22 @@
                         rtl: false
                     });
                 @endif
+            });
+
+            $("#jenis").select2({
+                // the following code is used to disable x-scrollbar when click in select input and
+                // take 100% width in responsive also
+                placeholder: "Pilih ...",
+                dropdownAutoWidth: true,
+                width: '100%',
+            });
+            
+            $("#pelanggaran").change(function() {
+                $("#err_pelanggaran").html("");
+            });
+
+            $('#jenis').select2().on('change', function(){
+                $("#err_jenis").html("");
             });
         </script>
     @endsection
