@@ -5,7 +5,7 @@
         <li class="breadcrumb-item pe-3"><a href="{{ route('index') }}" class="pe-3"><i class="bi bi-house-door" style="margin-bottom:5px;"></i> Home</a></li>
         <li class="breadcrumb-item pe-3"><a href="{{ route('region.index') }}" class="pe-3">Provinsi</a></li>
         <li class="breadcrumb-item pe-3"><a href="{{ route('region.show', $model->id) }}" class="pe-3">{{ $model->region }}</a></li>
-        <li class="breadcrumb-item px-3 text-muted">{{ $title }}</li>
+        <li class="breadcrumb-item px-3 text-muted">Edit</li>
     </ol>
 
     <div class="card shadow-sm">

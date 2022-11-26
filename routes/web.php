@@ -177,8 +177,7 @@ Route::middleware('auth')->group(function () {
     Route::prefix('iot')->group(function () {
         Route::get('/', [IotController::class, 'index'])->name('iot.index');
         Route::get('/index', [IotController::class, 'index'])->name('iot.index');
-        Route::get('/get', [IotController::class, 'get'])->name('iot.get');
-        Route::post('/search', [IotController::class, 'search'])->name('iot.search');
+        Route::post('/get', [IotController::class, 'get'])->name('iot.get');
         Route::get('/create', [IotController::class, 'create'])->name('iot.create');
         Route::post('/store', [IotController::class, 'store'])->name('iot.store');
         Route::get('/show/{id}', [IotController::class, 'show'])->name('iot.show');
@@ -191,8 +190,7 @@ Route::middleware('auth')->group(function () {
     Route::prefix('wasit')->group(function () {
         Route::get('/', [WasitController::class, 'index'])->name('wasit.index');
         Route::get('/index', [WasitController::class, 'index'])->name('wasit.index');
-        Route::get('/get', [WasitController::class, 'get'])->name('wasit.get');
-        Route::post('/search', [WasitController::class, 'search'])->name('wasit.search');
+        Route::post('/get', [WasitController::class, 'get'])->name('wasit.get');
         Route::get('/show/{id}', [WasitController::class, 'show'])->name('wasit.show');
     });
 
@@ -200,8 +198,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/', [MGameManagementController::class, 'index'])->name('m-game-management.index');
         Route::get('/index', [MGameManagementController::class, 'index'])->name('m-game-management.index');
         Route::get('/preview', [MGameManagementController::class, 'preview'])->name('m-game-management.preview');
-        Route::get('/get', [MGameManagementController::class, 'get'])->name('m-game-management.get');
-        Route::post('/search', [MGameManagementController::class, 'search'])->name('m-game-management.search');
+        Route::post('/get', [MGameManagementController::class, 'get'])->name('m-game-management.get');
         Route::get('/show/{id}', [MGameManagementController::class, 'show'])->name('m-game-management.show');
         Route::get('/create-header', [MGameManagementController::class, 'createHeader'])->name('m-game-management.create-header');
         Route::post('/store-header', [MGameManagementController::class, 'storeHeader'])->name('m-game-management.store-header');
@@ -218,8 +215,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/', [MMechanicalCourtController::class, 'index'])->name('m-mechanical-court.index');
         Route::get('/index', [MMechanicalCourtController::class, 'index'])->name('m-mechanical-court.index');
         Route::get('/preview', [MMechanicalCourtController::class, 'preview'])->name('m-mechanical-court.preview');
-        Route::get('/get', [MMechanicalCourtController::class, 'get'])->name('m-mechanical-court.get');
-        Route::post('/search', [MMechanicalCourtController::class, 'search'])->name('m-mechanical-court.search');
+        Route::post('/get', [MMechanicalCourtController::class, 'get'])->name('m-mechanical-court.get');
         Route::get('/create', [MMechanicalCourtController::class, 'create'])->name('m-mechanical-court.create');
         Route::post('/store', [MMechanicalCourtController::class, 'store'])->name('m-mechanical-court.store');
         Route::get('/show/{id}', [MMechanicalCourtController::class, 'show'])->name('m-mechanical-court.show');
@@ -238,8 +234,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/', [MAppearanceController::class, 'index'])->name('m-appearance.index');
         Route::get('/index', [MAppearanceController::class, 'index'])->name('m-appearance.index');
         Route::get('/preview', [MAppearanceController::class, 'preview'])->name('m-appearance.preview');
-        Route::get('/get', [MAppearanceController::class, 'get'])->name('m-appearance.get');
-        Route::post('/search', [MAppearanceController::class, 'search'])->name('m-appearance.search');
+        Route::post('/get', [MAppearanceController::class, 'get'])->name('m-appearance.get');
         Route::get('/create-header', [MAppearanceController::class, 'createHeader'])->name('m-appearance.create-header');
         Route::post('/store-header', [MAppearanceController::class, 'storeHeader'])->name('m-appearance.store-header');
         Route::get('/create-content', [MAppearanceController::class, 'createContent'])->name('m-appearance.create-content');
@@ -254,8 +249,7 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('t-approval')->group(function () {
         Route::get('/index', [TApprovalController::class, 'index'])->name('t-approval.index');
-        Route::get('/get', [TApprovalController::class, 'get'])->name('t-approval.get');
-        Route::post('/search', [TApprovalController::class, 'search'])->name('t-approval.search');
+        Route::post('/get', [TApprovalController::class, 'get'])->name('t-approval.get');
         Route::get('/show/{id}', [TApprovalController::class, 'show'])->name('t-approval.show');
         Route::post('/approve', [TApprovalController::class, 'approve'])->name('t-approval.approve');
         Route::post('/reject', [TApprovalController::class, 'reject'])->name('t-approval.reject');

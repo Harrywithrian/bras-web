@@ -10,7 +10,7 @@
     </ol>
 
     <div class="card shadow-sm">
-        <div class="card-header" style="background-color:#1e1e2d; color:white;">
+        <div class="card-header" style="background-color:#181C32;">
             <h3 class="card-title text-light"> {{ $title }} </h3>
         </div>
 
@@ -72,6 +72,18 @@
                         rtl: false
                     });
                 @endif
+            });
+            
+            $("#nama").change(function() {
+                $("#err_nama").html("");
+            });
+
+            $("#persentase").change(function() {
+                $("#err_persentase").html("");
+            });
+
+            $("#urutan").change(function() {
+                $("#err_urutan").html("");
             });
         </script>
     @endsection

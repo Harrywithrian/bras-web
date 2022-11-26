@@ -61,42 +61,22 @@ class MGameManagementController extends Controller
             ->whereNull('m_game_management.deletedon')
             ->orderBy('m_game_management.level', 'ASC')
             ->orderBy('m_game_management.id_m_game_management', 'ASC')
-            ->orderBy('m_game_management.order_by', 'ASC')
-            ->get();
+            ->orderBy('m_game_management.order_by', 'ASC');
+
+            if ($request->search != '') {
+                $data->where(function ($query) use ($request) {
+                    $query->where('m_game_management.nama', 'LIKE', '%'.$request->search.'%')
+                        ->orWhere('a.nama', 'LIKE', '%'.$request->search.'%');
+                });
+            }
+
+            if ($request->level != '') {
+                $data->where('m_game_management.level', '=', $request->level);
+            }
 
             return $this->dataTable($data);
         }
         return null;
-    }
-
-    public function search(Request $request) {
-        $data = MGameManagement::select([
-            'm_game_management.id',
-            'm_game_management.nama',
-            'm_game_management.level',
-            'a.nama AS parent',
-            'm_game_management.persentase',
-            'm_game_management.order_by'
-        ])->leftJoin('m_game_management as a', 'a.id', '=', 'm_game_management.id_m_game_management')
-            ->whereNull('m_game_management.deletedon')
-            ->orderBy('m_game_management.level', 'ASC')
-            ->orderBy('m_game_management.id_m_game_management', 'ASC')
-            ->orderBy('m_game_management.order_by', 'ASC');
-
-        if ($request->nama != '') {
-            $data->where('m_game_management.nama','LIKE','%'.$request->nama.'%');
-        }
-
-        if ($request->level != '') {
-            $data->where('m_game_management.level', '=', $request->level);
-        }
-
-        if ($request->parent != '') {
-            $data->where('a.nama','LIKE','%'.$request->parent.'%');
-        }
-
-        $data->get();
-        return $this->dataTable($data);
     }
 
     public function dataTable($data) {
@@ -111,7 +91,7 @@ class MGameManagementController extends Controller
 
         # KOLOM ACTION
         $dataTables = $dataTables->addColumn('action', function ($row) {
-            $view = '<a class="btn btn-info" title="Show" style="padding:5px;" href="' . route('m-game-management.show', $row->id) . '"> &nbsp<i class="bi bi-eye"></i> </a>';
+            $view = '<a class="btn btn-primary" title="Show" style="padding:5px;" href="' . route('m-game-management.show', $row->id) . '"> &nbsp<i class="bi bi-eye"></i> </a>';
 
             $edit = ($row->level == 1) ?
                 '<a class="btn btn-warning" title="Edit" style="padding:5px; margin-left:5px;" href="' . route('m-game-management.edit-header', $row->id) . '"> &nbsp<i class="bi bi-pencil-square"></i> </a>'

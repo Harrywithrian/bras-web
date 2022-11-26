@@ -61,42 +61,22 @@ class MMechanicalCourtController extends Controller
                 ->whereNull('m_mechanical_court.deletedon')
                 ->orderBy('m_mechanical_court.level', 'ASC')
                 ->orderBy('m_mechanical_court.id_m_mechanical_court', 'ASC')
-                ->orderBy('m_mechanical_court.order_by', 'ASC')
-                ->get();
+                ->orderBy('m_mechanical_court.order_by', 'ASC');
+
+            if ($request->search != '') {
+                $data->where(function ($query) use ($request) {
+                    $query->where('m_mechanical_court.nama', 'LIKE', '%'.$request->search.'%')
+                        ->orWhere('a.nama', 'LIKE', '%'.$request->search.'%');
+                });
+            }
+    
+            if ($request->level != '') {
+                $data->where('m_mechanical_court.level', '=', $request->level);
+            }
 
             return $this->dataTable($data);
         }
         return null;
-    }
-
-    public function search(Request $request) {
-        $data = MMechanicalCourt::select([
-            'm_mechanical_court.id',
-            'm_mechanical_court.nama',
-            'm_mechanical_court.level',
-            'a.nama AS parent',
-            'm_mechanical_court.persentase',
-            'm_mechanical_court.order_by'
-        ])->leftJoin('m_mechanical_court as a', 'a.id', '=', 'm_mechanical_court.id_m_mechanical_court')
-            ->whereNull('m_mechanical_court.deletedon')
-            ->orderBy('m_mechanical_court.level', 'ASC')
-            ->orderBy('m_mechanical_court.id_m_mechanical_court', 'ASC')
-            ->orderBy('m_mechanical_court.order_by', 'ASC');
-
-        if ($request->nama != '') {
-            $data->where('m_mechanical_court.nama','LIKE','%'.$request->nama.'%');
-        }
-
-        if ($request->level != '') {
-            $data->where('m_mechanical_court.level', '=', $request->level);
-        }
-
-        if ($request->parent != '') {
-            $data->where('a.nama','LIKE','%'.$request->parent.'%');
-        }
-
-        $data->get();
-        return $this->dataTable($data);
     }
 
     public function dataTable($data) {
@@ -111,7 +91,7 @@ class MMechanicalCourtController extends Controller
 
         # KOLOM ACTION
         $dataTables = $dataTables->addColumn('action', function ($row) {
-            $view = '<a class="btn btn-info" title="Show" style="padding:5px;" href="' . route('m-mechanical-court.show', $row->id) . '"> &nbsp<i class="bi bi-eye"></i> </a>';
+            $view = '<a class="btn btn-primary" title="Show" style="padding:5px;" href="' . route('m-mechanical-court.show', $row->id) . '"> &nbsp<i class="bi bi-eye"></i> </a>';
             $edit = ($row->level == 1) ?
                 '<a class="btn btn-warning" title="Edit" style="padding:5px; margin-left:5px;" href="' . route('m-mechanical-court.edit-header', $row->id) . '"> &nbsp<i class="bi bi-pencil-square"></i> </a>'
                 :'<a class="btn btn-warning" title="Edit" style="padding:5px; margin-left:5px;" href="' . route('m-mechanical-court.edit-content', $row->id) . '"> &nbsp<i class="bi bi-pencil-square"></i> </a>';

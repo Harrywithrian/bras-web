@@ -36,52 +36,35 @@ class TApprovalController extends Controller
                 't_user_approval.status'
             ])->leftJoin('m_license', 'm_license.id', '=', 't_user_approval.id_m_license')
             ->leftJoin('roles', 'roles.id', '=', 't_user_approval.jenis_daftar')
-            ->orderBy('t_user_approval.createdon', 'DESC')
-            ->get();
+            ->orderBy('t_user_approval.createdon', 'DESC');
+
+            if ($request->username != '') {
+                $data->where('t_user_approval.username', 'LIKE', '%'.$request->username.'%');
+            }
+    
+            if ($request->nama != '') {
+                $data->where('t_user_approval.name', 'LIKE', '%'.$request->nama.'%');
+            }
+    
+            if ($request->no_lisensi != '') {
+                $data->where('t_user_approval.no_lisensi', 'LIKE', '%'.$request->no_lisensi.'%');
+            }
+    
+            if ($request->lisensi != '') {
+                $data->where('t_user_approval.id_m_license', '=', $request->lisensi);
+            }
+    
+            if ($request->jenis != '') {
+                $data->where('t_user_approval.jenis_daftar', '=', $request->jenis);
+            }
+    
+            if ($request->status != '') {
+                $data->where('t_user_approval.status', '=', $request->status);
+            }
 
             return $this->dataTable($data);
         }
         return null;
-    }
-
-    public function search(Request $request) {
-        $data = TUserApproval::select([
-            't_user_approval.id',
-            't_user_approval.username',
-            't_user_approval.name AS nama',
-            't_user_approval.no_lisensi',
-            'm_license.license',
-            'roles.name AS jenis_daftar',
-            't_user_approval.status'
-        ])->leftJoin('m_license', 'm_license.id', '=', 't_user_approval.id_m_license')
-            ->leftJoin('roles', 'roles.id', '=', 't_user_approval.jenis_daftar');
-
-        if ($request->username != '') {
-            $data->where('t_user_approval.username', 'LIKE', '%'.$request->username.'%');
-        }
-
-        if ($request->nama != '') {
-            $data->where('t_user_approval.name', 'LIKE', '%'.$request->nama.'%');
-        }
-
-        if ($request->no_lisensi != '') {
-            $data->where('t_user_approval.no_lisensi', 'LIKE', '%'.$request->no_lisensi.'%');
-        }
-
-        if ($request->lisensi != '') {
-            $data->where('t_user_approval.id_m_license', '=', $request->lisensi);
-        }
-
-        if ($request->jenis != '') {
-            $data->where('t_user_approval.jenis_daftar', '=', $request->jenis);
-        }
-
-        if ($request->status != '') {
-            $data->where('t_user_approval.status', '=', $request->status);
-        }
-
-        $data->orderBy('t_user_approval.createdon', 'DESC')->get();
-        return $this->dataTable($data);
     }
 
     public function dataTable($data) {
@@ -103,7 +86,7 @@ class TApprovalController extends Controller
 
         # KOLOM ACTION
         $dataTables = $dataTables->addColumn('action', function ($row) {
-            $view = '<a class="btn btn-info" title="Show" style="padding:5px; margin-top:-5px;" href="' . route('t-approval.show', $row->id) . '"> &nbsp<i class="bi bi-eye"></i> </a>';
+            $view = '<a class="btn btn-primary" title="Show" style="padding:5px; margin-top:-5px;" href="' . route('t-approval.show', $row->id) . '"> &nbsp<i class="bi bi-eye"></i> </a>';
 
             $button = $view;
 

@@ -14,6 +14,14 @@
         });
 
         showAllData();
+
+        $("#level").select2({
+            // the following code is used to disable x-scrollbar when click in select input and
+            // take 100% width in responsive also
+            placeholder: "Pilih ...",
+            dropdownAutoWidth: true,
+            width: '100%'
+        });
     });
 
     /* FUNGSI MENAMPILKAN SEMUA DATA */
@@ -24,12 +32,13 @@
         mainTable.DataTable({
             ajax: {
                 type:"POST",
-                url: "/location/get",
+                url: "/m-appearance/get",
                 headers: {
                     "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
                 },
                 data: function (d) {
-                    d.search = $('#input-search').val();
+                    d.search  = $('#input-search').val();
+                    d.level = $('#level').val();
                 }
             },
             bFilter: false,
@@ -65,13 +74,8 @@
                     data: 'action',
                     name: 'action',
                     orderable: false,
-                    searchable: false
-                },
-                {
-                    data: 'status',
-                    name: 'status',
-                    orderable: false,
-                    searchable: false
+                    searchable: false,
+                    width: "20%"
                 },
                 {
                     data: 'nama',
@@ -80,23 +84,28 @@
                     searchable: false
                 },
                 {
-                    data: 'region',
-                    name: 'region',
-                    title: 'Provinsi',
-                    orderable: false,
-                    searchable: false
+                    data: 'level',
+                    name: 'level',
+                    orderable: true,
+                    searchable: true
                 },
                 {
-                    data: 'telepon',
-                    name: 'telepon',
-                    orderable: false,
-                    searchable: false
+                    data: 'parent',
+                    name: 'parent',
+                    orderable: true,
+                    searchable: true
                 },
                 {
-                    data: 'email',
-                    name: 'email',
-                    orderable: false,
-                    searchable: false
+                    data: 'persentase',
+                    name: 'persentase',
+                    orderable: true,
+                    searchable: true
+                },
+                {
+                    data: 'order_by',
+                    name: 'order_by',
+                    orderable: true,
+                    searchable: true
                 }
             ]
         });
@@ -110,94 +119,28 @@
     function resets(event) {
         event.preventDefault();
         document.getElementById('search').reset();
+        $("#level").val('').trigger('change');
         showAllData();
     }
-
-    $("body").on("click", ".switchStatus", function () {
-        var id     = $(this).data("id");
-        var toogle = $(this).data("toogle");
-        var table  = $('#content-table').DataTable();
-        var token  = $("meta[name='csrf-token']").attr("content");
-
-        if (toogle == 'inactive') {
-            warningMessage = 'Apakah anda akan menonaktifkan data ini?';
-            buttonName = "Non-Aktifkan";
-        } else {
-            warningMessage = 'Apakah anda akan mengaktifkan data ini?';
-            buttonName = "Aktifkan";
-        }
-
-        Swal.fire({
-            title: "Change Data Status",
-            text: warningMessage,
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: buttonName
-        }).then(function (result) {
-            if (result.value) {
-                loadingScreen('Mohon Tunggu ...');
-                $.ajax({
-                    url: '/location/status',
-                    type: 'POST',
-                    data: {
-                        _token: token,
-                        id: id
-                    },
-                    success: function (response) {
-                        if (response.status == 200) {
-                            $.unblockUI();
-                            Swal.fire({
-                                icon: "success",
-                                title: response.header,
-                                text: response.message,
-                                confirmButtonClass: 'btn btn-success'
-                            }).then(function (result) {
-                                if (result.value) {
-                                    table.draw();
-                                }
-                            });
-                        } else {
-                            $.unblockUI();
-                            Swal.fire({
-                                icon: "warning",
-                                title: response.header,
-                                text: response.message,
-                                confirmButtonClass: 'btn btn-success'
-                            }).then(function (result) {
-                                if (result.value) {
-                                    table.draw();
-                                }
-                            });
-                        }
-                    }
-                });
-            }
-        });
-    });
 
     $("body").on("click", ".deleted", function () {
         var id     = $(this).data("id");
         var table  = $('#content-table').DataTable();
         var token  = $("meta[name='csrf-token']").attr("content");
 
-        warningMessage = 'Apakah anda akan menghapus data ini?';
-        buttonName = "Delete";
-
         Swal.fire({
             title: "Delete Data",
-            text: warningMessage,
+            text: 'Apakah anda akan menghapus data ini?',
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
-            confirmButtonText: buttonName
+            confirmButtonText: "Hapus"
         }).then(function (result) {
             if (result.value) {
                 loadingScreen('Mohon Tunggu ...');
                 $.ajax({
-                    url: '/location/delete',
+                    url: '/m-appearance/delete',
                     type: 'POST',
                     data: {
                         _token: token,
@@ -213,7 +156,7 @@
                                 confirmButtonClass: 'btn btn-success'
                             }).then(function (result) {
                                 if (result.value) {
-                                    table.draw();
+                                    window.location.replace("/m-game-management/index");
                                 }
                             });
                         } else {

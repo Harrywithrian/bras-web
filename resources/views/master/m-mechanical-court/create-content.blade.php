@@ -11,7 +11,7 @@
     </ol>
 
     <div class="card shadow-sm">
-        <div class="card-header" style="background-color:#1e1e2d; color:white;">
+        <div class="card-header" style="background-color:#181C32;">
             <h3 class="card-title text-light"> {{ $title }} </h3>
         </div>
 
@@ -33,7 +33,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label>Header</label>
-                            <select class="form-select" data-control="select2" data-placeholder="Pilih Header ..." data-allow-clear="true" id="header" name="header">
+                            <select class="form-select" data-placeholder="Pilih Header ..." data-allow-clear="true" id="header" name="header">
                                 <option value=""></option>
                                 @foreach($header as $item)
                                     <option value="{{ $item['id'] }}" {{(old('header') == $item['id']) ? 'selected' : '';}}>{{ $item['nama'] }}</option>
@@ -75,6 +75,26 @@
                         rtl: false
                     });
                 @endif
+            });
+
+            $("#header").select2({
+                // the following code is used to disable x-scrollbar when click in select input and
+                // take 100% width in responsive also
+                placeholder: "Pilih ...",
+                dropdownAutoWidth: true,
+                width: '100%'
+            });
+
+            $("#nama").change(function() {
+                $("#err_nama").html("");
+            });
+
+            $('#header').select2().on('change', function(){
+                $("#err_header").html("");
+            });
+
+            $("#urutan").change(function() {
+                $("#err_urutan").html("");
             });
         </script>
     @endsection

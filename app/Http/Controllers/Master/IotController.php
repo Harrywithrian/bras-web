@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Master;
 
 use App\Http\Controllers\Controller;
 use App\Models\Master\Iot;
+use App\Models\UserInfo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Yajra\DataTables\DataTables;
@@ -13,38 +14,28 @@ use Carbon\Carbon;
 class IotController extends Controller
 {
     public function index() {
-        return view('master.iot.index');
+        $user = UserInfo::where('user_id', '=', Auth::id())->first();
+        $role = explode(',', $user->role);
+        return view('master.iot.index', [
+            'role' => $role
+        ]);
     }
 
     public function get(Request $request) {
         if ($request->ajax()) {
             $data = Iot::select(['id', 'alias', 'nama', 'status'])
-                ->whereNull('deletedon')
-                ->get();
+                ->whereNull('deletedon');
+
+            if ($request->search != '') {
+                $data->where(function ($query) use ($request) {
+                    $query->where('alias', 'LIKE', '%'.$request->search.'%')
+                        ->orWhere('nama', 'LIKE', '%'.$request->search.'%');
+                });
+            }
 
             return $this->dataTable($data);
         }
         return null;
-    }
-
-    public function search(Request $request) {
-        $data = Iot::select(['id', 'alias', 'nama', 'status'])
-            ->whereNull('deletedon');
-
-        if ($request->alias != '') {
-            $data->where('alias','LIKE','%'.$request->alias.'%');
-        }
-
-        if ($request->nama != '') {
-            $data->where('nama','LIKE','%'.$request->nama.'%');
-        }
-
-        if ($request->status != '') {
-            $data->where('status', '=', $request->status);
-        }
-
-        $data->get();
-        return $this->dataTable($data);
     }
 
     public function dataTable($data) {
@@ -64,7 +55,7 @@ class IotController extends Controller
 
         # KOLOM ACTION
         $dataTables = $dataTables->addColumn('action', function ($row) {
-            $view = '<a class="btn btn-info" title="Show" style="padding:5px;" href="' . route('iot.show', $row->id) . '"> &nbsp<i class="bi bi-eye"></i> </a>';
+            $view = '<a class="btn btn-primary" title="Show" style="padding:5px;" href="' . route('iot.show', $row->id) . '"> &nbsp<i class="bi bi-eye"></i> </a>';
             $edit = '<a class="btn btn-warning" title="Edit" style="padding:5px; margin-left:5px;" href="' . route('iot.edit', $row->id) . '"> &nbsp<i class="bi bi-pencil-square"></i> </a>';
             $delete = '<btn class="btn btn-danger deleted" title="Delete" style="padding:5px; margin-left:5px;" data-id="' . $row->id . '" id="deleted' . $row->id . '"> &nbsp<i class="bi bi-trash"></i> </btn>';
 
@@ -126,10 +117,13 @@ class IotController extends Controller
     }
 
     public function show($id) {
+        $user = UserInfo::where('user_id', '=', Auth::id())->first();
+        $role = explode(',', $user->role);
         $model = Iot::find($id);
 
         return view('master.iot.show', [
             'model' => $model,
+            'role' => $role
         ]);
     }
 

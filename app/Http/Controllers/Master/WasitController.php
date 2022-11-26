@@ -14,7 +14,10 @@ use Yajra\DataTables\DataTables;
 class WasitController extends Controller
 {
     public function index() {
-        return view('master.wasit.index');
+        $license = License::where('type', '=', 1)->where('status', '=', 1)->whereNull('deletedon')->get()->toArray();
+        return view('master.wasit.index', [
+            'license' => $license
+        ]);
     }
 
     public function get(Request $request) {
@@ -24,36 +27,22 @@ class WasitController extends Controller
                 ->leftJoin('m_license', 'user_infos.id_m_lisensi', '=', 'm_license.id')
                 ->leftJoin('m_region', 'user_infos.id_m_region', '=', 'm_region.id')
                 ->where('role', '=', 8)
-                ->orderBy('users.name')
-                ->get();
+                ->orderBy('users.name');
+
+            if ($request->search != '') {
+                $data->where(function ($query) use ($request) {
+                    $query->where('users.name', 'LIKE', '%'.$request->search.'%')
+                        ->orWhere('m_region.region', 'LIKE', '%'.$request->search.'%');
+                });
+            }
+
+            if ($request->lisensi != '') {
+                $data->where('user_infos.id_m_lisensi', '=', $request->lisensi);
+            }
 
             return $this->dataTable($data);
         }
         return null;
-    }
-
-    public function search(Request $request) {
-        $data = User::select(['users.id', 'users.name', 'm_license.license', 'm_region.region'])
-            ->leftJoin('user_infos', 'users.id', '=', 'user_infos.user_id')
-            ->leftJoin('m_license', 'user_infos.id_m_lisensi', '=', 'm_license.id')
-            ->leftJoin('m_region', 'user_infos.id_m_region', '=', 'm_region.id')
-            ->where('role', '=', 8)
-            ->orderBy('users.name');
-
-        if ($request->name != '') {
-            $data->where('users.name','LIKE','%'.$request->name.'%');
-        }
-
-        if ($request->lisensi != '') {
-            $data->where('user_infos.id_m_lisensi', '=', $request->lisensi);
-        }
-
-        if ($request->region != '') {
-            $data->where('user_infos.id_m_region', '=', $request->region);
-        }
-
-        $data->get();
-        return $this->dataTable($data);
     }
 
     public function dataTable($data) {
@@ -64,7 +53,7 @@ class WasitController extends Controller
 
         # KOLOM ACTION
         $dataTables = $dataTables->addColumn('action', function ($row) {
-            $view = '<a class="btn btn-info" title="Show" style="padding:5px;" href="' . route('wasit.show', $row->id) . '"> &nbsp<i class="bi bi-eye"></i> </a>';
+            $view = '<a class="btn btn-primary" title="Show" style="padding:5px;" href="' . route('wasit.show', $row->id) . '"> &nbsp<i class="bi bi-eye"></i> </a>';
             $button = $view;
             return $button;
         });

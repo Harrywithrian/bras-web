@@ -61,42 +61,22 @@ class MAppearanceController extends Controller
                 ->whereNull('m_appearance.deletedon')
                 ->orderBy('m_appearance.level', 'ASC')
                 ->orderBy('m_appearance.id_m_appearance', 'ASC')
-                ->orderBy('m_appearance.order_by', 'ASC')
-                ->get();
+                ->orderBy('m_appearance.order_by', 'ASC');
+
+            if ($request->search != '') {
+                $data->where(function ($query) use ($request) {
+                    $query->where('m_appearance.nama', 'LIKE', '%'.$request->search.'%')
+                        ->orWhere('a.nama', 'LIKE', '%'.$request->search.'%');
+                });
+            }
+    
+            if ($request->level != '') {
+                $data->where('m_appearance.level', '=', $request->level);
+            }
 
             return $this->dataTable($data);
         }
         return null;
-    }
-
-    public function search(Request $request) {
-        $data = MAppearance::select([
-            'm_appearance.id',
-            'm_appearance.nama',
-            'm_appearance.level',
-            'a.nama AS parent',
-            'm_appearance.persentase',
-            'm_appearance.order_by'
-        ])->leftJoin('m_appearance as a', 'a.id', '=', 'm_appearance.id_m_appearance')
-            ->whereNull('m_appearance.deletedon')
-            ->orderBy('m_appearance.level', 'ASC')
-            ->orderBy('m_appearance.id_m_appearance', 'ASC')
-            ->orderBy('m_appearance.order_by', 'ASC');
-
-        if ($request->nama != '') {
-            $data->where('m_appearance.nama','LIKE','%'.$request->nama.'%');
-        }
-
-        if ($request->level != '') {
-            $data->where('m_appearance.level', '=', $request->level);
-        }
-
-        if ($request->parent != '') {
-            $data->where('a.nama','LIKE','%'.$request->parent.'%');
-        }
-
-        $data->get();
-        return $this->dataTable($data);
     }
 
     public function dataTable($data) {
@@ -111,7 +91,7 @@ class MAppearanceController extends Controller
 
         # KOLOM ACTION
         $dataTables = $dataTables->addColumn('action', function ($row) {
-            $view = '<a class="btn btn-info" title="Show" style="padding:5px;" href="' . route('m-appearance.show', $row->id) . '"> &nbsp<i class="bi bi-eye"></i> </a>';
+            $view = '<a class="btn btn-primary" title="Show" style="padding:5px;" href="' . route('m-appearance.show', $row->id) . '"> &nbsp<i class="bi bi-eye"></i> </a>';
             $edit = ($row->level == 1) ?
                 '<a class="btn btn-warning" title="Edit" style="padding:5px; margin-left:5px;" href="' . route('m-appearance.edit-header', $row->id) . '"> &nbsp<i class="bi bi-pencil-square"></i> </a>'
                 :'<a class="btn btn-warning" title="Edit" style="padding:5px; margin-left:5px;" href="' . route('m-appearance.edit-content', $row->id) . '"> &nbsp<i class="bi bi-pencil-square"></i> </a>';

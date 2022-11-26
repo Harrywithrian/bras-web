@@ -77,7 +77,7 @@
                         <tr>
                             <td class="p-5" >Tanggal Pendaftaran</td>
                             <td class="p-5" >:</td>
-                            <td class="p-5" >{{ date('H:i:s / d-m-Y', strtotime($userDetail->createdon)) }}</td>
+                            <td class="p-5" >{{ date('H:i:s / d-m-Y', strtotime($userDetail->created_at)) }}</td>
                         </tr>
                     </table>
                     <div class="alert alert-dismissible bg-primary p-3" style="margin-bottom:0px; border-radius: 0px;">

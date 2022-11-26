@@ -172,10 +172,10 @@
         var token  = $("meta[name='csrf-token']").attr("content");
 
         warningMessage = 'Apakah anda akan menghapus data ini?';
-        buttonName = "Kunci";
+        buttonName = "Delete";
 
         Swal.fire({
-            title: "Lock Data",
+            title: "Delete Data",
             text: warningMessage,
             icon: "warning",
             showCancelButton: true,

@@ -10,7 +10,7 @@
     </ol>
 
     <div class="card shadow-sm">
-        <div class="card-header" style="background-color:#1e1e2d; color:white;">
+        <div class="card-header" style="background-color:#181C32;">
             <h3 class="card-title text-light"> {{ $title }} </h3>
         </div>
 

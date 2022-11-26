@@ -9,7 +9,7 @@
     </ol>
 
     <div class="card shadow-sm" id="main-layout">
-        <div class="card-header" style="background-color:#1e1e2d; color:white;">
+        <div class="card-header" style="background-color:#181C32;">
             <h3 class="card-title text-light">{{ $title }}</h3>
         </div>
 
@@ -44,7 +44,8 @@
     </div>
 
     @section('scripts')
-        <script src="{{asset('demo1/js/transaksi/t-approval/index.js')}}"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.js"></script>
+        @include('transaksi.t-approval.index-script')
         <script src="{{asset('demo1/plugins/custom/datatables/datatables.bundle.js')}}"></script>
     @endsection
 

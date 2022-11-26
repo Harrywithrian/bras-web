@@ -14,17 +14,19 @@
     </ol>
 
     <div class="card shadow-sm">
-        <div class="card-header" style="background-color:#1e1e2d; color:white;">
+        <div class="card-header" style="background-color:#181C32;">
             <h3 class="card-title text-light"> {{ $title }} </h3>
         </div>
 
         <div class="card-body">
 
-            <a href="{{ route('iot.edit', $model->id) }}" class="btn btn-warning"> Edit </a>
-            @if($model->status == 1)
-                <button class="btn btn-danger" id="switchStatus" data-toogle="inactive" data-id="{{ $model->id }}" onClick="aktif(event)"> Inactive </button>
-            @else
-                <button class="btn btn-success" id="switchStatus" data-toogle="active" data-id="{{ $model->id }}" onClick="aktif(event)"> Active </button>
+            @if((in_array('1', $role)) || (in_array('2', $role)))
+                <a href="{{ route('iot.edit', $model->id) }}" class="btn btn-warning"> Edit </a>
+                @if($model->status == 1)
+                    <button class="btn btn-danger" id="switchStatus" data-toogle="inactive" data-id="{{ $model->id }}" onClick="aktif(event)"> Inactive </button>
+                @else
+                    <button class="btn btn-success" id="switchStatus" data-toogle="active" data-id="{{ $model->id }}" onClick="aktif(event)"> Active </button>
+                @endif
             @endif
             <button class="btn btn-danger" id="delete" data-id="{{ $model->id }}" onClick="hapus(event)"> Delete </button>
             <a href="{{ route('iot.index') }}" class="btn btn-secondary"> Kembali </a>
@@ -189,7 +191,7 @@
                 }).then(function (result) {
                     if (result.value) {
                         $.ajax({
-                            url: '/license/delete',
+                            url: '/iot/delete',
                             type: 'POST',
                             data: {
                                 _token: token,

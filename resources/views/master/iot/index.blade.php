@@ -9,18 +9,31 @@
     </ol>
 
     <div class="card shadow-sm" id="main-layout">
-        <div class="card-header" style="background-color:#1e1e2d; color:white;">
+        <div class="card-header" style="background-color:#181C32;">
             <h3 class="card-title text-light">{{ $title }}</h3>
         </div>
 
         <div class="card-body">
 
-            @include('master.iot.search')
-
             <div class="row">
-                <div class="col-12">
+                <div class="col-6">
+                    <form id="search">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="input-search" name="input-search" value="" placeholder="Cari ...">
+                                    <button type="button" id="cari" class="btn btn-primary" onclick="search(event)"> <i class="bi bi-search fs-3"></i> </button>
+                                    <button type="button" class="btn btn-warning" onclick="resets(event)"> <i class="bi bi-arrow-clockwise fs-3"></i> </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-6">
                     <div class="float-end mb-5">
-                        <a class="btn btn-xs btn-primary" href="{{ route('iot.create') }}"> Tambah data </a>
+                        @if((in_array('1', $role)) || (in_array('2', $role)))
+                            <a class="btn btn-xs btn-primary" href="{{ route('iot.create') }}"><i class="bi bi-plus-lg fs-3"></i> Tambah Data </a>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -49,7 +62,9 @@
     </div>
 
     @section('scripts')
-        <script src="{{asset('demo1/js/master/iot/index.js')}}"></script>
+        {{-- <script src="{{asset('demo1/js/master/iot/index.js')}}"></script> --}}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.js"></script>
+        @include('master.iot.index-script')
         <script src="{{asset('demo1/plugins/custom/datatables/datatables.bundle.js')}}"></script>
     @endsection
 

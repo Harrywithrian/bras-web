@@ -24,7 +24,7 @@
         mainTable.DataTable({
             ajax: {
                 type:"POST",
-                url: "/location/get",
+                url: "/iot/get",
                 headers: {
                     "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
                 },
@@ -74,30 +74,17 @@
                     searchable: false
                 },
                 {
+                    data: 'alias',
+                    name: 'alias',
+                    orderable: false,
+                    searchable: false
+                },
+                {
                     data: 'nama',
                     name: 'nama',
                     orderable: false,
                     searchable: false
                 },
-                {
-                    data: 'region',
-                    name: 'region',
-                    title: 'Provinsi',
-                    orderable: false,
-                    searchable: false
-                },
-                {
-                    data: 'telepon',
-                    name: 'telepon',
-                    orderable: false,
-                    searchable: false
-                },
-                {
-                    data: 'email',
-                    name: 'email',
-                    orderable: false,
-                    searchable: false
-                }
             ]
         });
     }
@@ -139,7 +126,7 @@
             if (result.value) {
                 loadingScreen('Mohon Tunggu ...');
                 $.ajax({
-                    url: '/location/status',
+                    url: '/iot/status',
                     type: 'POST',
                     data: {
                         _token: token,
@@ -197,7 +184,7 @@
             if (result.value) {
                 loadingScreen('Mohon Tunggu ...');
                 $.ajax({
-                    url: '/location/delete',
+                    url: '/iot/delete',
                     type: 'POST',
                     data: {
                         _token: token,
