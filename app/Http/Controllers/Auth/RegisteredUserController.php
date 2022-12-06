@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\ModelHasRole;
 use App\Models\Transaksi\TFile;
 use App\Models\Transaksi\TUserApproval;
 use App\Models\User;
@@ -112,10 +113,14 @@ class RegisteredUserController extends Controller
         $model->id_t_file_foto    = $modelFoto->id;
         $model->jenis_daftar      = $request->jenis_daftar;
         if ($model->save()) {
-            $admin = UserInfo::whereIn('role', [1,2])->get()->toArray();
-            if ($admin) {
-                foreach ($admin as $user) {
-                    $this->send($user);
+            // $admin = UserInfo::whereIn('role', [1,2])->get()->toArray();
+            $modelRole = ModelHasRole::whereIn('role_id', [1,2])->get()->toArray();
+            if ($modelRole) {
+                foreach ($modelRole as $item) {
+                    $admin = UserInfo::where('user_id', $item['model_id'])->first();
+                    if ($admin) {
+                        $this->send($admin);
+                    }
                 }
             }
             Session::flash('success', 'Pendaftaran berhasil, User anda sedang dalam proses approval.');

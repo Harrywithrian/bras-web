@@ -294,7 +294,7 @@ class TEventController extends Controller
                     $k++;
                 }
 
-                // $this->send();
+                $this->send();
 
                 DB::commit();
                 Session::flash('success', 'Event berhasil dibuat.');
