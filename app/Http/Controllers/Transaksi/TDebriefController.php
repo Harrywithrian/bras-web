@@ -51,7 +51,7 @@ class TDebriefController extends Controller
         $mCallAnalysis = CallAnalysis::find($request->call_analysis);
         $mViolation    = Violation::find($request->violation);
         $mPos          = ['1' => 'Trail', '2' => 'Center', '3' => 'Lead'];
-        $mZone         = ['1' => 'Zone 1', '2' => 'Zone 2', '3' => 'Zone 3', '4' => 'Zone 4', '5' => 'Zone 5', '6' => 'Zone 6'];
+        $mZone         = ['1' => 'Zone 1', '2' => 'Zone 2', '3' => 'Zone 3', '4' => 'Zone 4', '5' => 'Zone 5', '6' => 'Zone 6', '7' => 'Backcourt', '8' => 'Transisi'];
         $IotTotal      = ($request->iot) ? count($request->iot) : 0 ;
 
         $playCalling = TPlayCalling::find($id);

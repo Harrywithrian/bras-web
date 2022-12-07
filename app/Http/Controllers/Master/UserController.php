@@ -288,7 +288,10 @@ class UserController extends Controller
             $model->status   = 1;
             $model->email    = $request->email;
             $model->email_verified_at = Carbon::now();
-            $model->password          = Hash::make($request->password);
+
+            if ($request->password) {
+                $model->password = Hash::make($request->password);
+            }
             if ($model->save()) {
                 $detail = UserInfo::where('user_id', '=', $id)->first();
 

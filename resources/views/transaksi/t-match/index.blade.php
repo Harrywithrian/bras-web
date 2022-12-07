@@ -1,7 +1,8 @@
 <x-base-layout>
     <?php
         $title = 'Pertandingan Event ' . $event->nama;
-        $user = \App\Models\UserInfo::where('user_id', '=', \Illuminate\Support\Facades\Auth::id())->first();
+        // $user = \App\Models\UserInfo::where('user_id', '=', \Illuminate\Support\Facades\Auth::id())->first();
+        $user = \App\Models\ModelHasRole::where('model_id', \Illuminate\Support\Facades\Auth::id())->where('role_id', 7)->first();
         $dateNow = date('Y-m-d');
     ?>
 
@@ -26,10 +27,10 @@
                 <div class="col-12">
                     <div class="float-end mb-5">
                         <a class="btn btn-xs btn-secondary" href="{{ route('t-match.index-event') }}"> Kembali </a>
-                        @if($user->role == 7 && $event->status != 2)
+                        @if(!empty($user) && $event->status != 2)
                             <a class="btn btn-xs btn-success" href="{{ route('t-match.done-event', $event->id) }}"> Event Selesai </a>
                         @endif
-                        @if($user->role == 7 && $dateNow < $event->tanggal_selesai && $event->status != 2)
+                        @if(!empty($user) && $dateNow < $event->tanggal_selesai && $event->status != 2)
                             <a class="btn btn-xs btn-primary" href="{{ route('t-match.create', $event->id) }}"> Tambah Pertandingan </a>
                         @endif
                     </div>
