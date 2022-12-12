@@ -77,7 +77,7 @@ class ReportWasitController extends Controller
 
         # KOLOM ACTION
         $dataTables = $dataTables->addColumn('action', function ($row) {
-            $view = '<a class="btn btn-info" title="Show" style="padding:5px;" href="' . route('report-wasit.show', $row->id) . '"> &nbsp<i class="bi bi-eye"></i> </a>';
+            $view = '<a class="btn btn-primary" title="Show" style="padding:5px;" href="' . route('report-wasit.show', $row->id) . '"> &nbsp<i class="bi bi-eye"></i> </a>';
 
             $button = $view;
 
@@ -186,7 +186,7 @@ class ReportWasitController extends Controller
             $button = '';
 
             if ($row->status == 2) {
-                $view = '<a class="btn btn-info" title="Show" style="padding:5px; vertical-align: middle !important;" href="' . route('report-wasit.show-match', [$row->id, $row->wasit]) . '"> &nbsp<i class="bi bi-eye"></i> </a>';
+                $view = '<a class="btn btn-primary" title="Show" style="padding:5px; vertical-align: middle !important;" href="' . route('report-wasit.show-match', [$row->id, $row->wasit]) . '"> &nbsp<i class="bi bi-eye"></i> </a>';
                 $button = $view;
             }
 

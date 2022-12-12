@@ -87,7 +87,7 @@ class ReportPertandinganController extends Controller
 
         # KOLOM ACTION
         $dataTables = $dataTables->addColumn('action', function ($row) {
-            $view   = '<a class="btn btn-info" title="Show" style="padding:5px; margin-top:-5px;" href="' . route('report-pertandingan.index', $row->id) . '"> &nbsp<i class="bi bi-eye"></i> </a>';
+            $view   = '<a class="btn btn-primary" title="Show" style="padding:5px; margin-top:-5px;" href="' . route('report-pertandingan.index', $row->id) . '"> &nbsp<i class="bi bi-eye"></i> </a>';
             $button = $view;
 
             return $button;
@@ -184,7 +184,7 @@ class ReportPertandinganController extends Controller
             $button = '';
 
             if ($row->status == 2) {
-                $view = '<a class="btn btn-info" title="Show" style="padding:5px; margin-top:-5px;" href="' . route('report-pertandingan.show', $row->id) . '"> &nbsp<i class="bi bi-eye"></i> </a>';
+                $view = '<a class="btn btn-primary" title="Show" style="padding:5px; margin-top:-5px;" href="' . route('report-pertandingan.show', $row->id) . '"> &nbsp<i class="bi bi-eye"></i> </a>';
                 $button = $view;
             }
 

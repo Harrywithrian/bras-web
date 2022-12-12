@@ -33,12 +33,15 @@
             @endif
         </div>
 
-        <div class="fv-row mb-10">
-            <label class="form-check form-check-custom form-check-solid">
+        <div class="fv-row mb-3">
+            <div class="text-muted">
+                <a href="{{ route('account.forgot-password') }}">Lupa Password?</a>
+            </div>
+            {{-- <label class="form-check form-check-custom form-check-solid">
                 <input class="form-check-input" type="checkbox" name="remember"/>
                 <span class="form-check-label fw-bold text-gray-700 fs-6">{{ __('Remember me') }}
             </span>
-            </label>
+            </label> --}}
         </div>
 
         <div class="text-center">
@@ -57,6 +60,15 @@
                 @if(\Illuminate\Support\Facades\Session::has('success'))
                     var msg = JSON.parse('<?php echo json_encode(\Illuminate\Support\Facades\Session::get('success')); ?>');
                     toastr['success'](msg, 'Success', {
+                        closeButton: true,
+                        tapToDismiss: false,
+                        rtl: false
+                    });
+                @endif
+
+                @if(\Illuminate\Support\Facades\Session::has('error'))
+                    var msg = JSON.parse('<?php echo json_encode(\Illuminate\Support\Facades\Session::get('error')); ?>');
+                    toastr['error'](msg, 'Error', {
                         closeButton: true,
                         tapToDismiss: false,
                         rtl: false

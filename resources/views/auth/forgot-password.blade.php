@@ -1,41 +1,66 @@
 <x-auth-layout>
     <!--begin::Forgot Password Form-->
-    <form method="POST" action="{{ theme()->getPageUrl('password.email') }}" class="form w-100" novalidate="novalidate" id="kt_password_reset_form">
+    <form method="POST" action="{{ route('account.send-forgot-password') }}">
     @csrf
 
         <!--begin::Heading-->
         <div class="text-center mb-10">
             <!--begin::Title-->
             <h1 class="text-dark mb-3">
-                {{ __('Forgot Password ?') }}
+                Reset Password
             </h1>
             <!--end::Title-->
 
             <!--begin::Link-->
             <div class="text-gray-400 fw-bold fs-4">
-                {{ __('Enter your email to reset your password.') }}
+                Silahkan isi email anda untuk melakukan reset password.
             </div>
             <!--end::Link-->
         </div>
         <!--begin::Heading-->
 
         <!--begin::Input group-->
-        <div class="fv-row mb-10">
-            <label class="form-label fw-bolder text-gray-900 fs-6">{{ __('Email') }}</label>
-            <input class="form-control form-control-solid" type="email" name="email" autocomplete="off" value="{{ old('email') }}" required autofocus/>
+        <div class="form-group">
+            <label class="form-label fw-bolder text-gray-900 fs-6">Email</label>
+            <input id="email" class="form-control" name="email" value="{{ old('email') }}" type="email">
+            @if($errors->has('email'))
+                <span id="err_email" class="text-danger">{{ $errors->first('email') }}</span>
+            @endif
         </div>
+
+        <br>
         <!--end::Input group-->
 
         <!--begin::Actions-->
         <div class="d-flex flex-wrap justify-content-center pb-lg-0">
-            <button type="submit" id="kt_password_reset_submit" class="btn btn-lg btn-primary fw-bolder me-4">
-                @include('partials.general._button-indicator')
-            </button>
-
-            <a href="{{ theme()->getPageUrl('login') }}" class="btn btn-lg btn-light-primary fw-bolder">{{ __('Cancel') }}</a>
+            <button type="submit" class="btn btn-primary me-4"> Submit </button>
+            <a href="{{ route('login') }}" class="btn btn-secondary"> Kembali </a>
         </div>
         <!--end::Actions-->
     </form>
     <!--end::Forgot Password Form-->
 
+    @section('scripts')
+        <script>
+            $(document).ready( function() {
+                @if(\Illuminate\Support\Facades\Session::has('success'))
+                    var msg = JSON.parse('<?php echo json_encode(\Illuminate\Support\Facades\Session::get('success')); ?>');
+                    toastr['success'](msg, 'Success', {
+                        closeButton: true,
+                        tapToDismiss: false,
+                        rtl: false
+                    });
+                @endif
+
+                @if(\Illuminate\Support\Facades\Session::has('error'))
+                    var msg = JSON.parse('<?php echo json_encode(\Illuminate\Support\Facades\Session::get('error')); ?>');
+                    toastr['error'](msg, 'Error', {
+                        closeButton: true,
+                        tapToDismiss: false,
+                        rtl: false
+                    });
+                @endif
+            });
+        </script>
+    @endsection
 </x-auth-layout>

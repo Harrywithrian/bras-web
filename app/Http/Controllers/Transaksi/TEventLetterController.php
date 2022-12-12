@@ -78,7 +78,7 @@ class TEventLetterController extends Controller
 
         # KOLOM ACTION
         $dataTables = $dataTables->addColumn('action', function ($row) {
-            $view   = '<a class="btn btn-info" title="Show" style="padding:5px;" href="' . route('t-event-letter.show', $row->id) . '"> &nbsp<i class="bi bi-eye"></i> </a>';
+            $view   = '<a class="btn btn-primary" title="Show" style="padding:5px;" href="' . route('t-event-letter.show', $row->id) . '"> &nbsp<i class="bi bi-eye"></i> </a>';
             $button = $view;
             return $button;
         });

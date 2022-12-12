@@ -16,11 +16,105 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Yajra\DataTables\DataTables;
 use Illuminate\Validation\Rules;
+use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
     public function index() {
         return view('master.user.index');
+    }
+
+    public function forgotPassword() {
+        return view('auth.forgot-password');
+    }
+
+    public function sendForgotPassword(Request $request) {
+        $rules = [
+            'email' => 'required',
+        ];
+
+        $customMessages = [
+            'required' => 'Kolom :attribute tidak boleh kosong.'
+        ];
+
+        $this->validate($request, $rules, $customMessages);
+
+        $user = User::where('email', $request->email)->first();
+        if ($user) {
+            $userDetail = UserInfo::where('user_id', $user->id)->first();
+            $userDetail->token_reset_password = $this->generateRandomString();
+            $userDetail->save();
+
+            $this->sendEmail($user, $userDetail);
+            Session::flash('success', 'Reset password berhasil terkirim ke email anda.');
+            return redirect()->route('login');
+        }
+        Session::flash('error', 'Email tidak ditemukan.');
+        return redirect()->route('account.forgot-password');
+    }
+
+    public function changePassword($token) {
+        $user = UserInfo::where('token_reset_password', $token)->first();
+        if ($user) {
+            return view('auth.reset-password', [
+                'token' => $token
+            ]);
+        }
+        Session::flash('error', 'Token expired.');
+        return redirect()->route('login');
+    }
+
+    public function resetChangePassword(Request $request, $token) {
+        $userDetail = UserInfo::where('token_reset_password', $token)->first();
+        if ($userDetail) {
+            $rules = [
+                'password'   => ['required', 'confirmed', Rules\Password::defaults()],
+            ];
+    
+            $customMessages = [
+                'required' => 'Kolom :attribute tidak boleh kosong.',
+                'confirmed' => 'Kolom :attribute tidak sesuai dengan re-type password.',
+            ];
+    
+            $this->validate($request, $rules, $customMessages);
+            
+            $user = User::where('id', $userDetail->user_id)->first();
+            $user->password      = Hash::make($request->password);
+            $user->save();
+
+            $userDetail->token_reset_password = null;
+            $userDetail->save();
+            Session::flash('success', 'Reset password berhasil, silahkan untuk melakukan login.');
+            return redirect()->route('login');
+        }
+        Session::flash('error', 'Token invalid.');
+        return redirect()->route('login');
+    }
+    
+
+    public function sendEmail($user, $userDetail) {
+        $to   = $user['email'];
+        $data = [
+            'name' => $user['name'],
+            'url' => env("APP_URL") . "/account/change-password/" . $userDetail->token_reset_password
+        ];
+
+        if ($to) {
+            Mail::send('mail.forgot-password', $data, function ($message) use ($to, $data) {
+                $message->to($to)
+                    ->subject('Forgot Password');
+            });
+        }
+    }
+
+    function generateRandomString() {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < 30; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
     }
 
     public function get(Request $request) {

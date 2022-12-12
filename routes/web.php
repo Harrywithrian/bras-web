@@ -388,6 +388,12 @@ Route::middleware('auth')->group(function () {
 
 Route::resource('users', UsersController::class);
 
+Route::prefix('account')->group(function () {
+    Route::get('/forgot-password', [UserController::class, 'forgotPassword'])->name('account.forgot-password');
+    Route::post('/send-forgot-password', [UserController::class, 'sendForgotPassword'])->name('account.send-forgot-password');
+    Route::get('/change-password/{token}', [UserController::class, 'changePassword'])->name('account.change-password');
+    Route::post('/reset-change-password/{token}', [UserController::class, 'resetChangePassword'])->name('account.reset-change-password');
+});
 /**
  * Socialite login using Google service
  * https://laravel.com/docs/8.x/socialite
