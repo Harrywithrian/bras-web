@@ -72,6 +72,7 @@ class TMatchController extends Controller
                 ->where('t_event_participant.user', '=', Auth::id())
                 ->where('t_event_participant.role', '!=', 8)
                 ->whereNull('t_event.deletedon')
+                ->groupBy('t_event.id')
                 ->orderBy('t_event.createdon', 'DESC')
                 ->get();
 
