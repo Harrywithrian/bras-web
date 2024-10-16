@@ -17,7 +17,7 @@
 
 /public/storage
 /storage/*.key
-/storage/app
+/storage/app/public
 /vendor
 .env
 .env.backup
