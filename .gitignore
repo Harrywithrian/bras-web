@@ -15,6 +15,7 @@
 # /public/demo6
 # /public/demo7
 
+/public/storage
 /storage/*.key
 /storage/app
 /vendor
