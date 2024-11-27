@@ -210,7 +210,7 @@ class BootstrapDemo1 extends BootstrapBase
         // remove unique id
         $userMenus = $userMenuCollection->unique('id');
         // parse menu flat to tree
-        $userMenus = MasterMenu::hydrate($userMenus->sortBy('order')->toArray())->toTree();
+        $userMenus = MasterMenu::hydrate($userMenus->sortBy('order_menu')->toArray())->toTree();
 
         // reformatted menus
         self::formattedMenu($userMenus);

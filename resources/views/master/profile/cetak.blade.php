@@ -24,7 +24,7 @@
     </style>
 </head>
 <body>
-    <center><img height="60px;" src="{{ public_path() . "/demo1/media/logos/logo.png" }}"></center>
+    <center><img height="60px;" src="{{ public_path() . "/demo1/media/logos/logo_red.png" }}"></center>
     <center><h2>{{ $event->nama }}</h2></center>
     <center><h2>{{ $match->nama }}</h2></center>
     <center><h4>Waktu Pertandingan : {{ date('H:i d/m/Y', strtotime($match->waktu_pertandingan)) }}</h4></center>

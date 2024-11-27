@@ -10,7 +10,7 @@
     @csrf
 
         <div class="text-center mb-10">
-            <h1 class="text-dark">Indonesia Basketball Referee</h1>
+            <h1 style="color:#009EF7">Indonesia Basketball Referee</h1>
             <label>Form Pendaftaran User</label>
         </div>
 
@@ -181,7 +181,7 @@
 
         <center>
             <div class="text-muted">
-                Sudah punya akun? <a href="{{ route('login') }}">Login disini.</a>
+                Sudah punya akun? <a href="{{ route('login') }}" style="color:#009EF7">Login disini.</a>
             </div>
         </center>
     </form>

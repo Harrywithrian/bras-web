@@ -3,7 +3,7 @@
     <!--begin::Logo-->
     <center>
         <a href="{{ $theme->getPageUrl('index') }}" class="mb-5">
-            <img alt="Logo" src="{{ asset(theme()->getMediaUrlPath() . 'logos/logo.png') }}" class="h-90px"/>
+            <img alt="Logo" src="{{ asset(theme()->getMediaUrlPath() . 'logos/logo_red.png') }}" class="h-90px"/>
         </a>
     </center>
     <!--end::Logo-->
@@ -19,7 +19,7 @@
     @csrf
         <div class="fv-row mb-10">
             <label class="form-label fs-6 fw-bolder text-dark">Username</label>
-            <input class="form-control form-control-lg form-control-solid" type="text" name="username" autocomplete="off" value="{{ old('username') }}" required autofocus/>
+            <input class="form-control form-control-lg form-control-solid" type="text" name="username" autocomplete="off" value="{{ old('username') }}" required placeholder="Username ..."/>
             @if($errors->has('username'))
                 <span id="err_alias" class="text-danger">{{ $errors->first('username') }}</span>
             @endif
@@ -27,7 +27,7 @@
 
         <div class="fv-row mb-10">
             <label class="form-label fw-bolder text-dark fs-6 mb-0">Password</label>
-            <input class="form-control form-control-lg form-control-solid" type="password" name="password" autocomplete="off" required/>
+            <input class="form-control form-control-lg form-control-solid" type="password" name="password" autocomplete="off" required placeholder="Password ..."/>
             @if($errors->has('password'))
                 <span id="err_alias" class="text-danger">{{ $errors->first('password') }}</span>
             @endif

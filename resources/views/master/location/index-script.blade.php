@@ -238,7 +238,7 @@
     function loadingScreen(msg) {
         var $white = '#fff';
         var src = $("#logo_ibr").attr('src');
-        src = src.replace("logo_dark", "logo");
+        src = src.replace("logo_red_dark", "logo");
         $.blockUI({
             message: '<img src="' + src + '" style="height: 80px; width: auto"> <br><br> <h3>' + msg + '</h2>',
             timeout: 5000, //unblock after 5 seconds
