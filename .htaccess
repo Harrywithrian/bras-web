@@ -1,0 +1,12 @@
+# Mengarahkan permintaan ke folder public Laravel
+RewriteEngine On
+
+# Pastikan ini hanya berlaku pada server yang mendukung mod_rewrite
+RewriteBase /
+
+# Jika file atau folder yang diminta ada, biarkan server melayani file tersebut
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Arahkan ke public folder Laravel
+RewriteRule ^(.*)$ public/$1 [L]
