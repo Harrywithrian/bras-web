@@ -1,12 +1,10 @@
-# Mengarahkan permintaan ke folder public Laravel
+<IfModule mod_rewrite.c>
+# That was ONLY to protect you from 500 errors
+# if your server did not have mod_rewrite enabled
 RewriteEngine On
-
-# Pastikan ini hanya berlaku pada server yang mendukung mod_rewrite
-RewriteBase /
-
-# Jika file atau folder yang diminta ada, biarkan server melayani file tersebut
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-
-# Arahkan ke public folder Laravel
+# RewriteBase /
+# NOT needed unless you're using mod_alias to redirect
+RewriteCond %{REQUEST_URI} !/public
 RewriteRule ^(.*)$ public/$1 [L]
+# Direct all requests to /public folder
+</IfModule>
