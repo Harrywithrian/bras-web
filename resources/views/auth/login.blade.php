@@ -3,7 +3,7 @@
     <!--begin::Logo-->
     <center>
         <a href="{{ $theme->getPageUrl('index') }}" class="mb-5">
-            <img alt="Logo" src="{{ asset(theme()->getMediaUrlPath() . 'logos/logo_red.png') }}" class="h-90px"/>
+            <img alt="Logo" src="{{ asset(theme()->getMediaUrlPath() . 'logos/logo.png') }}" class="h-90px"/>
         </a>
     </center>
     <!--end::Logo-->

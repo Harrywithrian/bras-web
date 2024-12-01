@@ -1,5 +1,5 @@
 @php
-    $logoFileName = 'logo_red_dark.png';
+    $logoFileName = 'logo_dark.png';
 
     if (theme()->getOption('layout', 'aside/theme') === 'light') {
         $logoFileName = 'logo.png';
