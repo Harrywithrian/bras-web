@@ -16,7 +16,7 @@
 			<!--begin::Logo-->
 			<div class="d-flex align-items-center flex-grow-1 flex-lg-grow-0 me-lg-15">
 				<a href="{{ theme()->getPageUrl('index') }}">
-					<img alt="Logo" src="{{ asset(theme()->getMediaUrlPath() . 'logos/logo.svg') }}" class="h-35px"/>
+					<img alt="Logo" src="{{ asset(theme()->getMediaUrlPath() . 'logos/logo.png') }}" class="h-35px"/>
 				</a>
 			</div>
 			<!--end::Logo-->
@@ -24,7 +24,7 @@
 			<!--begin::Mobile logo-->
 			<div class="d-flex align-items-center flex-grow-1 flex-lg-grow-0">
 				<a href="{{ theme()->getPageUrl('index') }}" class="d-lg-none">
-					<img alt="Logo" src="{{ asset(theme()->getMediaUrlPath() . 'logos/logo.svg') }}" class="h-30px"/>
+					<img alt="Logo" src="{{ asset(theme()->getMediaUrlPath() . 'logos/logo.png') }}" class="h-30px"/>
 				</a>
 			</div>
 			<!--end::Mobile logo-->
