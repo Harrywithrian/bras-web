@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Transaksi;
 
 use App\Http\Controllers\Controller;
+use App\Models\Master\MKetuaUmum;
 use App\Models\Transaksi\TEvent;
 use App\Models\Transaksi\TEventContact;
 use App\Models\Transaksi\TEventLetter;
@@ -177,6 +178,11 @@ class TEventLetterController extends Controller
             $letter->save();
         }
 
+        if ($letter->nama_ketum == null) {
+            $ketumEksisting = MKetuaUmum::where('id', '=', 1)->first();
+            $letter->nama_ketum = $ketumEksisting->nama;
+            $letter->img_tanda_tangan = $ketumEksisting->img_tanda_tangan;
+        }
         $model    = TEvent::find($letter->id_t_event);
         $location = TEventLocation::select('m_location.nama', 'm_region.region', 'm_location.alamat')
             ->where('t_event_location.id_t_event', '=', $letter->id_t_event)
@@ -221,7 +227,6 @@ class TEventLetterController extends Controller
 
         $tembusan = TEventTembusan::where('id_t_event', '=', $letter->id_t_event)->get()->toArray();
         $cp       = TEventContact::where('id_t_event', '=', $letter->id_t_event)->get()->toArray();
-        $ketum    = User::find($model->penindak);
 
         $numbMonth      = date('n', strtotime($letter->sent_date)) - 1;
         $numbMonthStart = date('n', strtotime($model->tanggal_mulai)) - 1;
@@ -241,7 +246,6 @@ class TEventLetterController extends Controller
             'wasit' => $wasit,
             'tembusan' => $tembusan,
             'cp' => $cp,
-            'ketum' => $ketum,
             'sent_date' => $sent_date,
             'monthStart' => $monthStart,
             'monthEnd' => $monthEnd,
@@ -270,6 +274,12 @@ class TEventLetterController extends Controller
                 $user = User::find($item['user']);
                 $to[] = $user->email;
             }
+        }
+
+        if ($letter->nama_ketum == null) {
+            $ketumEksisting = MKetuaUmum::where('id', '=', 1)->first();
+            $letter->nama_ketum = $ketumEksisting->nama;
+            $letter->img_tanda_tangan = $ketumEksisting->img_tanda_tangan;
         }
 
         $letter->sent = $letter->sent + 1;
@@ -327,7 +337,6 @@ class TEventLetterController extends Controller
 
         $tembusan = TEventTembusan::where('id_t_event', '=', $letter->id_t_event)->get()->toArray();
         $cp       = TEventContact::where('id_t_event', '=', $letter->id_t_event)->get()->toArray();
-        $ketum    = User::find($model->penindak);
 
         $numbMonth      = date('n', strtotime($letter->sent_date)) - 1;
         $numbMonthStart = date('n', strtotime($model->tanggal_mulai)) - 1;
@@ -347,7 +356,6 @@ class TEventLetterController extends Controller
             'wasit' => $wasit,
             'tembusan' => $tembusan,
             'cp' => $cp,
-            'ketum' => $ketum,
             'sent_date' => $sent_date,
             'monthStart' => $monthStart,
             'monthEnd' => $monthEnd,
