@@ -45,6 +45,23 @@
     <br>
 
     <div class="row">
+        <div class="col-md-12">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h4 class="card-title">Dokumen Penting</h4>
+
+                    <ul>
+                        <li><a href="{{ route('getpdf', ['filename' => 'FIBA_RULES_CHANGES_2024_v2_0a']) }}" target="_blank">FIBA_RULES_CHANGES_2024_v2_0a</a></li>
+                        <li><a href="{{ route('getpdf', ['filename' => 'FIBAOfficialBasketballRules2024_v1_0a']) }}" target="_blank">FIBAOfficialBasketballRules2024_v1_0a</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br>
+
+    <div class="row">
         @if(isset($data['rank']))
             <div class="col-md-6">
                 <div class="card shadow-sm">

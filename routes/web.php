@@ -81,6 +81,7 @@ Route::middleware('auth')->group(function () {
     });
     
     Route::get('/', [IndexController::class, 'index'])->name('index');
+    Route::get('/getpdf/{filename}', [IndexController::class, 'getPdf'])->name('getpdf');
 
     // Account pages
     Route::prefix('account')->group(function () {

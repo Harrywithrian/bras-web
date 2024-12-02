@@ -88,4 +88,14 @@ class IndexController extends Controller
         $month = $part[1] - 1;
         return $part[2] . " " . $listMonth[$month] ." ". $part[0];
     }
+
+    public function getPdf($filename) {
+        $path = storage_path('app/public/dokumen/' . $filename . ".pdf");
+
+        if (!file_exists($path)) {
+            abort(404);
+        }
+
+        return response()->file($path);
+    }
 }
