@@ -16,7 +16,7 @@ use App\Http\Controllers\Master\LocationController;
 use App\Http\Controllers\Master\LicenseLocation;
 use App\Http\Controllers\Master\ViolationController;
 use App\Http\Controllers\Master\IotController;
-
+use App\Http\Controllers\Master\KetuaUmumController;
 use App\Http\Controllers\Master\MGameManagementController;
 use App\Http\Controllers\Master\MMechanicalCourtController;
 use App\Http\Controllers\Master\MAppearanceController;
@@ -120,6 +120,11 @@ Route::middleware('auth')->group(function () {
         Route::post('/update/{id}', [UserController::class, 'update'])->name('m-user.update');
         Route::post('/status', [UserController::class, 'status'])->name('m-user.status');
         Route::post('/lock', [UserController::class, 'lock'])->name('m-user.lock');
+    });
+    
+    Route::prefix('m-ketua-umum')->group(function () {
+        Route::get('/', [KetuaUmumController::class, 'index'])->name('m-ketua-umum.index');
+        Route::post('/update', [KetuaUmumController::class, 'update'])->name('m-ketua-umum.update');
     });
 
     Route::prefix('region')->group(function () {

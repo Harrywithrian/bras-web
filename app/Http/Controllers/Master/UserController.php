@@ -119,7 +119,8 @@ class UserController extends Controller
 
     public function get(Request $request) {
         if ($request->ajax()) {
-            $data = User::select(['id', 'username', 'name', 'status']);
+            $data = User::select(['id', 'username', 'name', 'status'])
+                ->where('id', '!=', 1);
 
             if ($request->search != '') {
                 $data->where(function ($query) use ($request) {
