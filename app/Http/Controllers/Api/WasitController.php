@@ -21,7 +21,7 @@ class WasitController extends Controller
             ->leftJoin('user_infos', 'users.id', '=', 'user_infos.user_id')
             ->leftJoin('m_license', 'user_infos.id_m_lisensi', '=', 'm_license.id')
             ->leftJoin('m_region', 'user_infos.id_m_region', '=', 'm_region.id')
-            ->where('role', '=', 8)
+            ->where('role', 'like', '%8%')
             ->orderBy('users.name');
 
         if (isset($request->search)) {
