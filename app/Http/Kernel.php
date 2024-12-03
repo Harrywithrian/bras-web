@@ -40,6 +40,7 @@ class Kernel extends HttpKernel
         ],
 
         'api' => [
+            // \App\Http\Middleware\LogApiRequest::class,  // Tambahkan di sini
             'throttle:api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
