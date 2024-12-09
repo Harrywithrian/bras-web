@@ -162,6 +162,34 @@
                 </div>
 
                 <div class="row mb-5">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Nomor Lisensi</label>
+                            <input id="no_lisensi" class="form-control" name="no_lisensi" value="{{ ($detail->no_lisensi) ? $detail->no_lisensi : old('no_lisensi') }}">
+                            @if($errors->has('no_lisensi'))
+                                <span id="err_no_lisensi" class="text-danger">{{ $errors->first('no_lisensi') }}</span>
+                            @endif
+                        </div>
+                    </div>
+
+                    <?php $oldLicense = (old('jenis_lisensi')) ? old('jenis_lisensi') : $detail->id_m_lisensi ; ?>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Jenis Lisensi</label>
+                            <select class="form-select form-control" data-placeholder="Pilih Lisensi ..." id="jenis_lisensi" name="jenis_lisensi">
+                                <option value=""></option>
+                                @foreach($lisensi as $item)
+                                    <option value="{{ $item['id'] }}" {{($oldLicense == $item['id']) ? 'selected' : '';}}>{{ $item['license'] }}</option>
+                                @endforeach
+                            </select>
+                            @if($errors->has('jenis_lisensi'))
+                                <span id="err_jenis_lisensi" class="text-danger">{{ $errors->first('jenis_lisensi') }}</span>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-5">
                     <div class="col-md-12">
                         <label>
                             Ubah Foto
@@ -223,6 +251,14 @@
             });
 
             $("#provinsi").select2({
+                // the following code is used to disable x-scrollbar when click in select input and
+                // take 100% width in responsive also
+                placeholder: "Pilih ...",
+                dropdownAutoWidth: true,
+                width: '100%'
+            });
+
+            $("#jenis_lisensi").select2({
                 // the following code is used to disable x-scrollbar when click in select input and
                 // take 100% width in responsive also
                 placeholder: "Pilih ...",

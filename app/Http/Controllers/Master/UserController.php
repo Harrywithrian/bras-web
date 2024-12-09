@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Master;
 
 use App\Http\Controllers\Controller;
+use App\Models\Master\License;
 use App\Models\Master\Region;
 use App\Models\Master\Role;
 use App\Models\Transaksi\TFile;
@@ -322,12 +323,14 @@ class UserController extends Controller
         
         $role = Role::where('id', '!=', 1)->get()->toArray();
         $region  = Region::where('status', '=', 1)->whereNull('deletedon')->get()->toArray();
+        $lisensi  = License::where('status', '=', 1)->whereNull('deletedon')->get()->toArray();
 
         return view('master.user.edit', [
             'model' => $model,
             'detail' => $detail,
             'role' => $role,
-            'region' => $region
+            'region' => $region,
+            'lisensi' => $lisensi
         ]);
     }
 
@@ -340,6 +343,8 @@ class UserController extends Controller
                 'tanggal_lahir' => 'required',
                 'alamat' => 'required',
                 'provinsi' => 'required',
+                'no_lisensi' => 'required',
+                'jenis_lisensi' => 'required',
             ];
 
             if ($request->password) {
@@ -404,6 +409,8 @@ class UserController extends Controller
                 $detail->tanggal_lahir = $request->tanggal_lahir;
                 $detail->alamat        = $request->alamat;
                 $detail->id_m_region   = $request->provinsi;
+                $detail->no_lisensi    = $request->no_lisensi;
+                $detail->id_m_lisensi  = $request->jenis_lisensi;
                 $detail->id_t_file_foto = isset($modelFoto) ? $modelFoto->id: $detail->id_t_file_foto ;
                 $detail->role           = $textRole;
                 if ($detail->save()) {
