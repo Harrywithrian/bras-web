@@ -33,17 +33,25 @@ class ProfileController extends Controller
         $lisensi    = License::find($userDetail->id_m_lisensi);
         $foto       = TFile::find($userDetail->id_t_file_foto);
         $rank       = null;
-        if ($userDetail->role == 8) {
-            $RefereePoint = TRefereePoint::orderBy('point', 'DESC')->get()->toArray();
-            $rank         = 'TBD';
-            $i            = 1;
-            foreach ($RefereePoint as $item) {
-                if ($item['wasit'] == $id) {
-                    $rank = $i;
-                }
-                $i++;
-            }
+
+        $listRole = [];
+        if (strpos($userDetail->role, ',') !== false) {
+            $listRole = explode(',', $userDetail->role);
+        } else {
+            $listRole[] = $userDetail->role;
         }
+
+        // if ($userDetail->role == 8) {
+        //     $RefereePoint = TRefereePoint::orderBy('point', 'DESC')->get()->toArray();
+        //     $rank         = 'TBD';
+        //     $i            = 1;
+        //     foreach ($RefereePoint as $item) {
+        //         if ($item['wasit'] == $id) {
+        //             $rank = $i;
+        //         }
+        //         $i++;
+        //     }
+        // }
 
         return view('master.profile.index', [
             'id' => $id,
@@ -52,7 +60,8 @@ class ProfileController extends Controller
             'provinsi' => $provinsi,
             'lisensi' => $lisensi,
             'foto' => $foto,
-            'rank' => $rank
+            'rank' => $rank,
+            'listRole' => $listRole
         ]);
     }
 
@@ -207,7 +216,6 @@ class ProfileController extends Controller
             ->leftJoin('t_event', 't_event.id', '=', 't_match.id_t_event')
             ->leftJoin('t_match_referee', 't_match.id', '=', 't_match_referee.id_t_match')
             ->where('t_match_referee.wasit', '=', $request->wasit)
-            ->where('t_match_referee.wasit', '=', $id)
             ->orderBy('t_match.waktu_pertandingan', 'DESC');
 
         if ($request->nama != '') {

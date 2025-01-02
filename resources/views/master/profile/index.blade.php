@@ -39,7 +39,7 @@
         <li class="nav-item">
             <a class="nav-link active" data-bs-toggle="tab" href="#profile">Profile</a>
         </li>
-        @if ($userDetail->role == 8)
+        @if (in_array(8, $listRole))
             <li class="nav-item">
                 <a class="nav-link" data-bs-toggle="tab" href="#match">Pertandingan</a>
             </li>
@@ -50,7 +50,7 @@
 
             <div class="tab-content" id="tab">
                 <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="page_1"> @include('master.profile.general') </div>
-                @if ($userDetail->role == 8) <div class="tab-pane fade" id="match" role="tabpanel" aria-labelledby="page_2"> @include('master.profile.match') </div> @endif
+                @if (in_array(8, $listRole)) <div class="tab-pane fade" id="match" role="tabpanel" aria-labelledby="page_2"> @include('master.profile.match') </div> @endif
             </div>
 
         </div>
