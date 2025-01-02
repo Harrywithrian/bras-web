@@ -121,6 +121,8 @@ Route::middleware('auth')->group(function () {
         Route::post('/update/{id}', [UserController::class, 'update'])->name('m-user.update');
         Route::post('/status', [UserController::class, 'status'])->name('m-user.status');
         Route::post('/lock', [UserController::class, 'lock'])->name('m-user.lock');
+        Route::post('/login-as', [UserController::class, 'loginAs'])->name('m-user.login-as');
+        Route::post('/logout-as', [UserController::class, 'logoutAs'])->name('m-user.logout-as');
     });
     
     Route::prefix('m-ketua-umum')->group(function () {

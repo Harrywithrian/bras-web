@@ -22,6 +22,15 @@ use Illuminate\Support\Facades\Mail;
 class UserController extends Controller
 {
     public function index() {
+        $userDetail = UserInfo::where('user_id', Auth::id())->first();
+        $listRole = explode(',', $userDetail->role);
+
+        if (!in_array(1, $listRole)) {
+            if (!in_array(2, $listRole)) {
+                abort(404);
+            }
+        }
+
         return view('master.user.index');
     }
 
@@ -179,6 +188,11 @@ class UserController extends Controller
             if ($row->id != 1) {
                 $edit    = '<a class="btn btn-warning" title="Edit" style="padding:5px; margin-left:5px;" href="' . route('m-user.edit', $row->id) . '"> &nbsp<i class="bi bi-pencil-square"></i> </a>';
                 $button .= $edit;
+
+                if(empty(session('original_user_id'))) {
+                    $loginas = '<btn class="btn btn-success userLoginAs" title="Login As" style="padding:5px; margin-left:5px;" data-toogle="active" data-id="' . $row->id . '" > &nbsp<i class="bi bi-person"></i> </btn>';
+                    $button .= $loginas;
+                }
 
                 if ($row->status == 1) {
                     $active = '<btn class="btn btn-danger switchStatus" title="Inactive" style="padding:5px; margin-left:5px;" data-toogle="inactive" data-id="' . $row->id . '" id="switch' . $row->id . '"> &nbsp<i class="bi bi-square"></i> </btn>';
@@ -484,5 +498,45 @@ class UserController extends Controller
             'header' => $header,
             'message' => $message
         ]);
+    }
+
+    public function loginAs(Request $request) {
+        $user = User::find($request->id);
+        
+        // Simpan session untuk kembali ke akun asli
+        session(['original_user_id' => Auth::id()]);
+
+        // Login sebagai user lain
+        Auth::login($user);
+
+        $status  = 200;
+        $header  = 'Success';
+        $message = 'Anda berhasil login sebagai '.$user->username.'.';
+
+        return response()->json([
+            'status' => $status,
+            'header' => $header,
+            'message' => $message
+        ]);
+    }
+
+    public function logoutAs() {
+        // Periksa apakah ada user asli yang disimpan di session
+        $originalUserId = session('original_user_id');
+
+        if (!$originalUserId) {
+            abort(403, 'No original user found.');
+        }
+
+        // Temukan user asli
+        $originalUser = User::findOrFail($originalUserId);
+
+        // Hapus session original_user_id
+        session()->forget('original_user_id');
+
+        // Login kembali sebagai user asli
+        Auth::login($originalUser);
+
+        return redirect()->route('index');
     }
 }

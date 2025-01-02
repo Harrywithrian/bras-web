@@ -171,6 +171,64 @@
         });
     });
 
+    $("body").on("click", ".userLoginAs", function () {
+        var id = $(this).data("id");
+
+        var token  = $("meta[name='csrf-token']").attr("content");
+
+        warningMessage = 'Apakah anda akan login sebagai user ini?';
+        buttonName = "Ya";
+
+        Swal.fire({
+            title: "Login As User",
+            text: warningMessage,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: buttonName
+        }).then(function (result) {
+            if (result.value) {
+                loadingScreen('Mohon Tunggu ...');
+                $.ajax({
+                    url: '/m-user/login-as',
+                    type: 'POST',
+                    data: {
+                        _token: token,
+                        id: id
+                    },
+                    success: function (response) {
+                        if (response.status == 200) {
+                            $.unblockUI();
+                            Swal.fire({
+                                icon: "success",
+                                title: response.header,
+                                text: response.message,
+                                confirmButtonClass: 'btn btn-success'
+                            }).then(function (result) {
+                                if (result.value) {
+                                    window.location.href = "{{ url('/') }}";
+                                }
+                            });
+                        } else {
+                            $.unblockUI();
+                            Swal.fire({
+                                icon: "warning",
+                                title: response.header,
+                                text: response.message,
+                                confirmButtonClass: 'btn btn-success'
+                            }).then(function (result) {
+                                if (result.value) {
+                                    table.draw();
+                                }
+                            });
+                        }
+                    }
+                });
+            }
+        });
+    });
+
     $("body").on("click", ".switchLock", function () {
         var id     = $(this).data("id");
         var toogle = $(this).data("toogle");

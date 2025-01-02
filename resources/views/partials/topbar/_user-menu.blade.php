@@ -50,6 +50,13 @@
     <div class="separator my-2"></div>
     <!--end::Menu separator-->
 
+    @if(!empty(session('original_user_id')))
+        <div class="menu-item px-5">
+            <a href="#" data-action="{{ route('m-user.logout-as') }}" data-method="post" data-csrf="{{ csrf_token() }}" data-reload="true" class="button-ajax menu-link px-5">
+                Kembali Ke Akun anda
+            </a>
+        </div>
+    @endif
 
     <!--begin::Menu item-->
     <div class="menu-item px-5">
