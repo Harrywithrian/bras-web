@@ -61,19 +61,23 @@ class TMatchController extends Controller
         if ($request->ajax()) {
             $data = TEvent::select([
                 't_event.id',
-                't_event.status',
-                't_event.nama',
-                't_event.no_lisensi',
-                't_event.tanggal_mulai',
-                't_event.tanggal_selesai',
-                'users.name as penyelenggara',
+                DB::raw('MAX(t_event.status) AS status'),
+                DB::raw('MAX(t_event.nama) AS nama'),
+                DB::raw('MAX(t_event.no_lisensi) AS no_lisensi'),
+                DB::raw('MAX(t_event.tanggal_mulai) AS tanggal_mulai'),
+                DB::raw('MAX(t_event.tanggal_selesai) AS tanggal_selesai'),
+                DB::raw('MAX(users.name) AS nama_penyelenggara')
             ])->leftJoin('users', 'users.id', '=', 't_event.penyelenggara')
                 ->leftJoin('t_event_participant', 't_event_participant.id_t_event', '=', 't_event.id')
-                ->where('t_event_participant.user', '=', Auth::id())
+                ->where(function ($query) {
+                    $query->where('t_event_participant.user', '=', Auth::id())
+                    ->orwhere('t_event.penyelenggara', '=', Auth::id());
+                })
                 ->where('t_event_participant.role', '!=', 8)
+                ->whereNotIn('t_event.status', [0, -1])
                 ->whereNull('t_event.deletedon')
-                ->orderBy('t_event.createdon', 'DESC')
-                ->get();
+                ->groupBy('t_event.id')
+                ->orderByDesc(DB::raw('MAX(t_event.createdon)'));
 
             return $this->dataTableEvent($data);
         }
@@ -84,18 +88,23 @@ class TMatchController extends Controller
     {
         $data = TEvent::select([
             't_event.id',
-            't_event.status',
-            't_event.nama',
-            't_event.no_lisensi',
-            't_event.tanggal_mulai',
-            't_event.tanggal_selesai',
-            'users.name as penyelenggara',
+            DB::raw('MAX(t_event.status) AS status'),
+            DB::raw('MAX(t_event.nama) AS nama'),
+            DB::raw('MAX(t_event.no_lisensi) AS no_lisensi'),
+            DB::raw('MAX(t_event.tanggal_mulai) AS tanggal_mulai'),
+            DB::raw('MAX(t_event.tanggal_selesai) AS tanggal_selesai'),
+            DB::raw('MAX(users.name) AS nama_penyelenggara')
         ])->leftJoin('users', 'users.id', '=', 't_event.penyelenggara')
             ->leftJoin('t_event_participant', 't_event_participant.id_t_event', '=', 't_event.id')
-            ->where('t_event_participant.user', '=', Auth::id())
+            ->where(function ($query) {
+                $query->where('t_event_participant.user', '=', Auth::id())
+                ->orwhere('t_event.penyelenggara', '=', Auth::id());
+            })
             ->where('t_event_participant.role', '!=', 8)
+            ->whereNotIn('t_event.status', [0, -1])
             ->whereNull('t_event.deletedon')
-            ->orderBy('t_event.createdon', 'DESC');
+            ->groupBy('t_event.id')
+            ->orderByDesc(DB::raw('MAX(t_event.createdon)'));
 
         if ($request->nama != '') {
             $data->where('t_event.nama', 'LIKE', '%' . $request->nama . '%');

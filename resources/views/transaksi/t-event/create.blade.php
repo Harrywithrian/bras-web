@@ -66,7 +66,8 @@
                     </div>
                 </div>
 
-                <div class="row mb-5">
+                
+                {{-- <div class="row mb-5">
                     <div class="col-md-12">
                         <label for="provinsi">Provinsi Event</label>
                         <select class="form-select" data-control="select2" multiple="" id="provinsi" name="provinsi[]">
@@ -79,7 +80,7 @@
                             <span id="err_provinsi" class="text-danger">{{ $errors->first('provinsi') }}</span>
                         @endif
                     </div>
-                </div>
+                </div> --}}
 
                 <div class="row mb-5">
                     <div class="col-md-12">

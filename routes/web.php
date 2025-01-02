@@ -34,7 +34,7 @@ use App\Http\Controllers\Transaksi\TMechanicalCourtController;
 use App\Http\Controllers\Transaksi\TAppearanceController;
 use App\Http\Controllers\Master\WasitController;
 use App\Http\Controllers\Master\ProfileController;
-
+use App\Http\Controllers\Transaksi\DokumenController;
 use App\Http\Controllers\Transaksi\ReportPertandinganController;
 use App\Http\Controllers\Transaksi\ReportWasitController;
 
@@ -389,6 +389,19 @@ Route::middleware('auth')->group(function () {
         Route::get('/match/{id}', [TNotifikasiController::class, 'match'])->name('notifikasi.match');
         Route::post('/reply-event/{id}', [TNotifikasiController::class, 'replyEvent'])->name('notifikasi.reply-event');
         Route::post('/reply-match/{id}', [TNotifikasiController::class, 'replyMatch'])->name('notifikasi.reply-match');
+    });
+
+    Route::prefix('dokumen')->group(function () {
+        Route::get('/index', [DokumenController::class, 'index'])->name('dokumen.index');
+        Route::post('/get', [DokumenController::class, 'get'])->name('dokumen.get');
+        Route::get('/show/{id}', [DokumenController::class, 'show'])->name('dokumen.show');
+        Route::get('/create', [DokumenController::class, 'create'])->name('dokumen.create');
+        Route::post('/store', [DokumenController::class, 'store'])->name('dokumen.store');
+        Route::get('/edit/{id}', [DokumenController::class, 'edit'])->name('dokumen.edit');
+        Route::post('/update/{id}', [DokumenController::class, 'update'])->name('dokumen.update');
+        Route::post('/delete', [DokumenController::class, 'delete'])->name('dokumen.delete');
+
+        Route::get('/read/{id}', [DokumenController::class, 'read'])->name('dokumen.read');
     });
 });
 

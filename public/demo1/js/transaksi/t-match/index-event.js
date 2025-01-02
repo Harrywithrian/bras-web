@@ -57,27 +57,27 @@ function showAllData() {
             {
                 data: 'nama',
                 name: 'nama',
-                orderable: true,
-                searchable: true
+                orderable: false,
+                searchable: false
             },
             {
                 data: 'tanggal_mulai',
                 name: 'tanggal_mulai',
-                orderable: true,
-                searchable: true
+                orderable: false,
+                searchable: false
             },
             {
                 data: 'tanggal_selesai',
                 name: 'tanggal_selesai',
-                orderable: true,
-                searchable: true
+                orderable: false,
+                searchable: false
             },
             {
-                data: 'penyelenggara',
-                name: 'penyelenggara',
+                data: 'nama_penyelenggara',
+                name: 'nama_penyelenggara',
                 title: 'Komisi Teknik',
-                orderable: true,
-                searchable: true
+                orderable: false,
+                searchable: false
             }
         ]
     });
@@ -141,27 +141,27 @@ function search(event) {
             {
                 data: 'nama',
                 name: 'nama',
-                orderable: true,
-                searchable: true
+                orderable: false,
+                searchable: false
             },
             {
                 data: 'tanggal_mulai',
                 name: 'tanggal_mulai',
-                orderable: true,
-                searchable: true
+                orderable: false,
+                searchable: false
             },
             {
                 data: 'tanggal_selesai',
                 name: 'tanggal_selesai',
-                orderable: true,
-                searchable: true
+                orderable: false,
+                searchable: false
             },
             {
-                data: 'penyelenggara',
-                name: 'penyelenggara',
+                data: 'nama_penyelenggara',
+                name: 'nama_penyelenggara',
                 title: 'Komisi Teknik',
-                orderable: true,
-                searchable: true
+                orderable: false,
+                searchable: false
             }
         ]
     });

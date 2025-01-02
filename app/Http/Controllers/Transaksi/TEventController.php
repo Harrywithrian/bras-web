@@ -128,13 +128,12 @@ class TEventController extends Controller
             ->leftJoin('m_region', 'm_region.id', '=', 't_event_region.id_m_region')
             ->get()->toArray();
 
-        $participant = TEventParticipant::select('users.id', 'users.name', 'users.email', 'm_license.license', 'user_infos.no_lisensi', 'm_region.region', 'user_infos.role')
+        $participant = TEventParticipant::select('users.id', 'users.name', 'users.email', 'm_license.license', 'user_infos.no_lisensi', 'm_region.region', 't_event_participant.role')
             ->where('t_event_participant.id_t_event', '=', $id)
             ->leftJoin('user_infos', 'user_infos.user_id', '=', 't_event_participant.user')
             ->leftJoin('m_region', 'm_region.id', '=', 'user_infos.id_m_region')
             ->leftJoin('users', 'users.id', '=', 't_event_participant.user')
             ->leftJoin('m_license', 'user_infos.id_m_lisensi', '=', 'm_license.id')
-            ->orderBy('user_infos.role', 'ASC')
             ->get()->toArray();
 
         $tembusan = TEventTembusan::where('id_t_event', '=', $id)->get()->toArray();
@@ -160,7 +159,7 @@ class TEventController extends Controller
                 'nama' => 'required',
                 'tanggal_mulai' => 'required|date|before_or_equal:tanggal_selesai',
                 'tanggal_selesai' => 'required|date|after_or_equal:tanggal_mulai',
-                'provinsi' => 'required',
+                // 'provinsi' => 'required',
                 'location' => 'required',
                 'tipe_event' => 'required',
             ];
@@ -207,20 +206,13 @@ class TEventController extends Controller
                     };
                 }
 
-                foreach ($request->provinsi as $itemProvinsi) {
-                    $provinsi = new TEventRegion();
-                    $provinsi->id_t_event = $model->id;
-                    $provinsi->id_m_region = $itemProvinsi;
-                    $provinsi->createdby     = Auth::id();
-                    $provinsi->createdon     = Carbon::now();
-                    if (!$provinsi->save()) {
-                        DB::rollBack();
-                        Session::flash('error', 'Provinsi Event gagal dibuat, mohon ulangi kembali.');
-                        return redirect(route('t-event.create'))->withInput();
-                    };
-                }
-
+                $listProvinsi = [];
                 foreach ($request->nama_pengawas as $itemPengawas) {
+                    $getUser = UserInfo::where('user_id', '=', $itemPengawas)->first();
+                    if (!in_array($getUser->id_m_region, $listProvinsi)) {
+                        $listProvinsi[] = $getUser->id_m_region;
+                    }
+
                     $participant = new TEventParticipant();
                     $participant->id_t_event = $model->id;
                     $participant->user = $itemPengawas;
@@ -235,6 +227,11 @@ class TEventController extends Controller
                 }
 
                 foreach ($request->nama_koordinator as $itemKoordinator) {
+                    $getUser = UserInfo::where('user_id', '=', $itemKoordinator)->first();
+                    if (!in_array($getUser->id_m_region, $listProvinsi)) {
+                        $listProvinsi[] = $getUser->id_m_region;
+                    }
+
                     $participant = new TEventParticipant();
                     $participant->id_t_event = $model->id;
                     $participant->user = $itemKoordinator;
@@ -249,6 +246,11 @@ class TEventController extends Controller
                 }
 
                 foreach ($request->nama_wasit as $itemWasit) {
+                    $getUser = UserInfo::where('user_id', '=', $itemWasit)->first();
+                    if (!in_array($getUser->id_m_region, $listProvinsi)) {
+                        $listProvinsi[] = $getUser->id_m_region;
+                    }
+
                     $participant = new TEventParticipant();
                     $participant->id_t_event = $model->id;
                     $participant->user = $itemWasit;
@@ -258,6 +260,19 @@ class TEventController extends Controller
                     if (!$participant->save()) {
                         DB::rollBack();
                         Session::flash('error', 'Wasit gagal dibuat, mohon ulangi kembali.');
+                        return redirect(route('t-event.create'))->withInput();
+                    };
+                }
+
+                foreach ($listProvinsi as $itemProvinsi) {
+                    $provinsi = new TEventRegion();
+                    $provinsi->id_t_event = $model->id;
+                    $provinsi->id_m_region = $itemProvinsi;
+                    $provinsi->createdby     = Auth::id();
+                    $provinsi->createdon     = Carbon::now();
+                    if (!$provinsi->save()) {
+                        DB::rollBack();
+                        Session::flash('error', 'Provinsi Event gagal dibuat, mohon ulangi kembali.');
                         return redirect(route('t-event.create'))->withInput();
                     };
                 }
