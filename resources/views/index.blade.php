@@ -44,20 +44,36 @@
 
     <br>
 
+    @if($dokumenList)
     <div class="row">
         <div class="col-md-12">
             <div class="card shadow-sm">
                 <div class="card-body">
                     <h4 class="card-title">Dokumen Penting</h4>
+                    <hr>
 
-                    <ul>
+                    <table class="table table-bordered table-striped table-hover">
+                        <tr>
+                            <td style="padding:10px;font-weight:bold">Dokumen Terbaru</td>
+                            <td style="padding:10px;font-weight:bold">Tanggal Upload</td>
+                        </tr>
+                        @foreach($dokumenList as $item)
+                        <tr>
+                            <td style="padding:10px;"><a href="{{ route('dokumen.show', ['id' => $item['id']]) }}">{{ $item['nama_dokumen'] }}</a></td>
+                            <td style="padding:10px;">{{ date('d-m-Y', strtotime($item['createdon'])) }}</td>
+                        </tr>
+                        @endforeach
+                    </table>
+
+                    {{-- <ul>
                         <li><a href="{{ route('getpdf', ['filename' => 'FIBA_RULES_CHANGES_2024_v2_0a']) }}" target="_blank">FIBA_RULES_CHANGES_2024_v2_0a</a></li>
                         <li><a href="{{ route('getpdf', ['filename' => 'FIBAOfficialBasketballRules2024_v1_0a']) }}" target="_blank">FIBAOfficialBasketballRules2024_v1_0a</a></li>
-                    </ul>
+                    </ul> --}}
                 </div>
             </div>
         </div>
     </div>
+    @endif
 
     <br>
 

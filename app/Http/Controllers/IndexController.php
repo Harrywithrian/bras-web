@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Master\Dokumen;
 use App\Models\ModelHasRole;
 use App\Models\Transaksi\TEvent;
 use Illuminate\Http\Request;
@@ -53,6 +54,7 @@ class IndexController extends Controller
         //     'todayMatch' => $todayMatch,
         //     'todayMatchTime' => $todayMatchTime
         // ]);
+
         $user = User::find(Auth::id());
         $roles = ModelHasRole::where('model_id', Auth::id())->get()->toArray();
         $role = [];
@@ -77,8 +79,12 @@ class IndexController extends Controller
             ->orderBy('point', 'DESC')
             ->limit(10)->get()->toArray();
         }
+
+        $dokumenList = Dokumen::orderby('createdon', 'DESC')->limit(5)->get()->toArray();
+
         return view('index', [
-            'data' => $data
+            'data' => $data,
+            'dokumenList' => $dokumenList
         ]);
     }
 
