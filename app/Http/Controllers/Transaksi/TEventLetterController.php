@@ -451,6 +451,13 @@ class TEventLetterController extends Controller
 
             $pdf = PDF::loadView('transaksi.t-event-letter.dokumen', $data)->setPaper('a4', 'potrait');
             #END PDF
+        } else {
+            $region   = TEventRegion::select('m_region.kode', 'm_region.region', 'm_region.email')
+                ->where('t_event_region.id_t_event', '=', $letter->id_t_event)
+                ->leftJoin('m_region', 'm_region.id', '=', 't_event_region.id_m_region')
+                ->get()->toArray();
+
+            $tembusan = TEventTembusan::where('id_t_event', '=', $letter->id_t_event)->get()->toArray();
         }
 
         #MAIL
