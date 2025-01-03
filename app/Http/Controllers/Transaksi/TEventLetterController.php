@@ -485,7 +485,7 @@ class TEventLetterController extends Controller
                         ->attachData($pdf->output(), 'surat_undangan.pdf');
                 });
             } else {
-                Mail::send('mail.event-notification', $data, function ($message) use ($to, $data, $letter) {
+                Mail::send('mail.event-notification', function ($message) use ($to, $letter) {
                     $message->to($to)
                         ->subject('Surat Tugas/Tembusan')
                         ->attach(Storage::path('public/' . $letter->file_dokumen), [
