@@ -23,6 +23,11 @@
             @if($model->status == 1)
                 @if($letter->sent == 0)
                     <button class="btn btn-warning" id="reject" data-bs-toggle="modal" data-bs-target="#rejectModal" data-id="{{ $model->id }}"> Ubah Nomor Surat </button>
+                    @if($letter->file_dokumen)
+                        <button class="btn btn-success" id="btn-upload-modal" data-bs-toggle="modal" data-bs-target="#uploadFileModal" data-id="{{ $model->id }}"> Ubah Surat Tugas </button>
+                    @else
+                        <button class="btn btn-success" id="btn-upload-modal" data-bs-toggle="modal" data-bs-target="#uploadFileModal" data-id="{{ $model->id }}"> Upload Surat Tugas </button>
+                    @endif
                 @endif
                 <a href="{{ route('t-event-letter.send', $letter->id) }}" class="btn btn-primary"> Kirim Surat </a>
             @endif
@@ -43,6 +48,17 @@
                     <td width="25%">Perihal</td>
                     <td>{{ $letter->perihal }}</td>
                 </tr>
+                @if($letter->sent == 0)
+                    <tr>
+                        <td width="25%">Dokumen Surat Tugas Yang di upload</td>
+                        <td>{!! ($letter->file_dokumen) ? "<span class='w-130px badge badge-success me-4'> Dokumen tersedia </span>" . " <a href='#' id='hapusDokumen'>hapus</a>" : "<span class='w-130px badge badge-danger me-4'> Dokumen tidak tersedia </span>" !!}</td>
+                    </tr>
+                @else
+                    <tr>
+                        <td width="25%">Dokumen Surat Tugas Yang di upload</td>
+                        <td>{!! ($letter->file_dokumen) ? "<span class='w-130px badge badge-success me-4'> Dokumen tersedia </span>" : "<span class='w-130px badge badge-danger me-4'> Dokumen tidak tersedia </span>" !!}</td>
+                    </tr>
+                @endif
                 <tr>
                     <td width="25%">Status</td>
                     <td>{!! ($letter->sent == 0) ? "<span class='w-130px badge badge-info me-4'> Belum Terkirim </span>" : "<span class='w-130px badge badge-success me-4'> Terkirim </span>" !!}</td>
@@ -285,6 +301,40 @@
         </div>
     </div>
 
+    <!-- Modal -->
+    <div class="modal fade" id="uploadFileModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Upload Surat Tugas</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="upload-form" enctype="multipart/form-data">
+                    <div class="modal-body">
+                        <div class="row mb-5">
+                            <div class="col-md-12">
+                                <div class="col-md-12">
+                                    <label>Surat Tugas</label>
+                                    <input type="hidden" id="idLetter" name="id" value="{{ $letter->id }}">
+                                    <div style="border: solid #EFF2F5 1px; padding:5px; background-color: #EFF2F5; border-radius:5px;">
+                                        <input type="file" name="upload_surat" class="custom-file-input" id="upload_surat" value="{{ old('upload_surat') }}">
+                                    </div>
+                                    @if($errors->has('upload_surat'))
+                                        <span id="err_upload_surat" class="text-danger">{{ $errors->first('upload_surat') }}</span>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <button type="button" class="btn btn-success" onClick="uploadSuratTugas(event)">Upload</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     @section('scripts')
     <script>
         $(document).ready( function() {
@@ -306,6 +356,128 @@
                 });
             @endif
         });
+
+        $('#hapusDokumen').click(function() {
+            var id = $('#gantiSurat').data("id");
+            console.log(id);
+
+            Swal.fire({
+            title: 'Apakah anda yakin akan menghapus dokumen ini?',
+            text: "Dokumen tidak dapat di pulihkan kembali",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, hapus dokumen!',
+            cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '/t-event-letter/delete-dokumen/' + id,
+                        type: "GET",
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        contentType: false,
+                        processData: false,
+                        success: function(response) {
+                            if (response.status == 200) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: response.header,
+                                    text: response.message,
+                                    confirmButtonClass: 'btn btn-success'
+                                }).then(function (result) {
+                                    if (result.value) {
+                                        window.location.replace("/t-event-letter/show/" + id);
+                                    }
+                                });
+                            } else {
+                                Swal.fire({
+                                    icon: "warning",
+                                    title: response.header,
+                                    text: response.message,
+                                    confirmButtonClass: 'btn btn-success'
+                                }).then(function (result) {
+                                    if (result.value) {
+                                        window.location.replace("/t-event-letter/show/" + id);
+                                    }
+                                });
+                            }
+                        },
+                        error: function(xhr) {
+                            Swal.fire({
+                                icon: "warning",
+                                title: response.header,
+                                text: response.message,
+                                confirmButtonClass: 'btn btn-success'
+                            }).then(function (result) {
+                                if (result.value) {
+                                    window.location.replace("/t-event-letter/show/" + id);
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+        });
+
+        function uploadSuratTugas(event) {
+            event.preventDefault();
+            var token  = $("meta[name='csrf-token']").attr("content");
+            
+            var id = $('#gantiSurat').data("id");
+            const form = document.getElementById('upload-form');
+            const formData = new FormData(form);
+
+            $.ajax({
+                url: "{{ route('t-event-letter.upload-dokumen') }}",
+                type: "POST",
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(response) {
+                    if (response.status == 200) {
+                        Swal.fire({
+                            icon: "success",
+                            title: response.header,
+                            text: response.message,
+                            confirmButtonClass: 'btn btn-success'
+                        }).then(function (result) {
+                            if (result.value) {
+                                window.location.replace("/t-event-letter/show/" + id);
+                            }
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: "warning",
+                            title: response.header,
+                            text: response.message,
+                            confirmButtonClass: 'btn btn-success'
+                        }).then(function (result) {
+                            if (result.value) {
+                                window.location.replace("/t-event-letter/show/" + id);
+                            }
+                        });
+                    }
+                },
+                error: function(xhr) {
+                    Swal.fire({
+                        icon: "warning",
+                        title: response.header,
+                        text: response.message,
+                        confirmButtonClass: 'btn btn-success'
+                    }).then(function (result) {
+                        if (result.value) {
+                            window.location.replace("/t-event-letter/show/" + id);
+                        }
+                    });
+                }
+            });
+        };
 
         function gantiSurat(event) {
             event.preventDefault();

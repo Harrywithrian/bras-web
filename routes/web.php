@@ -307,6 +307,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/dokumen/{id}', [TEventLetterController::class, 'dokumen'])->name('t-event-letter.dokumen');
         Route::get('/send/{id}', [TEventLetterController::class, 'send'])->name('t-event-letter.send');
         Route::post('/update', [TEventLetterController::class, 'update'])->name('t-event-letter.update');
+        
+        Route::post('/upload-dokumen', [TEventLetterController::class, 'uploadDokumen'])->name('t-event-letter.upload-dokumen');
+        Route::get('/delete-dokumen/{id}', [TEventLetterController::class, 'deleteDokumen'])->name('t-event-letter.delete-dokumen');
     });
 
     Route::prefix('t-match')->group(function () {

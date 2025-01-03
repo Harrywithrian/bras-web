@@ -46,13 +46,13 @@
 </head>
 <body>
     <header>
-        <span class="font-header-satu">PERSATUAN BOLA BASKET SELURUH INDONESIA</span><br>
+        {{-- <span class="font-header-satu">PERSATUAN BOLA BASKET SELURUH INDONESIA</span><br>
         <span class="font-header-dua">(INDONESIAN BASKETBALL ASSOCIATION)</span><br>
         <span class="font-header-tiga">Gedung Basket, Jl. Asia Afrika, Senayan - Jakarta 10270 Telepon / Fax : (021) 574 2250</span><br>
         <span class="font-header-tiga">Email : perbasi_iba@yahoo.com / info@perbasi.or.id</span><br>
-        <span class="font-header-tiga">Website : www.perbasi.or.id</span><br>
+        <span class="font-header-tiga">Website : www.perbasi.or.id</span><br> --}}
 
-        <hr>
+        <center><img height="80px;" src="{{ public_path() . "/demo1/media/logos/logo_perbasi.png" }}"></center>
     </header>
 
     <div class="content">
