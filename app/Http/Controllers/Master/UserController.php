@@ -390,6 +390,9 @@ class UserController extends Controller
                 $detail = UserInfo::where('user_id', '=', $id)->first();
 
                 $modelFoto = TFile::find($detail->id_t_file_foto);
+                if (empty($modelFoto)) {
+                    $modelFoto = new TFile();
+                }
                 $modelFoto->name = $namaFoto;
                 $modelFoto->path = $fullPathFoto;
                 $modelFoto->extension = $fileFoto->getClientOriginalExtension();
