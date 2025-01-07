@@ -23,12 +23,11 @@ class WasitController extends Controller
 
     public function get(Request $request) {
         if ($request->ajax()) {
-            // $data = User::select(['users.id', 'users.name', 'm_license.license', 'm_region.region'])
             $data = User::select(['users.id', 'users.name', 'm_region.region'])
                 ->leftJoin('user_infos', 'users.id', '=', 'user_infos.user_id')
-                // ->leftJoin('m_license', 'user_infos.id_m_lisensi', '=', 'm_license.id')
                 ->leftJoin('m_region', 'user_infos.id_m_region', '=', 'm_region.id')
-                ->where('role', '=', 8)
+                ->leftJoin('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+                ->where('model_has_roles.role_id', '=', '8')
                 ->orderBy('users.name');
 
             if ($request->search != '') {
