@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Transaksi;
 
 use App\Http\Controllers\Controller;
 use App\Models\Master\Dokumen;
+use App\Models\ModelHasRole;
 use Auth;
 use Carbon\Carbon;
 use DataTables;
@@ -14,7 +15,10 @@ use Storage;
 class DokumenController extends Controller
 {
     public function index() {
-        return view('master.dokumen.index');
+        $admin = ModelHasRole::where('model_id', Auth::id())->whereIn('role_id', [1,2])->first();
+        return view('master.dokumen.index', [
+            'admin' => $admin
+        ]);
     }
 
     public function get(Request $request) {
@@ -41,13 +45,16 @@ class DokumenController extends Controller
 
         # KOLOM ACTION
         $dataTables = $dataTables->addColumn('action', function ($row) {
+            $admin = ModelHasRole::where('model_id', Auth::id())->whereIn('role_id', [1,2])->first();
             $view = '<a class="btn btn-primary" title="Show" style="padding:5px;" href="' . route('dokumen.show', $row->id) . '"> &nbsp<i class="bi bi-eye"></i> </a>';
             $edit = '<a class="btn btn-warning" title="Edit" style="padding:5px; margin-left:5px;" href="' . route('dokumen.edit', $row->id) . '"> &nbsp<i class="bi bi-pencil-square"></i> </a>';
             $delete = '<btn class="btn btn-danger deleted" title="Delete" style="padding:5px; margin-left:5px;" data-id="' . $row->id . '" id="deleted' . $row->id . '"> &nbsp<i class="bi bi-trash"></i> </btn>';
 
             $button = $view;
-            $button .= $edit;
-            $button .= $delete;
+            if($admin) {
+                $button .= $edit;
+                $button .= $delete;
+            }
 
             return $button;
         });

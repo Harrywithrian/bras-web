@@ -31,7 +31,9 @@
                 </div>
                 <div class="col-6">
                     <div class="float-end mb-5">
-                        <a class="btn btn-xs btn-primary" href="{{ route('dokumen.create') }}"><i class="bi bi-plus-lg fs-3"></i> Tambah Dokumen </a>
+                        @if($admin)
+                            <a class="btn btn-xs btn-primary" href="{{ route('dokumen.create') }}"><i class="bi bi-plus-lg fs-3"></i> Tambah Dokumen </a>
+                        @endif
                     </div>
                 </div>
             </div>
