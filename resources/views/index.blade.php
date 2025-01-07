@@ -8,6 +8,28 @@
     <br>
 
     <div class="row">
+        @if(isset($data['total_pengawas']))
+            <div class="col-md-4">
+                <div class="card shadow-sm" style="border-radius:20px;">
+                    <div class="card-body text-light" style="border-radius:20px;padding-top:20px;padding-bottom:10px;background-image: url('{{ asset(theme()->getMediaUrlPath() . 'logos/bg-2.png') }}');background-repeat: no-repeat;background-size: 100% auto;">
+                        <h2 class="text-light" style="text-align: left;">Total Pengawas Pertandingan</h2>
+                        <p style="text-align: right; font-size:50px">{{ $data['total_pengawas'] }}</p>
+                    </div>
+                </div>
+            </div>
+        @endif
+
+        @if(isset($data['total_koordinator']))
+            <div class="col-md-4">
+                <div class="card shadow-sm" style="border-radius:20px;">
+                    <div class="card-body text-light" style="border-radius:20px;padding-top:20px;padding-bottom:10px;background-image: url('{{ asset(theme()->getMediaUrlPath() . 'logos/bg-2.png') }}');background-repeat: no-repeat;background-size: 100% auto;">
+                        <h2 class="text-light" style="text-align: left;">Total Koordinator Wasit</h2>
+                        <p style="text-align: right; font-size:50px">{{ $data['total_koordinator'] }}</p>
+                    </div>
+                </div>
+            </div>
+        @endif
+
         @if(isset($data['total_wasit']))
             <div class="col-md-4">
                 <div class="card shadow-sm" style="border-radius:20px;">
@@ -18,9 +40,11 @@
                 </div>
             </div>
         @endif
-
+    </div>
+    <br>
+    <div class="row">
         @if(isset($data['total_event']))
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <div class="card shadow-sm" style="border-radius:20px;">
                     <div class="card-body text-light" style="border-radius:20px;padding-top:20px;padding-bottom:10px;background-image: url('{{ asset(theme()->getMediaUrlPath() . 'logos/bg-2.png') }}');background-repeat: no-repeat;background-size: 100% auto;">
                         <h2 class="text-light" style="text-align: left;">Total Event</h2>
@@ -31,7 +55,7 @@
         @endif
 
         @if(isset($data['total_pertandingan']))
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <div class="card shadow-sm" style="border-radius:20px;">
                     <div class="card-body text-light" style="border-radius:20px;padding-top:20px;padding-bottom:10px;background-image: url('{{ asset(theme()->getMediaUrlPath() . 'logos/bg-2.png') }}');background-repeat: no-repeat;background-size: 100% auto;">
                         <h2 class="text-light" style="text-align: left;">Total Pertandingan</h2>

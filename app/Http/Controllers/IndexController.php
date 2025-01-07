@@ -65,6 +65,8 @@ class IndexController extends Controller
         $data = [];
         $data['tanggal'] = $this->tanggalParsing(date('Y-m-d'));
         if (!empty(array_intersect($role, [1,2,3,4,5,6,7,8,9]))) {
+            $data['total_pengawas'] = ModelHasRole::where('role_id', 6)->count();
+            $data['total_koordinator'] = ModelHasRole::where('role_id', 7)->count();
             $data['total_wasit'] = ModelHasRole::where('role_id', 8)->count();
             $data['total_event'] = TEvent::whereIn('status', [1,2])->count();
             $data['total_pertandingan'] = TMatch::whereNull('deletedby')->count();
