@@ -25,8 +25,6 @@
                                 <th>No</th>
                                 <th>Action</th>
                                 <th>Nama</th>
-                                <th>Lisensi</th>
-                                <th>Nomor Lisensi</th>
                                 <th>Pengurus Provinsi</th>
                             </tr>
                             </thead>

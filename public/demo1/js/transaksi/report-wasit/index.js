@@ -49,20 +49,6 @@ function showAllData() {
                 searchable: true
             },
             {
-                data: 'license',
-                name: 'license',
-                title: 'Lisensi',
-                orderable: true,
-                searchable: true
-            },
-            {
-                data: 'no_lisensi',
-                name: 'no_lisensi',
-                title: 'Nomor Lisensi',
-                orderable: true,
-                searchable: true
-            },
-            {
                 data: 'region',
                 name: 'region',
                 title: 'Pengurus Provinsi',
@@ -131,20 +117,6 @@ function search(event) {
                 data: 'name',
                 name: 'name',
                 title: 'nama',
-                orderable: true,
-                searchable: true
-            },
-            {
-                data: 'license',
-                name: 'license',
-                title: 'Lisensi',
-                orderable: true,
-                searchable: true
-            },
-            {
-                data: 'no_lisensi',
-                name: 'no_lisensi',
-                title: 'Nomor Lisensi',
                 orderable: true,
                 searchable: true
             },

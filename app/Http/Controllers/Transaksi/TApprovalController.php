@@ -12,10 +12,12 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Spatie\Permission\Models\Role;
 use App\Models\Transaksi\TFile;
+use App\Models\Transaksi\THistoryLicense;
 use App\Models\Transaksi\TUserApproval;
 use App\Models\User;
 use App\Models\UserInfo;
 use Illuminate\Http\Request;
+use Storage;
 use Yajra\DataTables\DataTables;
 
 class TApprovalController extends Controller
@@ -142,8 +144,8 @@ class TApprovalController extends Controller
                 if ($user->save()) {
                     $userDetail = new UserInfo();
                     $userDetail->user_id = $user->id;
-                    $userDetail->no_lisensi   = $model->no_lisensi;
-                    $userDetail->id_m_lisensi = $model->id_m_license;
+                    // $userDetail->no_lisensi   = $model->no_lisensi;
+                    // $userDetail->id_m_lisensi = $model->id_m_license;
                     $userDetail->tempat_lahir = $model->tempat_lahir;
                     $userDetail->tanggal_lahir = $model->tanggal_lahir;
                     $userDetail->alamat        = $model->alamat;
@@ -152,6 +154,24 @@ class TApprovalController extends Controller
                     $userDetail->id_t_file_foto    = $model->id_t_file_foto;
                     $userDetail->role              = $model->jenis_daftar;
                     if ($userDetail->save()) {
+                        $fileLisensiOld = TFile::find($model->id_t_file_lisensi);
+                        $newFilePath = 'lisensi/'.$user->id.'/'.date('YmdHis').'.pdf';
+                        Storage::disk('public')->copy($fileLisensiOld->path, $newFilePath);
+
+                        $modelLicense = new THistoryLicense();
+                        $modelLicense->user_id = $user->id;
+                        $modelLicense->id_m_license = $model->id_m_license;
+                        $modelLicense->nomor_lisensi = $model->no_lisensi;
+                        $modelLicense->start_date = $model->start_date_license;
+                        $modelLicense->end_date = $model->end_date_license;
+                        $modelLicense->file_path = $newFilePath;
+                        $modelLicense->status = 1;
+                        $modelLicense->createdby = Auth::id();
+                        $modelLicense->createdon = Carbon::now();
+                        $modelLicense->modifiedby = Auth::id();
+                        $modelLicense->modifiedon = Carbon::now();
+                        $modelLicense->save();
+
                         $role = Role::findById($model->jenis_daftar);
                         $user->assignRole($role->name);
                         DB::commit();
@@ -253,5 +273,32 @@ class TApprovalController extends Controller
             'header' => $header,
             'message' => $message
         ]);
+    }
+
+    public function syncLisensi() {
+        $listUser = UserInfo::all();
+
+        foreach($listUser as $item) {
+            if (!empty($item->id_m_lisensi)) {
+                $fileLisensiOld = TFile::find($item->id_t_file_lisensi);
+                $newFilePath = 'lisensi/'.$item->id.'/'.date('YmdHis').'.pdf';
+                Storage::disk('public')->copy($fileLisensiOld->path, $newFilePath);
+
+                $model = new THistoryLicense();
+                $model->user_id = $item->id;
+                $model->id_m_license = $item->id_m_lisensi;
+                $model->nomor_lisensi = $item->no_lisensi;
+                $model->start_date = "2024-01-01";
+                $model->end_date = "2029-01-01";
+                $model->file_path = $newFilePath;
+                $model->status = 1;
+                $model->createdby = 1;
+                $model->createdon = Carbon::now();
+                $model->modifiedby = 1;
+                $model->modifiedon = Carbon::now();
+                $model->save();
+            }
+        }
+        echo "sync berhasil";
     }
 }

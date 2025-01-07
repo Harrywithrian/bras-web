@@ -65,6 +65,22 @@
         </div>
 
         <div class="fv-row mb-7">
+            <label class="form-label fw-bolder text-dark fs-6">Tanggal Aktif Lisensi</label>
+            <input class="form-control form-control-solid" placeholder="Pilih Tanggal ..." name="tanggal_aktif_lisensi" id="tanggal_aktif_lisensi" value="{{old('tanggal_aktif_lisensi')}}">
+            @if($errors->has('tanggal_aktif_lisensi'))
+                <span id="err_tanggal_aktif_lisensi" class="text-danger">{{ $errors->first('tanggal_aktif_lisensi') }}</span>
+            @endif
+        </div>
+
+        <div class="fv-row mb-7">
+            <label class="form-label fw-bolder text-dark fs-6">Tanggal Expired Lisensi</label>
+            <input class="form-control form-control-solid" placeholder="Pilih Tanggal ..." name="tanggal_expired_lisensi" id="tanggal_expired_lisensi" value="{{old('tanggal_expired_lisensi')}}">
+            @if($errors->has('tanggal_expired_lisensi'))
+                <span id="err_tanggal_expired_lisensi" class="text-danger">{{ $errors->first('tanggal_expired_lisensi') }}</span>
+            @endif
+        </div>
+
+        <div class="fv-row mb-7">
             <label class="form-label fw-bolder text-dark fs-6">Tempat Lahir</label>
             <input class="form-control form-control-lg form-control-solid" type="text" name="tempat_lahir" autocomplete="off" value="{{ old('tempat_lahir') }}">
             @if($errors->has('tempat_lahir'))
@@ -215,6 +231,24 @@
                     });
                 });
 
+                $("#tanggal_aktif_lisensi").daterangepicker({
+                    singleDatePicker: true,
+                    showDropdowns: true,
+                    autoUpdateInput: false,
+                    locale: {
+                        cancelLabel: 'Clear'
+                    }
+                });
+
+                $("#tanggal_expired_lisensi").daterangepicker({
+                    singleDatePicker: true,
+                    showDropdowns: true,
+                    autoUpdateInput: false,
+                    locale: {
+                        cancelLabel: 'Clear'
+                    }
+                });
+
                 $("#tanggal_lahir").daterangepicker({
                     singleDatePicker: true,
                     showDropdowns: true,
@@ -222,6 +256,14 @@
                     locale: {
                         cancelLabel: 'Clear'
                     }
+                });
+
+                $("#tanggal_aktif_lisensi").on('apply.daterangepicker', function(ev, picker) {
+                    $(this).val(picker.startDate.format('YYYY-MM-DD'));
+                });
+
+                $("#tanggal_expired_lisensi").on('apply.daterangepicker', function(ev, picker) {
+                    $(this).val(picker.startDate.format('YYYY-MM-DD'));
                 });
 
                 $("#tanggal_lahir").on('apply.daterangepicker', function(ev, picker) {

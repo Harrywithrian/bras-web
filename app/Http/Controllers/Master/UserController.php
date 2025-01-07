@@ -7,6 +7,7 @@ use App\Models\Master\License;
 use App\Models\Master\Region;
 use App\Models\Master\Role;
 use App\Models\Transaksi\TFile;
+use App\Models\Transaksi\THistoryLicense;
 use App\Models\User;
 use App\Models\UserInfo;
 use Carbon\Carbon;
@@ -226,6 +227,18 @@ class UserController extends Controller
         }
         $provinsi = Region::find($detail->id_m_region);
         $foto   = TFile::find($detail->id_t_file_foto);
+        $lisensi = THistoryLicense::select(
+            't_history_license.id',
+            't_history_license.nomor_lisensi',
+            't_history_license.start_date',
+            't_history_license.end_date',
+            't_history_license.status',
+            'm_license.license as jenis_lisensi')
+            ->leftJoin('m_license', 'm_license.id', '=', 't_history_license.id_m_license')
+            ->where('user_id', $model->id)
+            ->whereNull('t_history_license.deletedon')
+            ->orderBy('start_date', 'ASC')
+            ->get();
 
         return view('master.user.show', [
             'model' => $model,
@@ -233,6 +246,7 @@ class UserController extends Controller
             'role' => $role,
             'provinsi' => $provinsi,
             'foto' => $foto,
+            'lisensi' => $lisensi
         ]);
     }
 
@@ -541,5 +555,202 @@ class UserController extends Controller
         Auth::login($originalUser);
 
         return redirect()->route('index');
+    }
+
+    public function createLisensi($userid) {
+        $model = User::find($userid);
+        $lisensi = License::where('status', '=', 1)->whereNull('deletedon')->get()->toArray();
+        return view('master.user.create-lisensi', [
+            'model' => $model,
+            'lisensi' => $lisensi
+        ]);
+    }
+
+    public function storeLisensi($userid, Request $request) {
+        $rules = [
+            'nomor_lisensi' => 'required',
+            'jenis_lisensi' => 'required',
+            'tanggal_aktif' => 'required',
+            'tanggal_expired' => 'required',
+            'upload_lisensi' => 'required|mimes:pdf|max:2048'
+        ];
+
+        $customMessages = [
+            'required' => 'Kolom :attribute tidak boleh kosong.',
+            'max' => 'Maksimal file yang dapat di upload adalah 2MB.',
+            'mimes' => 'Format file harus berupa pdf.',
+        ];
+        
+        $this->validate($request, $rules, $customMessages);
+
+        $exist = THistoryLicense::whereNull('deletedon')->whereBetween('start_date', [$request->tanggal_aktif, $request->tanggal_expired])->first();
+        if ($exist) {
+            Session::flash('error', 'Lisensi sudah ada pada tanggal tersebut.');
+            return redirect()->route('m-user.tambah-lisensi', $userid)->withInput();
+        }
+
+        $exist = THistoryLicense::whereNull('deletedon')->whereBetween('end_date', [$request->tanggal_aktif, $request->tanggal_expired])->first();
+        if ($exist) {
+            Session::flash('error', 'Lisensi sudah ada pada tanggal tersebut.');
+            return redirect()->route('m-user.tambah-lisensi', $userid)->withInput();
+        }
+
+        $exist = THistoryLicense::whereNull('deletedon')->whereRaw('? BETWEEN start_date AND end_date', [$request->tanggal_aktif])->first();
+        if ($exist) {
+            Session::flash('error', 'Lisensi sudah ada pada tanggal tersebut.');
+            return redirect()->route('m-user.tambah-lisensi', $userid)->withInput();
+        }
+
+        $exist = THistoryLicense::whereNull('deletedon')->whereRaw('? BETWEEN start_date AND end_date', [$request->tanggal_expired])->first();
+        if ($exist) {
+            Session::flash('error', 'Lisensi sudah ada pada tanggal tersebut.');
+            return redirect()->route('m-user.tambah-lisensi', $userid)->withInput();
+        }
+
+        $file         = $request->file('upload_lisensi');
+        $path         = 'lisensi/' . $userid;
+        $namaFile     = date('YmdHis') . '.' . $file->getClientOriginalExtension();
+        $fullPathFile = $path . '/' . $namaFile;
+
+        $file->storeAs('public/' . $path, $namaFile);
+
+        try {
+            $modelLisensi = new THistoryLicense();
+            $modelLisensi->user_id = $userid;
+            $modelLisensi->nomor_lisensi = $request->nomor_lisensi;
+            $modelLisensi->id_m_license = $request->jenis_lisensi;
+            $modelLisensi->start_date = $request->tanggal_aktif;
+            $modelLisensi->end_date = $request->tanggal_expired;
+            $modelLisensi->file_path = $fullPathFile;
+            $modelLisensi->status = 1;
+            $modelLisensi->createdby = Auth::id();
+            $modelLisensi->createdon = Carbon::now();
+            $modelLisensi->modifiedby = Auth::id();
+            $modelLisensi->modifiedon = Carbon::now();
+            if ($modelLisensi->save()) {
+                Session::flash('success', 'Lisensi berhasil ditambahkan.');
+                return redirect()->route('m-user.show', $userid);
+            }
+            
+            Session::flash('error', 'Lisensi Gagal ditambahkan.');
+            return redirect()->route('m-user.tambah-lisensi', $userid)->withInput();
+
+        } catch(Exception $e) {
+            Session::flash('error', $e->getMessage());
+            return redirect()->route('m-user.tambah-lisensi', $userid)->withInput();
+        }
+    }
+
+    public function editLisensi($userid, $id) {
+        $model = User::find($userid);
+        $modelLisensi = THistoryLicense::find($id);
+        $lisensi = License::where('status', '=', 1)->whereNull('deletedon')->get()->toArray();
+        return view('master.user.edit-lisensi', [
+            'model' => $model,
+            'modelLisensi' => $modelLisensi,
+            'lisensi' => $lisensi
+        ]);
+    }
+
+    public function updateLisensi($userid, $id, Request $request) {
+        $rules = [
+            'nomor_lisensi' => 'required',
+            'jenis_lisensi' => 'required',
+            'tanggal_aktif' => 'required',
+            'tanggal_expired' => 'required',
+            'upload_lisensi' => 'nullable|mimes:pdf|max:2048'
+        ];
+
+        $customMessages = [
+            'required' => 'Kolom :attribute tidak boleh kosong.',
+            'max' => 'Maksimal file yang dapat di upload adalah 2MB.',
+            'mimes' => 'Format file harus berupa pdf.',
+        ];
+        
+        $this->validate($request, $rules, $customMessages);
+
+        $exist = THistoryLicense::where('id', '!=', $id)->whereNull('deletedon')->whereBetween('start_date', [$request->tanggal_aktif, $request->tanggal_expired])->first();
+        if ($exist) {
+            Session::flash('error', 'Lisensi sudah ada pada tanggal tersebut.');
+            return redirect()->route('m-user.edit-lisensi', ['userid' => $userid, 'id' => $id])->withInput();
+        }
+
+        $exist = THistoryLicense::where('id', '!=', $id)->whereNull('deletedon')->whereBetween('end_date', [$request->tanggal_aktif, $request->tanggal_expired])->first();
+        if ($exist) {
+            Session::flash('error', 'Lisensi sudah ada pada tanggal tersebut.');
+            return redirect()->route('m-user.edit-lisensi', ['userid' => $userid, 'id' => $id])->withInput();
+        }
+
+        $exist = THistoryLicense::where('id', '!=', $id)->whereNull('deletedon')->whereRaw('? BETWEEN start_date AND end_date', [$request->tanggal_aktif])->first();
+        if ($exist) {
+            Session::flash('error', 'Lisensi sudah ada pada tanggal tersebut.');
+            return redirect()->route('m-user.edit-lisensi', ['userid' => $userid, 'id' => $id])->withInput();
+        }
+
+        $exist = THistoryLicense::where('id', '!=', $id)->whereNull('deletedon')->whereRaw('? BETWEEN start_date AND end_date', [$request->tanggal_expired])->first();
+        if ($exist) {
+            Session::flash('error', 'Lisensi sudah ada pada tanggal tersebut.');
+            return redirect()->route('m-user.edit-lisensi', ['userid' => $userid, 'id' => $id])->withInput();
+        }
+
+        try {
+            $modelLisensi = THistoryLicense::find($id);
+
+            if($request->upload_lisensi) {
+                $file         = $request->file('upload_lisensi');
+                $path         = 'lisensi/' . $userid;
+                $namaFile     = date('YmdHis') . '.' . $file->getClientOriginalExtension();
+                $fullPathFile = $path . '/' . $namaFile;
+
+                $file->storeAs('public/' . $path, $namaFile);
+                $modelLisensi->file_path = $fullPathFile;
+            }
+
+            $modelLisensi->user_id = $userid;
+            $modelLisensi->nomor_lisensi = $request->nomor_lisensi;
+            $modelLisensi->id_m_license = $request->jenis_lisensi;
+            $modelLisensi->start_date = $request->tanggal_aktif;
+            $modelLisensi->end_date = $request->tanggal_expired;
+            $modelLisensi->modifiedby = Auth::id();
+            $modelLisensi->modifiedon = Carbon::now();
+            if ($modelLisensi->save()) {
+                Session::flash('success', 'Lisensi berhasil diubah.');
+                return redirect()->route('m-user.show', $userid);
+            }
+            
+            Session::flash('error', 'Lisensi Gagal diubah.');
+            return redirect()->route('m-user.edit-lisensi', $userid)->withInput();
+
+        } catch(Exception $e) {
+            Session::flash('error', $e->getMessage());
+            return redirect()->route('m-user.edit-lisensi', $userid)->withInput();
+        }
+    }
+
+    public function deleteLisensi(Request $request) {
+        $model = THistoryLicense::find($request->id);
+        $model->status = 0;
+        $model->deletedby = Auth::id();
+        $model->deletedon = Carbon::now();
+        $model->save();
+
+        $status  = 200;
+        $header  = 'Success';
+        $message = 'Lisensi berhasil di hapus.';
+
+        return response()->json([
+            'status' => $status,
+            'header' => $header,
+            'message' => $message
+        ]);
+    }
+
+    public function downloadLisensi($id) {
+        $model = THistoryLicense::find($id);
+        $file  = public_path(). '/storage/' . $model->file_path;
+        $headers = array(
+            'Content-Type: application/pdf',
+        );
+        return response()->download($file, $model->nomor_lisensi, $headers);
     }
 }

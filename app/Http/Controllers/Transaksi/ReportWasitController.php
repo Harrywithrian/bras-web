@@ -8,6 +8,7 @@ use App\Models\Master\Location;
 use App\Models\Master\Region;
 use App\Models\Transaksi\TEvent;
 use App\Models\Transaksi\TFile;
+use App\Models\Transaksi\THistoryLicense;
 use App\Models\Transaksi\TMatch;
 use App\Models\Transaksi\TMatchReferee;
 use App\Models\Transaksi\TPlayCalling;
@@ -30,11 +31,11 @@ class ReportWasitController extends Controller
 
     public function get(Request $request) {
         if ($request->ajax()) {
-            $data = User::select(['users.id', 'users.name', 'user_infos.no_lisensi', 'm_license.license', 'm_region.region'])
+            $data = User::select(['users.id', 'users.name', 'm_region.region'])
                 ->leftJoin('user_infos', 'users.id', '=', 'user_infos.user_id')
-                ->leftJoin('m_license', 'user_infos.id_m_lisensi', '=', 'm_license.id')
+                ->leftJoin('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
                 ->leftJoin('m_region', 'user_infos.id_m_region', '=', 'm_region.id')
-                ->where('user_infos.role', '=', '8')
+                ->where('model_has_roles.role_id', '=', '8')
                 ->get();
 
             return $this->dataTable($data);
@@ -43,22 +44,14 @@ class ReportWasitController extends Controller
     }
 
     public function search(Request $request) {
-        $data = User::select(['users.id', 'users.name', 'user_infos.no_lisensi', 'm_license.license', 'm_region.region'])
+        $data = User::select(['users.id', 'users.name', 'm_region.region'])
             ->leftJoin('user_infos', 'users.id', '=', 'user_infos.user_id')
-            ->leftJoin('m_license', 'user_infos.id_m_lisensi', '=', 'm_license.id')
+            ->leftJoin('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
             ->leftJoin('m_region', 'user_infos.id_m_region', '=', 'm_region.id')
-            ->where('user_infos.role', '=', '8');
+            ->where('model_has_roles.role_id', '=', '8');
 
         if ($request->nama != '') {
             $data->where('users.name','LIKE','%'.$request->nama.'%');
-        }
-
-        if ($request->no_lisensi != '') {
-            $data->where('user_infos.no_lisensi','LIKE','%'.$request->no_lisensi.'%');
-        }
-
-        if ($request->jenis_lisensi != '') {
-            $data->where('user_infos.id_m_lisensi', '=', $request->jenis_lisensi);
         }
 
         if ($request->pengprov != '') {
@@ -94,11 +87,25 @@ class ReportWasitController extends Controller
         $foto   = TFile::find($detail->id_t_file_foto);
         $totalMatch = TMatchReferee::where('wasit', '=', $id)->get()->count();
 
+        $lisensi = THistoryLicense::select(
+            't_history_license.id',
+            't_history_license.nomor_lisensi',
+            't_history_license.start_date',
+            't_history_license.end_date',
+            't_history_license.status',
+            'm_license.license as jenis_lisensi')
+            ->leftJoin('m_license', 'm_license.id', '=', 't_history_license.id_m_license')
+            ->where('user_id', $user->id)
+            ->whereNull('t_history_license.deletedon')
+            ->orderBy('start_date', 'ASC')
+            ->get();
+
         return view('transaksi.report-wasit.show', [
             'user' => $user,
             'detail' => $detail,
             'foto' => $foto,
             'totalMatch' => $totalMatch,
+            'lisensi' => $lisensi
         ]);
     }
 
@@ -241,6 +248,8 @@ class ReportWasitController extends Controller
         $lokasi  = Location::find($match->id_m_location);
         $event   = TEvent::find($match->id_t_event);
 
+        $lisensiEventWasit = \App\Models\Transaksi\TEventParticipant::where('id_t_event', $event->id)->where('user', $wasit)->where('role', 8)->first();
+
         # PLAY CALLING
         $playCalling = TPlayCalling::where('id_t_match', '=', $id)->where('referee', '=', $wasit)->orderBy('quarter', 'ASC')->orderBy('time', 'DESC')->get()->toArray();
         $playCallingTotal = TPlayCalling::where('id_t_match', '=', $id)->where('referee', '=', $wasit)->orderBy('quarter', 'ASC')->orderBy('time', 'DESC')->get()->sum('score');
@@ -281,6 +290,7 @@ class ReportWasitController extends Controller
             'aWasit' => $aWasit,
             'aTotalWasit' => $aTotalWasit,
             'evaluation' => $evaluation,
+            'lisensiEventWasit' => $lisensiEventWasit
         ];
 
         $pdf = PDF::loadView('transaksi.report-wasit.cetak', $data)->setPaper('a4', 'potrait');

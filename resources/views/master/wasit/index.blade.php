@@ -20,7 +20,7 @@
                 <div class="col-6">
                     <form id="search">
                         <div class="row">
-                            <div class="col-md-6">
+                            {{-- <div class="col-md-6">
                                 <select class="form-select form-control form-control-lg" data-placeholder="Pilih Lisensi ..." data-allow-clear="true" id="license" name="license">
                                     <option value=""></option>
                                     @if($license)
@@ -29,7 +29,7 @@
                                         @endforeach
                                     @endif
                                 </select>
-                            </div>
+                            </div> --}}
 
                             <div class="col-md-6 mb-5">
                                 <div class="input-group">
@@ -52,7 +52,7 @@
                                 <th>No</th>
                                 <th>Action</th>
                                 <th>Nama</th>
-                                <th>Jenis Lisensi</th>
+                                {{-- <th>Jenis Lisensi</th> --}}
                                 <th>Pengurus Provinsi</th>
                             </tr>
                             </thead>

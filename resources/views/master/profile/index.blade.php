@@ -59,6 +59,7 @@
     @section('scripts')
         <script src="{{asset('demo1/js/master/profile/index-match.js')}}"></script>
         <script src="{{asset('demo1/plugins/custom/datatables/datatables.bundle.js')}}"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.js"></script>
         <script>
             $(document).ready( function() {
                 @if(\Illuminate\Support\Facades\Session::has('success'))
@@ -79,6 +80,80 @@
                     });
                 @endif
             });
+
+            $("body").on("click", ".deleteLisensi", function () {
+                var id = $(this).data("id");
+                var token  = $("meta[name='csrf-token']").attr("content");
+
+                Swal.fire({
+                    title: "Apakah anda menghapus lisensi ini?",
+                    text: "Data yang sudah dihapus tidak dapat dikembalikan!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Ya, hapus lisensi!"
+                }).then(function (result) {
+                    if (result.value) {
+                        loadingScreen('Mohon Tunggu ...');
+                        $.ajax({
+                            url: '/profile/delete-lisensi',
+                            type: 'POST',
+                            data: {
+                                _token: token,
+                                id: id
+                            },
+                            success: function (response) {
+                                if (response.status == 200) {
+                                    $.unblockUI();
+                                    Swal.fire({
+                                        icon: "success",
+                                        title: response.header,
+                                        text: response.message,
+                                        confirmButtonClass: 'btn btn-success'
+                                    }).then(function (result) {
+                                        if (result.value) {
+                                            window.location.href = "{{ url('/profile/index/' . $user->id) }}";
+                                        }
+                                    });
+                                } else {
+                                    $.unblockUI();
+                                    Swal.fire({
+                                        icon: "warning",
+                                        title: response.header,
+                                        text: response.message,
+                                        confirmButtonClass: 'btn btn-success'
+                                    }).then(function (result) {
+                                        if (result.value) {
+                                            window.location.href = "{{ url('/profile/index/' . $user->id) }}";
+                                        }
+                                    });
+                                }
+                            }
+                        });
+                    }
+                });
+            });
+
+            function loadingScreen(msg) {
+                var $white = '#fff';
+                var src = $("#logo_ibr").attr('src');
+                src = src.replace("logo_dark", "logo");
+                $.blockUI({
+                    message: '<img src="' + src + '" style="height: 80px; width: auto"> <br><br> <h3>' + msg + '</h2>',
+                    timeout: 5000, //unblock after 5 seconds
+                    overlayCSS: {
+                        backgroundColor: $white,
+                        opacity: 0.8,
+                        cursor: 'wait'
+                    },
+                    css: {
+                        border: 0,
+                        padding: 0,
+                        backgroundColor: 'transparent'
+                    }
+                });
+            }
         </script>
     @endsection
 

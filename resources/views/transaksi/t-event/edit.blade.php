@@ -292,7 +292,7 @@
                                         <option></option>
                                         @if($wasit)
                                             @foreach($wasit as $list_wasit)
-                                                <option value="{{ $list_wasit['id'] }}" {{ ($list_wasit['id'] == $item_wasit) ? 'selected' : null ; }}>{{ $list_wasit['text'] }}</option>
+                                                <option value="{{ $list_wasit['id'] }}" {{ ($list_wasit['id'] == $item_wasit) ? 'selected' : null ; }} @if($list_wasit['status'] == 0) disabled @endif>{{ $list_wasit['text'] }}  {{ ($list_wasit['status'] == 1) ? "(Lisensi Aktif)" : "(Lisensi Tidak Aktif)" }}</option>
                                             @endforeach
                                         @endif
                                     </select>
@@ -310,7 +310,7 @@
                                         <option></option>
                                         @if($wasit)
                                             @foreach($wasit as $list_wasit)
-                                                <option value="{{ $list_wasit['id'] }}">{{ $list_wasit['text'] }}</option>
+                                                <option value="{{ $list_wasit['id'] }}" @if($list_wasit['status'] == 0) disabled @endif>{{ $list_wasit['text'] }}  {{ ($list_wasit['status'] == 1) ? "(Lisensi Aktif)" : "(Lisensi Tidak Aktif)" }}</option>
                                             @endforeach
                                         @endif
                                     </select>
@@ -549,7 +549,7 @@
                                             <option></option>
                                             @if($wasit)
                                                 @foreach($wasit as $list_wasit)
-                                                    <option value="{{ $list_wasit['id'] }}">{{ $list_wasit['text'] }}</option>
+                                                    <option value="{{ $list_wasit['id'] }}" @if($list_wasit['status'] == 0) disabled @endif>{{ $list_wasit['text'] }} {{ ($list_wasit['status'] == 1) ? "(Lisensi Aktif)" : "(Lisensi Tidak Aktif)" }}</option>
                                                 @endforeach
                                             @endif
                                         </select>

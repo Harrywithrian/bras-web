@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Core\Traits\SpatieLogsActivity;
+use App\Models\Transaksi\THistoryLicense;
 use App\Models\Transaksi\TMatch;
 use App\Models\Transaksi\TMatchEvaluation;
 use App\Models\Transaksi\TMatchReferee;
@@ -152,9 +153,25 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject
 
     public static function getWasit()
     {
-        return User::with(['info', 'info.region'])->select('id', 'name')->role('Wasit')->get()->map(function ($value) {
+        $data =  User::with(['info', 'info.region'])->select('id', 'name')->role('Wasit')->get()->map(function ($value) {
             return ['id' => $value->id, 'text' => $value->name . ' - ' . $value->info->region->region];
         })->toArray();
+
+        foreach($data as $key => $value) {
+            $lisensi = THistoryLicense::where('user_id', $value['id'])
+            ->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))
+            ->first();
+
+            if ($lisensi) {
+                $data[$key]['status'] = 1;
+                $data[$key]['status_text'] = 'Lisensi Aktif';
+            } else {
+                $data[$key]['status'] = 0;
+                $data[$key]['status_text'] = 'Lisensi Aktif';
+            }
+        }
+
+        return $data;
     }
 
 

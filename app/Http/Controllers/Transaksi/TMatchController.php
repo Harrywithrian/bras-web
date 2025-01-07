@@ -166,6 +166,7 @@ class TMatchController extends Controller
                 't_match.nama',
                 'm_location.nama AS lokasi',
                 't_match.waktu_pertandingan',
+                't_match.id_t_event',
                 't_event.nama AS event',
             ])->leftJoin('m_location', 'm_location.id', '=', 't_match.id_m_location')
                 ->leftJoin('t_event', 't_event.id', '=', 't_match.id_t_event')
@@ -185,6 +186,7 @@ class TMatchController extends Controller
             't_match.nama',
             'm_location.nama AS lokasi',
             't_match.waktu_pertandingan',
+            't_match.id_t_event',
             't_event.nama AS event',
         ])->leftJoin('m_location', 'm_location.id', '=', 't_match.id_m_location')
             ->leftJoin('t_event', 't_event.id', '=', 't_match.id_t_event')
@@ -235,6 +237,14 @@ class TMatchController extends Controller
         $dataTables = $dataTables->addColumn('action', function ($row) {
             $view   = '<a class="btn btn-primary" title="Show" style="padding:5px; margin-top:-5px;" href="' . route('t-match.show', $row->id) . '"> &nbsp<i class="bi bi-eye"></i> </a>';
             $button = $view;
+            
+            if($row->status == 0) {
+                $edit = '&nbsp<a class="btn btn-warning" title="Edit" style="padding:5px; margin-top:-5px;" href="' . route('t-match.edit', $row->id) . '"> &nbsp<i class="bi bi-pencil"></i> </a>';
+                $button .= $edit;
+    
+                $delete = '<btn class="btn btn-danger deleted" title="Delete" style="padding:5px; margin-left:5px; margin-top:-5px;" data-id="' . $row->id . '" id="deleted' . $row->id . '"> &nbsp<i class="bi bi-trash"></i> </btn>';
+                $button .= $delete;
+            }
 
             return $button;
         });
@@ -413,6 +423,145 @@ class TMatchController extends Controller
             Session::flash('error', $e->getMessage());
             return redirect()->route('t-match.create', $id)->withInput();
         }
+    }
+
+    
+    public function edit($id)
+    {
+        $match = TMatch::find($id);
+        $event = TEvent::find($match->id_t_event);
+        $wasit1 = TMatchReferee::where('posisi', 'Crew Chief')->where('id_t_match', $id)->first();
+        $wasit2 = TMatchReferee::where('posisi', 'Official 1')->where('id_t_match', $id)->first();
+        $wasit3 = TMatchReferee::where('posisi', 'Official 2')->where('id_t_match', $id)->first();
+        
+        return view('transaksi.t-match.edit', [
+            'event' => $event,
+            'match' => $match,
+            'wasit1' => $wasit1,
+            'wasit2' => $wasit2,
+            'wasit3' => $wasit3,
+        ]);
+    }
+
+    public function update(Request $request, $id)
+    {
+        try {
+            $rules = [
+                'event' => 'required',
+                'lokasi' => 'required',
+                'nama' => 'required',
+                'waktu' => 'required',
+                'wasit1' => 'required|different:wasit2|different:wasit3',
+                'wasit2' => 'required|different:wasit1|different:wasit3',
+                'wasit3' => 'required|different:wasit1|different:wasit2',
+            ];
+
+            $customMessages = [
+                'required' => 'Kolom :attribute tidak boleh kosong.',
+                'different' => ':attribute tidak boleh sama.'
+            ];
+
+            $this->validate($request, $rules, $customMessages);
+
+            DB::beginTransaction();
+            $model = TMatch::find($id);
+            $model->id_m_location = $request->lokasi;
+            $model->nama = $request->nama;
+            $model->waktu_pertandingan = date('Y-m-d H:i:s', strtotime($request->waktu));
+            $model->modifiedby      = Auth::id();
+            $model->modifiedon      = Carbon::now();
+            if ($model->save()) {
+                TMatchReferee::where('id_t_match', '=', $id)->delete();
+
+                $wasit1 = new TMatchReferee();
+                $wasit1->id_t_match = $model->id;
+                $wasit1->wasit  = $request->wasit1;
+                $wasit1->posisi = 'Crew Chief';
+                $wasit1->createdby       = Auth::id();
+                $wasit1->createdon       = Carbon::now();
+                if ($wasit1->save()) {
+                    $wasit2 = new TMatchReferee();
+                    $wasit2->id_t_match = $model->id;
+                    $wasit2->wasit  = $request->wasit2;
+                    $wasit2->posisi = 'Official 1';
+                    $wasit2->createdby       = Auth::id();
+                    $wasit2->createdon       = Carbon::now();
+                    if ($wasit2->save()) {
+                        $wasit3 = new TMatchReferee();
+                        $wasit3->id_t_match = $model->id;
+                        $wasit3->wasit  = $request->wasit3;
+                        $wasit3->posisi = 'Official 2';
+                        $wasit3->createdby       = Auth::id();
+                        $wasit3->createdon       = Carbon::now();
+                        if ($wasit3->save()) {
+
+                            $notif1 = new TNotification();
+                            $notif1->user = $request->wasit1;
+                            $notif1->type = 2;
+                            $notif1->id_event_match = $model->id;
+                            $notif1->status         = 0;
+                            $notif1->createdby      = Auth::id();
+                            $notif1->createdon      = Carbon::now();
+                            $notif1->save();
+
+                            $notif2 = new TNotification();
+                            $notif2->user = $request->wasit2;
+                            $notif2->type = 2;
+                            $notif2->id_event_match = $model->id;
+                            $notif2->status         = 0;
+                            $notif2->createdby      = Auth::id();
+                            $notif2->createdon      = Carbon::now();
+                            $notif2->save();
+
+                            $notif3 = new TNotification();
+                            $notif3->user = $request->wasit3;
+                            $notif3->type = 2;
+                            $notif3->id_event_match = $model->id;
+                            $notif3->status         = 0;
+                            $notif3->createdby      = Auth::id();
+                            $notif3->createdon      = Carbon::now();
+                            $notif3->save();
+
+                            DB::commit();
+                            Session::flash('success', 'Pertandingan berhasil dibuat.');
+                            return redirect()->route('t-match.index', $model->id_t_event);
+                        }
+                        DB::rollBack();
+                        Session::flash('error', 'Official 2 gagal dibuat, mohon ulangi.');
+                        return redirect()->route('t-match.edit', $id)->withInput();
+                    };
+                    DB::rollBack();
+                    Session::flash('error', 'Official 1 gagal dibuat, mohon ulangi.');
+                    return redirect()->route('t-match.edit', $id)->withInput();
+                };
+                DB::rollBack();
+                Session::flash('error', 'Crew Chief gagal dibuat, mohon ulangi.');
+                return redirect()->route('t-match.edit', $id)->withInput();
+            };
+            DB::rollBack();
+            Session::flash('error', 'Pertandingan gagal dibuat, mohon ulangi.');
+            return redirect()->route('t-match.edit', $id)->withInput();
+        } catch (Exception $e) {
+            DB::rollBack();
+            Session::flash('error', $e->getMessage());
+            return redirect()->route('t-match.edit', $id)->withInput();
+        }
+    }
+
+    public function delete(Request $request) {
+        TMatch::find($request->id)->delete();
+        TMatchReferee::where('id_t_match', '=', $request->id)->delete();
+        TNotification::where('id_event_match', '=', $request->id)->where('type', 2)->delete();
+
+        $status  = 200;
+        $header  = 'Success';
+        $message = 'Pertandingan berhasil di hapus.';
+
+        return response()->json([
+            'status' => $status,
+            'header' => $header,
+            'message' => $message
+        ]);
     }
 
     public function doneEvent($id) {

@@ -177,8 +177,8 @@
                         <td style="padding-left:5px; padding-right:5px;"><center>{{ $i }}</center></td>
                         <td>{{ $item['name'] }}</td>
                         <td>{{ $item['email'] }}</td>
-                        <td>{{ $item['license'] }}</td>
-                        <td>{{ $item['no_lisensi'] }}</td>
+                        <td>{{ (!empty($item['jenis_lisensi'])) ? $item['jenis_lisensi'] : "-" }}</td>
+                        <td>{{ (!empty($item['nomor_lisensi'])) ? $item['nomor_lisensi'] : "-" }}</td>
                         <td>{{ $item['region'] }}</td>
                         <td>@if($item['role'] == 6) Pengawas Pertandingan @elseif($item['role'] == 7) Koordinator Wasit @elseif($item['role'] == 8) Wasit @else - @endif</td>
                     </tr>

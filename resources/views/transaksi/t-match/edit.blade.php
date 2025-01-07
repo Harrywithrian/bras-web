@@ -14,6 +14,10 @@
         ->where('t_event_participant.id_t_event', '=', $event->id)
         ->get()->toArray();
 
+    $oldLocation = (old('lokasi')) ? old('lokasi') : $match->id_m_location;
+    $oldWasit1 = (old('wasit1')) ? old('wasit1') : $wasit1->wasit;
+    $oldWasit2 = (old('wasit2')) ? old('wasit2') : $wasit2->wasit;
+    $oldWasit3 = (old('wasit3')) ? old('wasit3') : $wasit3->wasit;
     ?>
 
     <ol class="breadcrumb text-muted fs-6 fw-bold mb-5">
@@ -29,7 +33,7 @@
         </div>
 
         <div class="card-body">
-            <form method="post" action="{{ route('t-match.store', $event->id) }}">
+            <form method="post" action="{{ route('t-match.update', $match->id) }}">
                 @csrf
                 
                 <div class="row mb-5">
@@ -50,7 +54,7 @@
                                 <option></option>
                                 @if($qLocation)
                                     @foreach($qLocation as $itemLocation)
-                                        <option value="{{ $itemLocation['id'] }}" {{ ($itemLocation['id'] == old('lokasi')) ? 'selected' : null ; }}>{{ $itemLocation['nama'] }}</option>
+                                        <option value="{{ $itemLocation['id'] }}" {{ ($itemLocation['id'] == $oldLocation) ? 'selected' : null ; }}>{{ $itemLocation['nama'] }}</option>
                                     @endforeach
                                 @endif
                             </select>
@@ -65,7 +69,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>Nama Pertandingan</label>
-                            <input id="nama" class="form-control" name="nama" value="{{ (old('nama')) ? old('nama') : null }}">
+                            <input id="nama" class="form-control" name="nama" value="{{ (old('nama')) ? old('nama') : $match->nama }}">
                             @if($errors->has('nama'))
                                 <span id="err_nama" class="text-danger">{{ $errors->first('nama') }}</span>
                             @endif
@@ -75,7 +79,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>Waktu Pertandingan</label>
-                            <input id="waktu" class="form-control" name="waktu" value="{{ (old('waktu')) ? old('waktu') : null }}">
+                            <input id="waktu" class="form-control" name="waktu" value="{{ (old('waktu')) ? old('waktu') : $match->waktu_pertandingan }}">
                             @if($errors->has('waktu'))
                                 <span id="err_waktu" class="text-danger">{{ $errors->first('waktu') }}</span>
                             @endif
@@ -92,7 +96,7 @@
                                 <option></option>
                                 @if($qParticipant)
                                     @foreach($qParticipant as $itemP)
-                                        <option value="{{ $itemP['id'] }}" {{ ($itemP['id'] == old('wasit1')) ? 'selected' : null ; }}>{{ $itemP['name'] }}</option>
+                                        <option value="{{ $itemP['id'] }}" {{ ($itemP['id'] == $oldWasit1) ? 'selected' : null ; }}>{{ $itemP['name'] }}</option>
                                     @endforeach
                                 @endif
                             </select>
@@ -111,7 +115,7 @@
                                 <option></option>
                                 @if($qParticipant)
                                     @foreach($qParticipant as $itemP)
-                                        <option value="{{ $itemP['id'] }}" {{ ($itemP['id'] == old('wasit2')) ? 'selected' : null ; }}>{{ $itemP['name'] }}</option>
+                                        <option value="{{ $itemP['id'] }}" {{ ($itemP['id'] == $oldWasit2) ? 'selected' : null ; }}>{{ $itemP['name'] }}</option>
                                     @endforeach
                                 @endif
                             </select>
@@ -130,7 +134,7 @@
                                 <option></option>
                                 @if($qParticipant)
                                     @foreach($qParticipant as $itemP)
-                                        <option value="{{ $itemP['id'] }}" {{ ($itemP['id'] == old('wasit3')) ? 'selected' : null ; }}>{{ $itemP['name'] }}</option>
+                                        <option value="{{ $itemP['id'] }}" {{ ($itemP['id'] == $oldWasit3) ? 'selected' : null ; }}>{{ $itemP['name'] }}</option>
                                     @endforeach
                                 @endif
                             </select>
@@ -175,10 +179,6 @@
                         format:'YYYY-MM-DD HH:mm'
                     }
                 });
-
-                @if($errors->isEmpty())
-                    $('#waktu').val('');
-                @endif
 
                 $("#waktu").on('apply.daterangepicker', function(ev, picker) {
                     $(this).val(picker.startDate.format('YYYY-MM-DD HH:mm'));

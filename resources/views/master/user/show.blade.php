@@ -27,7 +27,7 @@
         <div class="card-body">
 
             @if ($model->id != 1)
-                <a href="{{ route('m-user.edit', $model->id) }}" class="btn btn-warning"> Edit </a>
+                <a href="{{ route('m-user.edit', $model->id) }}" class="btn btn-warning"> Edit User</a>
                 @if($model->status == 1)
                     <button class="btn btn-danger" id="switchStatus" data-toogle="inactive" data-id="{{ $model->id }}" onClick="aktif(event)"> Inactive </button>
                     <button class="btn btn-danger" id="switchLock" data-toogle="lock" data-id="{{ $model->id }}" onClick="lock(event)"> Lock </button>
@@ -35,6 +35,7 @@
                     <button class="btn btn-success" id="switchStatus" data-toogle="active" data-id="{{ $model->id }}" onClick="aktif(event)"> Active </button>
                 @endif
             @endif
+            <a href="{{ route('m-user.tambah-lisensi', $model->id) }}" class="btn btn-success"> Tambah Lisensi </a>
             <a href="{{ route('m-user.index') }}" class="btn btn-secondary"> Kembali </a>
 
             <br><br>
@@ -105,6 +106,54 @@
                             <td width="25%">Alamat</td>
                             <td>{{ $detail->alamat }}</td>
                         </tr>
+                    </table>
+
+                    <section class="card bg-primary mt-0 mb-0" style="border-radius: 0">
+                        <div class="card-header">
+                            <h4 class="card-title" style="color: white;">Lisensi</h4>
+                        </div>
+                    </section>
+                    <table class="table table-striped border mb-0 gy-7 gs-7" style="margin-top:-5px;">
+                        <tr>
+                            <td width="5%">No</td>
+                            <td width="20%">Nomor Lisensi</td>
+                            <td>Jenis Lisensi</td>
+                            <td>Tanggal Aktif</td>
+                            <td>Tanggal Expired</td>
+                            <td>Status</td>
+                            <td>Action</td>
+                        </tr>
+                        @if(count($lisensi) > 0)
+                            @foreach ($lisensi as $key => $item)
+                                <tr>
+                                    <td>{{ $key + 1 }}</td>
+                                    <td>{{ $item->nomor_lisensi }}</td>
+                                    <td>{{ $item->jenis_lisensi }}</td>
+                                    <td>{{ date('d-m-Y', strtotime($item->start_date)) }}</td>
+                                    <td>{{ date('d-m-Y', strtotime($item->end_date)) }}</td>
+                                    <td>
+                                        @if($item->end_date >= date('Y-m-d'))
+                                            @if ($item->status == 1)
+                                                <span class='w-130px badge badge-success me-4'> Active </span>
+                                            @else
+                                                <span class='w-130px badge badge-warning me-4'> Inactive </span>
+                                            @endif
+                                        @else
+                                            <span class='w-130px badge badge-danger me-4'> Expired </span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-success btn-sm" title="Download" style="padding:5px; margin-left:5px;" href="{{ route('m-user.download-lisensi', $item->id) }}"> &nbsp<i class="bi bi-download"></i> </a>
+                                        <a class="btn btn-warning btn-sm" title="Edit" style="padding:5px; margin-left:5px;" href="{{ route('m-user.edit-lisensi', ['userid' => $model->id, 'id' => $item->id]) }}"> &nbsp<i class="bi bi-pencil-square"></i> </a>
+                                        <btn class="btn btn-danger deleteLisensi" title="Delete" style="padding:5px; margin-left:5px;" data-id="{{ $item->id }}"> &nbsp<i class="bi bi-trash"></i> </btn>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @else
+                            <tr>
+                                <td colspan="7" class="text-center"><h4>Lisensi Tidak Ditemukan</h4></td>
+                            </tr>
+                        @endif
                     </table>
 
                     <section class="card bg-primary mt-0 mb-0" style="border-radius: 0">
@@ -268,6 +317,60 @@
                     }
                 });
             }
+
+            $("body").on("click", ".deleteLisensi", function () {
+                var id = $(this).data("id");
+                var token  = $("meta[name='csrf-token']").attr("content");
+
+                Swal.fire({
+                    title: "Apakah anda menghapus lisensi ini?",
+                    text: "Data yang sudah dihapus tidak dapat dikembalikan!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Ya, hapus lisensi!"
+                }).then(function (result) {
+                    if (result.value) {
+                        loadingScreen('Mohon Tunggu ...');
+                        $.ajax({
+                            url: '/m-user/delete-lisensi',
+                            type: 'POST',
+                            data: {
+                                _token: token,
+                                id: id
+                            },
+                            success: function (response) {
+                                if (response.status == 200) {
+                                    $.unblockUI();
+                                    Swal.fire({
+                                        icon: "success",
+                                        title: response.header,
+                                        text: response.message,
+                                        confirmButtonClass: 'btn btn-success'
+                                    }).then(function (result) {
+                                        if (result.value) {
+                                            window.location.href = "{{ url('/m-user/show/' . $model->id) }}";
+                                        }
+                                    });
+                                } else {
+                                    $.unblockUI();
+                                    Swal.fire({
+                                        icon: "warning",
+                                        title: response.header,
+                                        text: response.message,
+                                        confirmButtonClass: 'btn btn-success'
+                                    }).then(function (result) {
+                                        if (result.value) {
+                                            window.location.href = "{{ url('/m-user/show/' . $model->id) }}";
+                                        }
+                                    });
+                                }
+                            }
+                        });
+                    }
+                });
+            });
 
             function loadingScreen(msg) {
                 var $white = '#fff';

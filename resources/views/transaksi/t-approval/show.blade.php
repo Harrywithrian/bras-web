@@ -108,6 +108,16 @@
                             <td class="p-5" >{{$lisensi->license}}</td>
                         </tr>
                         <tr>
+                            <td class="p-5" >Tanggal Aktif Lisensi</td>
+                            <td class="p-5" >:</td>
+                            <td class="p-5" >{{ ($model->start_date_license != "0000-00-00") ? date('d-m-Y', strtotime($model->start_date_license)) : "-" }}</td>
+                        </tr>
+                        <tr>
+                            <td class="p-5" >Tanggal Expired Lisensi</td>
+                            <td class="p-5" >:</td>
+                            <td class="p-5" >{{ ($model->end_date_license != "0000-00-00") ? date('d-m-Y', strtotime($model->end_date_license)) : "-" }}</td>
+                        </tr>
+                        <tr>
                             <td class="p-5" >Tempat Lahir</td>
                             <td class="p-5" >:</td>
                             <td class="p-5" >{{$model->tempat_lahir}}</td>

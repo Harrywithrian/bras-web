@@ -47,11 +47,11 @@
         </tr>
         <tr>
             <td>Nomor Lisensi</td>
-            <td>{{ $detail->no_lisensi }}</td>
+            <td>{{ $lisensiEventWasit->nomor_lisensi }}</td>
         </tr>
         <tr>
             <td>Jenis Lisensi</td>
-            <td>{{ $license->license }}</td>
+            <td>{{ $lisensiEventWasit->jenis_lisensi }}</td>
         </tr>
         <tr>
             <td>Pengurus Provinsi</td>

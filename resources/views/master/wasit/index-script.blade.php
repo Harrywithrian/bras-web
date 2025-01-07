@@ -15,13 +15,13 @@
 
         showAllData();
 
-        $("#license").select2({
-            // the following code is used to disable x-scrollbar when click in select input and
-            // take 100% width in responsive also
-            placeholder: "Pilih ...",
-            dropdownAutoWidth: true,
-            width: '100%'
-        });
+        // $("#license").select2({
+        //     // the following code is used to disable x-scrollbar when click in select input and
+        //     // take 100% width in responsive also
+        //     placeholder: "Pilih ...",
+        //     dropdownAutoWidth: true,
+        //     width: '100%'
+        // });
     });
 
     /* FUNGSI MENAMPILKAN SEMUA DATA */
@@ -38,7 +38,7 @@
                 },
                 data: function (d) {
                     d.search  = $('#input-search').val();
-                    d.lisensi = $('#license').val();
+                    // d.lisensi = $('#license').val();
                 }
             },
             bFilter: false,
@@ -83,13 +83,13 @@
                     orderable: true,
                     searchable: true
                 },
-                {
-                    data: 'license',
-                    name: 'license',
-                    title: 'Jenis Lisensi',
-                    orderable: true,
-                    searchable: true
-                },
+                // {
+                //     data: 'license',
+                //     name: 'license',
+                //     title: 'Jenis Lisensi',
+                //     orderable: true,
+                //     searchable: true
+                // },
                 {
                     data: 'region',
                     name: 'region',

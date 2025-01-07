@@ -30,7 +30,8 @@
                         @if(!empty($user) && $event->status != 2)
                             <a class="btn btn-xs btn-success" href="{{ route('t-match.done-event', $event->id) }}"> Event Selesai </a>
                         @endif
-                        @if(!empty($user) && $dateNow < $event->tanggal_selesai && $event->status != 2)
+                        {{-- @if(!empty($user) && $dateNow < $event->tanggal_selesai && $event->status != 2) --}}
+                        @if(!empty($user) && $event->status != 2)
                             <a class="btn btn-xs btn-primary" href="{{ route('t-match.create', $event->id) }}"> Tambah Pertandingan </a>
                         @endif
                     </div>
@@ -68,6 +69,7 @@
     @section('scripts')
         <script src="{{asset('demo1/js/transaksi/t-match/index.js')}}"></script>
         <script src="{{asset('demo1/plugins/custom/datatables/datatables.bundle.js')}}"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.js"></script>
         <script>
             $(document).ready( function() {
                 @if(\Illuminate\Support\Facades\Session::has('success'))
@@ -88,6 +90,84 @@
                     });
                 @endif
             });
+
+            $("body").on("click", ".deleted", function () {
+                var id     = $(this).data("id");
+                var table  = $('#content-table').DataTable();
+                var token  = $("meta[name='csrf-token']").attr("content");
+
+                warningMessage = 'Apakah anda akan menghapus data ini?';
+                buttonName = "Delete";
+
+                Swal.fire({
+                    title: "Delete Data",
+                    text: warningMessage,
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: buttonName
+                }).then(function (result) {
+                    if (result.value) {
+                        loadingScreen('Mohon Tunggu ...');
+                        $.ajax({
+                            url: '/t-match/delete',
+                            type: 'POST',
+                            data: {
+                                _token: token,
+                                id: id
+                            },
+                            success: function (response) {
+                                if (response.status == 200) {
+                                    $.unblockUI();
+                                    Swal.fire({
+                                        icon: "success",
+                                        title: response.header,
+                                        text: response.message,
+                                        confirmButtonClass: 'btn btn-success'
+                                    }).then(function (result) {
+                                        if (result.value) {
+                                            table.draw();
+                                        }
+                                    });
+                                } else {
+                                    $.unblockUI();
+                                    Swal.fire({
+                                        icon: "warning",
+                                        title: response.header,
+                                        text: response.message,
+                                        confirmButtonClass: 'btn btn-success'
+                                    }).then(function (result) {
+                                        if (result.value) {
+                                            table.draw();
+                                        }
+                                    });
+                                }
+                            }
+                        });
+                    }
+                });
+            });
+
+            function loadingScreen(msg) {
+                var $white = '#fff';
+                var src = $("#logo_ibr").attr('src');
+                src = src.replace("logo_dark", "logo");
+                $.blockUI({
+                    message: '<img src="' + src + '" style="height: 80px; width: auto"> <br><br> <h3>' + msg + '</h2>',
+                    timeout: 5000, //unblock after 5 seconds
+                    overlayCSS: {
+                        backgroundColor: $white,
+                        opacity: 0.8,
+                        cursor: 'wait'
+                    },
+                    css: {
+                        border: 0,
+                        padding: 0,
+                        backgroundColor: 'transparent'
+                    }
+                });
+            }
         </script>
     @endsection
 

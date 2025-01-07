@@ -49,9 +49,9 @@
             <td><center>{{ $wst3->name }}</center></td>
         </tr>
         <tr>
-            <td><center>{{ $detail1->no_lisensi }} ({{$license1->license}})</center></td>
-            <td><center>{{ $detail2->no_lisensi }} ({{$license2->license}})</center></td>
-            <td><center>{{ $detail3->no_lisensi }} ({{$license3->license}})</center></td>
+            <td><center>{{ $license1->nomor_lisensi }} ({{$license1->jenis_lisensi}})</center></td>
+            <td><center>{{ $license2->nomor_lisensi }} ({{$license2->jenis_lisensi}})</center></td>
+            <td><center>{{ $license3->nomor_lisensi }} ({{$license3->jenis_lisensi}})</center></td>
         </tr>
         <tr>
             <td><center>{{ $region1->region }}</center></td>

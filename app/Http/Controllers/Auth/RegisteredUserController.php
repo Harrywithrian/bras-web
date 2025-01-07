@@ -44,6 +44,8 @@ class RegisteredUserController extends Controller
             'nama' => 'required|string|max:255',
             'lisensi' => 'required|string|max:50',
             'jenis_lisensi' => 'required',
+            'tanggal_aktif_lisensi' => 'required',
+            'tanggal_expired_lisensi' => 'required',
             'tempat_lahir' => 'required|string|max:100',
             'tanggal_lahir' => 'required',
             'alamat' => 'required',
@@ -103,6 +105,8 @@ class RegisteredUserController extends Controller
         $model->name          = $request->nama;
         $model->no_lisensi    = $request->lisensi;
         $model->id_m_license  = $request->jenis_lisensi;
+        $model->start_date_license = $request->tanggal_aktif_lisensi;
+        $model->end_date_license   = $request->tanggal_expired_lisensi;
         $model->tempat_lahir  = $request->tempat_lahir;
         $model->tanggal_lahir = $request->tanggal_lahir;
         $model->alamat        = $request->tempat_lahir;

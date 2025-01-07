@@ -103,10 +103,17 @@ Route::middleware('auth')->group(function () {
         Route::get('/edit/{id}', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::post('/update/{id}', [ProfileController::class, 'update'])->name('profile.update');
         Route::post('/update-password/{id}', [ProfileController::class, 'updatePassword'])->name('profile.update-password');
-        Route::get('/download-lisensi/{id}', [ProfileController::class, 'downloadLisensi'])->name('profile.download-lisensi');
+        // Route::get('/download-lisensi/{id}', [ProfileController::class, 'downloadLisensi'])->name('profile.download-lisensi');
         Route::get('/show-match/{id}/{wasit}', [ProfileController::class, 'showMatch'])->name('profile.show-match');
         Route::post('/search-match', [ProfileController::class, 'searchMatch'])->name('profile.search-match');
         Route::get('/print-match/{id}/{wasit}', [ProfileController::class, 'printMatch'])->name('profile.print-match');
+
+        Route::get('/tambah-lisensi/{userid}', [ProfileController::class, 'createLisensi'])->name('profile.tambah-lisensi');
+        Route::post('/store-lisensi/{userid}', [ProfileController::class, 'storeLisensi'])->name('profile.store-lisensi');
+        Route::get('/edit-lisensi/{userid}/{id}', [ProfileController::class, 'editLisensi'])->name('profile.edit-lisensi');
+        Route::post('/update-lisensi/{userid}/{id}', [ProfileController::class, 'updateLisensi'])->name('profile.update-lisensi');
+        Route::get('/download-lisensi/{id}', [ProfileController::class, 'downloadLisensi'])->name('profile.download-lisensi');
+        Route::post('/delete-lisensi', [ProfileController::class, 'deleteLisensi'])->name('profile.delete-lisensi');
     });
 
     Route::prefix('m-user')->group(function () {
@@ -123,6 +130,13 @@ Route::middleware('auth')->group(function () {
         Route::post('/lock', [UserController::class, 'lock'])->name('m-user.lock');
         Route::post('/login-as', [UserController::class, 'loginAs'])->name('m-user.login-as');
         Route::post('/logout-as', [UserController::class, 'logoutAs'])->name('m-user.logout-as');
+
+        Route::get('/tambah-lisensi/{userid}', [UserController::class, 'createLisensi'])->name('m-user.tambah-lisensi');
+        Route::post('/store-lisensi/{userid}', [UserController::class, 'storeLisensi'])->name('m-user.store-lisensi');
+        Route::get('/edit-lisensi/{userid}/{id}', [UserController::class, 'editLisensi'])->name('m-user.edit-lisensi');
+        Route::post('/update-lisensi/{userid}/{id}', [UserController::class, 'updateLisensi'])->name('m-user.update-lisensi');
+        Route::get('/download-lisensi/{id}', [UserController::class, 'downloadLisensi'])->name('m-user.download-lisensi');
+        Route::post('/delete-lisensi', [UserController::class, 'deleteLisensi'])->name('m-user.delete-lisensi');
     });
     
     Route::prefix('m-ketua-umum')->group(function () {
@@ -323,6 +337,9 @@ Route::middleware('auth')->group(function () {
         Route::post('/search', [TMatchController::class, 'search'])->name('t-match.search');
         Route::get('/create/{id}', [TMatchController::class, 'create'])->name('t-match.create');
         Route::post('/store/{id}', [TMatchController::class, 'store'])->name('t-match.store');
+        Route::get('/edit/{id}', [TMatchController::class, 'edit'])->name('t-match.edit');
+        Route::post('/update/{id}', [TMatchController::class, 'update'])->name('t-match.update');
+        Route::post('/delete', [TMatchController::class, 'delete'])->name('t-match.delete');
         Route::get('/show/{id}', [TMatchController::class, 'show'])->name('t-match.show');
         Route::get('/done/{id}', [TMatchController::class, 'done'])->name('t-match.done');
         Route::get('/show-evaluation/{id}/{wasit}', [TMatchController::class, 'showEvaluation'])->name('t-match.show-evaluation');
@@ -412,6 +429,8 @@ Route::middleware('auth')->group(function () {
 
 Route::resource('users', UsersController::class);
 
+Route::get('/sync-lisensi', [TApprovalController::class, 'syncLisensi'])->name('sync-lisensi');
+    
 Route::prefix('account')->group(function () {
     Route::get('/forgot-password', [UserController::class, 'forgotPassword'])->name('account.forgot-password');
     Route::post('/send-forgot-password', [UserController::class, 'sendForgotPassword'])->name('account.send-forgot-password');

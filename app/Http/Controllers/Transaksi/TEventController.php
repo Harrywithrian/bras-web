@@ -11,6 +11,7 @@ use App\Models\Transaksi\TEventLocation;
 use App\Models\Transaksi\TEventParticipant;
 use App\Models\Transaksi\TEventRegion;
 use App\Models\Transaksi\TEventTembusan;
+use App\Models\Transaksi\THistoryLicense;
 use App\Models\Transaksi\TNomorSurat;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -128,12 +129,11 @@ class TEventController extends Controller
             ->leftJoin('m_region', 'm_region.id', '=', 't_event_region.id_m_region')
             ->get()->toArray();
 
-        $participant = TEventParticipant::select('users.id', 'users.name', 'users.email', 'm_license.license', 'user_infos.no_lisensi', 'm_region.region', 't_event_participant.role')
+        $participant = TEventParticipant::select('users.id', 'users.name', 'users.email', 't_event_participant.jenis_lisensi', 't_event_participant.nomor_lisensi', 'm_region.region', 't_event_participant.role')
             ->where('t_event_participant.id_t_event', '=', $id)
             ->leftJoin('user_infos', 'user_infos.user_id', '=', 't_event_participant.user')
             ->leftJoin('m_region', 'm_region.id', '=', 'user_infos.id_m_region')
             ->leftJoin('users', 'users.id', '=', 't_event_participant.user')
-            ->leftJoin('m_license', 'user_infos.id_m_lisensi', '=', 'm_license.id')
             ->get()->toArray();
 
         $tembusan = TEventTembusan::where('id_t_event', '=', $id)->get()->toArray();
@@ -251,10 +251,17 @@ class TEventController extends Controller
                         $listProvinsi[] = $getUser->id_m_region;
                     }
 
+                    $lisensi = THistoryLicense::select('t_history_license.nomor_lisensi', 'm_license.license')->where('t_history_license.user_id', $itemWasit)
+                        ->leftJoin('m_license', 't_history_license.id_m_license', '=', 'm_license.id')
+                        ->where('t_history_license.start_date', '<=', date('Y-m-d'))->where('t_history_license.end_date', '>=', date('Y-m-d'))
+                        ->first();
+
                     $participant = new TEventParticipant();
                     $participant->id_t_event = $model->id;
                     $participant->user = $itemWasit;
                     $participant->role = 8;
+                    $participant->nomor_lisensi = $lisensi->nomor_lisensi;
+                    $participant->jenis_lisensi = $lisensi->license;
                     $participant->createdby = Auth::id();
                     $participant->createdon = Carbon::now();
                     if (!$participant->save()) {
@@ -487,21 +494,15 @@ class TEventController extends Controller
                 }
 
                 TEventRegion::where('id_t_event', '=', $id)->delete();
-                foreach ($request->provinsi as $itemProvinsi) {
-                    $provinsi = new TEventRegion();
-                    $provinsi->id_t_event = $model->id;
-                    $provinsi->id_m_region = $itemProvinsi;
-                    $provinsi->createdby     = Auth::id();
-                    $provinsi->createdon     = Carbon::now();
-                    if (!$provinsi->save()) {
-                        DB::rollBack();
-                        Session::flash('error', 'Provinsi Event gagal dibuat, mohon ulangi kembali.');
-                        return redirect(route('t-event.edit', $id))->withInput();
-                    };
-                }
-
                 TEventParticipant::where('id_t_event', '=', $id)->delete();
+                
+                $listProvinsi = [];
                 foreach ($request->nama_pengawas as $itemPengawas) {
+                    $getUser = UserInfo::where('user_id', '=', $itemPengawas)->first();
+                    if (!in_array($getUser->id_m_region, $listProvinsi)) {
+                        $listProvinsi[] = $getUser->id_m_region;
+                    }
+
                     $participant = new TEventParticipant();
                     $participant->id_t_event = $model->id;
                     $participant->user = $itemPengawas;
@@ -516,6 +517,11 @@ class TEventController extends Controller
                 }
 
                 foreach ($request->nama_koordinator as $itemKoordinator) {
+                    $getUser = UserInfo::where('user_id', '=', $itemKoordinator)->first();
+                    if (!in_array($getUser->id_m_region, $listProvinsi)) {
+                        $listProvinsi[] = $getUser->id_m_region;
+                    }
+
                     $participant = new TEventParticipant();
                     $participant->id_t_event = $model->id;
                     $participant->user = $itemKoordinator;
@@ -530,16 +536,41 @@ class TEventController extends Controller
                 }
 
                 foreach ($request->nama_wasit as $itemWasit) {
+                    $getUser = UserInfo::where('user_id', '=', $itemWasit)->first();
+                    if (!in_array($getUser->id_m_region, $listProvinsi)) {
+                        $listProvinsi[] = $getUser->id_m_region;
+                    }
+                    
+                    $lisensi = THistoryLicense::select('t_history_license.nomor_lisensi', 'm_license.license')->where('t_history_license.user_id', $itemWasit)
+                        ->leftJoin('m_license', 't_history_license.id_m_license', '=', 'm_license.id')
+                        ->where('t_history_license.start_date', '<=', date('Y-m-d'))->where('t_history_license.end_date', '>=', date('Y-m-d'))
+                        ->first();
+
                     $participant = new TEventParticipant();
                     $participant->id_t_event = $model->id;
                     $participant->user = $itemWasit;
                     $participant->role = 8;
+                    $participant->nomor_lisensi = $lisensi->nomor_lisensi;
+                    $participant->jenis_lisensi = $lisensi->license;
                     $participant->createdby = Auth::id();
                     $participant->createdon = Carbon::now();
                     if (!$participant->save()) {
                         DB::rollBack();
                         Session::flash('error', 'Wasit gagal dibuat, mohon ulangi kembali.');
                         return redirect(route('t-event.edit', $id))->withInput();
+                    };
+                }
+
+                foreach ($listProvinsi as $itemProvinsi) {
+                    $provinsi = new TEventRegion();
+                    $provinsi->id_t_event = $model->id;
+                    $provinsi->id_m_region = $itemProvinsi;
+                    $provinsi->createdby     = Auth::id();
+                    $provinsi->createdon     = Carbon::now();
+                    if (!$provinsi->save()) {
+                        DB::rollBack();
+                        Session::flash('error', 'Provinsi Event gagal dibuat, mohon ulangi kembali.');
+                        return redirect(route('t-event.create'))->withInput();
                     };
                 }
 

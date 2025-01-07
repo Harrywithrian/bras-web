@@ -103,13 +103,11 @@ class TEventLetterController extends Controller
             ->leftJoin('m_region', 'm_region.id', '=', 't_event_region.id_m_region')
             ->get()->toArray();
 
-        $participant = TEventParticipant::select('users.name', 'users.email', 'm_license.license', 'user_infos.no_lisensi', 'm_region.region', 'user_infos.role')
+        $participant = TEventParticipant::select('users.id', 'users.name', 'users.email', 't_event_participant.jenis_lisensi', 't_event_participant.nomor_lisensi', 'm_region.region', 't_event_participant.role')
             ->where('t_event_participant.id_t_event', '=', $letter->id_t_event)
             ->leftJoin('user_infos', 'user_infos.user_id', '=', 't_event_participant.user')
             ->leftJoin('m_region', 'm_region.id', '=', 'user_infos.id_m_region')
             ->leftJoin('users', 'users.id', '=', 't_event_participant.user')
-            ->leftJoin('m_license', 'user_infos.id_m_lisensi', '=', 'm_license.id')
-            ->orderBy('user_infos.role', 'ASC')
             ->get()->toArray();
 
         $tembusan = TEventTembusan::where('id_t_event', '=', $letter->id_t_event)->get()->toArray();

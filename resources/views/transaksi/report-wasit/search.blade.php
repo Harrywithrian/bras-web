@@ -3,12 +3,12 @@
 
         <form id="search">
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-6">
                     <label for="nama">Nama</label>
                     <input type="text" class="form-control" id="nama" name="nama" value="">
                 </div>
 
-                <div class="col-md-3">
+                {{-- <div class="col-md-3">
                     <label for="no_lisensi">Nomor Lisensi</label>
                     <input type="text" class="form-control" id="no_lisensi" name="no_lisensi" value="">
                 </div>
@@ -21,9 +21,9 @@
                             <option value="{{ $item['id'] }}">{{ $item['license'] }}</option>
                         @endforeach
                     </select>
-                </div>
+                </div> --}}
 
-                <div class="col-md-3">
+                <div class="col-md-6">
                     <label for="pengprov">Pengurus Provinsi</label>
                     <select class="form-select" id="pengprov" name="pengprov">
                         <option value=""></option>

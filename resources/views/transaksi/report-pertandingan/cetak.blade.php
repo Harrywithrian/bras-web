@@ -28,6 +28,10 @@
     $arr = array_merge(range('a', 'z'));
     $penilaian     = ['100' => 'Baik Sekali', '90' => 'Baik', '80' => 'Cukup', '70' => 'Kurang', '60' => 'Buruk'];
 
+    $lisensiEventWasit1 = \App\Models\Transaksi\TEventParticipant::where('id_t_event', $event->id)->where('user', $wst1->wasit)->where('role', 8)->first();
+    $lisensiEventWasit2 = \App\Models\Transaksi\TEventParticipant::where('id_t_event', $event->id)->where('user', $wst2->wasit)->where('role', 8)->first();
+    $lisensiEventWasit3 = \App\Models\Transaksi\TEventParticipant::where('id_t_event', $event->id)->where('user', $wst3->wasit)->where('role', 8)->first();
+
     $pcTotalWasit1 = \App\Models\Transaksi\TPlayCalling::where('id_t_match', '=', $id)->where('referee', '=', $wst1->wasit)->sum('score');
     $pcTotalWasit2 = \App\Models\Transaksi\TPlayCalling::where('id_t_match', '=', $id)->where('referee', '=', $wst2->wasit)->sum('score');
     $pcTotalWasit3 = \App\Models\Transaksi\TPlayCalling::where('id_t_match', '=', $id)->where('referee', '=', $wst3->wasit)->sum('score');
@@ -86,9 +90,9 @@
             <td><center>{{ $wst3->name }}</center></td>
         </tr>
         <tr>
-            <td><center>{{ $detail1->no_lisensi }} ({{$license1->license}})</center></td>
-            <td><center>{{ $detail2->no_lisensi }} ({{$license2->license}})</center></td>
-            <td><center>{{ $detail3->no_lisensi }} ({{$license3->license}})</center></td>
+            <td><center>{{ $lisensiEventWasit1->no_lisensi }} ({{$lisensiEventWasit1->nomor_lisensi}})</center></td>
+            <td><center>{{ $lisensiEventWasit2->no_lisensi }} ({{$lisensiEventWasit2->nomor_lisensi}})</center></td>
+            <td><center>{{ $lisensiEventWasit3->no_lisensi }} ({{$lisensiEventWasit3->nomor_lisensi}})</center></td>
         </tr>
         <tr>
             <td><center>{{ $region1->region }}</center></td>
