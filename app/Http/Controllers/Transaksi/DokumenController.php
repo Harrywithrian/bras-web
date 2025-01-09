@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Transaksi;
 
 use App\Http\Controllers\Controller;
-use App\Models\Master\Dokumen;
+use App\Models\Transaksi\Dokumen;
 use App\Models\ModelHasRole;
 use Auth;
 use Carbon\Carbon;
@@ -16,7 +16,7 @@ class DokumenController extends Controller
 {
     public function index() {
         $admin = ModelHasRole::where('model_id', Auth::id())->whereIn('role_id', [1,2])->first();
-        return view('master.dokumen.index', [
+        return view('transaksi.dokumen.index', [
             'admin' => $admin
         ]);
     }
@@ -68,7 +68,7 @@ class DokumenController extends Controller
     }
 
     public function create() {
-        return view('master.dokumen.create');
+        return view('transaksi.dokumen.create');
     }
 
     public function store(Request $request) {
@@ -119,7 +119,7 @@ class DokumenController extends Controller
     public function show($id) {
         $model = Dokumen::find($id);
 
-        return view('master.dokumen.show', [
+        return view('transaksi.dokumen.show', [
             'model' => $model
         ]);
     }
@@ -127,7 +127,7 @@ class DokumenController extends Controller
     public function edit($id) {
         $model = Dokumen::find($id);
 
-        return view('master.dokumen.edit', [
+        return view('transaksi.dokumen.edit', [
             'model' => $model
         ]);
     }

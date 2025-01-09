@@ -55,7 +55,7 @@
                     </iframe>
                 @elseif($model->extension == 'mp4')
                     <iframe 
-                        src="{{ route('dokumen.read', $model->id) }}"
+                        src="{{ asset('storage/' . $model->file_location) }}"
                         width="100%" 
                         height="500px" 
                         style="border: none;">
@@ -67,6 +67,27 @@
 
     @section('scripts')
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.js"></script>
+        <script>
+            $(document).ready( function() {
+                @if(\Illuminate\Support\Facades\Session::has('success'))
+                    var msg = JSON.parse('<?php echo json_encode(\Illuminate\Support\Facades\Session::get('success')); ?>');
+                    toastr['success'](msg, 'Success', {
+                        closeButton: true,
+                        tapToDismiss: false,
+                        rtl: false
+                    });
+                @endif
+
+                @if(\Illuminate\Support\Facades\Session::has('error'))
+                    var msg = JSON.parse('<?php echo json_encode(\Illuminate\Support\Facades\Session::get('error')); ?>');
+                    toastr['error'](msg, 'Error', {
+                        closeButton: true,
+                        tapToDismiss: false,
+                        rtl: false
+                    });
+                @endif
+            });
+        </script>
     @endsection
 
 </x-base-layout>

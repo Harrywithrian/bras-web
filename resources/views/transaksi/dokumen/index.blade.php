@@ -62,7 +62,7 @@
 
     @section('scripts')
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.js"></script>
-        @include('master.dokumen.index-script')
+        @include('transaksi.dokumen.index-script')
         <script src="{{asset('demo1/plugins/custom/datatables/datatables.bundle.js')}}"></script>
     @endsection
 

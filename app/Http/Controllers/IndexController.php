@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Master\Dokumen;
+use App\Models\Transaksi\Dokumen;
 use App\Models\ModelHasRole;
 use App\Models\Transaksi\TEvent;
 use Illuminate\Http\Request;
