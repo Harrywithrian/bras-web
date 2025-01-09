@@ -223,25 +223,25 @@ class ProfileController extends Controller
         
         $this->validate($request, $rules, $customMessages);
 
-        $exist = THistoryLicense::whereNull('deletedon')->whereBetween('start_date', [$request->tanggal_aktif, $request->tanggal_expired])->first();
+        $exist = THistoryLicense::where('user_id', $userid)->whereNull('deletedon')->whereBetween('start_date', [$request->tanggal_aktif, $request->tanggal_expired])->first();
         if ($exist) {
             Session::flash('error', 'Lisensi sudah ada pada tanggal tersebut.');
             return redirect()->route('profile.tambah-lisensi', $userid)->withInput();
         }
 
-        $exist = THistoryLicense::whereNull('deletedon')->whereBetween('end_date', [$request->tanggal_aktif, $request->tanggal_expired])->first();
+        $exist = THistoryLicense::where('user_id', $userid)->whereNull('deletedon')->whereBetween('end_date', [$request->tanggal_aktif, $request->tanggal_expired])->first();
         if ($exist) {
             Session::flash('error', 'Lisensi sudah ada pada tanggal tersebut.');
             return redirect()->route('profile.tambah-lisensi', $userid)->withInput();
         }
 
-        $exist = THistoryLicense::whereNull('deletedon')->whereRaw('? BETWEEN start_date AND end_date', [$request->tanggal_aktif])->first();
+        $exist = THistoryLicense::where('user_id', $userid)->whereNull('deletedon')->whereRaw('? BETWEEN start_date AND end_date', [$request->tanggal_aktif])->first();
         if ($exist) {
             Session::flash('error', 'Lisensi sudah ada pada tanggal tersebut.');
             return redirect()->route('profile.tambah-lisensi', $userid)->withInput();
         }
 
-        $exist = THistoryLicense::whereNull('deletedon')->whereRaw('? BETWEEN start_date AND end_date', [$request->tanggal_expired])->first();
+        $exist = THistoryLicense::where('user_id', $userid)->whereNull('deletedon')->whereRaw('? BETWEEN start_date AND end_date', [$request->tanggal_expired])->first();
         if ($exist) {
             Session::flash('error', 'Lisensi sudah ada pada tanggal tersebut.');
             return redirect()->route('profile.tambah-lisensi', $userid)->withInput();
@@ -309,25 +309,25 @@ class ProfileController extends Controller
         
         $this->validate($request, $rules, $customMessages);
 
-        $exist = THistoryLicense::where('id', '!=', $id)->whereNull('deletedon')->whereBetween('start_date', [$request->tanggal_aktif, $request->tanggal_expired])->first();
+        $exist = THistoryLicense::where('user_id', $userid)->where('id', '!=', $id)->whereNull('deletedon')->whereBetween('start_date', [$request->tanggal_aktif, $request->tanggal_expired])->first();
         if ($exist) {
             Session::flash('error', 'Lisensi sudah ada pada tanggal tersebut.');
             return redirect()->route('profile.edit-lisensi', ['userid' => $userid, 'id' => $id])->withInput();
         }
 
-        $exist = THistoryLicense::where('id', '!=', $id)->whereNull('deletedon')->whereBetween('end_date', [$request->tanggal_aktif, $request->tanggal_expired])->first();
+        $exist = THistoryLicense::where('user_id', $userid)->where('id', '!=', $id)->whereNull('deletedon')->whereBetween('end_date', [$request->tanggal_aktif, $request->tanggal_expired])->first();
         if ($exist) {
             Session::flash('error', 'Lisensi sudah ada pada tanggal tersebut.');
             return redirect()->route('profile.edit-lisensi', ['userid' => $userid, 'id' => $id])->withInput();
         }
 
-        $exist = THistoryLicense::where('id', '!=', $id)->whereNull('deletedon')->whereRaw('? BETWEEN start_date AND end_date', [$request->tanggal_aktif])->first();
+        $exist = THistoryLicense::where('user_id', $userid)->where('id', '!=', $id)->whereNull('deletedon')->whereRaw('? BETWEEN start_date AND end_date', [$request->tanggal_aktif])->first();
         if ($exist) {
             Session::flash('error', 'Lisensi sudah ada pada tanggal tersebut.');
             return redirect()->route('profile.edit-lisensi', ['userid' => $userid, 'id' => $id])->withInput();
         }
 
-        $exist = THistoryLicense::where('id', '!=', $id)->whereNull('deletedon')->whereRaw('? BETWEEN start_date AND end_date', [$request->tanggal_expired])->first();
+        $exist = THistoryLicense::where('user_id', $userid)->where('id', '!=', $id)->whereNull('deletedon')->whereRaw('? BETWEEN start_date AND end_date', [$request->tanggal_expired])->first();
         if ($exist) {
             Session::flash('error', 'Lisensi sudah ada pada tanggal tersebut.');
             return redirect()->route('profile.edit-lisensi', ['userid' => $userid, 'id' => $id])->withInput();
