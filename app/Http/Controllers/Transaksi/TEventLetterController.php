@@ -315,7 +315,7 @@ class TEventLetterController extends Controller
         ];
 
         $pdf = PDF::loadView('transaksi.t-event-letter.dokumen', $data)->setPaper('a4', 'potrait');
-        return $pdf->download('Surat Tugas_' . $letter->no_surat);
+        return $pdf->download('Surat Tugas_' . $letter->no_surat . ".pdf");
     }
 
     public function deleteDokumen($id) {
