@@ -93,34 +93,6 @@
                         <div class="row mb-5">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label>Nomor Lisensi</label>
-                                    <input id="no_lisensi" class="form-control form-control-solid" name="no_lisensi" value="{{ (empty(old('no_lisensi'))) ? $detail->no_lisensi : old('no_lisensi') }}" readOnly>
-                                    @if($errors->has('no_lisensi'))
-                                        <span id="err_no_lisensi" class="text-danger">{{ $errors->first('no_lisensi') }}</span>
-                                    @endif
-                                </div>
-                            </div>
-        
-                            <?php $oldLicense = (empty(old('jenis_lisensi'))) ? $detail->id_m_lisensi : old('jenis_lisensi') ; ?>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>Jenis Lisensi</label>
-                                    <select class="form-select form-control" data-control="select2" data-placeholder="Pilih Lisensi ..." id="jenis_lisensi" name="jenis_lisensi">
-                                        <option value=""></option>
-                                        @foreach($license as $item)
-                                            <option value="{{ $item['id'] }}" {{($oldLicense == $item['id']) ? 'selected' : '';}}>{{ $item['license'] }}</option>
-                                        @endforeach
-                                    </select>
-                                    @if($errors->has('jenis_lisensi'))
-                                        <span id="err_jenis_lisensi" class="text-danger">{{ $errors->first('jenis_lisensi') }}</span>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-        
-                        <div class="row mb-5">
-                            <div class="col-md-6">
-                                <div class="form-group">
                                     <label>Tempat Lahir</label>
                                     <input id="tempat_lahir" class="form-control form-control-solid" name="tempat_lahir" value="{{ (empty(old('tempat_lahir'))) ? $detail->tempat_lahir : old('tempat_lahir') }}" readOnly>
                                     @if($errors->has('tempat_lahir'))
@@ -169,25 +141,6 @@
                                     @endif
                                     <div class="text-muted">
                                         Foto harus ber jas rapi, background berwarna biru, maksimal 10MB dan menggunakan format JPG, PNG, atau JPEG.
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-        
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label>Ubah File</label>
-                                    <div style="border: solid #EFF2F5 1px; padding:5px; background-color: #EFF2F5; border-radius:5px;">
-                                        <label style="margin-bottom:5px;">File Sebelumnya : <a href="{{ route('profile.download-lisensi', $detail->id_t_file_lisensi) }}"> {{ $file->name }} </a></label>
-                                        <br>
-                                        <input type="file" name="upload_lisensi" class="custom-file-input" id="upload_lisensi" value="{{ old('upload_lisensi') }}">
-                                    </div>
-                                    @if($errors->has('upload_lisensi'))
-                                        <span id="err_upload_lisensi" class="text-danger">{{ $errors->first('upload_lisensi') }}</span>
-                                    @endif
-                                    <div class="text-muted">
-                                        Maksimal 10MB dan gunakan format PDF.
                                     </div>
                                 </div>
                             </div>

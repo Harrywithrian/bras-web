@@ -110,9 +110,7 @@ class ProfileController extends Controller
     public function update(Request $request, $id) {
         $rules = [
             'provinsi' => 'required',
-            'jenis_lisensi' => 'required',
             'alamat' => 'required',
-            'upload_lisensi' => 'sometimes|nullable|mimes:pdf|max:10000',
             'upload_foto' => 'sometimes|nullable|mimes:jpeg,png,jpg|max:10000'
         ];
 
@@ -127,30 +125,12 @@ class ProfileController extends Controller
         $user = User::find($id);
         $detail = UserInfo::where('user_id', '=', $id)->first();
 
-        $fileLisensi = $request->file('upload_lisensi');
         $fileFoto    = $request->file('upload_foto');
         $path        = 'profile/' . $user->username . date('HisdmY');
-
-        $modelLisensi = null;
         $fileFoto = null;
-
-        if ($fileLisensi) {
-            $namaLisensi = 'lisensi_' . $user->username .'.' . $fileLisensi->getClientOriginalExtension();
-            $fullPathLisensi = $path . '/' . $namaLisensi;
-
-            $fileLisensi->storeAs('public/' . $path, $namaLisensi);
-
-            $modelLisensi = new TFile();
-            $modelLisensi->name = $namaLisensi;
-            $modelLisensi->path = $fullPathLisensi;
-            $modelLisensi->extension = $fileLisensi->getClientOriginalExtension();
-            $modelLisensi->save();
-        }
-
         if ($fileFoto) {
-            $namaFoto    = 'foto_' . $user->username .'.' . $fileFoto->getClientOriginalExtension();
+            $namaFoto     = 'foto_' . $user->username .'.' . $fileFoto->getClientOriginalExtension();
             $fullPathFoto = $path . '/' . $namaFoto;
-            
             $fileFoto->storeAs('public/' . $path, $namaFoto);
 
             $modelFoto = new TFile();
@@ -158,21 +138,24 @@ class ProfileController extends Controller
             $modelFoto->path = $fullPathFoto;
             $modelFoto->extension = $fileFoto->getClientOriginalExtension();
             $modelFoto->save();
-        }
-        
-        $model = new TUpdateRequest();
-        $model->user_id = $id;
-        $model->status  = 0;
-        $model->no_lisensi = $request->no_lisensi;
-        $model->id_m_lisensi = $request->jenis_lisensi;
-        $model->alamat = $request->alamat;
-        $model->id_m_region = $request->provinsi;
-        $model->id_t_file_lisensi = ($modelLisensi) ? $modelLisensi->id : null ;
-        $model->id_t_file_foto = ($fileFoto) ? $fileFoto->id : null ;
-        $model->created_at = Carbon::now();
-        $model->save();
 
-        Session::flash('success', 'Update berhasil, mohon menunggu admin untuk melakukan approval.');
+            $detail->id_t_file_foto = $modelFoto->id;
+        }
+
+        $user->name     = $request->nama;
+        if ($user->save()) {
+            $detail->tempat_lahir  = $request->tempat_lahir;
+            $detail->tanggal_lahir = $request->tanggal_lahir;
+            $detail->alamat        = $request->alamat;
+            $detail->id_m_region   = $request->provinsi;
+            if ($detail->save()) {
+                Session::flash('success', 'Update data diri berhasil.');
+                return redirect()->route('profile.index', $id);
+            }
+            Session::flash('error', 'Update gagal, silahkan coba lagi beberapa saat.');
+            return redirect()->route('profile.index', $id);
+        }
+        Session::flash('error', 'Update gagal, silahkan coba lagi beberapa saat.');
         return redirect()->route('profile.index', $id);
     }
 
