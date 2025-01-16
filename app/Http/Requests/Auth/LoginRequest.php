@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\Models\User;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
@@ -43,6 +44,13 @@ class LoginRequest extends FormRequest
      */
     public function authenticate()
     {
+        $user = User::where('username', $this->username)->first();
+        if ($user->status != 1) {
+            throw ValidationException::withMessages([
+                'username' => 'User tidak aktif.',
+            ]);
+        }
+
         $this->ensureIsNotRateLimited();
 
         if (! Auth::attempt($this->only('username', 'password'), $this->boolean('remember'))) {
