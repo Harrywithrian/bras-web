@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Session;
 use Yajra\DataTables\DataTables;
 use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -365,6 +366,13 @@ class UserController extends Controller
     public function update(Request $request, $id) {
         try {
             $rules = [
+                'email' => [
+                    'required',
+                    'string',
+                    'email','
+                    max:255',
+                    Rule::unique('users', 'email')->ignore($request->id),
+                ],
                 'nama' => 'required|string|max:255',
                 'role' => 'required',
                 'tempat_lahir' => 'required|string|max:100',

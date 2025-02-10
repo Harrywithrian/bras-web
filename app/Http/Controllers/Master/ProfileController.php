@@ -111,8 +111,11 @@ class ProfileController extends Controller
         $rules = [
             'provinsi' => 'required',
             'alamat' => 'required',
-            'upload_foto' => 'sometimes|nullable|mimes:jpeg,png,jpg|max:10000'
         ];
+
+        if ($request->upload_foto) {
+            $rules['upload_foto'] = 'required|mimes:jpeg,png,jpg|max:10000';
+        }
 
         $customMessages = [
             'required' => 'Kolom :attribute tidak boleh kosong.',
@@ -125,23 +128,24 @@ class ProfileController extends Controller
         $user = User::find($id);
         $detail = UserInfo::where('user_id', '=', $id)->first();
 
-        $fileFoto    = $request->file('upload_foto');
-        $path        = 'profile/' . $user->username . date('HisdmY');
-        $fileFoto = null;
-        if ($fileFoto) {
-            $namaFoto     = 'foto_' . $user->username .'.' . $fileFoto->getClientOriginalExtension();
+        if ($request->upload_foto) {
+            $fileFoto    = $request->file('upload_foto');
+            $path        = 'profile/' . $request->username . date('HisdmY');
+            $namaFoto    = 'foto_' . $request->username .'.' . $fileFoto->getClientOriginalExtension();
             $fullPathFoto = $path . '/' . $namaFoto;
             $fileFoto->storeAs('public/' . $path, $namaFoto);
 
-            $modelFoto = new TFile();
+            $detail = UserInfo::where('user_id', '=', $id)->first();
+
+            $modelFoto = TFile::find($detail->id_t_file_foto);
+            if (empty($modelFoto)) {
+                $modelFoto = new TFile();
+            }
             $modelFoto->name = $namaFoto;
             $modelFoto->path = $fullPathFoto;
             $modelFoto->extension = $fileFoto->getClientOriginalExtension();
             $modelFoto->save();
-
-            $detail->id_t_file_foto = $modelFoto->id;
         }
-
         $user->name     = $request->nama;
         if ($user->save()) {
             $detail->tempat_lahir  = $request->tempat_lahir;

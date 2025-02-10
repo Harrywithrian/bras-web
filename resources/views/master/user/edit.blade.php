@@ -42,7 +42,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>Email</label>
-                            <input id="email" type="email" class="form-control form-control-solid" name="email" value="{{ ($model->email) ? $model->email : old('email') }}" readOnly>
+                            <input id="email" type="email" class="form-control" name="email" value="{{ (old('email')) ? old('email') : $model->email }}">
                             @if($errors->has('email'))
                                 <span id="err_email" class="text-danger">{{ $errors->first('email') }}</span>
                             @endif
